@@ -1,0 +1,146 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String          @id @default(cuid())
+  name          String
+  email         String          @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  role          String         @default("user")
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+ 
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  @@id([provider, providerAccountId])
+}
+
+model Section {
+  id                   String   @id @default(cuid())
+  title                String
+  metaDescription      String
+  index                Int      
+  imageSquareLink      String
+  imageSquarePublicId  String
+  imageCoverLink       String
+  imageCoverPublicId   String
+  link                 String @unique
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  courses              Course[] 
+}
+
+model Course {
+  id                   String   @id @default(cuid())
+  title                String
+  metaTitle            String @unique
+  metaDescription      String
+  index                Int
+  imageSquareLink      String
+  imageSquarePublicId  String
+  imageCoverLink       String
+  imageCoverPublicId   String
+  description          String
+  jobOpportunity       String
+  entryRequirement     String
+  packagingRule        String
+  coreUnits            String
+  electiveUnits        String
+  link                 String @unique
+  section              Section  @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  sectionId            String
+  reviews              UserReview[]
+  
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}
+
+model UserReview {
+  id                   String   @id @default(cuid())
+  purchasedCourse      Course   @relation(fields: [purchasedCourseId], references: [id], onDelete: Cascade)
+  purchasedCourseId    String 
+  userName             String
+  userImage            String?
+  reviewImage          String?
+  reviewText           String
+  givenStar            Int
+  approved             Boolean  @default(false)
+  
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}
+
+model Response {
+  id        String   @id @default(uuid())
+  name      String
+  phone     String
+  email     String   
+  message   String?
+  interest  String
+  createdAt DateTime @default(now())
+  notes     Note[]  
+}
+
+model EligibilitySubmission {
+  id                 String   @id @default(cuid())
+  fullName           String
+  email              String 
+  phoneNumber        String
+  industry           String
+  qualification      String
+  yearsOfExperience  Int
+  stateLivedIn       String
+  message            String? 
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  notes              Note[]  
+}
+
+model Note {
+  id                      String   @id @default(uuid())
+  content                 String
+  createdAt               DateTime @default(now())
+
+  responseId              String?
+  eligibilitySubmissionId String?
+
+  response                Response?              @relation(fields: [responseId], references: [id], onDelete: Cascade)
+  eligibilitySubmission   EligibilitySubmission? @relation(fields: [eligibilitySubmissionId], references: [id], onDelete: Cascade)
+
+  noteType                NoteType
+}
+
+enum NoteType {
+  RESPONSE
+  ELIGIBILITY
+}
+
+
+
