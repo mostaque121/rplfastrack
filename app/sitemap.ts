@@ -69,7 +69,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const sectionEntries: MetadataRoute.Sitemap = sections.map((section) => ({
     url: `https://rplfastrack.com/category/${section.link}`,
-    lastModified: new Date(section.updatedAt),
+    lastModified: new Date(),
     priority: 0.7,
   }));
 
@@ -77,7 +77,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     section.courses
       ? section.courses.map((course) => ({
           url: `https://rplfastrack.com/qualifications/${course.link}`,
-          lastModified: new Date(section.updatedAt),
+          lastModified: new Date(),
           priority: 0.8,
         }))
       : []
