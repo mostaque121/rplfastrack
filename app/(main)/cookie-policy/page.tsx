@@ -1,5 +1,11 @@
 import Link from "next/link";
 
+export const metadata = {
+  title: "Cookie Policy",
+  description:
+    "Learn about how RPL Fast Track Australia uses cookies to enhance your browsing experience and protect your privacy.",
+};
+
 export default function CookiePolicy() {
   const email = process.env.NEXT_PUBLIC_EMAIL || "info@rplfasttrack.com";
 

@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function AboutRpl() {
   return (
-    <section className="w-full py-12 md:py-24 bg-white">
+    <section className="w-full py-16 md:py-24 bg-white">
       <div className="container mx-auto px-4 md:px-8">
         <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Text Content - Now on the left */}
@@ -59,10 +59,7 @@ export default function AboutRpl() {
           </div>
 
           {/* Image Collage - Now on the right */}
-          <div className="relative">
-            <div className="absolute -top-6 -left-6 w-24 h-24 bg-primary/10 rounded-full blur-2xl" />
-            <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-primary/10 rounded-full blur-2xl" />
-
+          <div className="relative ">
             {/* Image Collage Grid */}
             <div className="relative grid grid-cols-6 grid-rows-6 gap-3 h-[500px]">
               {/* Large Main Image */}

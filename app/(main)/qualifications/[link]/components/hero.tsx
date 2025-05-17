@@ -22,10 +22,18 @@ export default function QualificationHeroSection({
         <div className="flex flex-col w-full md:flex-row gap-10 items-end justify-end">
           <div className="flex flex-col-reverse md:flex-col">
             <div>
-              <h1 className="text-4xl text-emerald-600 font-semibold">
+              <h1 className="text-3xl md:text-4xl text-emerald-600 font-semibold">
                 {data.title}
               </h1>
               <div className="mt-3 flex flex-wrap items-center">
+                <Link href="/">
+                  <span className="text-emerald-600 font-medium hover:text-emerald-700 transition duration-200 ease-in-out cursor-pointer ">
+                    Home
+                  </span>
+                </Link>
+                <span className="text-emerald-600">
+                  <MdOutlineNavigateNext />
+                </span>
                 <Link href="/qualifications">
                   <span className="text-emerald-600 font-medium hover:text-emerald-700 transition duration-200 ease-in-out cursor-pointer ">
                     Qualifications

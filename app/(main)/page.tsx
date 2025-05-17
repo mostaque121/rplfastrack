@@ -8,6 +8,13 @@ import HomeHero from "./components/home-hero";
 
 import ReviewCommon from "./components/review-common";
 import RplProcess from "./components/rpl-process";
+
+export const metadata = {
+  title: "RPL Fast Track - Accelerate Your Skills Recognition in Australia",
+  description:
+    "Get nationally recognized qualifications in Australia through RPL. Fast-track your career by validating your skills and work experience today.",
+};
+
 export default function page() {
   return (
     <div>

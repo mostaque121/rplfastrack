@@ -35,7 +35,9 @@ export default function ReviewStats({ reviews }: ReviewStatsProps) {
     }
   });
 
-  const avgStar = totalReviews > 0 ? totalStars / totalReviews : 0;
+  const avgStar =
+    totalReviews > 0 ? Number((totalStars / totalReviews).toFixed(1)) : 0;
+
   const wholeStars = Math.floor(avgStar);
   const decimalPart = avgStar - wholeStars;
   const emptyStars = 5 - (wholeStars + (decimalPart >= 0.5 ? 1 : 0));

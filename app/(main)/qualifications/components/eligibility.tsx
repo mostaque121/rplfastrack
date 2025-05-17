@@ -73,9 +73,9 @@ export default function EligibilityForRPL() {
               <div className="mb-4 flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500 text-white">
                 {criteria.icon}
               </div>
-              <h4 className="text-xl font-semibold text-slate-800 dark:text-white mb-2">
+              <h3 className="text-xl font-semibold text-slate-800 dark:text-white mb-2">
                 {criteria.title}
-              </h4>
+              </h3>
               <p className="text-gray-600 dark:text-gray-300 text-sm">
                 {criteria.description}
               </p>

@@ -85,7 +85,7 @@ export default function Navbar() {
             </div>
             <Button
               size="sm"
-              className="bg-emerald-500 hover:bg-emerald-600 text-white"
+              className="bg-white hover:bg-gray-100 text-slate-800"
             >
               Get Started
             </Button>
@@ -113,8 +113,8 @@ export default function Navbar() {
             <Link
               href="/"
               className={cn(
-                "text-slate-700 hover:text-emerald-500 font-medium px-2",
-                pathname === "/" && "text-emerald-500"
+                "text-slate-700 hover:text-emerald-600 font-medium px-2",
+                pathname === "/" && "text-emerald-600"
               )}
             >
               Home
@@ -128,8 +128,8 @@ export default function Navbar() {
               <Link href={"/qualifications"}>
                 <button
                   className={cn(
-                    "text-slate-700 hover:text-emerald-500 flex items-center cursor-pointer gap-1 font-medium px-2",
-                    pathname === "/about" && "text-emerald-500"
+                    "text-slate-700 hover:text-emerald-600 flex items-center cursor-pointer gap-1 font-medium px-2",
+                    pathname === "/about" && "text-emerald-600"
                   )}
                 >
                   Qualification
@@ -156,9 +156,9 @@ export default function Navbar() {
                     <Link
                       href={`/category/${subItem.link}`}
                       className={cn(
-                        "text-slate-700 flex items-center justify-between font-medium text-sm hover:bg-slate-50 hover:text-emerald-500 px-2 py-2 border-b border-gray-200 last:border-b-0",
+                        "text-slate-700 flex items-center justify-between font-medium text-sm hover:bg-slate-50 hover:text-emerald-600 px-2 py-2 border-b border-gray-200 last:border-b-0",
                         pathname === `/category/${subItem.link}` &&
-                          "text-emerald-500"
+                          "text-emerald-600"
                       )}
                       onClick={handleMenuItemClick}
                     >
@@ -183,10 +183,10 @@ export default function Navbar() {
                             key={subSubItem.title}
                             href={`/qualifications/${subSubItem.link}`}
                             className={cn(
-                              "text-slate-700 block text-xs hover:bg-slate-50 hover:text-emerald-500 font-medium px-2 py-2 border-b border-gray-200 last:border-b-0",
+                              "text-slate-700 block text-xs hover:bg-slate-50 hover:text-emerald-600 font-medium px-2 py-2 border-b border-gray-200 last:border-b-0",
                               pathname ===
                                 `/qualifications/${subSubItem.link}` &&
-                                "text-emerald-500"
+                                "text-emerald-600"
                             )}
                             onClick={handleMenuItemClick}
                           >
@@ -207,7 +207,7 @@ export default function Navbar() {
             >
               <button
                 className={cn(
-                  "text-slate-700 hover:text-emerald-500 flex items-center gap-1 font-medium px-2"
+                  "text-slate-700 hover:text-emerald-600 flex items-center gap-1 font-medium px-2"
                 )}
               >
                 About
@@ -226,8 +226,8 @@ export default function Navbar() {
                 <Link
                   href={`/about-us`}
                   className={cn(
-                    "text-slate-700 flex items-center justify-between font-medium text-sm hover:bg-slate-50 hover:text-emerald-500 px-4 py-2 border-b border-gray-200 last:border-b-0",
-                    pathname === "/about-us" && "text-emerald-500"
+                    "text-slate-700 flex items-center justify-between font-medium text-sm hover:bg-slate-50 hover:text-emerald-600 px-4 py-2 border-b border-gray-200 last:border-b-0",
+                    pathname === "/about-us" && "text-emerald-600"
                   )}
                   onClick={handleMenuItemClick}
                 >
@@ -236,8 +236,8 @@ export default function Navbar() {
                 <Link
                   href={`/about-rpl`}
                   className={cn(
-                    "text-slate-700 flex items-center justify-between font-medium text-sm hover:bg-slate-50 hover:text-emerald-500 px-4 py-2 border-b border-gray-200 last:border-b-0",
-                    pathname === "/about-rpl" && "text-emerald-500"
+                    "text-slate-700 flex items-center justify-between font-medium text-sm hover:bg-slate-50 hover:text-emerald-600 px-4 py-2 border-b border-gray-200 last:border-b-0",
+                    pathname === "/about-rpl" && "text-emerald-600"
                   )}
                   onClick={handleMenuItemClick}
                 >
@@ -246,8 +246,8 @@ export default function Navbar() {
                 <Link
                   href={`/faq`}
                   className={cn(
-                    "text-slate-700 flex items-center justify-between font-medium text-sm hover:bg-slate-50 hover:text-emerald-500 px-4 py-2 border-b border-gray-200 last:border-b-0",
-                    pathname === "/faq" && "text-emerald-500"
+                    "text-slate-700 flex items-center justify-between font-medium text-sm hover:bg-slate-50 hover:text-emerald-600 px-4 py-2 border-b border-gray-200 last:border-b-0",
+                    pathname === "/faq" && "text-emerald-600"
                   )}
                   onClick={handleMenuItemClick}
                 >
@@ -259,8 +259,8 @@ export default function Navbar() {
             <Link
               href="/contact"
               className={cn(
-                "text-slate-700 hover:text-emerald-500 font-medium px-2",
-                pathname === "/contact" && "text-emerald-500"
+                "text-slate-700 hover:text-emerald-600 font-medium px-2",
+                pathname === "/contact" && "text-emerald-600"
               )}
               onClick={handleMenuItemClick}
             >
@@ -274,7 +274,7 @@ export default function Navbar() {
             <Button
               variant="ghost"
               size="icon"
-              className="p-2 hover:text-emerald-500 hover:bg-gray-200 cursor-pointer"
+              className="p-2 hover:text-emerald-600 hover:bg-gray-100 cursor-pointer"
               onClick={() => setSearchOpen(true)}
             >
               <Search className="h-5 w-5" />

@@ -8,7 +8,12 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
   Building,
   FileText,
@@ -141,6 +146,7 @@ export default function SearchModal({ open, onOpenChange }: SearchModalProps) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[550px] p-0">
         <DialogTitle className="hidden">Search Modal</DialogTitle>
+        <DialogDescription className="hidden">Search Modal</DialogDescription>
         <Command className="rounded-lg border !py-2 shadow-md">
           <CommandInput
             placeholder="Search qualifications, industries, pages..."
@@ -148,7 +154,7 @@ export default function SearchModal({ open, onOpenChange }: SearchModalProps) {
             onValueChange={setSearchQuery}
             className="h-12 !py-5"
           />
-          <CommandList className="max-h-[300px] overflow-y-auto">
+          <CommandList className="md:h-[300px] h-screen overflow-y-auto">
             <CommandEmpty>No results found.</CommandEmpty>
 
             {searchResults.map((category) => (

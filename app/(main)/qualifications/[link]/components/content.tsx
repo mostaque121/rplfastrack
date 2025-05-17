@@ -29,7 +29,7 @@ export default function QualificationContent({ data }: QualificationProps) {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex-1 py-3 text-center border-l-[1px] text-sm md:text-lg border-gray-200  font-medium transition-colors ${
+              className={`flex-1 py-2 md:py-3 text-center border-l-[1px] text-sm md:text-lg border-gray-200 font-medium transition-colors ${
                 activeTab === tab.id
                   ? "text-white bg-emerald-600"
                   : "text-emerald-700 hover:text-emerald-700 cursor-pointer"

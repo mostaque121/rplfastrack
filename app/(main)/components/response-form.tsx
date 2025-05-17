@@ -115,7 +115,7 @@ export function ResponseForm({ interest = "RPL" }: { interest?: string }) {
           <p className="mb-4 text-xl">We will contact you soon.</p>
           <Button
             onClick={() => setFormState(null)}
-            className="bg-emerald-500 hover:bg-emerald-600 text-white cursor-pointer py-2 px-4 rounded-md"
+            className="bg-emerald-600 hover:bg-emerald-700 text-white cursor-pointer py-2 px-4 rounded-md"
           >
             Submit another response
           </Button>
@@ -204,7 +204,7 @@ export function ResponseForm({ interest = "RPL" }: { interest?: string }) {
             {/* Submit Button */}
             <div className="text-center mt-6">
               <Button
-                className="bg-emerald-500 hover:bg-emerald-600 text-white transition-all duration-300  active:scale-95 cursor-pointer w-full"
+                className="bg-emerald-600 hover:bg-emerald-700 text-white transition-all duration-300  active:scale-95 cursor-pointer w-full"
                 type="submit"
                 disabled={form.formState.isSubmitting}
               >

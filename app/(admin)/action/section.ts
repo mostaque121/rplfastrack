@@ -69,11 +69,12 @@ export async function createSection(input: Omit<FormData, "link">) {
   }
 
   const link = input.title
-    .replace(/[^a-zA-Z0-9\s-]/g, "") // Allow letters, numbers, spaces, and hyphens
-    .replace(/\s+/g, "-") // Replace one or more spaces with a single hyphen
-    .replace(/-+/g, "-") // Collapse multiple hyphens to a single one
+    .replace(/[^a-zA-Z0-9\s-]/g, "") // Remove unwanted characters
+    .replace(/\s+/g, "-") // Replace spaces with hyphens
+    .replace(/-+/g, "-") // Collapse multiple hyphens
     .toLowerCase()
-    .trim();
+    .trim()
+    .replace(/^[-]+|[-]+$/g, "");
 
   const parsed = formSchema.safeParse({ ...input, link });
 
@@ -117,11 +118,12 @@ export async function updateSection(
   }
 
   const link = input.title
-    .replace(/[^a-zA-Z0-9\s-]/g, "") // Allow letters, numbers, spaces, and hyphens
-    .replace(/\s+/g, "-") // Replace one or more spaces with a single hyphen
-    .replace(/-+/g, "-") // Collapse multiple hyphens to a single one
+    .replace(/[^a-zA-Z0-9\s-]/g, "") // Remove unwanted characters
+    .replace(/\s+/g, "-") // Replace spaces with hyphens
+    .replace(/-+/g, "-") // Collapse multiple hyphens
     .toLowerCase()
-    .trim();
+    .trim()
+    .replace(/^[-]+|[-]+$/g, "");
 
   const parsed = formSchema.safeParse({ ...input, link });
 

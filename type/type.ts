@@ -18,6 +18,7 @@ type Course = {
   link: string;
   imageCoverLink: string;
   imageSquareLink: string;
+  updatedAt: Date;
 };
 
 export type Section = {
@@ -27,4 +28,5 @@ export type Section = {
   title: string;
   link: string;
   courses?: Course[];
+  updatedAt: Date;
 };

@@ -1,5 +1,14 @@
 import Link from "next/link";
 
+export const metadata = {
+  title: "Terms of Service - RPL Fast Track",
+  description:
+    "Read the Terms of Service for RPL Fast Track to understand your rights, responsibilities, and the conditions of using our RPL services.",
+  alternates: {
+    canonical: "https://rplfastrack.com/terms-of-service",
+  },
+};
+
 export default function TermsOfService() {
   const email = process.env.NEXT_PUBLIC_EMAIL || "info@rplfasttrack.com";
 

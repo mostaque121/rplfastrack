@@ -1,4 +1,12 @@
 import Link from "next/link";
+export const metadata = {
+  title: "Refund Policy",
+  description:
+    "Review RPL Fast Track’s refund policy to understand the terms and conditions regarding cancellations, eligibility, and refund procedures.",
+  alternates: {
+    canonical: "https://rplfastrack.com/refund-policy",
+  },
+};
 
 export default function RefundPolicy() {
   const email = process.env.NEXT_PUBLIC_EMAIL || "info@rplfasttrack.com";

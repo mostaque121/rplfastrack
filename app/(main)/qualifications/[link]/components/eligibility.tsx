@@ -74,9 +74,9 @@ export default function EligibilityForRPLSimple() {
                 </div>
               </div>
               <div>
-                <h4 className="font-semibold text-slate-800 text-lg">
+                <h3 className="font-semibold text-slate-800 text-lg">
                   {criteria.title}
-                </h4>
+                </h3>
                 <p className="text-emerald-600">{criteria.description}</p>
               </div>
               <div className="absolute bottom-0 left-0 h-1 w-full bg-emerald-500" />

@@ -1,5 +1,6 @@
 import { EligibilityForm } from "@/components/eligibility-form";
 import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { ResponseForm } from "./response-form";
 
@@ -8,7 +9,7 @@ export default function HomeHero() {
     <div className="relative py-16">
       {/* Background Image */}
       <Image
-        src="/herobg-2.jpg"
+        src="/home-hero.jpg"
         alt="Background Image"
         fill
         quality={75}
@@ -17,7 +18,7 @@ export default function HomeHero() {
       />
 
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black opacity-60"></div>
+      <div className="absolute inset-0 bg-slate-900 opacity-70"></div>
 
       <div className="relative container mx-auto flex-col md:flex-row md:items-center flex gap-10 w-full justify-between h-full px-4 md:px-8 py-5">
         <div className="max-w-4xl ">
@@ -42,8 +43,12 @@ export default function HomeHero() {
 
           <EligibilityForm
             trigger={
-              <Button className="bg-emerald-500 hover:bg-emerald-600 text-white">
+              <Button
+                size="lg"
+                className="group bg-emerald-600 hover:bg-emerald-700 text-white "
+              >
                 Check Your Eligibility
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Button>
             }
             title="RPL Eligibility Assessment"

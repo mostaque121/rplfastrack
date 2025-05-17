@@ -39,13 +39,14 @@ export default function ReviewCommonContent({ reviews }: ReviewCommonProps) {
     }
   });
 
-  const avgStar = totalReviews > 0 ? totalStars / totalReviews : 0;
+  const avgStar =
+    totalReviews > 0 ? Number((totalStars / totalReviews).toFixed(1)) : 0;
 
   // Calculate stars to display
   const wholeStars = Math.floor(avgStar);
   const decimalPart = avgStar - wholeStars;
   const emptyStars = 5 - (wholeStars + (decimalPart >= 0.5 ? 1 : 0));
-  const displayedReviews = reviews.slice(0, 5);
+  const displayedReviews = reviews.slice(0, 3);
   return (
     <div className="flex flex-col md:flex-row">
       <div className="md:w-96 w-full mb-6 md:mb-0">
@@ -129,7 +130,7 @@ export default function ReviewCommonContent({ reviews }: ReviewCommonProps) {
           <ReviewCard review={review} key={index} />
         ))}
         {5 < totalReviews && ( // Show "Show More" button only if there are more reviews
-          <Link href="/review">
+          <Link href="/reviews">
             <button className="mt-4 py-2 px-4 border block mx-auto border-gray-300 rounded bg-white hover:bg-gray-100 transition duration-200 ease-in-out">
               See all review
             </button>

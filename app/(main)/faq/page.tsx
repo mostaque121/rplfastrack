@@ -9,9 +9,34 @@ import Link from "next/link";
 import FaqHero from "./faq-hero";
 
 export const metadata: Metadata = {
-  title: "Frequently Asked Questions | RPL Service",
+  title: "Frequently Asked Questions - RPL Fast Track",
   description:
-    "Find answers to common questions about our Recognition of Prior Learning (RPL) services, process, eligibility, and more.",
+    "Find answers to common questions about our Recognition of Prior Learning (RPL) services, eligibility, process, costs, and more.",
+  alternates: {
+    canonical: "https://rplfastrack.com/faq",
+  },
+  openGraph: {
+    title: "FAQs - Recognition of Prior Learning | RPL Fast Track",
+    description:
+      "Explore our Frequently Asked Questions to understand the RPL process, eligibility, documentation, timelines, and how we help you succeed.",
+    url: "https://rplfastrack.com/faq",
+    type: "article",
+    images: [
+      {
+        url: "/faq-hero.jpg",
+        width: 1200,
+        height: 630,
+        alt: "RPL Fast Track FAQs",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "FAQs - RPL Fast Track Australia",
+    description:
+      "Get answers to common queries about Recognition of Prior Learning, eligibility, timelines, and the benefits of getting certified.",
+    images: ["/faq-hero.jpg"],
+  },
 };
 
 const faqs = [

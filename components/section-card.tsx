@@ -23,7 +23,7 @@ export default function SectionCard({ section }: SectionCardProps) {
           </div>
         </Link>
 
-        <div className="p-6 flex flex-col justify-between">
+        <div className="px-6 py-4 flex flex-col justify-between">
           <Link href={`section/${section.link}`}>
             <h3 className="text-2xl font-bold text-gray-800 hover:text-emerald-600 transition-colors duration-300">
               {section.title}
@@ -33,7 +33,7 @@ export default function SectionCard({ section }: SectionCardProps) {
           <div className="mt-3 space-y-2">
             {section.courses.slice(0, 4).map((course) => (
               <Link key={course.id} href={`/qualifications/${course.link}`}>
-                <p className="text-base flex items-center gap-2 text-gray-600 hover:text-emerald-500 transition-colors">
+                <p className="text-base  mt-1 flex md:items-center items-start  gap-2 text-gray-600 hover:text-emerald-500 transition-colors">
                   <Graduation className="text-emerald-500 w-5 h-5" />
                   <span>{course.title}</span>
                 </p>

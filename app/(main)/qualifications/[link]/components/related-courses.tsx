@@ -19,7 +19,7 @@ export default function RelatedCourses({
     qualifications && (
       <section className="py-16 md:py-24 bg-slate-800  overflow-hidden">
         <div className="container mx-auto px-4 md:px-8">
-          <h2 className="text-3xl font-bold text-white mb-4">
+          <h2 className="md:text-3xl text-2xl font-bold text-white mb-4">
             Related Qualification
           </h2>
 

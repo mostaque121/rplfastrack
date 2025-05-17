@@ -6,6 +6,8 @@
 @theme inline {
   --color-custom-gradient: linear-gradient(180deg, #008fff 0%, #4ac4d0 100%);
   --color-background: var(--background);
+  --color-theme: #008fff;
+  --color-theme2: #4ac4d0;
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);

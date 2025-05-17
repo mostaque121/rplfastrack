@@ -1,5 +1,14 @@
 import Link from "next/link";
 
+export const metadata = {
+  title: "Privacy Policy",
+  description:
+    "Read RPL Fast Track's Privacy Policy to understand how we collect, use, and protect your personal information in accordance with Australian laws.",
+  alternates: {
+    canonical: "https://rplfastrack.com/privacy-policy",
+  },
+};
+
 export default function PrivacyPolicy() {
   const email = process.env.NEXT_PUBLIC_EMAIL || "info@rplfasttrack.com";
 
