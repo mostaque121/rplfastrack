@@ -20,7 +20,7 @@ export default function EmployerRecognition() {
               <span className="h-1 w-24 bg-teal-300 rounded-full"></span>
             </div>
           </div>
-          <div className="md:w-1/2 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl p-8 text-white shadow-xl">
+          <div className="md:w-1/2 bg-gradient-to-br from-emerald-700 to-teal-700 rounded-2xl p-8 text-white shadow-xl">
             <h3 className="text-xl font-semibold mb-4">
               Key Benefits for Your Career
             </h3>

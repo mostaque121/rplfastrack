@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function AboutRpl() {
   return (
@@ -47,13 +48,15 @@ export default function AboutRpl() {
               </ul>
 
               <div className="pt-4">
-                <Button
-                  size="lg"
-                  className="group bg-gradient-to-r from-emerald-500 to-teal-500"
-                >
-                  Discover How RPL Works
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                </Button>
+                <Link href="/about-rpl">
+                  <Button
+                    size="lg"
+                    className="group bg-gradient-to-r text-white from-emerald-600 to-teal-600"
+                  >
+                    Discover How RPL Works
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
@@ -133,8 +136,8 @@ export default function AboutRpl() {
               </div>
 
               {/* Testimonial Box */}
-              <div className="col-span-3 row-span-2 b bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl p-4 flex flex-col justify-center shadow-lg">
-                <p className="text-sm text-gray-100 italic">
+              <div className="col-span-3 row-span-2 b bg-gradient-to-br from-emerald-600 to-teal-700 rounded-xl p-4 flex flex-col justify-center shadow-lg">
+                <p className="text-sm text-white italic">
                   RPL transformed my 12 years of experience into a formal
                   qualification, opening doors I never thought possible.
                 </p>

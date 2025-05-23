@@ -115,7 +115,9 @@ export default function Navbar() {
                 height={512}
                 className="h-10 object-contain w-auto"
               />
-              <span className="text-emerald-600">RPL FAST TRACK</span>
+              <span className="text-emerald-600 tracking-tight">
+                RPL FAST TRACK
+              </span>
             </Link>
           </div>
 

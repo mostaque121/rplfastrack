@@ -54,14 +54,14 @@ export default function SearchModal({ open, onOpenChange }: SearchModalProps) {
         (section) =>
           section.courses?.map((course) => ({
             title: course.title,
-            url: `/qualifications/${course.link}`,
+            url: `/courses/${course.link}`,
           })) ?? []
       ) ?? [];
 
     const industries =
       sections?.map((section) => ({
         title: section.title,
-        url: `/category/${section.link}`,
+        url: `/section/${section.link}`,
       })) ?? [];
 
     const staticPages = [

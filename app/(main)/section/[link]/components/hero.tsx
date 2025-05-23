@@ -27,9 +27,9 @@ export default function HeroSection({ data }: HeroSectionProps) {
                 <span className="text-emerald-600">
                   <MdOutlineNavigateNext />
                 </span>
-                <Link href="/qualifications">
+                <Link href="/courses">
                   <span className="text-emerald-600 font-medium hover:text-emerald-700 transition duration-200 ease-in-out cursor-pointer ">
-                    Qualifications
+                    Courses
                   </span>
                 </Link>
                 <span className="text-emerald-600">

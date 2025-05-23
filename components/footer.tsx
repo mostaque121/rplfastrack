@@ -25,16 +25,16 @@ export default function Footer() {
               src="/fav.png"
               alt="RPL Fast Track Logo"
               width={100}
-              height={30}
-              className="h-10  w-auto m-3"
+              height={100}
+              className="h-10 w-auto"
             />
             <p className="text-slate-300 mb-2 text-sm">
               We help professionals get recognized for their skills through the
               RPL process, empowering career advancement.
             </p>
             <Link
-              href="/about"
-              className="text-emerald-400 hover:text-emerald-300 transition-colors text-xs inline-flex items-center"
+              href="/about-us"
+              className="text-emerald-400 hover:text-emerald-300 transition-colors text-sm inline-flex items-center"
             >
               Learn More <span className="ml-1">→</span>
             </Link>
@@ -168,12 +168,12 @@ export default function Footer() {
 
         {/* Bottom Section */}
 
-        <div className="text-center sm:text-center text-xs text-slate-400">
+        <div className="text-center mt-8 sm:text-center text-xs text-slate-400">
           <p>&copy; {currentYear} RPL Fast Track. All Rights Reserved.</p>
         </div>
       </div>
       <p className="text-center text-sm">
-        Designed by{" "}
+        Designed by:{" "}
         <Link
           href="https://www.webngraphic.com"
           className="text-emerald-400 hover:text-blue-500 font-semibold transition-colors"

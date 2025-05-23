@@ -1,7 +1,8 @@
 import { Section } from "@/type/type";
-import { GraduationCapIcon as Graduation } from "lucide-react";
+import { ArrowRight, GraduationCapIcon as Graduation } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { Button } from "./ui/button";
 
 interface SectionCardProps {
   section: Section;
@@ -41,10 +42,14 @@ export default function SectionCard({ section }: SectionCardProps) {
             ))}
           </div>
 
-          <Link href={`section/${section.link}`}>
-            <p className="inline-block mt-5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white py-2.5 px-8 rounded-full shadow hover:from-emerald-600 hover:to-teal-600 transition-all duration-300 text-sm font-medium">
+          <Link href={`section/${section.link}`} className="mt-4">
+            <Button
+              size="lg"
+              className="group bg-gradient-to-r text-white from-emerald-600 to-teal-600"
+            >
               More Courses
-            </p>
+              <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+            </Button>
           </Link>
         </div>
       </div>
