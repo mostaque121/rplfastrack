@@ -121,6 +121,7 @@ export default async function Page({
       {
         "@type": "Offer",
         url: `https://rplfastrack.com/courses/${course.link}`,
+        category: "Paid",
         availability: "https://schema.org/InStock",
         priceCurrency: "AUD",
         description: "Contact us for pricing information",
@@ -130,7 +131,7 @@ export default async function Page({
       {
         "@type": "CourseInstance",
         courseMode: "Online",
-        courseWorkload: "Self-paced",
+        courseWorkload: "PT0S",
         location: {
           "@type": "Place",
           name: "Online",

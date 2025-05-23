@@ -249,8 +249,8 @@ export function EligibilityForm({
             <form onSubmit={handleSubmit} className="space-y-4">
               {step === 1 ? (
                 <>
-                  <div className="space-y-2">
-                    <Label htmlFor="industry">
+                  <div className="space-y-2 w-full">
+                    <Label htmlFor="industry" className="text-sm font-medium">
                       Industry <span className="text-red-500">*</span>
                     </Label>
                     <Select
@@ -262,22 +262,39 @@ export function EligibilityForm({
                     >
                       <SelectTrigger
                         id="industry"
-                        className="w-full focus:ring-2 ring-ring"
+                        className="w-full min-h-[40px] h-auto py-2 text-sm focus:ring-2 ring-ring"
                       >
-                        <SelectValue placeholder="Select your industry" />
+                        <SelectValue
+                          placeholder="Select your industry"
+                          className="whitespace-normal break-words text-left"
+                        />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent
+                        className="w-[var(--radix-select-trigger-width)] max-w-[calc(100vw-2rem)]"
+                        position="popper"
+                        sideOffset={4}
+                      >
                         {sections.map((industry) => (
-                          <SelectItem key={industry.id} value={industry.title}>
-                            {industry.title}
+                          <SelectItem
+                            key={industry.id}
+                            value={industry.title}
+                            className="text-sm py-2 px-3 cursor-pointer whitespace-normal"
+                          >
+                            <span className="block whitespace-normal break-words">
+                              {industry.title}
+                            </span>
                           </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="qualification">
+                  {/* Qualification Select - With text wrapping */}
+                  <div className="space-y-2 w-full">
+                    <Label
+                      htmlFor="qualification"
+                      className="text-sm font-medium"
+                    >
                       Desired Qualification{" "}
                       <span className="text-red-500">*</span>
                     </Label>
@@ -290,7 +307,7 @@ export function EligibilityForm({
                     >
                       <SelectTrigger
                         id="qualification"
-                        className="w-full focus:ring-2 ring-ring"
+                        className="w-full min-h-[40px] h-auto py-2 text-sm focus:ring-2 ring-ring disabled:opacity-50"
                       >
                         <SelectValue
                           placeholder={
@@ -298,17 +315,28 @@ export function EligibilityForm({
                               ? "Select desired qualification"
                               : "Select industry first"
                           }
+                          className="whitespace-normal break-words text-left"
                         />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent
+                        className="w-[var(--radix-select-trigger-width)] max-w-[calc(100vw-2rem)]"
+                        position="popper"
+                        sideOffset={4}
+                      >
                         {formData.industry &&
                           sections
                             .find(
                               (section) => section.title === formData.industry
                             )
                             ?.courses?.map((course) => (
-                              <SelectItem key={course.id} value={course.title}>
-                                {course.title}
+                              <SelectItem
+                                key={course.id}
+                                value={course.title}
+                                className="text-sm py-2 px-3 cursor-pointer whitespace-normal"
+                              >
+                                <span className="block whitespace-normal break-words">
+                                  {course.title}
+                                </span>
                               </SelectItem>
                             ))}
                       </SelectContent>
