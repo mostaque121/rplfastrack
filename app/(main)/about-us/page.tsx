@@ -1,6 +1,11 @@
 import { getAllSections } from "../action/courses";
 import ContactSection from "../components/contact-common";
 import ReviewCommon from "../components/review-common";
+import {
+  aboutPageBreadcrumb,
+  aboutWebPageSchema,
+  serviceSchema,
+} from "../scheema/scheema";
 import HeroAboutUs from "./components/hero";
 import IntroductionAboutUs from "./components/introduction";
 import OurIndustry from "./components/our-Industry";
@@ -54,6 +59,20 @@ export default async function AboutUs() {
   const industries = await getAllSections();
   return (
     <div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutWebPageSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(aboutPageBreadcrumb),
+        }}
+      />
       <HeroAboutUs />
       <IntroductionAboutUs />
       <OurStory />

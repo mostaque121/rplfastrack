@@ -88,7 +88,7 @@ export default function ReviewCard({ review }: ReviewCardProps) {
 
       {/* Course Link */}
       {purchasedCourse && (
-        <Link href={`/qualifications/${purchasedCourse.link}`}>
+        <Link href={`/courses/${purchasedCourse.link}`}>
           <p className="text-emerald-600 text-xs sm:text-sm font-medium bg-gray-100 hover:bg-gray-200 px-2 py-1 rounded transition duration-200 mb-3">
             {purchasedCourse.title}
           </p>

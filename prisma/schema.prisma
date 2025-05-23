@@ -103,9 +103,16 @@ model Response {
   phone     String
   email     String   
   message   String?
-  interest  String
+  interest  String?
   createdAt DateTime @default(now())
+  stage     ResponseStage @default(LEAD)
   notes     Note[]  
+}
+enum ResponseStage {
+  LEAD
+  INTERESTED
+  CONVERTED
+  CANCELLED
 }
 
 model EligibilitySubmission {

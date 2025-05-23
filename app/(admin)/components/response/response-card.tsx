@@ -21,10 +21,24 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
+import { ResponseStage } from "@prisma/client";
 import { toast } from "sonner";
-import { addNote, deleteNote, deleteResponse } from "../../action/response";
+import {
+  addNote,
+  deleteNote,
+  deleteResponse,
+  editStage,
+} from "../../action/response";
 
 type Note = {
   id: string;
@@ -39,8 +53,9 @@ type Response = {
   email: string;
   phone: string;
   message?: string | null;
-  interest: string;
+  interest: string | null;
   createdAt: Date;
+  stage: string;
   notes: Note[];
 };
 
@@ -50,11 +65,15 @@ interface ResponseCardProps {
 
 export default function ResponseCard({ response }: ResponseCardProps) {
   const [initialNotes, setInitialNotes] = useState<Note[]>(response.notes);
+  const [stage, setStage] = useState<string>(response.stage);
+  const [tempStage, setTempStage] = useState<string>(response.stage);
+
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isNotesOpen, setIsNotesOpen] = useState(false);
   const [newNote, setNewNote] = useState("");
   const [deletingResponse, setDeletingResponse] = useState(false);
   const [deletingNote, setDeletingNote] = useState(false);
+  const [changingStage, setChangingState] = useState(false);
   const [addingNote, setAddingNote] = useState(false);
   const lastNote = response.notes.length > 0 ? response.notes[0] : null;
 
@@ -145,10 +164,44 @@ export default function ResponseCard({ response }: ResponseCardProps) {
       setDeletingResponse(false);
     }
   };
+  const isDirty = tempStage !== stage;
+
+  const handleChangeStage = async () => {
+    setChangingState(true);
+    try {
+      const result = await editStage(response.id, tempStage as ResponseStage);
+
+      if (result.success) {
+        toast.success("Stage updated", {
+          description: "The response stage has been updated successfully.",
+        });
+        setStage(tempStage);
+      } else {
+        toast.error("Error", {
+          description: result.error || "Failed to update stage",
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Error", {
+        description: "An unexpected error occurred",
+      });
+    } finally {
+      setChangingState(false);
+    }
+  };
 
   return (
-    <Card className="overflow-hidden py-0 transition-all hover:shadow-md">
-      <CardHeader className="bg-slate-50 pt-4 pb-2">
+    <Card
+      className={cn(
+        " overflow-hidden gap-0 py-0 transition-all hover:shadow-md",
+        stage === "LEAD" && "bg-blue-100",
+        stage === "INTERESTED" && "bg-yellow-100",
+        stage === "CONVERTED" && "bg-green-100",
+        stage === "CANCELLED" && "bg-red-100"
+      )}
+    >
+      <CardHeader className="py-3">
         <div className="flex justify-between items-center">
           <h3 className="font-medium text-lg">{response.name}</h3>
           <Button
@@ -163,8 +216,8 @@ export default function ResponseCard({ response }: ResponseCardProps) {
         </div>
       </CardHeader>
 
-      <CardContent>
-        <div className="space-y-2 text-sm">
+      <CardContent className="bg-white flex-1">
+        <div className="space-y-2 py-4 text-sm">
           <div className="grid grid-cols-3">
             <span className="text-muted-foreground">Date:</span>
             <span className="col-span-2">{formatDate(response.createdAt)}</span>
@@ -186,6 +239,36 @@ export default function ResponseCard({ response }: ResponseCardProps) {
             <span className="col-span-2">{response.interest}</span>
           </div>
 
+          <div className="grid grid-cols-3 items-center gap-2">
+            <span className="text-muted-foreground">Stage:</span>
+            <div className="col-span-2 flex items-center gap-2">
+              <Select value={tempStage} onValueChange={setTempStage}>
+                <SelectTrigger className="w-[150px]">
+                  <SelectValue placeholder="Change stage" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="LEAD">Lead</SelectItem>
+                  <SelectItem value="INTERESTED">Interested</SelectItem>
+                  <SelectItem value="CONVERTED">Converted</SelectItem>
+                  <SelectItem value="CANCELLED">Cancelled</SelectItem>
+                </SelectContent>
+              </Select>
+              {isDirty && (
+                <div className="flex gap-3 flex-wrap items-center">
+                  <Button size="sm" onClick={handleChangeStage}>
+                    {changingStage && (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    )}
+                    Save
+                  </Button>
+                  <Button size="sm" onClick={() => setTempStage(stage)}>
+                    Cancel
+                  </Button>
+                </div>
+              )}
+            </div>
+          </div>
+
           {lastNote && (
             <>
               <Separator className="my-3" />
@@ -205,7 +288,7 @@ export default function ResponseCard({ response }: ResponseCardProps) {
         </div>
       </CardContent>
 
-      <CardFooter className="bg-slate-50 pt-3 pb-4">
+      <CardFooter className="pt-3 mt-auto pb-4">
         <Button
           variant="outline"
           size="sm"

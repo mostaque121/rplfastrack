@@ -1,4 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google";
+import { organization } from "./(main)/scheema/scheema";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -18,6 +19,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organization),
+          }}
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

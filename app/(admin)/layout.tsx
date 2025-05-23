@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/sonner";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { redirect } from "next/navigation";
 import { Metadata } from "next/types";
 import { DashboardHeader } from "./components/dashboard/dashboard-header";
@@ -31,9 +32,9 @@ export default async function RootLayout({
   if (!session) {
     redirect("/signin");
   }
+  const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
   return (
     <main>
-      {" "}
       <SidebarProvider>
         <div className="flex min-h-screen w-full flex-col">
           <DashboardHeader user={session.user} />
@@ -44,6 +45,7 @@ export default async function RootLayout({
         </div>
       </SidebarProvider>
       <Toaster />
+      {GA_MEASUREMENT_ID && <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />}
     </main>
   );
 }

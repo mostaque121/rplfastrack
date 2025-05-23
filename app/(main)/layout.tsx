@@ -98,6 +98,7 @@ export default async function RootLayout({
 }>) {
   const whatsAppNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
   const sections = await getAllSections();
+
   return (
     <main>
       <RPLProvider initialQualifications={sections}>

@@ -4,6 +4,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 export default function FaqCommon() {
   return (
@@ -167,12 +170,15 @@ export default function FaqCommon() {
           </div>
         </div>
         <div className="mt-10 flex justify-center">
-          <a
-            href="/contact"
-            className="inline-flex h-12 items-center justify-center rounded-full bg-emerald-500 px-8 text-sm font-medium text-white shadow-lg transition-colors hover:bg-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
-          >
-            Have more questions? Contact us
-          </a>
+          <Link href={"/contact"}>
+            <Button
+              size="lg"
+              className="group bg-gradient-to-r from-emerald-600 to-teal-600 text-white"
+            >
+              Have more questions? Contact us
+              <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+            </Button>
+          </Link>
         </div>
       </div>
     </section>

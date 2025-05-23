@@ -50,7 +50,11 @@ export async function getSectionByLink(link: string) {
     const section = await prisma.section.findUnique({
       where: { link },
       include: {
-        courses: true,
+        courses: {
+          orderBy: {
+            index: "asc",
+          },
+        },
       },
     });
     return section;

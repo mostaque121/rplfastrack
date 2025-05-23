@@ -1,3 +1,7 @@
+import { EligibilityForm } from "@/components/eligibility-form";
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
+
 export default function RplProcess() {
   const steps = [
     {
@@ -60,6 +64,21 @@ export default function RplProcess() {
               <div className="absolute bottom-0 left-0 h-1 w-full bg-gradient-to-r from-emerald-300 to-emerald-600" />
             </div>
           ))}
+        </div>
+        <div className="mt-10 flex justify-center">
+          <EligibilityForm
+            trigger={
+              <Button
+                size="lg"
+                className=" group bg-gradient-to-r from-emerald-600 to-teal-600 text-white"
+              >
+                Check Your Eligibility
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </Button>
+            }
+            title="RPL Eligibility Assessment"
+            description="Find out if you qualify for our RPL program in just a few minutes."
+          />
         </div>
       </div>
     </section>

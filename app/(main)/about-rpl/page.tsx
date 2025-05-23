@@ -1,6 +1,11 @@
 import DocumentsNeed from "../components/documents-need";
 import FaqCommon from "../components/faq-common";
-import EligibilityForRPL from "../qualifications/components/eligibility";
+import EligibilityForRPL from "../courses/components/eligibility";
+import {
+  aboutRplBreadcrumb,
+  aboutRplPageSchema,
+  rplConceptSchema,
+} from "../scheema/scheema";
 import BenefitsOfRPL from "./components/benefits-of-rpl";
 import Cta from "./components/cta";
 import AboutRplHero from "./components/hero";
@@ -53,6 +58,24 @@ export const metadata = {
 export default function AboutRPLPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(aboutRplPageSchema),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(rplConceptSchema),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(aboutRplBreadcrumb),
+        }}
+      />
       <AboutRplHero />
       <WhatIsRPL />
       <BenefitsOfRPL />

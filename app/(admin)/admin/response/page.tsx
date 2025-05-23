@@ -14,7 +14,7 @@ export default async function Page({
   const search = params.q || "";
 
   return (
-    <div className=" w-full mx-auto px-5 py-10">
+    <div className=" w-full mx-auto max-w-7xl px-5 py-10">
       <div className="flex flex-col gap-8">
         <div className="flex flex-col gap-4">
           <h1 className="text-3xl font-bold">Responses</h1>

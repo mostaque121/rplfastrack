@@ -204,7 +204,7 @@ export default function CourseForm({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    Meta Desccription(Should be 120-160 character)
+                    Meta Description(Should be 120-160 character)
                   </FormLabel>
                   <FormControl>
                     <Input

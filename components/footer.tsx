@@ -22,7 +22,7 @@ export default function Footer() {
               About Us
             </h3>
             <Image
-              src="/logo-main.png"
+              src="/fav.png"
               alt="RPL Fast Track Logo"
               width={100}
               height={30}
@@ -64,7 +64,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/about"
+                  href="/about-us"
                   className="hover:text-emerald-400 transition-colors"
                 >
                   About Us

@@ -30,7 +30,7 @@ export default async function ResponseControl({
   }
 
   return (
-    <div className="max-w-7xl ">
+    <div>
       <div className="grid lg:grid-cols-2 grid-cols-1 gap-5">
         {responses.map((response) => (
           <ResponseCard key={response.id} response={response} />

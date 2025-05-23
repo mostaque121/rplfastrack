@@ -66,11 +66,16 @@ export default function SearchModal({ open, onOpenChange }: SearchModalProps) {
 
     const staticPages = [
       { title: "Home", url: "/" },
-      { title: "Services", url: "/services" },
-      { title: "About Us", url: "/about" },
+      { title: "About Us", url: "/about-us" },
+      { title: "About Rpl", url: "/about-rpl" },
       { title: "Contact", url: "/contact" },
       { title: "FAQ", url: "/faq" },
-      { title: "Blog", url: "/blog" },
+      { title: "Reviews", url: "/reviews" },
+      { title: "Write a Review", url: "/write-review" },
+      { title: "Privacy Policy", url: "/privacy-policy" },
+      { title: "Terms of Service", url: "/terms-of-service" },
+      { title: "Cookie Policy", url: "/cookie-policy" },
+      { title: "Refund Policy", url: "/refund-policy" },
     ];
 
     return [

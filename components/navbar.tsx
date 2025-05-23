@@ -8,6 +8,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { FaFacebook, FaWhatsapp } from "react-icons/fa";
+import { EligibilityForm } from "./eligibility-form";
 import MobileMenu from "./mobile-menu";
 import { useRPL } from "./rpl-context";
 import SearchModal from "./search-modal";
@@ -83,12 +84,18 @@ export default function Navbar() {
                 <FaWhatsapp className="w-5 h-5 text-white" />
               </Link>
             </div>
-            <Button
-              size="sm"
-              className="bg-white hover:bg-gray-100 text-slate-800"
-            >
-              Get Started
-            </Button>
+            <EligibilityForm
+              trigger={
+                <Button
+                  size="sm"
+                  className="bg-white hover:bg-gray-100 text-slate-800"
+                >
+                  Get Started
+                </Button>
+              }
+              title="RPL Eligibility Assessment"
+              description="Find out if you qualify for our RPL program in just a few minutes."
+            />
           </div>
         </div>
       </div>
@@ -97,14 +104,18 @@ export default function Navbar() {
       <div className="container mx-auto py-4 px-4 md:px-8">
         <div className="flex justify-between items-center">
           <div className="flex items-center">
-            <Link href="/" className="font-bold text-xl mr-8">
+            <Link
+              href="/"
+              className="font-bold gap-1 flex items-center text-xl mr-8"
+            >
               <Image
-                src={"/logo-main.png"}
+                src={"/fav.png"}
                 alt="logo"
-                width={150}
-                height={60}
-                className="h-12 w-auto"
+                width={512}
+                height={512}
+                className="h-10 object-contain w-auto"
               />
+              <span className="text-emerald-600">RPL FAST TRACK</span>
             </Link>
           </div>
 
@@ -125,14 +136,14 @@ export default function Navbar() {
               onMouseEnter={() => setActiveMenu("qualifications")}
               onMouseLeave={() => setActiveMenu(null)}
             >
-              <Link href={"/qualifications"}>
+              <Link href={"/courses"}>
                 <button
                   className={cn(
                     "text-slate-700 hover:text-emerald-600 flex items-center cursor-pointer gap-1 font-medium px-2",
-                    pathname === "/about" && "text-emerald-600"
+                    pathname === "/courses" && "text-emerald-600"
                   )}
                 >
-                  Qualification
+                  Courses
                   <ChevronDown className="h-4 w-4" />
                 </button>
               </Link>
@@ -154,10 +165,10 @@ export default function Navbar() {
                     onMouseLeave={() => setActiveSubMenu(null)}
                   >
                     <Link
-                      href={`/category/${subItem.link}`}
+                      href={`/section/${subItem.link}`}
                       className={cn(
                         "text-slate-700 flex items-center justify-between font-medium text-sm hover:bg-slate-50 hover:text-emerald-600 px-2 py-2 border-b border-gray-200 last:border-b-0",
-                        pathname === `/category/${subItem.link}` &&
+                        pathname === `/section/${subItem.link}` &&
                           "text-emerald-600"
                       )}
                       onClick={handleMenuItemClick}
@@ -181,11 +192,10 @@ export default function Navbar() {
                         {subItem.courses.map((subSubItem) => (
                           <Link
                             key={subSubItem.title}
-                            href={`/qualifications/${subSubItem.link}`}
+                            href={`/courses/${subSubItem.link}`}
                             className={cn(
                               "text-slate-700 block text-xs hover:bg-slate-50 hover:text-emerald-600 font-medium px-2 py-2 border-b border-gray-200 last:border-b-0",
-                              pathname ===
-                                `/qualifications/${subSubItem.link}` &&
+                              pathname === `/courses/${subSubItem.link}` &&
                                 "text-emerald-600"
                             )}
                             onClick={handleMenuItemClick}

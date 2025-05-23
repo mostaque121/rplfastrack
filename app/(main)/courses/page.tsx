@@ -1,6 +1,11 @@
 import { getAllSections } from "../action/courses";
 import ContactSection from "../components/contact-common";
 import DocumentsNeed from "../components/documents-need";
+import {
+  allCoursesSchema,
+  coursesBreadcrumb,
+  serviceSchema,
+} from "../scheema/scheema";
 import CourseCategories from "./components/course-categories";
 import EligibilityForRPL from "./components/eligibility";
 import HeroSection from "./components/hero";
@@ -26,13 +31,13 @@ export async function generateMetadata() {
     "Prior learning recognition",
     "Career advancement Australia", ${keywords}`,
       alternates: {
-        canonical: "https://rplfastrack.com/qualifications",
+        canonical: "https://rplfastrack.com/courses",
       },
       openGraph: {
-        title: "Qualifications - Recognized Certifications via RPL",
+        title: "Courses - Recognized Certifications via RPL",
         description:
           "Discover how RPL helps you achieve Australian qualifications by assessing your existing skills and experience.",
-        url: "https://rplfastrack.com/qualifications",
+        url: "https://rplfastrack.com/courses",
         type: "website",
         images: [
           {
@@ -59,6 +64,18 @@ export async function generateMetadata() {
 export default function Page() {
   return (
     <div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(allCoursesSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(coursesBreadcrumb) }}
+      />
       <HeroSection />
       <CourseCategories />
       <EligibilityForRPL />

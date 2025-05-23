@@ -1,4 +1,7 @@
 import { notFound } from "next/navigation";
+import type { BreadcrumbList } from "schema-dts";
+import { Course, WithContext } from "schema-dts";
+import striptags from "striptags";
 import {
   getAllSections,
   getCourseByLink,
@@ -8,6 +11,7 @@ import ContactSection from "../../components/contact-common";
 import DocumentsNeed from "../../components/documents-need";
 import ReviewCommon from "../../components/review-common";
 import RplProcess from "../../components/rpl-process";
+import { organization, serviceSchema } from "../../scheema/scheema";
 import QualificationContent from "./components/content";
 import EligibilityForRPLSimple from "./components/eligibility";
 import QualificationHeroSection from "./components/hero";
@@ -21,13 +25,13 @@ export async function generateMetadata({
   const { link } = await params;
 
   try {
-    const data = await getSectionByLink(link);
+    const data = await getCourseByLink(link);
     if (!data) {
       return {};
     }
 
-    const pageTitle = `${data.title}`;
-    const pageDescription = `Enroll in the ${data.title} course at RPL Fast Track Australia. Gain nationally recognized qualifications through practical training and Recognition of Prior Learning (RPL).`;
+    const pageTitle = `${data.metaTitle}`;
+    const pageDescription = `${data.metaDescription}`;
 
     const bestKeywords = [
       "Recognition of Prior Learning",
@@ -48,12 +52,12 @@ export async function generateMetadata({
       description: pageDescription,
       keywords: bestKeywords,
       alternates: {
-        canonical: `https://rplfastrack.com/qualifications/${data.link}`,
+        canonical: `https://rplfastrack.com/courses/${data.link}`,
       },
       openGraph: {
         title: pageTitle,
-        description: `Explore the ${data.title} course at RPL Fast Track. Develop your skills and fast-track your career with recognized Australian qualifications.`,
-        url: `https://rplfastrack.com/qualifications/${data.link}`,
+        description: `${data.metaDescription}`,
+        url: `https://rplfastrack.com/courses/${data.link}`,
         type: "article",
         images: [
           {
@@ -67,7 +71,7 @@ export async function generateMetadata({
       twitter: {
         card: "summary_large_image",
         title: pageTitle,
-        description: `Get certified in ${data.title} at RPL Fast Track Australia. Recognition for your existing skills through quality training.`,
+        description: `${data.metaDescription}`,
         images: [data.imageCoverLink],
         site: "@RPLFastTrack",
       },
@@ -104,9 +108,62 @@ export default async function Page({
   if (!course) {
     notFound();
   }
+  const courseSchema: WithContext<Course> = {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    name: course.title,
+    url: `https://rplfastrack.com/courses/${course.link}`,
+    inLanguage: "en",
+    description: striptags(course.description),
+    provider: organization,
+  };
+
+  const breadcrumbSchema: WithContext<BreadcrumbList> = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://rplfastrack.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Courses",
+        item: "https://rplfastrack.com/courses",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: course.section.title,
+        item: `https://rplfastrack.com/section/${course.section.link}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 4,
+        name: course.title,
+        item: `https://rplfastrack.com/courses/${course.link}`,
+      },
+    ],
+  };
+
   const section = await getSectionByLink(course.section.link);
   return (
     <div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(courseSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <QualificationHeroSection data={course} section={course.section} />
       <QualificationContent data={course} />
       <RelatedCourses

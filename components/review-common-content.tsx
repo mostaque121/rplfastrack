@@ -1,7 +1,9 @@
 "use client";
 import ReviewCard from "@/components/review-card";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { MdStar, MdStarHalf, MdStarOutline } from "react-icons/md";
+import { Button } from "./ui/button";
 
 interface Course {
   id: string;
@@ -130,11 +132,17 @@ export default function ReviewCommonContent({ reviews }: ReviewCommonProps) {
           <ReviewCard review={review} key={index} />
         ))}
         {5 < totalReviews && ( // Show "Show More" button only if there are more reviews
-          <Link href="/reviews">
-            <button className="mt-4 py-2 px-4 border block mx-auto border-gray-300 rounded bg-white hover:bg-gray-100 transition duration-200 ease-in-out">
-              See all review
-            </button>
-          </Link>
+          <div className="mt-10 flex justify-center">
+            <Link href={"/reviews"}>
+              <Button
+                size="lg"
+                className="group bg-gradient-to-r from-emerald-600 to-teal-600 text-white"
+              >
+                See all review
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </Button>
+            </Link>
+          </div>
         )}
       </div>
     </div>

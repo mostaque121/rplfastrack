@@ -20,6 +20,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
+import { EligibilityForm } from "./eligibility-form";
 import { useRPL } from "./rpl-context";
 
 export default function MobileMenu() {
@@ -28,8 +29,7 @@ export default function MobileMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({
     qualifications:
-      pathname.startsWith("/category") ||
-      pathname.startsWith("/qualifications"),
+      pathname.startsWith("/section") || pathname.startsWith("/courses"),
   });
   const [openSubMenus, setOpenSubMenus] = useState<Record<string, boolean>>(
     () => {
@@ -105,17 +105,17 @@ export default function MobileMenu() {
               >
                 <CollapsibleTrigger className="flex w-full items-center justify-between px-2 text-slate-700 font-medium">
                   <Link
-                    href={"/qualifications"}
+                    href={"/courses"}
                     className={cn(
                       "flex-grow text-left hover:text-emerald-600",
-                      pathname === "/qualifications" && "text-emerald-600"
+                      pathname === "/courses" && "text-emerald-600"
                     )}
                     onClick={(e) => {
                       e.stopPropagation();
                       handleItemClick();
                     }}
                   >
-                    Qualification
+                    Courses
                   </Link>
                   <ChevronDown
                     className={cn(
@@ -135,10 +135,10 @@ export default function MobileMenu() {
                         >
                           <CollapsibleTrigger className="flex w-full items-center justify-between py-1 px-2 text-slate-700">
                             <Link
-                              href={`/category/${subItem.link}`}
+                              href={`/section/${subItem.link}`}
                               className={cn(
                                 "flex-grow hover:text-emerald-600  text-left",
-                                pathname === `/category/${subItem.link}` &&
+                                pathname === `/section/${subItem.link}` &&
                                   "text-emerald-600"
                               )}
                               onClick={(e) => {
@@ -159,11 +159,10 @@ export default function MobileMenu() {
                             {subItem.courses.map((subSubItem) => (
                               <Link
                                 key={subSubItem.title}
-                                href={`/qualifications/${subSubItem.link}`}
+                                href={`/courses/${subSubItem.link}`}
                                 className={cn(
                                   "block py-1 px-2 hover:text-emerald-600 text-sm",
-                                  pathname ===
-                                    `/qualifications/${subSubItem.link}` &&
+                                  pathname === `/courses/${subSubItem.link}` &&
                                     "text-emerald-600"
                                 )}
                                 onClick={handleItemClick}
@@ -175,10 +174,10 @@ export default function MobileMenu() {
                         </Collapsible>
                       ) : (
                         <Link
-                          href={`/category/${subItem.link}`}
+                          href={`/section/${subItem.link}`}
                           className={cn(
                             "block py-1 px-2 hover:text-emerald-600 ",
-                            pathname === `/category/${subItem.link}` &&
+                            pathname === `/section/${subItem.link}` &&
                               "text-emerald-600"
                           )}
                           onClick={handleItemClick}
@@ -235,11 +234,17 @@ export default function MobileMenu() {
               FAQ
             </Link>
 
-            <div className="pt-4 mt-4 border-t">
-              <Button className="w-full bg-emerald-500 hover:bg-emerald-600 text-white">
-                Get Started
-              </Button>
-            </div>
+            <EligibilityForm
+              trigger={
+                <div className="pt-4 mt-4 border-t">
+                  <Button className="w-full bg-emerald-500 hover:bg-emerald-600 text-white">
+                    Get Started
+                  </Button>
+                </div>
+              }
+              title="RPL Eligibility Assessment"
+              description="Find out if you qualify for our RPL program in just a few minutes."
+            />
           </div>
         </SheetContent>
       </Sheet>

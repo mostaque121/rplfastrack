@@ -216,7 +216,7 @@ export default function ContactCommonForm({
             />
             <div className="text-center mt-6">
               <Button
-                className="bg-emerald-500 hover:bg-emerald-600 text-white transition-all duration-300  active:scale-95 cursor-pointer w-full"
+                className="bg-emerald-600 hover:bg-emerald-700 text-white transition-all duration-300  active:scale-95 cursor-pointer w-full"
                 type="submit"
                 disabled={form.formState.isSubmitting}
               >

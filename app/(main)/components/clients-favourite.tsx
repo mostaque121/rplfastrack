@@ -28,10 +28,10 @@ export default async function ClientsFavourite() {
       </div>
 
       <div className="pt-4 text-center">
-        <Link href={"/qualifications"}>
+        <Link href={"/courses"}>
           <Button
             size="lg"
-            className="group bg-gradient-to-r from-emerald-500 to-teal-500"
+            className="group bg-gradient-to-r from-emerald-600 to-teal-600"
           >
             Explore All Industry
             <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />

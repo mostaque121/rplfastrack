@@ -27,7 +27,7 @@ export default function RelatedIndustry({
             ))}
             <div className="bg-white border border-emerald-100 md:col-auto md:mt-0 py-1  mt-4 col-span-2 hover:border-emerald-400 shadow-sm hover:shadow-md transition-all duration-300 rounded-xl items-center justify-center overflow-hidden flex flex-col h-full group">
               <Link
-                href={"/qualifications"}
+                href={"/courses"}
                 className="text-emerald-600 hover:text-emerald-700 font-semibold text-lg inline-flex items-center gap-2"
               >
                 See More <MoveRight className="w-5 h-5" />

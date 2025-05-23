@@ -26,7 +26,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
     {
-      url: "https://rplfastrack.com/qualifications",
+      url: "https://rplfastrack.com/courses",
       lastModified: new Date(),
       priority: 0.9,
     },
@@ -68,7 +68,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   const sectionEntries: MetadataRoute.Sitemap = sections.map((section) => ({
-    url: `https://rplfastrack.com/category/${section.link}`,
+    url: `https://rplfastrack.com/section/${section.link}`,
     lastModified: new Date(),
     priority: 0.7,
   }));
@@ -76,7 +76,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const courseEntries: MetadataRoute.Sitemap = sections.flatMap((section) =>
     section.courses
       ? section.courses.map((course) => ({
-          url: `https://rplfastrack.com/qualifications/${course.link}`,
+          url: `https://rplfastrack.com/courses/${course.link}`,
           lastModified: new Date(),
           priority: 0.8,
         }))
