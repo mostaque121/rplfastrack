@@ -113,9 +113,32 @@ export default async function Page({
     "@type": "Course",
     name: course.title,
     url: `https://rplfastrack.com/courses/${course.link}`,
-    inLanguage: "en",
     description: striptags(course.description),
+    inLanguage: "en",
+    image: [course.imageCoverLink, course.imageSquareLink],
     provider: organization,
+    offers: [
+      {
+        "@type": "Offer",
+        url: `https://rplfastrack.com/courses/${course.link}`,
+        availability: "https://schema.org/InStock",
+        priceCurrency: "AUD",
+        description: "Contact us for pricing information",
+      },
+    ],
+    hasCourseInstance: [
+      {
+        "@type": "CourseInstance",
+        courseMode: "Online",
+        courseWorkload: "Self-paced",
+        location: {
+          "@type": "Place",
+          name: "Online",
+        },
+        description:
+          "This course is available year-round and can be started anytime.",
+      },
+    ],
   };
 
   const breadcrumbSchema: WithContext<BreadcrumbList> = {

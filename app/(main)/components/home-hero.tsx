@@ -22,9 +22,9 @@ export default function HomeHero() {
 
       <div className="relative container mx-auto flex-col md:flex-row md:items-center flex gap-10 w-full justify-between h-full px-4 md:px-8 py-5">
         <div className="max-w-4xl ">
-          <div className="text-emerald-400 text-2xl md:text-3xl font-semibold mb-4">
+          <span className="text-emerald-400 text-2xl md:text-3xl font-semibold mb-4">
             Welcome to RPL Fast Track
-          </div>
+          </span>
           <h1 className="md:text-6xl text-4xl font-bold text-primary-foreground mb-6">
             Accelerate your skills recognition
           </h1>

@@ -80,12 +80,12 @@ export function ResponseForm({ interest = "RPL" }: { interest?: string }) {
 
   return (
     <div className="bg-background py-10 border-ring border-[2px] rounded-lg md:px-8 px-4 w-full md:w-96 shadow-md">
-      <h1 className="text-lg font-bold text-black text-center mb-3 leading-tight">
+      <p className="text-lg font-bold text-black text-center mb-3 leading-tight">
         Interested in {interest}?
-      </h1>
-      <h1 className="text-center text-2xl font-semibold text-emerald-600 mb-10">
+      </p>
+      <h3 className="text-center text-2xl font-semibold text-emerald-600 mb-10">
         Get your free consultants!
-      </h1>
+      </h3>
       {formState?.success ? (
         <div className="text-emerald-600 text-center p-4">
           <div className="animate-bounce mb-2">

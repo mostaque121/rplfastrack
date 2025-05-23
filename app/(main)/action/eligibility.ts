@@ -1,5 +1,8 @@
 "use server";
+
 import { prisma } from "@/lib/prisma";
+import nodemailer from "nodemailer";
+import brevoTransport from "nodemailer-brevo-transport";
 
 type EligibilityFormData = {
   industry: string;
@@ -12,9 +15,16 @@ type EligibilityFormData = {
   message?: string;
 };
 
+// Email transporter
+const transporter = nodemailer.createTransport(
+  new brevoTransport({
+    apiKey: process.env.SENDINBLUE_API_KEY!,
+  })
+);
+
 export async function saveEligibilityData(data: EligibilityFormData) {
   try {
-    // Validate the data
+    // Manual validation
     if (!data.industry) return { error: "Industry is required" };
     if (!data.qualification) return { error: "Qualification is required" };
     if (!data.yearsOfExperience)
@@ -27,6 +37,7 @@ export async function saveEligibilityData(data: EligibilityFormData) {
     if (!data.phoneNumber || data.phoneNumber.length < 8)
       return { error: "Valid phone number is required" };
 
+    // Save to database
     await prisma.eligibilitySubmission.create({
       data: {
         fullName: data.fullName,
@@ -40,7 +51,36 @@ export async function saveEligibilityData(data: EligibilityFormData) {
       },
     });
 
-    return { success: true, message: "Data saved successfully" };
+    // Send email notification
+    const mailOptions = {
+      from: process.env.SENDER_EMAIL!,
+      to: process.env.RECEIVER_EMAIL!,
+      subject: "New Eligibility Submission",
+      text: `
+------------------------------------------------------------
+               New Eligibility Form Submission
+------------------------------------------------------------
+
+Full Name:           ${data.fullName}
+Email:               ${data.email}
+Phone Number:        ${data.phoneNumber}
+Industry:            ${data.industry}
+Qualification:       ${data.qualification}
+Years of Experience: ${data.yearsOfExperience}
+State Lived In:      ${data.stateLivedIn}
+
+Message:
+${data.message?.trim() || "No message provided"}
+
+------------------------------------------------------------
+Submitted via your website eligibility form.
+------------------------------------------------------------
+      `,
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    return { success: true, message: "Data saved and email sent successfully" };
   } catch (error) {
     console.error("Error saving eligibility data:", error);
     return { error: "Failed to save data. Please try again." };

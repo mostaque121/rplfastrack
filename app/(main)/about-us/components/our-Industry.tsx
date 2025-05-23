@@ -29,7 +29,7 @@ export default function OurIndustry({
               href={"/courses"}
               className="text-emerald-600 hover:text-emerald-700 font-semibold text-lg inline-flex items-center gap-2"
             >
-              See More <MoveRight className="w-5 h-5" />
+              See all industry <MoveRight className="w-5 h-5" />
             </Link>
           </div>
         </div>

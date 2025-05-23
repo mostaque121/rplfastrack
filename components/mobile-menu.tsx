@@ -62,7 +62,6 @@ export default function MobileMenu() {
 
   const handleItemClick = () => {
     setIsOpen(false);
-    console.log("clicked");
   };
 
   return (
