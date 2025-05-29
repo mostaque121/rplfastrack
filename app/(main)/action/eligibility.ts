@@ -1,5 +1,6 @@
 "use server";
 
+import { createFormSubmissionNotification } from "@/app/(admin)/lib/create-notification";
 import { prisma } from "@/lib/prisma";
 import nodemailer from "nodemailer";
 import brevoTransport from "nodemailer-brevo-transport";
@@ -79,6 +80,11 @@ Submitted via your website eligibility form.
     };
 
     await transporter.sendMail(mailOptions);
+    await createFormSubmissionNotification({
+      title: "New Eligibility Form Submitted",
+      description: `${data.fullName} has submitted a eligibility form.`,
+      type: "eligibility",
+    });
 
     return { success: true, message: "Data saved and email sent successfully" };
   } catch (error) {

@@ -8,6 +8,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { FaFacebook, FaWhatsapp } from "react-icons/fa";
+import AdminSection from "./admin-section";
 import { EligibilityForm } from "./eligibility-form";
 import MobileMenu from "./mobile-menu";
 import { useRPL } from "./rpl-context";
@@ -106,14 +107,14 @@ export default function Navbar() {
           <div className="flex items-center">
             <Link
               href="/"
-              className="font-bold gap-1 flex items-center text-xl mr-8"
+              className="font-bold gap-1 flex items-center text-lg md:text-xl mr-8"
             >
               <Image
                 src={"/fav.png"}
                 alt="logo"
                 width={512}
                 height={512}
-                className="h-10 object-contain w-auto"
+                className="md:h-10 h-7 object-contain w-auto"
               />
               <span className="text-emerald-600 tracking-tight">
                 RPL FAST TRACK
@@ -286,12 +287,13 @@ export default function Navbar() {
             <Button
               variant="ghost"
               size="icon"
-              className="p-2 hover:text-emerald-600 hover:bg-gray-100 cursor-pointer"
+              className="p-1.5 hover:text-emerald-600 hover:bg-gray-100 cursor-pointer"
               onClick={() => setSearchOpen(true)}
             >
-              <Search className="h-5 w-5" />
+              <Search className="h-6 w-6" />
               <span className="sr-only">Search</span>
             </Button>
+            <AdminSection />
 
             {/* Mobile Menu - Only visible on mobile */}
             <div className="md:hidden">

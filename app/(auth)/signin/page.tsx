@@ -62,11 +62,27 @@ export default async function page() {
 
   return (
     <div className="flex h-screen w-full">
-      <div className="md:w-96 w-full h-screen overflow-y-scroll scrollbar-hidden md:px-8 px-5 pt-8 pb-10">
-        <h1>RPLFASRTRACK</h1>
+      <div className="md:w-96 w-full h-screen md:px-8 px-5 pt-8 pb-10">
+        <div className="flex items-center">
+          <Link
+            href="/"
+            className="font-semibold gap-1 flex items-center text-base md:text-lg mr-8"
+          >
+            <Image
+              src={"/fav.png"}
+              alt="logo"
+              width={512}
+              height={512}
+              className="md:h-7 h-6 object-contain w-auto"
+            />
+            <span className="text-emerald-600 tracking-tight">
+              RPL FAST TRACK
+            </span>
+          </Link>
+        </div>
         <h1 className="text-3xl mt-12 md:mt-8">Sign in to your account</h1>
 
-        <div className="md:w-80 w-full mt-6 ">
+        <div className=" w-full mt-6 ">
           <form
             action={async () => {
               "use server";
@@ -74,7 +90,7 @@ export default async function page() {
             }}
           >
             <button
-              className="flex items-center shadow-md justify-center w-full h-14 md:h-12 bg-gray-100 hover:bg-light-gray-hover active:bg-light-gray-active rounded-lg hover:bg-gray-200 transition duration-300"
+              className="flex items-center shadow-md justify-center w-full h-14 md:h-12 bg-emerald-100 active:bg-emerald-300 cursor-pointer rounded-lg hover:bg-emerald-200 transition duration-300"
               type="submit"
             >
               Signin with Google
@@ -83,29 +99,23 @@ export default async function page() {
         </div>
       </div>
       <div className="flex-1 hidden md:block relative">
-        <Image
-          fill
-          className="w-full h-screen object-cover"
-          src="/signinbg.webp"
-          alt="Background"
-        />
-
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-black bg-opacity-70"></div>
-
-        {/* Text Overlay */}
-        <div className="absolute ml-20 max-w-96 inset-0 flex flex-col items-start justify-center">
-          <h1 className="text-4xl text-white font-bold">
-            Recognize Your Skills and Experience Through RPL
-          </h1>
-          <p className="text-light-gray text-lg mt-7">
-            Unlock new opportunities by showcasing your existing knowledge and
-            competencies, allowing you to gain recognition for what you’ve
-            learned outside traditional education.
-          </p>
-          <div className="flex items-center cursor-pointer text-blue-300  hover:text-blue-200 duration-200 ease-in transition-all mt-12">
-            <p className="text-xl underline text font-semibold">Home</p>
-            <MoveRight className="w-8 h-8" />
+        <div className="auth-bg hero" />
+        <div className="relative z-10">
+          <div className="ml-20 max-w-96 h-screen flex flex-col items-start justify-center">
+            <h1 className="text-4xl text-white font-bold">
+              Recognize Your Skills and Experience Through RPL
+            </h1>
+            <p className="text-gray-100 text-lg mt-7">
+              Unlock new opportunities by showcasing your existing knowledge and
+              competencies, allowing you to gain recognition for what you’ve
+              learned outside traditional education.
+            </p>
+            <Link href={"/"}>
+              <div className="flex items-center gap-2 cursor-pointer text-blue-300  hover:text-blue-200 duration-200 ease-in transition-all mt-12">
+                <p className="text-xl underline text font-semibold">Home</p>
+                <MoveRight className="w-8 h-8" />
+              </div>
+            </Link>
           </div>
         </div>
       </div>

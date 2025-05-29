@@ -149,5 +149,19 @@ enum NoteType {
   ELIGIBILITY
 }
 
+model Notification {
+  id          String     @id @default(uuid())
+  title       String
+  description String
+  createdAt   DateTime   @default(now())
+  type        NotificationType
+  recipients  String[]   // Array of User IDs
+  readBy      String[]   // Array of User IDs who have read this notification
+}
+
+enum NotificationType {
+  response
+  eligibility
+}
 
 

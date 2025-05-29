@@ -254,6 +254,10 @@
   background-image: url("/review-hero.jpg");
   background-position: center;
 }
+.auth-bg {
+  background-image: url("/home-hero.jpg");
+  background-position: center;
+}
 
 .vertical-timeline-element-date.custom-date {
   color: #059669;

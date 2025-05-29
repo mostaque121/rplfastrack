@@ -4,6 +4,7 @@ import { RPLProvider } from "@/components/rpl-context";
 import { Toaster } from "@/components/ui/sonner";
 import { WhatsAppChatButton } from "@/components/whatsapp-chat-button";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { SessionProvider } from "next-auth/react";
 import { Metadata } from "next/types";
 import { getAllSections } from "./action/courses";
 
@@ -102,17 +103,19 @@ export default async function RootLayout({
   const sections = await getAllSections();
 
   return (
-    <main>
-      <RPLProvider initialQualifications={sections}>
-        <Navbar />
-        <div>{children}</div>
-        {whatsAppNumber && (
-          <WhatsAppChatButton phoneNumber={whatsAppNumber} size="lg" />
-        )}
-        <Footer />
-        <Toaster />
-      </RPLProvider>
-      {GA_MEASUREMENT_ID && <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />}
-    </main>
+    <SessionProvider>
+      <main>
+        <RPLProvider initialQualifications={sections}>
+          <Navbar />
+          <div>{children}</div>
+          {whatsAppNumber && (
+            <WhatsAppChatButton phoneNumber={whatsAppNumber} size="lg" />
+          )}
+          <Footer />
+          <Toaster />
+        </RPLProvider>
+        {GA_MEASUREMENT_ID && <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />}
+      </main>
+    </SessionProvider>
   );
 }

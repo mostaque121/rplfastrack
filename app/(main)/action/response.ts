@@ -1,8 +1,8 @@
 "use server";
 
+import { createFormSubmissionNotification } from "@/app/(admin)/lib/create-notification";
+import { sendContactNotificationEmail } from "@/app/(admin)/lib/send-mail";
 import { prisma } from "@/lib/prisma";
-import nodemailer from "nodemailer";
-import brevoTransport from "nodemailer-brevo-transport";
 import { z } from "zod";
 
 // Schema validation
@@ -22,13 +22,6 @@ interface StartedData {
   interest: string;
 }
 
-// Email transport config
-const transporter = nodemailer.createTransport(
-  new brevoTransport({
-    apiKey: process.env.SENDINBLUE_API_KEY!,
-  })
-);
-
 // Form submission handler
 export async function createResponse(data: StartedData) {
   // Validate input
@@ -41,7 +34,6 @@ export async function createResponse(data: StartedData) {
   }
 
   try {
-    // Save to DB
     await prisma.response.create({
       data: {
         name: data.name,
@@ -51,32 +43,19 @@ export async function createResponse(data: StartedData) {
         interest: data.interest,
       },
     });
+    await sendContactNotificationEmail({
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      message: data.message,
+      interest: data.interest,
+    });
 
-    // Send notification email
-    const mailOptions = {
-      from: process.env.SENDER_EMAIL!,
-      to: process.env.RECEIVER_EMAIL!,
-      subject: "New Response Submitted",
-      text: `
-------------------------------------------------------------
-                New Contact Form Submission
-------------------------------------------------------------
-
-Name:     ${data.name}
-Email:    ${data.email}
-Phone:    ${data.phone}
-Interest: ${data.interest}
-
-Message:
-${data.message?.trim() || "No message provided"}
-
-------------------------------------------------------------
-Submitted from your website contact form.
-------------------------------------------------------------
-  `,
-    };
-
-    await transporter.sendMail(mailOptions);
+    await createFormSubmissionNotification({
+      title: "New Response Form Submitted",
+      description: `${data.name} has submitted a response form.`,
+      type: "response",
+    });
 
     return {
       success: true,
@@ -123,32 +102,18 @@ export async function createContact(data: ContactData) {
         interest: data.qualification || data.industry || "none",
       },
     });
-
-    // Send notification email
-    const mailOptions = {
-      from: process.env.SENDER_EMAIL!,
-      to: process.env.RECEIVER_EMAIL!,
-      subject: "New Response Submitted",
-      text: `
-------------------------------------------------------------
-                New Contact Form Submission
-------------------------------------------------------------
-
-Name:     ${data.name}
-Email:    ${data.email}
-Phone:    ${data.phone}
-Interest: ${data.qualification || data.industry || "none"}
-
-Message:
-${data.message?.trim() || "No message provided"}
-
-------------------------------------------------------------
-Submitted from your website contact form.
-------------------------------------------------------------
-  `,
-    };
-
-    await transporter.sendMail(mailOptions);
+    await sendContactNotificationEmail({
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      message: data.message,
+      interest: data.qualification || data.industry || "none",
+    });
+    await createFormSubmissionNotification({
+      title: "New Response Form Submitted",
+      description: `${data.name} has submitted a response form.`,
+      type: "response",
+    });
 
     return {
       success: true,
