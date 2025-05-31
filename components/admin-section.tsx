@@ -174,7 +174,7 @@ export default function AdminSection() {
                 )}
               </DropdownMenuItem>
             </SheetTrigger>
-            <SheetContent className="w-[400px] gap-0 h-screen overflow-y-scroll px-4 sm:w-[540px]">
+            <SheetContent className="w-full gap-0 h-screen overflow-y-scroll px-4 sm:w-[540px]">
               {loading ? (
                 <div>
                   <SheetTitle>Notifications</SheetTitle>

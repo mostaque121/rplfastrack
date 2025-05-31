@@ -96,7 +96,7 @@ export default function QualificationContent({ data }: QualificationProps) {
                   Job Opportunities
                 </h2>
                 <div
-                  className="text-gray-600 leading-relaxed"
+                  className="text-gray-600  space-y-6 leading-relaxed"
                   dangerouslySetInnerHTML={{ __html: data.jobOpportunity }}
                 />
               </div>

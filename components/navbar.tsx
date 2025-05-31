@@ -116,14 +116,14 @@ export default function Navbar() {
                 height={512}
                 className="md:h-10 h-7 object-contain w-auto"
               />
-              <span className="text-emerald-600 tracking-tight">
+              <span className="text-emerald-600 text-nowrap whitespace-nowrap tracking-tight">
                 RPL FAST TRACK
               </span>
             </Link>
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-6" ref={menuRef}>
+          <nav className="hidden lg:flex items-center space-x-6" ref={menuRef}>
             <Link
               href="/"
               className={cn(
@@ -284,19 +284,18 @@ export default function Navbar() {
           {/* Right side icons */}
           <div className="flex items-center gap-2">
             {/* Search Icon */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="p-1.5 hover:text-emerald-600 hover:bg-gray-100 cursor-pointer"
+            <button
+              className="flex-1 flex items-center border rounded-full px-2  md:px-3 cursor-pointer max-w-md mx-auto h-8 justify-start text-muted-foreground hover:bg-muted/50 border-input"
               onClick={() => setSearchOpen(true)}
             >
-              <Search className="h-6 w-6" />
-              <span className="sr-only">Search</span>
-            </Button>
+              <Search className="h-4 w-4 md:mr-2 flex-shrink-0" />
+              <span className="hidden w-32 md:inline">Search here</span>
+            </button>
+
             <AdminSection />
 
             {/* Mobile Menu - Only visible on mobile */}
-            <div className="md:hidden">
+            <div className="lg:hidden">
               <MobileMenu />
             </div>
           </div>
