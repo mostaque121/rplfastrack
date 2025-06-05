@@ -1,4 +1,6 @@
+import { RPLProvider } from "@/components/rpl-context";
 import { Geist, Geist_Mono } from "next/font/google";
+import { getAllSections } from "./(main)/action/courses";
 import { organization } from "./(main)/scheema/scheema";
 import "./globals.css";
 
@@ -12,11 +14,12 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const sections = await getAllSections();
   return (
     <html lang="en">
       <head>
@@ -30,7 +33,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <RPLProvider initialQualifications={sections}>{children}</RPLProvider>
       </body>
     </html>
   );

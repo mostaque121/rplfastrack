@@ -165,3 +165,36 @@ enum NotificationType {
 }
 
 
+model Payment {
+  id               String         @id @default(uuid())
+  name             String
+  qualification    String
+  phoneNumber      String
+  email            String
+  source           String
+  collegeName      String
+  courseFee        Float
+  paymentStatus    String
+  payment          Float          @default(0) // total paid so far
+  collegePayment   Float          @default(0)
+  agentCommission  Float          @default(0)
+  bankCommission   Float          @default(0)
+  netProfit        Float          @default(0)
+  enrollmentDate   DateTime       @default(now())
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  parts            PaymentPart[]
+}
+
+model PaymentPart {
+  id         String   @id @default(uuid())
+  amount     Float
+  paidAt     DateTime @default(now())
+  paymentId  String
+  payment     Payment  @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+}
+
+
+
+

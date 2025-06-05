@@ -1,12 +1,10 @@
 import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
-import { RPLProvider } from "@/components/rpl-context";
 import { Toaster } from "@/components/ui/sonner";
 import { WhatsAppChatButton } from "@/components/whatsapp-chat-button";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { SessionProvider } from "next-auth/react";
 import { Metadata } from "next/types";
-import { getAllSections } from "./action/courses";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://rplfastrack.com"),
@@ -93,27 +91,24 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   const whatsAppNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
   const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
-  const sections = await getAllSections();
 
   return (
     <SessionProvider>
       <main>
-        <RPLProvider initialQualifications={sections}>
-          <Navbar />
-          <div>{children}</div>
-          {whatsAppNumber && (
-            <WhatsAppChatButton phoneNumber={whatsAppNumber} size="lg" />
-          )}
-          <Footer />
-          <Toaster />
-        </RPLProvider>
+        <Navbar />
+        <div>{children}</div>
+        {whatsAppNumber && (
+          <WhatsAppChatButton phoneNumber={whatsAppNumber} size="lg" />
+        )}
+        <Footer />
+        <Toaster />
         {GA_MEASUREMENT_ID && <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />}
       </main>
     </SessionProvider>

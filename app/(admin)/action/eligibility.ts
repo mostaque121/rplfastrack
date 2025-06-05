@@ -64,7 +64,7 @@ export const getAllEligibility = async (
         },
       }),
 
-      prisma.response.count({ where: whereCondition }),
+      prisma.eligibilitySubmission.count({ where: whereCondition }),
     ]);
 
     return {

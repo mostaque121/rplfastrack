@@ -1,12 +1,15 @@
 "use client";
 
 import {
+  SidebarGroup,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import {
   BadgeCheck,
+  BadgeDollarSign,
+  ChartColumnStacked,
   ChartNoAxesCombined,
   Globe,
   LayoutDashboard,
@@ -24,9 +27,14 @@ const items = [
     href: "/admin",
   },
   {
-    title: "Analytics",
+    title: "Web Analytics",
     icon: ChartNoAxesCombined,
-    href: "/admin/analytics",
+    href: "/admin/web-analytics",
+  },
+  {
+    title: "Business Overview",
+    icon: ChartColumnStacked,
+    href: "/admin/business-overview",
   },
 
   {
@@ -46,6 +54,11 @@ const items = [
     href: "/admin/section",
   },
   {
+    title: "Payments",
+    icon: BadgeDollarSign,
+    href: "/admin/payments",
+  },
+  {
     title: "Review",
     icon: Star,
     href: "/admin/review",
@@ -61,21 +74,26 @@ export function DashboardNav() {
   const pathname = usePathname();
 
   return (
-    <SidebarMenu className="px-4">
-      {items.map((item) => {
-        const isActive = pathname === item.href;
-
-        return (
-          <SidebarMenuItem key={item.href}>
-            <SidebarMenuButton asChild isActive={isActive} tooltip={item.title}>
-              <Link href={item.href}>
-                <item.icon className="h-4 w-4" />
-                <span>{item.title}</span>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        );
-      })}
-    </SidebarMenu>
+    <SidebarGroup>
+      <SidebarMenu>
+        {items.map((item) => {
+          const isActive = pathname === item.href;
+          return (
+            <SidebarMenuItem key={item.href}>
+              <SidebarMenuButton
+                asChild
+                isActive={isActive}
+                tooltip={item.title}
+              >
+                <Link href={item.href}>
+                  <item.icon className="h-4 w-4" />
+                  <span>{item.title}</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          );
+        })}
+      </SidebarMenu>
+    </SidebarGroup>
   );
 }

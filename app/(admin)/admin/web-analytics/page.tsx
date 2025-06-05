@@ -13,9 +13,14 @@ import { TopReferrers } from "../../components/analytics/top-referrers";
 // Loading component for Suspense
 function LoadingDashboard() {
   return (
-    <div className="max-w-7xl space-y-6 w-full mx-auto px-5 py-10">
-      <div className="flex justify-end mb-4">
-        <Skeleton className="h-10 w-[180px]" />
+    <div className="container space-y-6 w-full mx-auto px-4 py-12">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold">Web Analytics</h1>
+          <p className="text-muted-foreground">
+            Comprehensive insights into your web performance
+          </p>
+        </div>
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {Array(4)
@@ -42,10 +47,17 @@ async function AnalyticsDashboard({ days }: { days: number }) {
   const data = await fetchDashboardData(days);
 
   return (
-    <div className="max-w-7xl space-y-6 w-full mx-auto px-5 py-10">
-      <h1 className="text-3xl font-bold">Analytics</h1>
-      <div className="flex justify-end mb-4">
-        <DateRangeSelector />
+    <div className="container space-y-6 w-full mx-auto px-4 py-12">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold">Web Analytics</h1>
+          <p className="text-muted-foreground">
+            Comprehensive insights into your web performance
+          </p>
+        </div>
+        <div className="flex items-center gap-4">
+          <DateRangeSelector />
+        </div>
       </div>
       <Stats data={data.analyticsData} days={days} />
       <Overview data={data.analyticsData} days={days} />

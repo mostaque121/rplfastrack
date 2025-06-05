@@ -4,14 +4,14 @@ export default function LogoAdmin() {
     <div className="flex gap-2 items-center">
       <div className="relative">
         <Image
-          src={"/logo-admin.png"}
+          src={"/fav.png"}
           alt="logo-admin"
           width={50}
           height={50}
-          className="w-6 h-6"
+          className="w-5 h-5"
         />
       </div>
-      <h2 className="font-semibold text-[#008fff]">RPLFASTRACK</h2>
+      <h2 className="text-base font-semibold">RPLFASTRACK</h2>
     </div>
   );
 }
