@@ -1,3 +1,4 @@
+export const dynamic = "force-static";
 import { Suspense } from "react";
 import { SectionContent } from "../../components/section/section-content";
 import SectionCreateBtn from "../../components/section/section-create-btn";

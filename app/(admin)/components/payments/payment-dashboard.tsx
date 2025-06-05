@@ -77,11 +77,7 @@ export default function PaymentDashboard() {
       </div>
 
       {/* Create Dialog */}
-      <Dialog
-        modal={true}
-        open={isCreateDialogOpen}
-        onOpenChange={setIsCreateDialogOpen}
-      >
+      <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
         <DialogContent className="w-full !max-w-6xl p-0 gap-0 overflow-hidden bg-muted">
           <DialogHeader>
             <DialogTitle className="hidden">Add Course Under</DialogTitle>
@@ -97,11 +93,7 @@ export default function PaymentDashboard() {
       </Dialog>
 
       {/* Edit Dialog */}
-      <Dialog
-        modal={false}
-        open={isEditDialogOpen}
-        onOpenChange={setIsEditDialogOpen}
-      >
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
         <DialogContent
           onPointerDownOutside={(e) => {
             // Prevent dialog from closing when clicking on popover content
