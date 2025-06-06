@@ -58,7 +58,6 @@ const paymentPartSchema = z.object({
 const paymentSchema = z.object({
   id: z.string().optional(),
   name: z.string().min(1, "Name is required"),
-  industry: z.string().min(1, "Industry is required"),
   qualification: z.string().min(1, "Qualification is required"),
   phoneNumber: z.string().min(10, "Phone number must be at least 10 digits"),
   email: z.string().email("Invalid email address"),
@@ -96,7 +95,6 @@ export default function PaymentForm({
     resolver: zodResolver(paymentSchema),
     defaultValues: {
       name: "",
-      industry: "",
       qualification: "",
       phoneNumber: "",
       email: "",

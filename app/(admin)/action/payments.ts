@@ -7,6 +7,7 @@ import type {
   PaymentResponse,
   StatsResponse,
 } from "@/type/payment";
+import { checkAccess } from "./helper";
 
 export type PaymentWithParts = {
   id: string;
@@ -76,8 +77,8 @@ export type UpdatePaymentData = {
 
 // Create a new payment with parts
 export async function createPayment(data: CreatePaymentData) {
+  checkAccess();
   try {
-    // Calculate totals
     const totalPayment = data.parts.reduce((sum, part) => sum + part.amount, 0);
     const netProfit =
       totalPayment -
@@ -122,6 +123,7 @@ export async function createPayment(data: CreatePaymentData) {
 
 // Update a payment and its parts
 export async function updatePayment(data: UpdatePaymentData) {
+  checkAccess();
   try {
     // Calculate totals
     const totalPayment = data.parts.reduce((sum, part) => sum + part.amount, 0);
@@ -358,6 +360,7 @@ export async function getPaymentStats(): Promise<StatsResponse> {
 export async function deletePayment(
   id: string
 ): Promise<{ success: boolean; error?: string }> {
+  checkAccess();
   try {
     await prisma.paymentPart.deleteMany({
       where: {
