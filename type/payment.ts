@@ -26,6 +26,7 @@ export type PaymentWithParts = {
 export type PaymentStats = {
   totalPayments: number;
   totalRevenue: number;
+  totalCourseFee: number;
   pendingPayments: number;
   paidPayments: number;
   averagePayment: number;

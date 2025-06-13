@@ -1,12 +1,13 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
 import { subMonths } from "date-fns";
-import { useCallback, useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import type { DateRange } from "react-day-picker";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import type { AnalyticsData, FilterType } from "@/type/type";
+import type { FilterType } from "@/type/type";
 import { getPaymentAnalytics } from "../../action/payment-analytics";
 import { DistributionCharts } from "../business-overview/distribution-charts";
 import { FilterControls } from "../business-overview/filter-control";
@@ -25,74 +26,48 @@ export default function PaymentAnalytics() {
     to: new Date(),
   });
   const [monthFilter, setMonthFilter] = useState<string>("2024-06");
-  const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [hasFilterChanged, setHasFilterChanged] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
-  const loadAnalytics = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      const filters = {
-        type: activeFilter,
-        timeRange: activeFilter === "timeRange" ? timeRange : undefined,
-        dateRange:
-          activeFilter === "dateRange" && dateRange?.from && dateRange?.to
-            ? { from: dateRange.from, to: dateRange.to }
-            : undefined,
-        monthFilter: activeFilter === "monthFilter" ? monthFilter : undefined,
-      };
-
-      const result = await getPaymentAnalytics(filters);
-
-      if (result.success && result.data) {
-        setAnalytics(result.data);
-        setHasFilterChanged(false);
-        setIsInitialLoad(false);
-      } else {
-        setError(result.error || "Failed to fetch analytics data");
-      }
-    } catch (err) {
-      setError("An unexpected error occurred");
-      console.error("Error loading analytics:", err);
-    } finally {
-      setLoading(false);
-    }
+  const filters = useMemo(() => {
+    return {
+      type: activeFilter,
+      timeRange: activeFilter === "timeRange" ? timeRange : undefined,
+      dateRange:
+        activeFilter === "dateRange" && dateRange?.from && dateRange?.to
+          ? { from: dateRange.from, to: dateRange.to }
+          : undefined,
+      monthFilter: activeFilter === "monthFilter" ? monthFilter : undefined,
+    };
   }, [activeFilter, timeRange, dateRange, monthFilter]);
 
-  // Load data on initial mount
-  useEffect(() => {
-    if (isInitialLoad) {
-      loadAnalytics();
-    }
-  }, [loadAnalytics, isInitialLoad]);
-
-  const fetchData = () => {
-    loadAnalytics();
-  };
+  const { data, error, isLoading, isFetching, refetch, isError } = useQuery({
+    queryKey: ["paymentAnalytics", filters],
+    queryFn: async () => {
+      const result = await getPaymentAnalytics(filters);
+      if (!result.success || !result.data) {
+        throw new Error(result.error || "Failed to fetch analytics data");
+      }
+      return result.data; // Only return the AnalyticsData
+    },
+    enabled: !!filters,
+  });
 
   const handleFilterTypeChange = (filterType: FilterType) => {
     setActiveFilter(filterType);
-    setHasFilterChanged(true);
   };
 
   const handleTimeRangeChange = (value: string) => {
     setTimeRange(value as "7d" | "30d" | "90d" | "6m" | "1y");
-    setHasFilterChanged(true);
   };
 
   const handleDateRangeChange = (range: DateRange | undefined) => {
     setDateRange(range);
-    setHasFilterChanged(true);
   };
 
   const handleMonthFilterChange = (value: string) => {
     setMonthFilter(value);
-    setHasFilterChanged(true);
   };
+
+  const analytics = data || null;
 
   return (
     <div className="container mx-auto py-6 px-4">
@@ -109,36 +84,51 @@ export default function PaymentAnalytics() {
           timeRange={timeRange}
           dateRange={dateRange}
           monthFilter={monthFilter}
-          hasFilterChanged={hasFilterChanged}
-          loading={loading}
+          hasFilterChanged={isFetching}
+          loading={isLoading || isFetching}
           onFilterTypeChange={handleFilterTypeChange}
           onTimeRangeChange={handleTimeRangeChange}
           onDateRangeChange={handleDateRangeChange}
           onMonthFilterChange={handleMonthFilterChange}
-          onFetchData={fetchData}
+          onFetchData={refetch}
         />
 
-        {/* Conditional content */}
-        {error ? (
+        {isError ? (
           <Card className="w-full max-w-md mx-auto">
             <CardContent className="p-6 text-center">
               <p className="text-red-600 font-medium mb-2">
                 Error Loading Analytics
               </p>
-              <p className="text-muted-foreground text-sm mb-4">{error}</p>
-              <Button onClick={fetchData} variant="outline">
+              <p className="text-muted-foreground text-sm mb-4">
+                {error instanceof Error ? error.message : "Failed to load data"}
+              </p>
+              <Button onClick={() => refetch()} variant="outline">
                 Try Again
               </Button>
             </CardContent>
           </Card>
         ) : (
-          // Render main analytics content if data is available
           <div className="space-y-6 mt-6">
-            <OverviewMetrics loading={loading} analytics={analytics} />
-            <TrendCharts loading={loading} analytics={analytics} />
-            <DistributionCharts loading={loading} analytics={analytics} />
-            <TopQualifications loading={loading} analytics={analytics} />
-            <InsightsSection loading={loading} analytics={analytics} />
+            <OverviewMetrics
+              loading={isLoading || isFetching}
+              analytics={analytics}
+            />
+            <TrendCharts
+              loading={isLoading || isFetching}
+              analytics={analytics}
+            />
+            <DistributionCharts
+              loading={isLoading || isFetching}
+              analytics={analytics}
+            />
+            <TopQualifications
+              loading={isLoading || isFetching}
+              analytics={analytics}
+            />
+            <InsightsSection
+              loading={isLoading || isFetching}
+              analytics={analytics}
+            />
           </div>
         )}
       </div>

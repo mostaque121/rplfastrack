@@ -145,3 +145,17 @@ async function getUserCountries(days = 30) {
     desc: true,
   });
 }
+
+export async function getTotalUsersLast30Days() {
+  try {
+    const response = await runReport([], ["totalUsers"], 30);
+
+    // totalUsers metric is returned in response.metricValues[0].value (usually a string)
+    const totalUsers = response.rows?.[0]?.metricValues?.[0]?.value || "0";
+
+    return Number(totalUsers);
+  } catch (error) {
+    console.error("Failed to get total users:", error);
+    return 0;
+  }
+}

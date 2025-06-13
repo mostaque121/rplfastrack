@@ -313,39 +313,43 @@ export async function getPaymentsWithFilter(
 
 export async function getPaymentStats(): Promise<StatsResponse> {
   try {
-    const [totalPayments, totalRevenue, paidPayments, pendingPayments] =
-      await Promise.all([
-        prisma.payment.count(),
-        prisma.payment.aggregate({
-          _sum: {
-            payment: true,
-          },
-        }),
-        prisma.payment.count({
-          where: {
-            paymentStatus: "paid",
-          },
-        }),
-        prisma.payment.count({
-          where: {
-            paymentStatus: "installment",
-          },
-        }),
-      ]);
+    const [counts, aggregates] = await Promise.all([
+      prisma.payment.groupBy({
+        by: ["paymentStatus"],
+        _count: true,
+      }),
+      prisma.payment.aggregate({
+        _sum: {
+          payment: true,
+          courseFee: true,
+        },
+        _count: true,
+      }),
+    ]);
 
+    let paidPayments = 0;
+    let pendingPayments = 0;
+
+    for (const group of counts) {
+      if (group.paymentStatus === "paid") paidPayments = group._count;
+      if (group.paymentStatus === "installment") pendingPayments = group._count;
+    }
+
+    const totalPayments = aggregates._count;
+    const totalRevenue = Number(aggregates._sum.payment || 0);
+    const totalCourseFee = Number(aggregates._sum.courseFee || 0);
     const averagePayment =
-      totalPayments > 0
-        ? Number(totalRevenue._sum.payment || 0) / totalPayments
-        : 0;
+      totalPayments > 0 ? Math.round(totalRevenue / totalPayments) : 0;
 
     return {
       success: true,
       data: {
         totalPayments,
-        totalRevenue: Number(totalRevenue._sum.payment || 0),
+        totalRevenue,
+        totalCourseFee,
         paidPayments,
         pendingPayments,
-        averagePayment: Math.round(averagePayment),
+        averagePayment,
       },
     };
   } catch (error) {

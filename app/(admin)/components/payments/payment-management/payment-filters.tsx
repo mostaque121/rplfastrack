@@ -18,10 +18,11 @@ import {
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
-import { Calendar, CalendarIcon, Search } from "lucide-react";
+import { Calendar, CalendarIcon, Loader2, Search } from "lucide-react";
 
 interface PaymentFiltersProps {
   searchTerm: string;
+  isFetching: boolean;
   setSearchTerm: (value: string) => void;
   statusFilter: string;
   setStatusFilter: (value: string) => void;
@@ -52,6 +53,7 @@ export function PaymentFilters({
   setEndDate,
   monthOptions,
   onClearFilters,
+  isFetching,
 }: PaymentFiltersProps) {
   const hasActiveFilters =
     searchTerm ||
@@ -192,16 +194,20 @@ export function PaymentFilters({
           </div>
         )}
 
-        <div className="flex gap-2 ml-auto">
-          {hasActiveFilters && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onClearFilters}
-              className="h-9 text-sm font-medium"
-            >
-              Clear Filters
-            </Button>
+        <div className="flex items-center gap-2 ml-auto">
+          {isFetching ? (
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          ) : (
+            hasActiveFilters && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={onClearFilters}
+                className="h-9 text-sm font-medium"
+              >
+                Clear Filters
+              </Button>
+            )
           )}
         </div>
       </div>

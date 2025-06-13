@@ -8,10 +8,15 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import type { PaymentStats, PaymentWithParts } from "@/type/payment";
+import type { PaymentWithParts } from "@/type/payment";
+import {
+  keepPreviousData,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { endOfMonth, format, startOfMonth } from "date-fns";
 import { Search } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import { DeleteWarningDialog } from "./delete-warning-dialog";
 import { PaymentCard } from "./payment-card";
@@ -20,7 +25,6 @@ import { PaymentStatsCards } from "./payment-stats";
 
 interface PaymentManagementProps {
   onEdit: (payment: PaymentWithParts) => void;
-  triggerFetch: boolean;
 }
 
 const generateMonthOptions = () => {
@@ -41,12 +45,9 @@ const generateMonthOptions = () => {
   return options.reverse();
 };
 
-export default function PaymentManagement({
-  onEdit,
-  triggerFetch,
-}: PaymentManagementProps) {
-  const [payments, setPayments] = useState<PaymentWithParts[]>([]);
-  const [loading, setLoading] = useState(true);
+export default function PaymentManagement({ onEdit }: PaymentManagementProps) {
+  const queryClient = useQueryClient();
+  const listRef = useRef<HTMLDivElement>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [monthFilter, setMonthFilter] = useState<string>("all");
@@ -56,14 +57,6 @@ export default function PaymentManagement({
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [stats, setStats] = useState<PaymentStats>({
-    totalPayments: 0,
-    totalRevenue: 0,
-    pendingPayments: 0,
-    paidPayments: 0,
-    averagePayment: 0,
-  });
   const [deleteDialog, setDeleteDialog] = useState<{
     open: boolean;
     paymentId: string;
@@ -74,83 +67,72 @@ export default function PaymentManagement({
     studentName: "",
   });
   const [isDeleting, setIsDeleting] = useState(false);
-
   const itemsPerPage = 12;
   const monthOptions = generateMonthOptions();
 
-  const loadPayments = useCallback(async () => {
-    setLoading(true);
-    try {
-      let dateFrom: Date | undefined;
-      let dateTo: Date | undefined;
+  const dateRange = useMemo(() => {
+    let dateFrom: Date | undefined;
+    let dateTo: Date | undefined;
 
-      if (dateFilterType === "month" && monthFilter !== "all") {
-        const [year, month] = monthFilter.split("-");
-        dateFrom = startOfMonth(
-          new Date(Number.parseInt(year), Number.parseInt(month) - 1)
-        );
-        dateTo = endOfMonth(
-          new Date(Number.parseInt(year), Number.parseInt(month) - 1)
-        );
-      } else if (dateFilterType === "range") {
-        dateFrom = startDate;
-        dateTo = endDate;
-      }
+    if (dateFilterType === "month" && monthFilter !== "all") {
+      const [year, month] = monthFilter.split("-");
+      dateFrom = startOfMonth(
+        new Date(Number.parseInt(year), Number.parseInt(month) - 1)
+      );
+      dateTo = endOfMonth(
+        new Date(Number.parseInt(year), Number.parseInt(month) - 1)
+      );
+    } else if (dateFilterType === "range") {
+      dateFrom = startDate;
+      dateTo = endDate;
+    }
 
+    return { dateFrom, dateTo };
+  }, [dateFilterType, monthFilter, startDate, endDate]);
+
+  const {
+    data: paymentsData,
+    isLoading: isLoadingPayments,
+    isFetching: isFetchingPayment,
+  } = useQuery({
+    queryKey: [
+      "payments",
+      searchTerm,
+      statusFilter,
+      monthFilter,
+      dateFilterType,
+      startDate,
+      endDate,
+      currentPage,
+    ],
+    queryFn: async () => {
       const result = await getPaymentsWithFilter({
         search: searchTerm || undefined,
         status: statusFilter === "all" ? undefined : statusFilter,
-        dateFrom,
-        dateTo,
+        dateFrom: dateRange.dateFrom,
+        dateTo: dateRange.dateTo,
         page: currentPage,
         limit: itemsPerPage,
       });
 
-      if (result.success && result.data) {
-        setPayments(result.data.payments);
-        setTotalPages(result.data.pagination.totalPages);
-      } else {
-        setPayments([]);
-        setTotalPages(1);
-        toast.error("Error", {
-          description: result.error || "Failed to load payments",
-        });
+      if (!result.success || !result.data) {
+        throw new Error(result.error || "Failed to load payments");
       }
-    } catch {
-      setPayments([]);
-      setTotalPages(1);
-      toast.error("Error", {
-        description: "An unexpected error occurred",
-      });
-    } finally {
-      setLoading(false);
-    }
-  }, [
-    searchTerm,
-    statusFilter,
-    monthFilter,
-    dateFilterType,
-    startDate,
-    endDate,
-    currentPage,
-    itemsPerPage,
-  ]);
+      return result.data;
+    },
+    placeholderData: keepPreviousData,
+  });
 
-  const loadStats = useCallback(async () => {
-    try {
+  const { data: stats, isLoading: isLoadingStats } = useQuery({
+    queryKey: ["paymentStats"],
+    queryFn: async () => {
       const result = await getPaymentStats();
-      if (result.success && result.data) {
-        setStats(result.data);
+      if (!result.success || !result.data) {
+        throw new Error("Failed to load stats");
       }
-    } catch (error) {
-      console.error("Failed to load stats:", error);
-    }
-  }, []);
-
-  useEffect(() => {
-    loadStats();
-    loadPayments();
-  }, [loadPayments, loadStats, triggerFetch]);
+      return result.data;
+    },
+  });
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -162,6 +144,17 @@ export default function PaymentManagement({
   useEffect(() => {
     setCurrentPage(1);
   }, [statusFilter, monthFilter, dateFilterType, startDate, endDate]);
+
+  const scrollToTop = () => {
+    if (listRef.current) {
+      const top =
+        listRef.current.getBoundingClientRect().top + window.pageYOffset;
+      window.scrollTo({
+        top: top - 60, // scroll 24px above the section
+        behavior: "smooth",
+      });
+    }
+  };
 
   const clearFilters = () => {
     setSearchTerm("");
@@ -189,8 +182,8 @@ export default function PaymentManagement({
         toast.success("Success", {
           description: "Payment deleted successfully",
         });
-        loadPayments();
-        loadStats();
+        queryClient.invalidateQueries({ queryKey: ["payments"] });
+        queryClient.invalidateQueries({ queryKey: ["paymentStats"] });
         setDeleteDialog({ open: false, paymentId: "", studentName: "" });
       } else {
         toast.error("Error", {
@@ -209,10 +202,10 @@ export default function PaymentManagement({
   return (
     <div className="space-y-6 w-full container mx-auto">
       {/* Statistics Cards */}
-      <PaymentStatsCards stats={stats} />
+      <PaymentStatsCards stats={stats} loading={isLoadingStats} />
 
       {/* Main Content */}
-      <Card className="border-0 shadow-sm">
+      <Card ref={listRef} className="border-0 shadow-sm">
         <CardContent className="p-4">
           {/* Filters */}
           <div className="mb-6">
@@ -231,18 +224,17 @@ export default function PaymentManagement({
               setEndDate={setEndDate}
               monthOptions={monthOptions}
               onClearFilters={clearFilters}
+              isFetching={isFetchingPayment}
             />
           </div>
 
           {/* Payment Cards */}
           <div className="space-y-4">
-            {loading ? (
-              <>
-                {Array.from({ length: 6 }).map((_, index) => (
-                  <PaymentCardSkeleton key={index} />
-                ))}
-              </>
-            ) : payments.length === 0 ? (
+            {isLoadingPayments ? (
+              Array.from({ length: 6 }).map((_, i) => (
+                <PaymentCardSkeleton key={i} />
+              ))
+            ) : paymentsData?.payments?.length === 0 ? (
               <div className="text-center py-12">
                 <div className="mx-auto h-16 w-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
                   <Search className="h-6 w-6 text-gray-400" />
@@ -255,7 +247,7 @@ export default function PaymentManagement({
                 </p>
               </div>
             ) : (
-              payments.map((payment) => (
+              paymentsData?.payments.map((payment) => (
                 <PaymentCard
                   key={payment.id}
                   payment={payment}
@@ -267,35 +259,51 @@ export default function PaymentManagement({
           </div>
 
           {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-200">
-              <div className="text-sm font-medium text-gray-700">
-                Page {currentPage} of {totalPages}
+          {paymentsData?.pagination?.totalPages &&
+            paymentsData.pagination.totalPages > 1 && (
+              <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-200">
+                <div className="text-sm font-medium text-gray-700">
+                  Page {currentPage} of {paymentsData.pagination.totalPages}
+                </div>
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setCurrentPage(Math.max(1, currentPage - 1));
+                      requestAnimationFrame(() => {
+                        scrollToTop();
+                      });
+                    }}
+                    disabled={currentPage === 1}
+                    className="h-9 px-3 text-sm font-medium"
+                  >
+                    Previous
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setCurrentPage(
+                        Math.min(
+                          paymentsData.pagination.totalPages,
+                          currentPage + 1
+                        )
+                      );
+                      requestAnimationFrame(() => {
+                        scrollToTop();
+                      });
+                    }}
+                    disabled={
+                      currentPage === paymentsData.pagination.totalPages
+                    }
+                    className="h-9 px-3 text-sm font-medium"
+                  >
+                    Next
+                  </Button>
+                </div>
               </div>
-              <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-                  disabled={currentPage === 1}
-                  className="h-9 px-3 text-sm font-medium"
-                >
-                  Previous
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() =>
-                    setCurrentPage(Math.min(totalPages, currentPage + 1))
-                  }
-                  disabled={currentPage === totalPages}
-                  className="h-9 px-3 text-sm font-medium"
-                >
-                  Next
-                </Button>
-              </div>
-            </div>
-          )}
+            )}
         </CardContent>
       </Card>
 

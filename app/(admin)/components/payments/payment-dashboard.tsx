@@ -10,14 +10,15 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import type { PaymentWithParts } from "@/type/payment";
+import { useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import PaymentManagement from "./payment-management/payment-management";
 import PaymentForm from "./payments-form";
 
 export default function PaymentDashboard() {
+  const queryClient = useQueryClient();
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
-  const [triggerFetch, setTriggerFetch] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [initialFormData, setInitialFormData] = useState<any | null>(null);
 
@@ -26,7 +27,8 @@ export default function PaymentDashboard() {
     setIsCreateDialogOpen(true);
   };
   const handleRefetch = () => {
-    setTriggerFetch((prev) => !prev);
+    queryClient.invalidateQueries({ queryKey: ["payments"] });
+    queryClient.invalidateQueries({ queryKey: ["paymentStats"] });
   };
 
   const handleEdit = (payment: PaymentWithParts) => {
@@ -73,7 +75,7 @@ export default function PaymentDashboard() {
       </div>
 
       <div className="container mx-auto mt-12 px-4">
-        <PaymentManagement onEdit={handleEdit} triggerFetch={triggerFetch} />
+        <PaymentManagement onEdit={handleEdit} />
       </div>
 
       {/* Create Dialog */}
