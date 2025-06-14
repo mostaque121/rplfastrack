@@ -167,7 +167,7 @@ export default function SearchModal({ open, onOpenChange }: SearchModalProps) {
                 {category.items.map((item) => {
                   const Icon = category.icon;
                   return (
-                    <Link href={item.url} key={item.title}>
+                    <Link prefetch={false} href={item.url} key={item.title}>
                       <CommandItem
                         value={item.title}
                         onSelect={() => {

@@ -170,7 +170,7 @@ export default function FaqCommon() {
           </div>
         </div>
         <div className="mt-10 flex justify-center">
-          <Link href={"/contact"}>
+          <Link prefetch={false} href={"/contact"}>
             <Button
               size="lg"
               className="group bg-gradient-to-r from-emerald-600 to-teal-600 text-white"

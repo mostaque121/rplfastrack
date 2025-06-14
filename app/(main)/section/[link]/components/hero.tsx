@@ -19,7 +19,7 @@ export default function HeroSection({ data }: HeroSectionProps) {
                 {data.title}
               </h1>
               <div className="mt-3 flex items-center">
-                <Link href="/">
+                <Link prefetch={false} href="/">
                   <span className="text-emerald-600 font-medium hover:text-emerald-700 transition duration-200 ease-in-out cursor-pointer ">
                     Home
                   </span>
@@ -27,7 +27,7 @@ export default function HeroSection({ data }: HeroSectionProps) {
                 <span className="text-emerald-600">
                   <MdOutlineNavigateNext />
                 </span>
-                <Link href="/courses">
+                <Link prefetch={false} href="/courses">
                   <span className="text-emerald-600 font-medium hover:text-emerald-700 transition duration-200 ease-in-out cursor-pointer ">
                     Courses
                   </span>

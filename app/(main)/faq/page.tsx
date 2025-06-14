@@ -313,6 +313,7 @@ export default function FAQPage() {
           </p>
           <div className="flex justify-center gap-4">
             <Link
+              prefetch={false}
               href="/contact"
               className="inline-flex h-10 items-center justify-center rounded-md bg-emerald-600 px-8 text-sm font-medium text-primary-foreground shadow hover:bg-emerald-700/90"
             >

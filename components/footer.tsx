@@ -33,6 +33,7 @@ export default function Footer() {
               RPL process, empowering career advancement.
             </p>
             <Link
+              prefetch={false}
               href="/about-us"
               className="text-emerald-400 hover:text-emerald-300 transition-colors text-sm inline-flex items-center"
             >
@@ -48,6 +49,7 @@ export default function Footer() {
             <ul className="text-slate-300 space-y-1 text-sm">
               <li>
                 <Link
+                  prefetch={false}
                   href="/"
                   className="hover:text-emerald-400 transition-colors"
                 >
@@ -56,6 +58,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
+                  prefetch={false}
                   href="/courses"
                   className="hover:text-emerald-400 transition-colors"
                 >
@@ -64,6 +67,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
+                  prefetch={false}
                   href="/about-us"
                   className="hover:text-emerald-400 transition-colors"
                 >
@@ -72,6 +76,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
+                  prefetch={false}
                   href="/faq"
                   className="hover:text-emerald-400 transition-colors"
                 >
@@ -80,6 +85,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
+                  prefetch={false}
                   href="/contact"
                   className="hover:text-emerald-400 transition-colors"
                 >
@@ -97,6 +103,7 @@ export default function Footer() {
             <ul className="text-slate-300 space-y-1 text-sm">
               <li>
                 <Link
+                  prefetch={false}
                   href="/terms-of-service"
                   className="hover:text-emerald-400 transition-colors"
                 >
@@ -105,6 +112,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
+                  prefetch={false}
                   href="/privacy-policy"
                   className="hover:text-emerald-400 transition-colors"
                 >
@@ -113,6 +121,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
+                  prefetch={false}
                   href="/refund-policy"
                   className="hover:text-emerald-400 transition-colors"
                 >
@@ -121,6 +130,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
+                  prefetch={false}
                   href="/cookie-policy"
                   className="hover:text-emerald-400 transition-colors"
                 >
@@ -139,6 +149,7 @@ export default function Footer() {
               <li className="flex items-center">
                 <Phone className="w-3 h-3 mr-1 text-emerald-400 flex-shrink-0 mt-0.5" />
                 <Link
+                  prefetch={false}
                   href={`tel:${phoneNumber}`}
                   className="hover:text-emerald-400 transition-colors"
                 >
@@ -148,6 +159,7 @@ export default function Footer() {
               <li className="flex items-center">
                 <Mail className="w-3 h-3 mr-1 text-emerald-400 flex-shrink-0 mt-0.5" />
                 <Link
+                  prefetch={false}
                   href={`mailto:${email}`}
                   className="hover:text-emerald-400 transition-colors"
                 >
@@ -175,6 +187,7 @@ export default function Footer() {
       <p className="text-center text-sm">
         Designed by:{" "}
         <Link
+          prefetch={false}
           href="https://www.webngraphic.com"
           className="text-emerald-400 hover:text-blue-500 font-semibold transition-colors"
           target="_blank"

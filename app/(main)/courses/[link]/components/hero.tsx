@@ -26,7 +26,7 @@ export default function QualificationHeroSection({
                 {data.title}
               </h1>
               <div className="mt-3 flex flex-wrap items-center">
-                <Link href="/">
+                <Link prefetch={false} href="/">
                   <span className="text-emerald-600 font-medium hover:text-emerald-700 transition duration-200 ease-in-out cursor-pointer ">
                     Home
                   </span>
@@ -34,7 +34,7 @@ export default function QualificationHeroSection({
                 <span className="text-emerald-600">
                   <MdOutlineNavigateNext />
                 </span>
-                <Link href="/courses">
+                <Link prefetch={false} href="/courses">
                   <span className="text-emerald-600 font-medium hover:text-emerald-700 transition duration-200 ease-in-out cursor-pointer ">
                     Courses
                   </span>
@@ -42,7 +42,7 @@ export default function QualificationHeroSection({
                 <span className="text-emerald-600">
                   <MdOutlineNavigateNext />
                 </span>
-                <Link href={`/section/${section.link}`}>
+                <Link prefetch={false} href={`/section/${section.link}`}>
                   <span className="text-emerald-600 font-medium hover:text-emerald-700 transition duration-200 ease-in-out cursor-pointer ">
                     {section.title}
                   </span>

@@ -86,6 +86,7 @@ export default function MobileMenu() {
           </SheetHeader>
           <div className="flex flex-col px-3 gap-6 py-6 mt-6">
             <Link
+              prefetch={false}
               href="/"
               className={cn(
                 "text-slate-700 hover:text-emerald-600 font-medium px-2",
@@ -104,6 +105,7 @@ export default function MobileMenu() {
               >
                 <CollapsibleTrigger className="flex w-full items-center justify-between px-2 text-slate-700 font-medium">
                   <Link
+                    prefetch={false}
                     href={"/courses"}
                     className={cn(
                       "flex-grow text-left hover:text-emerald-600",
@@ -134,6 +136,7 @@ export default function MobileMenu() {
                         >
                           <CollapsibleTrigger className="flex w-full items-center justify-between py-1 px-2 text-slate-700">
                             <Link
+                              prefetch={false}
                               href={`/section/${subItem.link}`}
                               className={cn(
                                 "flex-grow hover:text-emerald-600  text-left",
@@ -157,6 +160,7 @@ export default function MobileMenu() {
                           <CollapsibleContent className="pl-4 pt-1 space-y-1">
                             {subItem.courses.map((subSubItem) => (
                               <Link
+                                prefetch={false}
                                 key={subSubItem.title}
                                 href={`/courses/${subSubItem.link}`}
                                 className={cn(
@@ -173,6 +177,7 @@ export default function MobileMenu() {
                         </Collapsible>
                       ) : (
                         <Link
+                          prefetch={false}
                           href={`/section/${subItem.link}`}
                           className={cn(
                             "block py-1 px-2 hover:text-emerald-600 ",
@@ -191,6 +196,7 @@ export default function MobileMenu() {
             </div>
 
             <Link
+              prefetch={false}
               href="/about-us"
               className={cn(
                 "text-slate-700 hover:text-emerald-600 font-medium px-2",
@@ -202,6 +208,7 @@ export default function MobileMenu() {
             </Link>
 
             <Link
+              prefetch={false}
               href="/contact"
               className={cn(
                 "text-slate-700 hover:text-emerald-600 font-medium px-2",
@@ -213,6 +220,7 @@ export default function MobileMenu() {
             </Link>
 
             <Link
+              prefetch={false}
               href="/about-rpl"
               className={cn(
                 "text-slate-700 hover:text-emerald-600 font-medium px-2",
@@ -223,6 +231,7 @@ export default function MobileMenu() {
               About RPL
             </Link>
             <Link
+              prefetch={false}
               href="/faq"
               className={cn(
                 "text-slate-700 hover:text-emerald-600 font-medium px-2",

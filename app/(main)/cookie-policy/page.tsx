@@ -152,6 +152,7 @@ export default function CookiePolicy() {
             <ul className="list-disc pl-6 mb-4">
               <li>
                 <Link
+                  prefetch={false}
                   href="https://support.google.com/chrome/answer/95647"
                   className="text-sky-600 hover:text-sky-800"
                   target="_blank"
@@ -162,6 +163,7 @@ export default function CookiePolicy() {
               </li>
               <li>
                 <Link
+                  prefetch={false}
                   href="https://support.mozilla.org/en-US/kb/enhanced-tracking-protection-firefox-desktop"
                   className="text-sky-600 hover:text-sky-800"
                   target="_blank"
@@ -172,6 +174,7 @@ export default function CookiePolicy() {
               </li>
               <li>
                 <Link
+                  prefetch={false}
                   href="https://support.apple.com/guide/safari/manage-cookies-and-website-data-sfri11471/mac"
                   className="text-sky-600 hover:text-sky-800"
                   target="_blank"
@@ -182,6 +185,7 @@ export default function CookiePolicy() {
               </li>
               <li>
                 <Link
+                  prefetch={false}
                   href="https://support.microsoft.com/en-us/microsoft-edge/delete-cookies-in-microsoft-edge-63947406-40ac-c3b8-57b9-2a946a29ae09"
                   className="text-sky-600 hover:text-sky-800"
                   target="_blank"
@@ -225,6 +229,7 @@ export default function CookiePolicy() {
               <p>
                 Email:{" "}
                 <Link
+                  prefetch={false}
                   href={`mailto:${email}`}
                   className="text-emerald-600 hover:text-emerald-800"
                 >
@@ -234,6 +239,7 @@ export default function CookiePolicy() {
               <p>
                 Phone:{" "}
                 <Link
+                  prefetch={false}
                   href={`tel:${phoneNumber}`}
                   className="text-emerald-600 hover:text-emerald-800"
                 >

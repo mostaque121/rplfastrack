@@ -96,7 +96,7 @@ export default function IntroductionAboutUs() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 items-center">
-              <Link href="/contact">
+              <Link prefetch={false} href="/contact">
                 <Button
                   size="lg"
                   className="group bg-gradient-to-r from-emerald-500 to-teal-500"

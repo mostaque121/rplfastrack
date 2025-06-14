@@ -12,7 +12,11 @@ export default function SectionCard({ section }: SectionCardProps) {
   return (
     section.courses && (
       <div className="bg-white group mb-8 flex flex-col md:flex-row shadow-md rounded-2xl overflow-hidden hover:shadow-lg transition-shadow duration-300">
-        <Link href={`section/${section.link}`} className="group">
+        <Link
+          prefetch={false}
+          href={`section/${section.link}`}
+          className="group"
+        >
           <div className="relative overflow-hidden w-full md:w-64 h-64 md:h-auto">
             <Image
               src={section.imageSquareLink}
@@ -25,7 +29,7 @@ export default function SectionCard({ section }: SectionCardProps) {
         </Link>
 
         <div className="px-6 py-4 flex flex-col justify-between">
-          <Link href={`section/${section.link}`}>
+          <Link prefetch={false} href={`section/${section.link}`}>
             <h3 className="text-2xl font-bold text-gray-800 hover:text-emerald-600 transition-colors duration-300">
               {section.title}
             </h3>
@@ -33,7 +37,11 @@ export default function SectionCard({ section }: SectionCardProps) {
 
           <div className="mt-3 space-y-2">
             {section.courses.slice(0, 4).map((course) => (
-              <Link key={course.id} href={`/courses/${course.link}`}>
+              <Link
+                prefetch={false}
+                key={course.id}
+                href={`/courses/${course.link}`}
+              >
                 <p className="text-base  mt-1 flex md:items-center items-start  gap-2 text-gray-600 hover:text-emerald-500 transition-colors">
                   <Graduation className="text-emerald-500 w-5 h-5" />
                   <span>{course.title}</span>
@@ -42,7 +50,11 @@ export default function SectionCard({ section }: SectionCardProps) {
             ))}
           </div>
 
-          <Link href={`section/${section.link}`} className="mt-4">
+          <Link
+            prefetch={false}
+            href={`section/${section.link}`}
+            className="mt-4"
+          >
             <Button
               size="lg"
               className="group bg-gradient-to-r text-white from-emerald-600 to-teal-600"

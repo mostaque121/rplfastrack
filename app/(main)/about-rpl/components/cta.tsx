@@ -20,12 +20,14 @@ export default function Cta() {
               size="lg"
               asChild
             >
-              <Link href="/contact">
+              <Link prefetch={false} href="/contact">
                 Get Started Now <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
             <Button variant="outline" size="lg" asChild>
-              <Link href="/about-us">Learn About Our Team</Link>
+              <Link prefetch={false} href="/about-us">
+                Learn About Our Team
+              </Link>
             </Button>
           </div>
         </div>

@@ -269,6 +269,7 @@ export default function TermsOfService() {
               <p>
                 Email:{" "}
                 <Link
+                  prefetch={false}
                   href={`mailto:${email}`}
                   className="text-emerald-600 hover:text-emerald-800"
                 >
@@ -278,6 +279,7 @@ export default function TermsOfService() {
               <p>
                 Phone:{" "}
                 <Link
+                  prefetch={false}
                   href={`tel:${phoneNumber}`}
                   className="text-emerald-600 hover:text-emerald-800"
                 >

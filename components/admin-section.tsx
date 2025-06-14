@@ -141,7 +141,7 @@ export default function AdminSection() {
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           {(user.role === "admin" || user.role === "editor") && (
-            <Link href="/admin" passHref>
+            <Link prefetch={false} href="/admin" passHref>
               <DropdownMenuItem className="cursor-pointer">
                 <LayoutDashboard className="mr-2 h-4 w-4" />
                 <span>Dashboard</span>
@@ -213,6 +213,7 @@ export default function AdminSection() {
                       return (
                         <div key={notification.id}>
                           <Link
+                            prefetch={false}
                             href={link}
                             className={`flex items-start space-x-3 p-3 rounded-lg border cursor-pointer transition-colors hover:bg-gray-100 ${
                               !read

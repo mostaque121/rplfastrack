@@ -48,7 +48,7 @@ export default function AboutRpl() {
               </ul>
 
               <div className="pt-4">
-                <Link href="/about-rpl">
+                <Link prefetch={false} href="/about-rpl">
                   <Button
                     size="lg"
                     className="group bg-gradient-to-r text-white from-emerald-600 to-teal-600"
@@ -137,7 +137,7 @@ export default function AboutRpl() {
 
               {/* Testimonial Box */}
               <div className="col-span-3 row-span-2 b bg-gradient-to-br from-emerald-600 to-teal-700 rounded-xl p-4 flex flex-col justify-center shadow-lg">
-                <p className="text-sm text-white italic">
+                <p className="md:text-sm text-xs text-white italic">
                   RPL transformed my 12 years of experience into a formal
                   qualification, opening doors I never thought possible.
                 </p>

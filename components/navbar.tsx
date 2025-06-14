@@ -56,14 +56,22 @@ export default function Navbar() {
           <div className="text-xs justify-between md:justify-center max-md:w-full  md:text-sm flex flex-wrap gap-2 md:gap-4">
             <div className="flex items-center gap-1">
               <Mail className="h-4 w-4" />
-              <Link href={`mailto:${email}`} className="hover:underline">
+              <Link
+                prefetch={false}
+                href={`mailto:${email}`}
+                className="hover:underline"
+              >
                 {email}
               </Link>
             </div>
 
             <div className="flex items-center gap-1">
               <Phone className="h-4 w-4" />
-              <Link href={`tel:${phoneNumber}`} className="hover:underline">
+              <Link
+                prefetch={false}
+                href={`tel:${phoneNumber}`}
+                className="hover:underline"
+              >
                 {phoneNumber}
               </Link>
             </div>
@@ -78,6 +86,7 @@ export default function Navbar() {
                 <FaFacebook className="w-5 h-5 text-white" />
               </Link>
               <Link
+                prefetch={false}
                 href={`https://wa.me/${whatsAppNumber}`}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -106,6 +115,7 @@ export default function Navbar() {
         <div className="flex justify-between items-center">
           <div className="flex items-center">
             <Link
+              prefetch={false}
               href="/"
               className="font-bold gap-1 flex items-center text-lg md:text-xl mr-8"
             >
@@ -125,6 +135,7 @@ export default function Navbar() {
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-6" ref={menuRef}>
             <Link
+              prefetch={false}
               href="/"
               className={cn(
                 "text-slate-700 hover:text-emerald-600 font-medium px-2",
@@ -139,7 +150,7 @@ export default function Navbar() {
               onMouseEnter={() => setActiveMenu("qualifications")}
               onMouseLeave={() => setActiveMenu(null)}
             >
-              <Link href={"/courses"}>
+              <Link prefetch={false} href={"/courses"}>
                 <button
                   className={cn(
                     "text-slate-700 hover:text-emerald-600 flex items-center cursor-pointer gap-1 font-medium px-2",
@@ -168,6 +179,7 @@ export default function Navbar() {
                     onMouseLeave={() => setActiveSubMenu(null)}
                   >
                     <Link
+                      prefetch={false}
                       href={`/section/${subItem.link}`}
                       className={cn(
                         "text-slate-700 flex items-center justify-between font-medium text-sm hover:bg-slate-50 hover:text-emerald-600 px-2 py-2 border-b border-gray-200 last:border-b-0",
@@ -194,6 +206,7 @@ export default function Navbar() {
                       >
                         {subItem.courses.map((subSubItem) => (
                           <Link
+                            prefetch={false}
                             key={subSubItem.title}
                             href={`/courses/${subSubItem.link}`}
                             className={cn(
@@ -237,6 +250,7 @@ export default function Navbar() {
                 )}
               >
                 <Link
+                  prefetch={false}
                   href={`/about-us`}
                   className={cn(
                     "text-slate-700 flex items-center justify-between font-medium text-sm hover:bg-slate-50 hover:text-emerald-600 px-4 py-2 border-b border-gray-200 last:border-b-0",
@@ -247,6 +261,7 @@ export default function Navbar() {
                   About Us
                 </Link>
                 <Link
+                  prefetch={false}
                   href={`/about-rpl`}
                   className={cn(
                     "text-slate-700 flex items-center justify-between font-medium text-sm hover:bg-slate-50 hover:text-emerald-600 px-4 py-2 border-b border-gray-200 last:border-b-0",
@@ -257,6 +272,7 @@ export default function Navbar() {
                   About RPL
                 </Link>
                 <Link
+                  prefetch={false}
                   href={`/faq`}
                   className={cn(
                     "text-slate-700 flex items-center justify-between font-medium text-sm hover:bg-slate-50 hover:text-emerald-600 px-4 py-2 border-b border-gray-200 last:border-b-0",
@@ -270,6 +286,7 @@ export default function Navbar() {
             </div>
 
             <Link
+              prefetch={false}
               href="/contact"
               className={cn(
                 "text-slate-700 hover:text-emerald-600 font-medium px-2",

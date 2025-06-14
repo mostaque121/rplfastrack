@@ -28,7 +28,7 @@ export default async function ClientsFavourite() {
       </div>
 
       <div className="pt-4 text-center">
-        <Link href={"/courses"}>
+        <Link prefetch={false} href={"/courses"}>
           <Button
             size="lg"
             className="group bg-gradient-to-r from-emerald-600 to-teal-600"

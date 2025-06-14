@@ -119,7 +119,7 @@ export default function ReviewCommonContent({ reviews }: ReviewCommonProps) {
             );
           })}
         </div>
-        <Link href={"/write-review"}>
+        <Link prefetch={false} href={"/write-review"}>
           <button className="py-1 px-3 font-semibold mt-4 border-emerald-500 hover:border-emerald-500 cursor-pointer rounded-full border-2 hover:bg-emerald-500 hover:text-white transition-all duration-200 ease-in-out">
             Write a review
           </button>
@@ -133,7 +133,7 @@ export default function ReviewCommonContent({ reviews }: ReviewCommonProps) {
         ))}
         {5 < totalReviews && ( // Show "Show More" button only if there are more reviews
           <div className="mt-10 flex justify-center">
-            <Link href={"/reviews"}>
+            <Link prefetch={false} href={"/reviews"}>
               <Button
                 size="lg"
                 className="group bg-gradient-to-r from-emerald-600 to-teal-600 text-white"
