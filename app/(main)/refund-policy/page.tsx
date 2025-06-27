@@ -81,8 +81,8 @@ export default function RefundPolicy() {
             <p>If your RPL application is unsuccessful:</p>
             <ul className="list-disc pl-6 mb-4">
               <li>
-                No refund will be provided as the assessment service has been
-                delivered
+                A 100% refund will be provided as the application was not
+                successful
               </li>
               <li>
                 We will provide feedback on why the application was unsuccessful
