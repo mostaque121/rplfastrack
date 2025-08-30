@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import SearchForm from "../../components/common/search-form";
+import AddReviewBtn from "../../components/review/add-review-btn";
 import { ApprovedSelector } from "../../components/review/approved-selector";
 import { ReviewCardSkeleton } from "../../components/review/review-card-skeleton";
 import ReviewControl from "../../components/review/review-control";
@@ -23,7 +24,11 @@ export default async function Page({
     <div className="max-w-7xl w-full mx-auto px-5 py-10">
       <div className="flex flex-col gap-8">
         <div className="flex w-full justify-between gap-4">
-          <SearchForm initialValue={search} />
+          <div className="flex items-center gap-3">
+            <SearchForm initialValue={search} />
+            <AddReviewBtn />
+          </div>
+
           <ApprovedSelector />
         </div>
 

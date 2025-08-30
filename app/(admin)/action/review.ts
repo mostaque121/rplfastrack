@@ -2,14 +2,15 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath, revalidateTag } from "next/cache";
+import { z } from "zod";
 import { checkAccess } from "./helper";
 
-export const getAllReview = async (
+export default async function getAllReview(
   search: string,
   approved: boolean,
   page: number,
   pageSize: number
-) => {
+) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const whereCondition: any = {
     approved,
@@ -29,6 +30,7 @@ export const getAllReview = async (
       prisma.userReview.findMany({
         where: whereCondition,
         skip,
+        orderBy: { reviewDate: "desc" },
         take: pageSize,
         include: {
           purchasedCourse: {
@@ -65,7 +67,7 @@ export const getAllReview = async (
       },
     };
   }
-};
+}
 
 export async function toggleUserReviewPublish(id: string, approved: boolean) {
   try {
@@ -87,6 +89,7 @@ export async function toggleUserReviewPublish(id: string, approved: boolean) {
 
     revalidatePath("/admin/review");
     revalidateTag("user-review:all");
+    revalidateTag("user-review:common");
 
     return { success: true };
   } catch (error) {
@@ -112,10 +115,111 @@ export async function deleteReview(
 
     revalidatePath("admin/review");
     revalidateTag("review:all");
+    revalidateTag("user-review:common");
 
     return { success: true };
   } catch (error) {
     console.error("Failed to delete review:", error);
     return { success: false, error: "Failed to delete review" };
+  }
+}
+
+const ReviewSchema = z.object({
+  userName: z.string().min(1, { message: "User name is required." }),
+  userImage: z.string().nullable().optional(),
+  purchasedCourse: z.string().min(1, { message: "Course ID is required." }),
+  reviewText: z.string().min(1, { message: "Review text is required." }),
+  reviewImage: z.string().nullable().optional(),
+  givenStar: z
+    .number()
+    .min(1, { message: "At least 1 star required." })
+    .max(5, { message: "Max 5 stars allowed." }),
+  reviewDate: z.date({ required_error: "Review date is required." }),
+});
+
+type ReviewFormData = z.infer<typeof ReviewSchema>;
+
+export async function saveReview(input: ReviewFormData) {
+  try {
+    const author = await checkAccess();
+
+    if (!author || !author.id) {
+      return {
+        error: {
+          _form: ["You must be an admin to update a review."],
+        },
+        data: null,
+      };
+    }
+    const parsedData = ReviewSchema.parse(input);
+
+    await prisma.userReview.create({
+      data: {
+        userName: parsedData.userName,
+        userImage: parsedData.userImage || null,
+        purchasedCourseId: parsedData.purchasedCourse,
+        reviewText: parsedData.reviewText,
+        reviewImage: parsedData.reviewImage || null,
+        givenStar: parsedData.givenStar,
+        reviewDate: parsedData.reviewDate,
+        approved: true,
+      },
+    });
+    revalidatePath("/admin/review");
+    revalidateTag("user-review:all");
+    revalidateTag("user-review:common");
+    return { success: true, message: "Review created successfully." };
+  } catch (error: unknown) {
+    console.error("Error saving review:", error);
+    if (error instanceof z.ZodError) {
+      return {
+        success: false,
+        message: "Validation failed.",
+        errors: error.errors,
+      };
+    }
+    throw new Error("Failed to save review. Please try again.");
+  }
+}
+export async function updateReview(reviewId: string, input: ReviewFormData) {
+  try {
+    const author = await checkAccess();
+
+    if (!author || !author.id) {
+      return {
+        error: {
+          _form: ["You must be an admin to update a review."],
+        },
+        data: null,
+      };
+    }
+    const parsedData = ReviewSchema.parse(input);
+
+    await prisma.userReview.update({
+      where: { id: reviewId },
+      data: {
+        userName: parsedData.userName,
+        userImage: parsedData.userImage || null,
+        purchasedCourseId: parsedData.purchasedCourse,
+        reviewText: parsedData.reviewText,
+        reviewImage: parsedData.reviewImage || null,
+        givenStar: parsedData.givenStar,
+        reviewDate: parsedData.reviewDate,
+      },
+    });
+    revalidatePath("/admin/review");
+    revalidateTag("user-review:all");
+    revalidateTag("user-review:common");
+    return { success: true, message: "Review updated successfully." };
+  } catch (error: unknown) {
+    console.error("Error updating review:", error);
+    if (error instanceof z.ZodError) {
+      return {
+        success: false,
+        message: "Validation failed.",
+        errors: error.errors,
+      };
+    }
+    throw new Error("Failed to update review. Please try again.");
   }
 }

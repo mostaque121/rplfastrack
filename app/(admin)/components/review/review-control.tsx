@@ -1,4 +1,4 @@
-import { getAllReview } from "../../action/review";
+import getAllReview from "../../action/review";
 import PaginationControl from "../common/pagination";
 import { ReviewCard } from "./review-card";
 
@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default async function ReviewControl({ page, search, approved }: Props) {
-  const pageSize = 12;
+  const pageSize = 20;
   const { reviews, pagination } = await getAllReview(
     search,
     approved,

@@ -16,9 +16,7 @@ type UserReview = {
   reviewImage: string | null;
   reviewText: string;
   givenStar: number;
-  approved: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+  reviewDate: Date;
 };
 interface ReviewCardProps {
   review: UserReview;
@@ -40,7 +38,7 @@ export default function ReviewCard({ review }: ReviewCardProps) {
     reviewImage,
     givenStar,
     purchasedCourse,
-    createdAt,
+    reviewDate,
   } = review;
   return (
     <div className="bg-white shadow-sm rounded-lg p-3 sm:p-6 mb-4 text-sm sm:text-base">
@@ -69,7 +67,7 @@ export default function ReviewCard({ review }: ReviewCardProps) {
               {userName}
             </h3>
             <p className="text-xs sm:text-sm text-gray-500">
-              {formatDate(createdAt)}
+              {formatDate(reviewDate)}
             </p>
           </div>
           {/* Stars */}

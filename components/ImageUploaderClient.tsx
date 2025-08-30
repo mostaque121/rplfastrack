@@ -16,7 +16,7 @@ interface ImageUploaderProps {
   initialImage?: string | null;
   initialPublicId?: string | null;
   uploadPreset: string;
-  aspectRatio: number;
+  aspectRatio?: number;
 }
 
 export function ImageUploaderClient({
@@ -157,7 +157,7 @@ export function ImageUploaderClient({
           <Cropper
             src={cropperImage}
             className="h-[250px] rounded border"
-            stencilProps={{ aspectRatio: aspectRatio }}
+            stencilProps={aspectRatio ? { aspectRatio } : {}}
             ref={cropperRef}
           />
           <div className="mt-4 flex justify-end">
@@ -207,7 +207,9 @@ export function ImageUploaderClient({
           <div className="h-[250px] relative">
             <Image
               fill
-              src={image || "/placeholder.svg"}
+              src={
+                image && image.startsWith("http") ? image : "/placeholder.svg"
+              }
               alt="Uploaded image"
               className="object-contain rounded"
               sizes="(max-width: 768px) 100vw, 300px"

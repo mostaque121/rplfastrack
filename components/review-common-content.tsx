@@ -19,36 +19,29 @@ type UserReview = {
   reviewImage: string | null;
   reviewText: string;
   givenStar: number;
-  approved: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+  reviewDate: Date;
 };
-interface ReviewCommonProps {
-  reviews: UserReview[];
+interface ReviewStats {
+  totalReviews: number;
+  averageRating: number;
+  starCounts: Record<number, number>;
 }
 
-export default function ReviewCommonContent({ reviews }: ReviewCommonProps) {
-  const totalReviews = reviews.length;
+interface ReviewCommonProps {
+  reviews: UserReview[];
+  stats: ReviewStats;
+}
 
-  // Count star ratings and calculate average
-  const starCounts = [0, 0, 0, 0, 0]; // Index 0 = 5 stars, Index 1 = 4 stars, ..., Index 4 = 1 star
-  let totalStars = 0;
-
-  reviews.forEach((review) => {
-    if (review.givenStar >= 1 && review.givenStar <= 5) {
-      starCounts[5 - review.givenStar] += 1; // Count reverse index for star ratings
-      totalStars += review.givenStar; // Sum up stars for average calculation
-    }
-  });
-
-  const avgStar =
-    totalReviews > 0 ? Number((totalStars / totalReviews).toFixed(1)) : 0;
-
+export default function ReviewCommonContent({
+  reviews,
+  stats,
+}: ReviewCommonProps) {
+  const totalReviews = stats.totalReviews;
+  const avgStar = stats.averageRating;
   // Calculate stars to display
   const wholeStars = Math.floor(avgStar);
   const decimalPart = avgStar - wholeStars;
   const emptyStars = 5 - (wholeStars + (decimalPart >= 0.5 ? 1 : 0));
-  const displayedReviews = reviews.slice(0, 3);
   return (
     <div className="flex flex-col md:flex-row">
       <div className="md:w-96 w-full mb-6 md:mb-0">
@@ -83,7 +76,7 @@ export default function ReviewCommonContent({ reviews }: ReviewCommonProps) {
             </div>
             <div className="flex items-center justify-center mt-2 space-x-1 text-gray-700">
               <span className="text-emerald-600 text-xl sm:text-2xl font-bold">
-                {avgStar}
+                {parseFloat(avgStar.toFixed(1))}
               </span>
               <span className="text-gray-500 font-medium text-sm sm:text-base">
                 out of 5
@@ -95,26 +88,28 @@ export default function ReviewCommonContent({ reviews }: ReviewCommonProps) {
           </div>
         </div>
         <div className="flex flex-col">
-          {starCounts.map((count, index) => {
-            const starValue = 5 - index; // Calculate star value (5, 4, 3, 2, 1)
+          {([5, 4, 3, 2, 1] as const).map((starValue) => {
+            const count = stats.starCounts[starValue];
             const percentage =
-              totalReviews > 0 ? ((count / totalReviews) * 100).toFixed(1) : 0;
+              stats.totalReviews > 0
+                ? ((count / stats.totalReviews) * 100).toFixed(1)
+                : 0;
 
             return (
-              <div key={index} className="flex items-center mb-2">
+              <div key={starValue} className="flex items-center mb-2">
                 <span className="flex items-center gap-1 font-semibold">
-                  {starValue} <MdStar />{" "}
+                  {starValue} <MdStar />
                 </span>
                 <span className="ml-2 w-12">( {count} )</span>
                 <div className="flex-1 flex items-center bg-light-gray-hover h-2 rounded mr-4">
                   <div className="w-full bg-gray-200 rounded">
                     <div
-                      className="bg-emerald-500  h-2 rounded"
+                      className="bg-emerald-500 h-2 rounded"
                       style={{ width: `${percentage}%` }}
                     />
                   </div>
                 </div>
-                <span className="text-dark-gray  w-14">{percentage}%</span>
+                <span className="text-dark-gray w-14">{percentage}%</span>
               </div>
             );
           })}
@@ -128,7 +123,7 @@ export default function ReviewCommonContent({ reviews }: ReviewCommonProps) {
 
       {/* Right Side: User Reviews */}
       <div className="md:flex-1 md:ml-10">
-        {displayedReviews.map((review, index) => (
+        {reviews.map((review, index) => (
           <ReviewCard review={review} key={index} />
         ))}
         {5 < totalReviews && ( // Show "Show More" button only if there are more reviews

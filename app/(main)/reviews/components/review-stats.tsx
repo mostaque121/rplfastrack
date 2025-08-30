@@ -15,9 +15,7 @@ type UserReview = {
   reviewImage: string | null;
   reviewText: string;
   givenStar: number;
-  approved: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+  reviewDate: Date;
 };
 interface ReviewStatsProps {
   reviews: UserReview[];

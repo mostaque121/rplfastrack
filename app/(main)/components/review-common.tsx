@@ -1,9 +1,9 @@
 import ReviewCommonContent from "@/components/review-common-content";
-import { getAllReviews } from "../action/review";
+import { getCommonReviews } from "../action/review";
 export default async function ReviewCommon() {
-  const reviews = await getAllReviews();
+  const { latestReviews, stats } = await getCommonReviews();
   return (
-    reviews && (
+    latestReviews && (
       <section className="py-16 md:py-24 bg-white overflow-hidden">
         <div className="container mx-auto px-4 md:px-8">
           <div className="flex flex-col items-center justify-center space-y-4 text-center mb-10">
@@ -17,7 +17,7 @@ export default async function ReviewCommon() {
               </p>
             </div>
           </div>
-          <ReviewCommonContent reviews={reviews} />
+          <ReviewCommonContent stats={stats} reviews={latestReviews} />
         </div>
       </section>
     )
