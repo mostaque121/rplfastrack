@@ -1,4 +1,4 @@
-import { FaEnvelope, FaFacebook, FaPhoneAlt, FaWhatsapp } from "react-icons/fa";
+import { FaEnvelope, FaPhoneAlt, FaWhatsapp } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 
 export default function ContactInfo() {
@@ -6,7 +6,6 @@ export default function ContactInfo() {
   const phoneNumber = process.env.NEXT_PUBLIC_PHONE_NUMBER;
   const address = process.env.NEXT_PUBLIC_ADDRESS;
   const whatsAppNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
-  const facebookPage = process.env.NEXT_PUBLIC_FACEBOOK_PAGE;
 
   return (
     <div>
@@ -86,28 +85,6 @@ export default function ContactInfo() {
             </div>
           </a>
         </div>
-
-        {/* Facebook */}
-        <div className="bg-white overflow-hidden shadow-lg rounded-lg">
-          <a href={facebookPage} target="_blank" rel="noopener noreferrer">
-            <div className="px-4 py-5 sm:p-6 flex items-center">
-              <div className="bg-blue-600 rounded-md p-3">
-                <FaFacebook className="h-6 w-6 text-white" />
-              </div>
-              <div className="ml-5 w-0 flex-1">
-                <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">
-                    Facebook
-                  </dt>
-                  <dd className="text-lg font-medium  text-blue-600 hover:text-blue-800">
-                    Our Facebook Page
-                  </dd>
-                </dl>
-              </div>
-            </div>
-          </a>
-        </div>
-
         {/* Address (No link) */}
         <div className="bg-white overflow-hidden shadow-lg rounded-lg">
           <div className="px-4 py-5 sm:p-6 flex items-center">

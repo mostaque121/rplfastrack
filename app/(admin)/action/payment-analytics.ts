@@ -25,6 +25,7 @@ export async function getPaymentAnalytics(filters: FilterParams) {
           gte: startDate,
           lte: endDate,
         },
+        paymentStatus: "paid",
       },
       include: {
         parts: true,
@@ -34,6 +35,8 @@ export async function getPaymentAnalytics(filters: FilterParams) {
       },
     });
 
+    console.log(currentPeriodPayments.length);
+
     // Get previous period data for comparison
     const previousPeriodPayments = await prisma.payment.findMany({
       where: {
@@ -41,6 +44,7 @@ export async function getPaymentAnalytics(filters: FilterParams) {
           gte: previousStartDate,
           lt: startDate,
         },
+        paymentStatus: "paid",
       },
       include: {
         parts: true,
@@ -83,9 +87,9 @@ export async function getPaymentAnalytics(filters: FilterParams) {
 
 function getDateRanges(filters: FilterParams) {
   const now = new Date();
-  let startDate: Date;
-  let endDate: Date = now;
-  let previousStartDate: Date;
+  let startDate: Date | undefined;
+  let endDate: Date | undefined = now;
+  let previousStartDate: Date | undefined;
 
   if (filters.type === "timeRange" && filters.timeRange) {
     switch (filters.timeRange) {
@@ -108,6 +112,10 @@ function getDateRanges(filters: FilterParams) {
       case "1y":
         startDate = subMonths(now, 12);
         previousStartDate = subMonths(startDate, 12);
+        break;
+      case "All":
+        startDate = undefined; // means no lower bound
+        previousStartDate = undefined; // no previous range
         break;
       default:
         startDate = subDays(now, 30);
@@ -216,7 +224,7 @@ function calculateOverviewMetrics(
 
 async function generateTrendData(
   payments: PaymentWithParts[],
-  startDate: Date,
+  startDate: Date | undefined,
   endDate: Date,
   filterType: string
 ) {
@@ -227,14 +235,23 @@ async function generateTrendData(
   }> = [];
   const enrollments: Array<{ period: string; enrollments: number }> = [];
 
+  // Handle "all" → fallback to earliest payment date if no startDate provided
+  if (!startDate) {
+    if (payments.length === 0) {
+      return { revenueAndProfit, enrollments };
+    }
+    startDate = new Date(
+      Math.min(...payments.map((p) => new Date(p.enrollmentDate).getTime()))
+    );
+  }
+
   if (filterType === "timeRange" || filterType === "dateRange") {
-    // Generate daily or monthly trends based on date range
     const daysDiff = Math.ceil(
       (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)
     );
 
     if (daysDiff <= 31) {
-      // Daily aggregation for short periods
+      // Daily aggregation
       for (let i = 0; i <= daysDiff; i++) {
         const date = new Date(startDate.getTime() + i * 24 * 60 * 60 * 1000);
         const dayPayments = payments.filter((p) => {
@@ -250,15 +267,11 @@ async function generateTrendData(
 
         enrollments.push({
           period: format(date, "MMM dd"),
-          enrollments: payments.filter(
-            (p) =>
-              p.enrollmentDate &&
-              new Date(p.enrollmentDate).toDateString() === date.toDateString()
-          ).length,
+          enrollments: dayPayments.length,
         });
       }
     } else {
-      // Monthly aggregation for longer periods
+      // Monthly aggregation
       const months = eachMonthOfInterval({ start: startDate, end: endDate });
       for (const month of months) {
         const monthStart = startOfMonth(month);
@@ -276,19 +289,17 @@ async function generateTrendData(
 
         enrollments.push({
           period: format(month, "MMM yyyy"),
-          enrollments: monthPayments.filter(
-            (p) =>
-              p.enrollmentDate &&
-              isWithinInterval(new Date(p.enrollmentDate), {
-                start: monthStart,
-                end: monthEnd,
-              })
+          enrollments: monthPayments.filter((p) =>
+            isWithinInterval(new Date(p.enrollmentDate), {
+              start: monthStart,
+              end: monthEnd,
+            })
           ).length,
         });
       }
     }
   } else {
-    // For month filter, show daily data within that month
+    // For "month" filter (daily inside that month)
     const monthStart = startDate;
     const monthEnd = endDate;
     const daysInMonth = Math.ceil(
@@ -310,11 +321,7 @@ async function generateTrendData(
 
       enrollments.push({
         period: format(date, "dd"),
-        enrollments: dayPayments.filter(
-          (p) =>
-            p.enrollmentDate &&
-            new Date(p.enrollmentDate).toDateString() === date.toDateString()
-        ).length,
+        enrollments: dayPayments.length,
       });
     }
   }

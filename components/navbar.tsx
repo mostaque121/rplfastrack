@@ -7,7 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { FaFacebook, FaWhatsapp } from "react-icons/fa";
+import { FaWhatsapp } from "react-icons/fa";
 import AdminSection from "./admin-section";
 import { EligibilityForm } from "./eligibility-form";
 import MobileMenu from "./mobile-menu";
@@ -25,7 +25,6 @@ export default function Navbar() {
   const whatsAppNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
   const phoneNumber = process.env.NEXT_PUBLIC_PHONE_NUMBER;
   const email = process.env.NEXT_PUBLIC_EMAIL;
-  const facebookPage = process.env.NEXT_PUBLIC_FACEBOOK_PAGE;
 
   // Close menus when clicking outside
   useEffect(() => {
@@ -78,13 +77,6 @@ export default function Navbar() {
           </div>
           <div className="md:flex hidden items-center gap-3">
             <div className="flex items-center gap-2">
-              <Link
-                href={`${facebookPage}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <FaFacebook className="w-5 h-5 text-white" />
-              </Link>
               <Link
                 prefetch={false}
                 href={`https://wa.me/${whatsAppNumber}`}

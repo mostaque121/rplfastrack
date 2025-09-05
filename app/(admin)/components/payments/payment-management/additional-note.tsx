@@ -9,7 +9,7 @@ import { toast } from "sonner";
 interface PaymentNoteEditorProps {
   paymentId: string;
   initialNote: string;
-  onSuccess: () => void;
+  onSuccess?: () => void;
 }
 
 export function PaymentNoteEditor({
@@ -18,24 +18,34 @@ export function PaymentNoteEditor({
   onSuccess,
 }: PaymentNoteEditorProps) {
   const [note, setNote] = useState<string>(initialNote ?? "");
+  const [savedNote, setSavedNote] = useState<string>(initialNote ?? "");
   const [loading, setLoading] = useState(false);
 
   const handleSave = async () => {
     setLoading(true);
-    if (note) {
+    try {
       const res = await updatePaymentNote(paymentId, note);
-      setLoading(false);
 
       if (res.success) {
+        setSavedNote(note); // reset baseline after successful save
         toast.success("Note updated successfully!");
-        onSuccess();
+        onSuccess?.();
       } else {
         toast.error(res.error || "Failed to update note");
       }
+    } catch (err) {
+      toast.error("Something went wrong while saving");
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const hasChanged = note !== initialNote;
+  const handleCancel = () => {
+    setNote(savedNote); // reset to last saved note
+  };
+
+  const hasChanged = note !== savedNote;
 
   return (
     <div className="space-y-3 w-full">
@@ -44,12 +54,24 @@ export function PaymentNoteEditor({
         onChange={(e) => setNote(e.target.value)}
         placeholder="Enter additional notes..."
         className="min-h-[100px] w-full"
+        disabled={loading}
+        aria-label="Additional notes"
       />
 
       {hasChanged && (
-        <Button onClick={handleSave} disabled={loading}>
-          {loading ? "Saving..." : "Save"}
-        </Button>
+        <div className="flex gap-2">
+          <Button onClick={handleSave} disabled={loading}>
+            {loading ? "Saving..." : "Save"}
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={handleCancel}
+            disabled={loading}
+          >
+            Cancel
+          </Button>
+        </div>
       )}
     </div>
   );

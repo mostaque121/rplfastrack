@@ -3,7 +3,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { subMonths } from "date-fns";
 import { useMemo, useState } from "react";
-import type { DateRange } from "react-day-picker";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -19,53 +18,47 @@ import TopQualifications from "./top-qualifications";
 export default function PaymentAnalytics() {
   const [activeFilter, setActiveFilter] = useState<FilterType>("timeRange");
   const [timeRange, setTimeRange] = useState<
-    "7d" | "30d" | "90d" | "6m" | "1y"
-  >("6m");
-  const [dateRange, setDateRange] = useState<DateRange | undefined>({
-    from: subMonths(new Date(), 1),
-    to: new Date(),
-  });
+    "7d" | "30d" | "90d" | "6m" | "1y" | "All"
+  >("All");
+  const [startDate, setStartDate] = useState<Date>(subMonths(new Date(), 1));
+  const [endDate, setEndDate] = useState<Date>(new Date());
   const [monthFilter, setMonthFilter] = useState<string>("2024-06");
 
+  // Memoize the filters object
   const filters = useMemo(() => {
     return {
       type: activeFilter,
       timeRange: activeFilter === "timeRange" ? timeRange : undefined,
-      dateRange:
-        activeFilter === "dateRange" && dateRange?.from && dateRange?.to
-          ? { from: dateRange.from, to: dateRange.to }
-          : undefined,
+      startDate: activeFilter === "dateRange" ? startDate : undefined,
+      endDate: activeFilter === "dateRange" ? endDate : undefined,
       monthFilter: activeFilter === "monthFilter" ? monthFilter : undefined,
     };
-  }, [activeFilter, timeRange, dateRange, monthFilter]);
+  }, [activeFilter, timeRange, startDate, endDate, monthFilter]);
 
   const { data, error, isLoading, isFetching, refetch, isError } = useQuery({
-    queryKey: ["paymentAnalytics", filters],
+    queryKey: ["paymentAnalytics"], // only static key
     queryFn: async () => {
-      const result = await getPaymentAnalytics(filters);
+      const result = await getPaymentAnalytics(filters); // use the current filters
+      console.log(data);
       if (!result.success || !result.data) {
         throw new Error(result.error || "Failed to fetch analytics data");
       }
-      return result.data; // Only return the AnalyticsData
+      return result.data;
     },
-    enabled: !!filters,
   });
 
-  const handleFilterTypeChange = (filterType: FilterType) => {
+  // Manually fetch on button click
+  const handleFetchData = () => {
+    refetch(); // uses the latest filters from useMemo
+  };
+
+  const handleFilterTypeChange = (filterType: FilterType) =>
     setActiveFilter(filterType);
-  };
-
-  const handleTimeRangeChange = (value: string) => {
-    setTimeRange(value as "7d" | "30d" | "90d" | "6m" | "1y");
-  };
-
-  const handleDateRangeChange = (range: DateRange | undefined) => {
-    setDateRange(range);
-  };
-
-  const handleMonthFilterChange = (value: string) => {
-    setMonthFilter(value);
-  };
+  const handleTimeRangeChange = (value: string) =>
+    setTimeRange(value as "7d" | "30d" | "90d" | "6m" | "1y" | "All");
+  const handleStartDateChange = (date: Date) => setStartDate(date);
+  const handleEndDateChange = (date: Date) => setEndDate(date);
+  const handleMonthFilterChange = (value: string) => setMonthFilter(value);
 
   const analytics = data || null;
 
@@ -82,15 +75,17 @@ export default function PaymentAnalytics() {
         <FilterControls
           activeFilter={activeFilter}
           timeRange={timeRange}
-          dateRange={dateRange}
+          startDate={startDate}
+          endDate={endDate}
           monthFilter={monthFilter}
-          hasFilterChanged={isFetching}
+          hasFilterChanged={true} // Always show fetch button
           loading={isLoading || isFetching}
           onFilterTypeChange={handleFilterTypeChange}
           onTimeRangeChange={handleTimeRangeChange}
-          onDateRangeChange={handleDateRangeChange}
+          onStartDateChange={handleStartDateChange}
+          onEndDateChange={handleEndDateChange}
           onMonthFilterChange={handleMonthFilterChange}
-          onFetchData={refetch}
+          onFetchData={handleFetchData} // Fetch manually
         />
 
         {isError ? (

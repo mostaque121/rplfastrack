@@ -79,7 +79,7 @@ export type FilterType = "timeRange" | "dateRange" | "monthFilter";
 
 export interface FilterParams {
   type: FilterType;
-  timeRange?: "7d" | "30d" | "90d" | "6m" | "1y";
+  timeRange?: "7d" | "30d" | "90d" | "6m" | "1y" | "All";
   dateRange?: { from: Date; to: Date };
   monthFilter?: string;
 }

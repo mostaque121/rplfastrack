@@ -1,9 +1,5 @@
 "use client";
 
-import { format } from "date-fns";
-import { Filter } from "lucide-react";
-import type { DateRange } from "react-day-picker";
-
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { DatePickerWithRange } from "@/components/ui/date-range-picker";
+import { DatePicker } from "@/components/ui/date-picker";
 import {
   Select,
   SelectContent,
@@ -22,20 +18,24 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { FilterType } from "@/type/type";
+import { format } from "date-fns";
 
 interface FilterControlsProps {
   activeFilter: FilterType;
-  timeRange: "7d" | "30d" | "90d" | "6m" | "1y";
-  dateRange: DateRange | undefined;
+  timeRange: "7d" | "30d" | "90d" | "6m" | "1y" | "All";
+  startDate?: Date;
+  endDate?: Date;
   monthFilter: string;
   hasFilterChanged: boolean;
   loading: boolean;
   onFilterTypeChange: (filterType: FilterType) => void;
   onTimeRangeChange: (value: string) => void;
-  onDateRangeChange: (range: DateRange | undefined) => void;
+  onStartDateChange: (date: Date) => void;
+  onEndDateChange: (date: Date) => void;
   onMonthFilterChange: (value: string) => void;
   onFetchData: () => void;
 }
+
 const generateMonthOptions = () => {
   const options = [];
   const currentDate = new Date();
@@ -44,28 +44,29 @@ const generateMonthOptions = () => {
 
   for (let year = currentYear - 2; year <= currentYear; year++) {
     const endMonth = year === currentYear ? currentMonth : 11;
-
     for (let month = 0; month <= endMonth; month++) {
       const date = new Date(year, month, 1);
-      const value = format(date, "yyyy-MM");
-      const label = format(date, "MMMM yyyy");
-      options.push({ value, label });
+      options.push({
+        value: format(date, "yyyy-MM"),
+        label: format(date, "MMMM yyyy"),
+      });
     }
   }
-
   return options.reverse();
 };
 
 export function FilterControls({
   activeFilter,
   timeRange,
-  dateRange,
+  startDate,
+  endDate,
   monthFilter,
   hasFilterChanged,
   loading,
   onFilterTypeChange,
   onTimeRangeChange,
-  onDateRangeChange,
+  onStartDateChange,
+  onEndDateChange,
   onMonthFilterChange,
   onFetchData,
 }: FilterControlsProps) {
@@ -75,6 +76,7 @@ export function FilterControls({
     switch (activeFilter) {
       case "timeRange":
         const timeRangeLabels = {
+          All: "All",
           "7d": "Last 7 days",
           "30d": "Last 30 days",
           "90d": "Last 90 days",
@@ -83,13 +85,17 @@ export function FilterControls({
         };
         return timeRangeLabels[timeRange];
       case "dateRange":
-        if (dateRange?.from && dateRange?.to) {
-          return `${format(dateRange.from, "MMM dd, yyyy")} - ${format(
-            dateRange.to,
+        if (startDate && endDate) {
+          return `${format(startDate, "MMM dd, yyyy")} - ${format(
+            endDate,
             "MMM dd, yyyy"
           )}`;
         }
         return "Custom date range";
+      case "monthFilter":
+        return monthFilter === "all"
+          ? "All Months"
+          : monthOptions.find((m) => m.value === monthFilter)?.label;
       default:
         return "";
     }
@@ -97,19 +103,14 @@ export function FilterControls({
 
   return (
     <div className="flex flex-col gap-6">
-      {/* Filter Selection */}
       <Card className="border-2">
         <CardHeader className="pb-4">
-          <CardTitle className="text-lg flex items-center gap-2">
-            <Filter className="h-5 w-5" />
-            Data Filters
-          </CardTitle>
+          <CardTitle className="text-lg">Data Filters</CardTitle>
           <CardDescription>
             Select one filter type to analyze your data
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          {/* Filter Type Selector */}
           <div className="flex flex-wrap gap-2">
             <Button
               variant={activeFilter === "timeRange" ? "default" : "outline"}
@@ -137,15 +138,15 @@ export function FilterControls({
             </Button>
           </div>
 
-          {/* Active Filter Controls */}
           <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-            <div className="flex-1">
+            <div className="flex flex-wrap gap-2 items-center">
               {activeFilter === "timeRange" && (
                 <Select value={timeRange} onValueChange={onTimeRangeChange}>
                   <SelectTrigger className="w-[200px]">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
+                    <SelectItem value="All">All</SelectItem>
                     <SelectItem value="7d">Last 7 days</SelectItem>
                     <SelectItem value="30d">Last 30 days</SelectItem>
                     <SelectItem value="90d">Last 90 days</SelectItem>
@@ -156,11 +157,18 @@ export function FilterControls({
               )}
 
               {activeFilter === "dateRange" && (
-                <DatePickerWithRange
-                  date={dateRange}
-                  onDateChange={onDateRangeChange}
-                  className="w-[300px]"
-                />
+                <div className="flex gap-2">
+                  <DatePicker
+                    value={startDate}
+                    onChange={onStartDateChange}
+                    label="Start Date"
+                  />
+                  <DatePicker
+                    value={endDate}
+                    onChange={onEndDateChange}
+                    label="End Date"
+                  />
+                </div>
               )}
 
               {activeFilter === "monthFilter" && (
@@ -193,7 +201,6 @@ export function FilterControls({
         </CardContent>
       </Card>
 
-      {/* Active Filter Display */}
       <div className="flex items-center gap-3 p-4 bg-muted/50 rounded-lg border">
         <div className="flex items-center gap-2">
           <Badge variant="secondary" className="font-medium">
