@@ -48,6 +48,7 @@ export type CreatePaymentData = {
   agentCommission: number;
   bankCommission: number;
   enrollmentDate: Date;
+  additionalNote?: string;
   parts: {
     amount: number;
     paidAt: Date;
@@ -68,6 +69,7 @@ export type UpdatePaymentData = {
   agentCommission: number;
   bankCommission: number;
   enrollmentDate: Date;
+  additionalNote?: string;
   parts: {
     id?: string;
     amount: number;
@@ -102,6 +104,7 @@ export async function createPayment(data: CreatePaymentData) {
         bankCommission: data.bankCommission,
         netProfit: netProfit,
         enrollmentDate: data.enrollmentDate,
+        additionalNote: data.additionalNote,
         parts: {
           create: data.parts.map((part) => ({
             amount: part.amount,
@@ -207,6 +210,7 @@ export async function updatePayment(data: UpdatePaymentData) {
           bankCommission: data.bankCommission,
           netProfit: netProfit,
           enrollmentDate: data.enrollmentDate,
+          additionalNote: data.additionalNote,
         },
         include: {
           parts: {
@@ -385,5 +389,20 @@ export async function deletePayment(
       success: false,
       error: "Failed to delete payment",
     };
+  }
+}
+
+export async function updatePaymentNote(id: string, note: string) {
+  checkAccess();
+  try {
+    const payment = await prisma.payment.update({
+      where: { id },
+      data: { additionalNote: note },
+    });
+
+    return { success: true, data: payment };
+  } catch (error) {
+    console.error("Error updating payment note:", error);
+    return { success: false, error: "Failed to update payment note" };
   }
 }

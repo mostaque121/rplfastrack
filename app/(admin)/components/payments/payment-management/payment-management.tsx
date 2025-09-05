@@ -198,6 +198,9 @@ export default function PaymentManagement({ onEdit }: PaymentManagementProps) {
       setIsDeleting(false);
     }
   };
+  const handleEditAdditionalNote = () => {
+    queryClient.invalidateQueries({ queryKey: ["payments"] });
+  };
 
   return (
     <div className="space-y-6 w-full container mx-auto">
@@ -249,6 +252,7 @@ export default function PaymentManagement({ onEdit }: PaymentManagementProps) {
             ) : (
               paymentsData?.payments.map((payment) => (
                 <PaymentCard
+                  onSuccess={handleEditAdditionalNote}
                   key={payment.id}
                   payment={payment}
                   onEdit={onEdit}

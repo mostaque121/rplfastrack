@@ -107,10 +107,8 @@ export default function PaymentDashboard() {
           className=" !max-w-6xl w-full p-0  gap-0 overflow-hidden bg-muted"
         >
           <DialogHeader>
-            <DialogTitle className="hidden">Edit Course</DialogTitle>
-            <DialogDescription className="hidden">
-              Edit existing course data
-            </DialogDescription>
+            <DialogTitle className="hidden">a</DialogTitle>
+            <DialogDescription className="hidden">E</DialogDescription>
           </DialogHeader>
           <div className="relative  w-full bg-white max-h-[calc(100vh-20px)] overflow-y-auto">
             <PaymentForm

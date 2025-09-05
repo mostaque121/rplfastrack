@@ -13,14 +13,21 @@ import {
   Phone,
   Trash2,
 } from "lucide-react";
+import { PaymentNoteEditor } from "./additional-note";
 
 interface PaymentCardProps {
   payment: PaymentWithParts;
   onEdit: (payment: PaymentWithParts) => void;
   onDelete: (id: string, name: string) => void;
+  onSuccess: () => void;
 }
 
-export function PaymentCard({ payment, onEdit, onDelete }: PaymentCardProps) {
+export function PaymentCard({
+  payment,
+  onEdit,
+  onDelete,
+  onSuccess,
+}: PaymentCardProps) {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "paid":
@@ -205,6 +212,14 @@ export function PaymentCard({ payment, onEdit, onDelete }: PaymentCardProps) {
               </div>
             </div>
           )}
+
+          <div>
+            <PaymentNoteEditor
+              onSuccess={onSuccess}
+              initialNote={payment.additionalNote ?? ""}
+              paymentId={payment.id}
+            />
+          </div>
         </div>
       </CardContent>
     </Card>

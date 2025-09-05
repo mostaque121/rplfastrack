@@ -20,6 +20,7 @@ export type PaymentWithParts = {
   bankCommission: number;
   netProfit: number;
   enrollmentDate: string;
+  additionalNote: string | null;
   parts: PaymentPart[];
 };
 

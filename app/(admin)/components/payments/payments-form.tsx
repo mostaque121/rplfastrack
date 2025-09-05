@@ -40,6 +40,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import {
@@ -69,6 +70,7 @@ const paymentSchema = z.object({
   agentCommission: z.number().min(0, "Agent commission must be positive"),
   bankCommission: z.number().min(0, "Bank commission must be positive"),
   enrollmentDate: z.date(),
+  additionalNote: z.string().optional(),
   parts: z
     .array(paymentPartSchema)
     .min(1, "At least one payment part is required"),
@@ -106,6 +108,7 @@ export default function PaymentForm({
       agentCommission: 0,
       bankCommission: 0,
       enrollmentDate: new Date(),
+      additionalNote: "",
       parts: [{ amount: 0, paidAt: new Date() }],
       ...initialData,
     },
@@ -163,6 +166,7 @@ export default function PaymentForm({
           agentCommission: data.agentCommission,
           bankCommission: data.bankCommission,
           enrollmentDate: data.enrollmentDate,
+          additionalNote: data.additionalNote,
           parts: data.parts.map((part) => ({
             amount: part.amount,
             paidAt: part.paidAt,
@@ -184,6 +188,7 @@ export default function PaymentForm({
           agentCommission: data.agentCommission,
           bankCommission: data.bankCommission,
           enrollmentDate: data.enrollmentDate,
+          additionalNote: data.additionalNote,
           parts: data.parts,
         };
         result = await updatePayment(updateData);
@@ -635,6 +640,23 @@ export default function PaymentForm({
                   </Card>
                 ))}
               </div>
+
+              <FormField
+                control={form.control}
+                name="additionalNote"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Additional Note (optional)</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Enter Additional Note"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
             {/* Form Actions */}
             <div className="flex justify-end gap-4">
