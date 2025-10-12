@@ -1,5 +1,4 @@
 import { auth } from "@/auth";
-import { NotAuthenticatedPage } from "@/components/not-auth";
 import { Suspense } from "react";
 import SearchForm from "../../components/common/search-form";
 import UserTableSkeleton from "../../components/user/skeleton";
@@ -18,9 +17,7 @@ export default async function Page({
   const session = await auth();
   const user = session?.user;
 
-  if (!user || (user.role !== "admin" && user.role !== "editor")) {
-    return <NotAuthenticatedPage />;
-  }
+  if (!user) return null;
 
   return (
     <div className="max-w-7xl w-full mx-auto px-5 py-10">
