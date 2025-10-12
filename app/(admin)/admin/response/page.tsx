@@ -1,3 +1,5 @@
+import { auth } from "@/auth";
+import { NotAuthenticatedPage } from "@/components/not-auth";
 import { Suspense } from "react";
 import SearchForm from "../../components/common/search-form";
 import { ExcelExportButton } from "../../components/response/excel-export-button";
@@ -13,6 +15,13 @@ export default async function Page({
   const params = await searchParams;
   const currentPage = Number(params.page) || 1;
   const search = params.q || "";
+
+  const session = await auth();
+  const user = session?.user;
+
+  if (!user || (user.role !== "admin" && user.role !== "editor")) {
+    return <NotAuthenticatedPage />;
+  }
 
   return (
     <div className=" w-full mx-auto max-w-7xl px-5 py-10">

@@ -1,6 +1,8 @@
 import { CourseContent } from "@/app/(admin)/components/course/course-content";
 import CourseCreateBtn from "@/app/(admin)/components/course/course-create.btn";
 import { CourseCardSkeleton } from "@/app/(admin)/components/course/skeleton";
+import { auth } from "@/auth";
+import { NotAuthenticatedPage } from "@/components/not-auth";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -61,6 +63,13 @@ export default async function Page({
   params: Promise<{ link: string }>;
 }) {
   const { link } = await params;
+
+  const session = await auth();
+  const user = session?.user;
+
+  if (!user || (user.role !== "admin" && user.role !== "editor")) {
+    return <NotAuthenticatedPage />;
+  }
   return (
     <div className="max-w-7xl w-full mx-auto px-5 py-10">
       <div className="flex flex-col gap-8">

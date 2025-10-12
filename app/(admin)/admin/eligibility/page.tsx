@@ -1,3 +1,5 @@
+import { auth } from "@/auth";
+import { NotAuthenticatedPage } from "@/components/not-auth";
 import { Suspense } from "react";
 import SearchForm from "../../components/common/search-form";
 import EligibilityControl from "../../components/eligibility/eligibility-control";
@@ -9,6 +11,12 @@ export default async function Page({
 }: {
   searchParams: Promise<{ q?: string; page?: string }>;
 }) {
+  const session = await auth();
+  const user = session?.user;
+
+  if (!user || (user.role !== "admin" && user.role !== "editor")) {
+    return <NotAuthenticatedPage />;
+  }
   // Use await to resolve the Promise
   const params = await searchParams;
   const currentPage = Number(params.page) || 1;

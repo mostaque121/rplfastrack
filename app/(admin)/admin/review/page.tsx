@@ -1,3 +1,5 @@
+import { auth } from "@/auth";
+import { NotAuthenticatedPage } from "@/components/not-auth";
 import { Suspense } from "react";
 import SearchForm from "../../components/common/search-form";
 import AddReviewBtn from "../../components/review/add-review-btn";
@@ -19,6 +21,13 @@ export default async function Page({
 
   // Number of skeletons to show while loading
   const skeletonCount = 12;
+
+  const session = await auth();
+  const user = session?.user;
+
+  if (!user || (user.role !== "admin" && user.role !== "editor")) {
+    return <NotAuthenticatedPage />;
+  }
 
   return (
     <div className="max-w-7xl w-full mx-auto px-5 py-10">

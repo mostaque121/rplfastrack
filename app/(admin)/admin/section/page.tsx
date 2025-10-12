@@ -1,4 +1,6 @@
 export const dynamic = "force-dynamic";
+import { auth } from "@/auth";
+import { NotAuthenticatedPage } from "@/components/not-auth";
 import { Suspense } from "react";
 import { SectionContent } from "../../components/section/section-content";
 import SectionCreateBtn from "../../components/section/section-create-btn";
@@ -40,7 +42,13 @@ async function SectionsContent() {
   );
 }
 
-export default function Page() {
+export default async function Page() {
+  const session = await auth();
+  const user = session?.user;
+
+  if (!user || (user.role !== "admin" && user.role !== "editor")) {
+    return <NotAuthenticatedPage />;
+  }
   return (
     <div className="max-w-7xl w-full mx-auto px-5 py-10">
       <div className="flex flex-col gap-8">
