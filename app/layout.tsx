@@ -40,7 +40,6 @@ export default async function RootLayout({
             <NavigationProgressBar />
             {children}
           </Suspense>
-          {children}
         </RPLProvider>
       </body>
     </html>
