@@ -1,9 +1,9 @@
 "use client";
 
 import { ChevronDown, Menu } from "lucide-react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Link } from "react-transition-progress/next";
 
 import { Button } from "@/components/ui/button";
 import {

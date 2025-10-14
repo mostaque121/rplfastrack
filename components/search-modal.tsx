@@ -19,8 +19,8 @@ import {
   FileText,
   GraduationCapIcon as Graduation,
 } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Link } from "react-transition-progress/next";
 import { useRPL } from "./rpl-context";
 
 // Types

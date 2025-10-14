@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Link } from "react-transition-progress/next";
+import Link from "next/link";
 
 type Industry = {
   link: string;
