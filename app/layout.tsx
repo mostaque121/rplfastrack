@@ -1,5 +1,6 @@
 import { RPLProvider } from "@/components/rpl-context";
 import { Geist, Geist_Mono } from "next/font/google";
+import { ProgressBar, ProgressBarProvider } from "react-transition-progress";
 import { getAllSections } from "./(main)/action/courses";
 import { organization } from "./(main)/scheema/scheema";
 import "./globals.css";
@@ -33,7 +34,12 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <RPLProvider initialQualifications={sections}>{children}</RPLProvider>
+        <ProgressBarProvider>
+          <RPLProvider initialQualifications={sections}>
+            <ProgressBar className="fixed h-1 shadow-lg shadow-emerald-500/20 bg-emerald-500 top-0" />
+            {children}
+          </RPLProvider>
+        </ProgressBarProvider>
       </body>
     </html>
   );
