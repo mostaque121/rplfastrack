@@ -1,103 +1,96 @@
-import { Input } from "@/components/ui/input";
-import { ChangeEvent, FocusEvent, useState } from "react";
+import Select, { StylesConfig } from "react-select";
 
+// Type for the course data from props
 type Course = {
   id: string;
   title: string;
 };
 
+// Type for the formatted option object that react-select uses
+type SelectOption = {
+  value: string;
+  label: string;
+};
+
 type SelectCourseProps = {
   suggestions: Course[];
-  setSelectedCourse: (id: string | null) => void; // Allow null to clear selection
+  value?: string;
+  onChange: (id: string | null) => void;
   error?: string;
 };
 
+// --- Define your custom styles with TypeScript ---
+const emeraldColor = "#10b981";
+const emeraldHoverColor = "#d1fae5";
+
+// Apply the StylesConfig type.
+// The first generic, `SelectOption`, defines the shape of your option data.
+// The second, `false`, signifies that this is a single-select (isMulti = false).
+const customStyles: StylesConfig<SelectOption, false> = {
+  control: (base, state) => ({
+    ...base,
+    backgroundColor: "white",
+    borderColor: state.isFocused ? emeraldColor : "#e5e7eb",
+    boxShadow: state.isFocused ? `0 0 0 1px ${emeraldColor}` : "none",
+    "&:hover": {
+      borderColor: state.isFocused ? emeraldColor : "#d1d5db",
+    },
+    borderRadius: "0.375rem",
+    padding: "2px",
+  }),
+  option: (base, state) => ({
+    ...base,
+    backgroundColor: state.isSelected
+      ? emeraldColor
+      : state.isFocused
+      ? emeraldHoverColor
+      : "white",
+    color: state.isSelected ? "white" : "#111827",
+    "&:active": {
+      backgroundColor: emeraldColor,
+      color: "white",
+    },
+    borderRadius: "0.25rem",
+    margin: "0 4px",
+    width: "calc(100% - 8px)",
+  }),
+  menu: (base) => ({
+    ...base,
+    borderRadius: "0.375rem",
+    marginTop: "4px",
+  }),
+  singleValue: (base) => ({
+    ...base,
+    color: "#111827",
+  }),
+};
+// --- End of custom styles ---
+
 const SelectCourse: React.FC<SelectCourseProps> = ({
   suggestions,
-  setSelectedCourse,
+  value,
+  onChange,
   error,
 }) => {
-  // 1. State to hold the value of the input field
-  const [inputValue, setInputValue] = useState("");
-  const [filteredSuggestions, setFilteredSuggestions] = useState<Course[]>([]);
-  const [showSuggestions, setShowSuggestions] = useState(false);
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const input = e.currentTarget.value;
-    // 2. Update the input's value state as the user types
-    setInputValue(input);
-
-    if (input) {
-      const filtered = suggestions.filter((suggestion) =>
-        suggestion.title.toLowerCase().includes(input.toLowerCase())
-      );
-      setFilteredSuggestions(filtered);
-      setShowSuggestions(true);
-    } else {
-      // If input is cleared, clear selection and hide suggestions
-      setShowSuggestions(false);
-      setSelectedCourse(null);
-    }
-  };
-
-  const handleFocus = () => {
-    if (suggestions.length) {
-      setFilteredSuggestions(suggestions);
-      setShowSuggestions(true);
-    }
-  };
-
-  const handleBlur = (e: FocusEvent<HTMLInputElement>) => {
-    // A slight delay allows the click event on a suggestion to register first
-    setTimeout(() => {
-      if (document.activeElement !== e.target) {
-        setShowSuggestions(false);
-      }
-    }, 150);
-  };
-
-  const handleClick = (suggestion: Course) => {
-    // 3. Set the input value to the selected suggestion's title
-    setInputValue(suggestion.title);
-    setFilteredSuggestions([]);
-    setShowSuggestions(false);
-    setSelectedCourse(suggestion.id);
-  };
-
-  const SuggestionsListComponent = () =>
-    filteredSuggestions.length ? (
-      <div className="absolute w-full border border-gray-300 rounded-lg shadow-lg mt-1 max-h-48 overflow-auto bg-white z-50">
-        {filteredSuggestions.map((suggestion) => (
-          <h3
-            key={suggestion.id}
-            className="suggestion-item p-2 cursor-pointer text-sm md:text-base text-ellipsis overflow-hidden text-nowrap hover:bg-blue-300 transition-colors duration-200"
-            onClick={() => handleClick(suggestion)}
-            tabIndex={-1} // Make it not focusable with Tab to simplify blur logic
-          >
-            {suggestion.title}
-          </h3>
-        ))}
-      </div>
-    ) : (
-      <div className="absolute w-full mt-1 p-2 border border-gray-300 rounded-lg shadow-lg bg-white z-50">
-        <em>No suggestions available</em>
-      </div>
-    );
+  const formattedOptions: SelectOption[] = suggestions.map((o) => ({
+    value: o.id,
+    label: o.title,
+  }));
+  const selected = formattedOptions.find((o) => o.value === value) || null;
 
   return (
     <div className="relative w-full mx-auto">
-      <Input
-        type="text"
-        className="w-full"
-        // 4. Bind the input's value to our new state
-        value={inputValue}
-        onChange={handleChange}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        placeholder="Please Select a course"
-        autoComplete="off" // Good practice for custom autocomplete
+      <Select
+        value={selected}
+        onChange={(newValue) => onChange?.(newValue ? newValue.value : null)}
+        options={formattedOptions}
+        isClearable
+        styles={customStyles} // Your typed styles object
+        placeholder="Select a course..."
+        captureMenuScroll={false}
+        menuPlacement={"bottom"}
+        menuShouldScrollIntoView={false}
       />
-      {showSuggestions && inputValue && <SuggestionsListComponent />}
       {error && <div className="mt-2 text-red-600">{error}</div>}
     </div>
   );

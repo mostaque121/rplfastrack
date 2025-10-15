@@ -117,7 +117,7 @@ const ReviewForm = () => {
                 <FormControl>
                   <ProfileImageUpload
                     profileImageUrl={field.value}
-                    setProfileImageUrl={(url) => field.onChange(url)}
+                    setProfileImageUrl={field.onChange}
                   />
                 </FormControl>
                 <FormMessage />
@@ -135,7 +135,8 @@ const ReviewForm = () => {
                 <FormControl>
                   <SelectCourse
                     suggestions={allCourses}
-                    setSelectedCourse={(id) => field.onChange(id)}
+                    onChange={field.onChange}
+                    value={field.value}
                   />
                 </FormControl>
                 <FormMessage />
@@ -172,7 +173,7 @@ const ReviewForm = () => {
                 <FormControl>
                   <ReviewImageUpload
                     reviewImageUrl={field.value}
-                    setReviewImageUrl={(url) => field.onChange(url)}
+                    setReviewImageUrl={field.onChange}
                   />
                 </FormControl>
                 <FormMessage />
@@ -188,10 +189,7 @@ const ReviewForm = () => {
               <FormItem>
                 <FormLabel>Rating</FormLabel>
                 <FormControl>
-                  <StarRating
-                    rating={field.value}
-                    setRating={(value) => field.onChange(value)}
-                  />
+                  <StarRating rating={field.value} setRating={field.onChange} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -201,7 +199,7 @@ const ReviewForm = () => {
           {/* Submit Button */}
           <Button
             type="submit"
-            className="w-full bg-yellow-500 hover:bg-yellow-600 text-white"
+            className="w-full bg-emerald-900 hover:bg-emerald-950 text-white"
             disabled={isSubmitting}
           >
             {isSubmitting ? (
