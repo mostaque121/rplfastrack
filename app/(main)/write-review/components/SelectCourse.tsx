@@ -8,7 +8,7 @@ type Course = {
 
 type SelectCourseProps = {
   suggestions: Course[];
-  setSelectedCourse: (id: string) => void;
+  setSelectedCourse: (id: string | null) => void; // Allow null to clear selection
   error?: string;
 };
 
@@ -17,16 +17,27 @@ const SelectCourse: React.FC<SelectCourseProps> = ({
   setSelectedCourse,
   error,
 }) => {
+  // 1. State to hold the value of the input field
+  const [inputValue, setInputValue] = useState("");
   const [filteredSuggestions, setFilteredSuggestions] = useState<Course[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const input = e.currentTarget.value;
-    const filtered = suggestions.filter((suggestion) =>
-      suggestion.title.toLowerCase().includes(input.toLowerCase())
-    );
-    setFilteredSuggestions(filtered);
-    setShowSuggestions(true);
+    // 2. Update the input's value state as the user types
+    setInputValue(input);
+
+    if (input) {
+      const filtered = suggestions.filter((suggestion) =>
+        suggestion.title.toLowerCase().includes(input.toLowerCase())
+      );
+      setFilteredSuggestions(filtered);
+      setShowSuggestions(true);
+    } else {
+      // If input is cleared, clear selection and hide suggestions
+      setShowSuggestions(false);
+      setSelectedCourse(null);
+    }
   };
 
   const handleFocus = () => {
@@ -37,15 +48,17 @@ const SelectCourse: React.FC<SelectCourseProps> = ({
   };
 
   const handleBlur = (e: FocusEvent<HTMLInputElement>) => {
-    if (
-      !e.relatedTarget ||
-      !(e.relatedTarget as HTMLElement).classList.contains("suggestion-item")
-    ) {
-      setShowSuggestions(false);
-    }
+    // A slight delay allows the click event on a suggestion to register first
+    setTimeout(() => {
+      if (document.activeElement !== e.target) {
+        setShowSuggestions(false);
+      }
+    }, 150);
   };
 
   const handleClick = (suggestion: Course) => {
+    // 3. Set the input value to the selected suggestion's title
+    setInputValue(suggestion.title);
     setFilteredSuggestions([]);
     setShowSuggestions(false);
     setSelectedCourse(suggestion.id);
@@ -58,9 +71,8 @@ const SelectCourse: React.FC<SelectCourseProps> = ({
           <h3
             key={suggestion.id}
             className="suggestion-item p-2 cursor-pointer text-sm md:text-base text-ellipsis overflow-hidden text-nowrap hover:bg-blue-300 transition-colors duration-200"
-            onMouseDown={(e) => e.preventDefault()}
             onClick={() => handleClick(suggestion)}
-            tabIndex={0}
+            tabIndex={-1} // Make it not focusable with Tab to simplify blur logic
           >
             {suggestion.title}
           </h3>
@@ -76,13 +88,16 @@ const SelectCourse: React.FC<SelectCourseProps> = ({
     <div className="relative w-full mx-auto">
       <Input
         type="text"
-        className="w-full "
+        className="w-full"
+        // 4. Bind the input's value to our new state
+        value={inputValue}
         onChange={handleChange}
         onFocus={handleFocus}
         onBlur={handleBlur}
         placeholder="Please Select a course"
+        autoComplete="off" // Good practice for custom autocomplete
       />
-      {showSuggestions && <SuggestionsListComponent />}
+      {showSuggestions && inputValue && <SuggestionsListComponent />}
       {error && <div className="mt-2 text-red-600">{error}</div>}
     </div>
   );
