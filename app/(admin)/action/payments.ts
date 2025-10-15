@@ -1,6 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
+import type {
+  CreatePaymentData,
+  UpdatePaymentData,
+} from "@/app/(admin)/lib/zod";
+import {
+  createPaymentSchema,
+  updatePaymentSchema,
+} from "@/app/(admin)/lib/zod";
 import { prisma } from "@/lib/prisma";
 import type {
   PaymentFilters,
@@ -35,195 +43,114 @@ export type PaymentWithParts = {
   }[];
 };
 
-export type CreatePaymentData = {
-  name: string;
-  qualification: string;
-  phoneNumber: string;
-  email: string;
-  source: string;
-  collegeName: string;
-  courseFee: number;
-  paymentStatus: string;
+// Helper to centralize calculation logic
+const calculateTotals = (data: {
+  parts: { amount: number }[];
   collegePayment: number;
   agentCommission: number;
   bankCommission: number;
-  enrollmentDate: Date;
-  additionalNote?: string;
-  parts: {
-    amount: number;
-    paidAt: Date;
-  }[];
+}) => {
+  const payment = data.parts.reduce((sum, part) => sum + part.amount, 0);
+  const netProfit =
+    payment - data.collegePayment - data.agentCommission - data.bankCommission;
+  return { payment, netProfit };
 };
 
-export type UpdatePaymentData = {
-  id: string;
-  name: string;
-  qualification: string;
-  phoneNumber: string;
-  email: string;
-  source: string;
-  collegeName: string;
-  courseFee: number;
-  paymentStatus: string;
-  collegePayment: number;
-  agentCommission: number;
-  bankCommission: number;
-  enrollmentDate: Date;
-  additionalNote?: string;
-  parts: {
-    id?: string;
-    amount: number;
-    paidAt: Date;
-  }[];
-};
-
-// Create a new payment with parts
+// CREATE ACTION
 export async function createPayment(data: CreatePaymentData) {
-  checkAccess();
+  const validation = createPaymentSchema.safeParse(data);
+  if (!validation.success) {
+    return { success: false, error: "Invalid input data." };
+  }
+
+  const { parts, ...paymentData } = validation.data;
+  const totals = calculateTotals(validation.data);
+
   try {
-    const totalPayment = data.parts.reduce((sum, part) => sum + part.amount, 0);
-    const netProfit =
-      totalPayment -
-      data.collegePayment -
-      data.agentCommission -
-      data.bankCommission;
-
-    const payment = await prisma.payment.create({
-      data: {
-        name: data.name,
-        qualification: data.qualification,
-        phoneNumber: data.phoneNumber,
-        email: data.email,
-        source: data.source,
-        collegeName: data.collegeName,
-        courseFee: data.courseFee,
-        paymentStatus: data.paymentStatus,
-        payment: totalPayment,
-        collegePayment: data.collegePayment,
-        agentCommission: data.agentCommission,
-        bankCommission: data.bankCommission,
-        netProfit: netProfit,
-        enrollmentDate: data.enrollmentDate,
-        additionalNote: data.additionalNote,
-        parts: {
-          create: data.parts.map((part) => ({
-            amount: part.amount,
-            paidAt: part.paidAt,
-          })),
-        },
-      },
-      include: {
-        parts: true,
-      },
+    checkAccess();
+    const newPayment = await prisma.payment.create({
+      data: { ...paymentData, ...totals, parts: { create: parts } },
+      include: { parts: true },
     });
-
-    return { success: true, data: payment };
+    return { success: true, data: newPayment };
   } catch (error) {
     console.error("Error creating payment:", error);
-    return { success: false, error: "Failed to create payment" };
+    return {
+      success: false,
+      error: "Database error: Failed to create payment.",
+    };
   }
 }
 
-// Update a payment and its parts
+// UPDATE ACTION
 export async function updatePayment(data: UpdatePaymentData) {
-  checkAccess();
+  const validation = updatePaymentSchema.safeParse(data);
+  if (!validation.success) {
+    return { success: false, error: "Invalid input data." };
+  }
+
+  const { id, parts, ...paymentData } = validation.data;
+  const totals = calculateTotals(validation.data);
+
   try {
-    // Calculate totals
-    const totalPayment = data.parts.reduce((sum, part) => sum + part.amount, 0);
-    const netProfit =
-      totalPayment -
-      data.collegePayment -
-      data.agentCommission -
-      data.bankCommission;
+    checkAccess();
+    const updatedPayment = await prisma.$transaction(async (tx) => {
+      // Sync payment parts: update existing, create new, and delete removed ones.
+      const existingParts = await tx.paymentPart.findMany({
+        where: { paymentId: id },
+        select: { id: true },
+      });
+      const existingPartIds = new Set(existingParts.map((p) => p.id));
+      const incomingParts = new Map(parts.map((p) => [p.id, p]));
 
-    // Separate existing parts from new parts
-    const existingParts = data.parts.filter((part) => part.id);
-    const newParts = data.parts.filter((part) => !part.id);
+      // Operations to run in parallel
+      const operations = [];
 
-    // Get current parts to find which ones to delete
-    const currentPayment = await prisma.payment.findUnique({
-      where: { id: data.id },
-      include: { parts: true },
-    });
-
-    if (!currentPayment) {
-      return { success: false, error: "Payment not found" };
-    }
-
-    const existingPartIds = existingParts
-      .map((part) => part.id)
-      .filter(Boolean);
-    const partsToDelete = currentPayment.parts.filter(
-      (part) => !existingPartIds.includes(part.id)
-    );
-
-    // Update payment with transaction
-    const payment = await prisma.$transaction(async (tx) => {
-      // Delete removed parts
-      if (partsToDelete.length > 0) {
-        await tx.paymentPart.deleteMany({
-          where: {
-            id: { in: partsToDelete.map((part) => part.id) },
-          },
-        });
+      // Delete parts that are no longer present
+      const idsToDelete = [...existingPartIds].filter(
+        (partId) => !incomingParts.has(partId)
+      );
+      if (idsToDelete.length > 0) {
+        operations.push(
+          tx.paymentPart.deleteMany({ where: { id: { in: idsToDelete } } })
+        );
       }
 
-      // Update existing parts
-      for (const part of existingParts) {
-        if (part.id) {
-          await tx.paymentPart.update({
-            where: { id: part.id },
-            data: {
-              amount: part.amount,
-              paidAt: part.paidAt,
-            },
-          });
+      // Update or create parts
+      for (const part of parts) {
+        if (part.id && existingPartIds.has(part.id)) {
+          // Update existing
+          operations.push(
+            tx.paymentPart.update({
+              where: { id: part.id },
+              data: { amount: part.amount, paidAt: part.paidAt },
+            })
+          );
+        } else {
+          // Create new
+          operations.push(
+            tx.paymentPart.create({ data: { ...part, paymentId: id } })
+          );
         }
       }
 
-      // Create new parts
-      if (newParts.length > 0) {
-        await tx.paymentPart.createMany({
-          data: newParts.map((part) => ({
-            amount: part.amount,
-            paidAt: part.paidAt,
-            paymentId: data.id,
-          })),
-        });
-      }
+      await Promise.all(operations);
 
-      // Update payment
-      return await tx.payment.update({
-        where: { id: data.id },
-        data: {
-          name: data.name,
-          qualification: data.qualification,
-          phoneNumber: data.phoneNumber,
-          email: data.email,
-          source: data.source,
-          collegeName: data.collegeName,
-          courseFee: data.courseFee,
-          paymentStatus: data.paymentStatus,
-          payment: totalPayment,
-          collegePayment: data.collegePayment,
-          agentCommission: data.agentCommission,
-          bankCommission: data.bankCommission,
-          netProfit: netProfit,
-          enrollmentDate: data.enrollmentDate,
-          additionalNote: data.additionalNote,
-        },
-        include: {
-          parts: {
-            orderBy: { paidAt: "asc" },
-          },
-        },
+      // Finally, update the parent payment record
+      return tx.payment.update({
+        where: { id },
+        data: { ...paymentData, ...totals },
+        include: { parts: { orderBy: { paidAt: "asc" } } },
       });
     });
 
-    return { success: true, data: payment };
+    return { success: true, data: updatedPayment };
   } catch (error) {
     console.error("Error updating payment:", error);
-    return { success: false, error: "Failed to update payment" };
+    return {
+      success: false,
+      error: "Database error: Failed to update payment.",
+    };
   }
 }
 

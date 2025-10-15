@@ -1,6 +1,6 @@
 "use client";
 
-import { useRPL } from "@/components/rpl-context";
+import { useRPL } from "@/contexts/rpl-context";
 import { Send } from "lucide-react";
 import { useState } from "react";
 import { createContact } from "../../action/response";
@@ -201,7 +201,7 @@ export default function ContactForm() {
           <button
             type="submit"
             disabled={formStatus === "submitting"}
-            className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50"
+            className="w-full inline-flex cursor-pointer items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50"
           >
             {formStatus === "submitting" ? (
               "Sending..."

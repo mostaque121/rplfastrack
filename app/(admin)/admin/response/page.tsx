@@ -19,7 +19,7 @@ export default async function Page({
       <div className="flex flex-col gap-8">
         <div className="flex flex-col gap-4">
           <h1 className="text-3xl font-bold">Responses</h1>
-          <div className="flex w-full flex-wrap justify-between  items-center space-x-2">
+          <div className="flex w-full flex-wrap justify-between gap-4 items-center space-x-2">
             <SearchForm initialValue={search} />
             <ExcelExportButton />
           </div>

@@ -36,7 +36,7 @@ const Units = ({
           }`}
         >
           <div
-            className="text-sm qualification text-gray-600 py-2"
+            className="text-sm ql-editor qualification text-gray-600 py-2"
             dangerouslySetInnerHTML={{ __html: coreUnits }}
           />
         </div>
@@ -64,7 +64,7 @@ const Units = ({
           }`}
         >
           <div
-            className="text-sm qualification h-full text-gray-600 py-2"
+            className="text-sm ql-editor qualification h-full text-gray-600 py-2"
             dangerouslySetInnerHTML={{ __html: electiveUnits }}
           />
         </div>

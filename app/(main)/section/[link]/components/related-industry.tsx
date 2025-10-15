@@ -1,4 +1,4 @@
-import IndustryCard from "@/components/industry-card";
+import IndustryCard from "@/app/(main)/components/card/industry-card";
 import { MoveRight } from "lucide-react";
 import Link from "next/link";
 type Industry = {

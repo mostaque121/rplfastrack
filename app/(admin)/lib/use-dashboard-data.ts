@@ -1,58 +1,17 @@
+// app/lib/use-dashboard-data.ts
+
 "use client";
 
-import { useQueries } from "@tanstack/react-query";
-
-import { getTotalUsersLast30Days } from "../action/analytics";
-import {
-  getAdminPannelStat,
-  getCourseStat,
-  getEnrollmentStat,
-  getFormSubmissionStat,
-  getReviewStat,
-} from "../action/home";
+import { useQuery } from "@tanstack/react-query";
+// Update the path if your action file is located elsewhere
+import { getAllDashboardStats } from "../action/home";
 
 export function useDashboardData() {
-  const results = useQueries({
-    queries: [
-      {
-        queryKey: ["courseStats"],
-        queryFn: getCourseStat,
-        staleTime: 5 * 60 * 1000, // 5 minutes
-      },
-      {
-        queryKey: ["enrollmentStats"],
-        queryFn: getEnrollmentStat,
-        staleTime: 5 * 60 * 1000,
-      },
-      {
-        queryKey: ["visitorStats"],
-        queryFn: getTotalUsersLast30Days,
-        staleTime: 5 * 60 * 1000,
-      },
-      {
-        queryKey: ["formSubmissionStats"],
-        queryFn: getFormSubmissionStat,
-        staleTime: 5 * 60 * 1000,
-      },
-      {
-        queryKey: ["reviewStats"],
-        queryFn: getReviewStat,
-        staleTime: 5 * 60 * 1000,
-      },
-      {
-        queryKey: ["adminList"],
-        queryFn: getAdminPannelStat,
-        staleTime: 5 * 60 * 1000,
-      },
-    ],
+  return useQuery({
+    // A single query key for all dashboard data
+    queryKey: ["allDashboardStats"],
+    queryFn: getAllDashboardStats,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    refetchOnWindowFocus: false, // Optional: prevents refetching every time you switch tabs
   });
-
-  return {
-    courseStats: results[0],
-    enrollmentStats: results[1],
-    visitorStats: results[2],
-    formSubmissionStats: results[3],
-    reviewStats: results[4],
-    adminList: results[5],
-  };
 }

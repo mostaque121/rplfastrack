@@ -16,7 +16,7 @@ export default function ContactInfo() {
       </p>
       <div className="mt-8 grid grid-cols-1 gap-8">
         {/* Phone */}
-        <div className="bg-white overflow-hidden shadow-lg rounded-lg">
+        <div className="bg-white overflow-hidden hover:bg-emerald-100 transition-all duration-200 hover:scale-[1.02] cursor-pointer  shadow-md rounded-lg">
           <a
             href={`tel:${phoneNumber}`}
             target="_blank"
@@ -41,7 +41,7 @@ export default function ContactInfo() {
         </div>
 
         {/* Email */}
-        <div className="bg-white overflow-hidden shadow-lg rounded-lg">
+        <div className="bg-white overflow-hidden hover:bg-emerald-100 transition-all duration-200 hover:scale-[1.02] cursor-pointer  shadow-md rounded-lg">
           <a href={`mailto:${email}`} target="_blank" rel="noopener noreferrer">
             <div className="px-4 py-5 sm:p-6 flex items-center">
               <div className="bg-green-500 rounded-md p-3">
@@ -62,7 +62,7 @@ export default function ContactInfo() {
         </div>
 
         {/* WhatsApp */}
-        <div className="bg-white overflow-hidden shadow-lg rounded-lg">
+        <div className="bg-white overflow-hidden hover:bg-emerald-100 transition-all duration-200 hover:scale-[1.02] cursor-pointer  shadow-md rounded-lg">
           <a
             href={`https://wa.me/${whatsAppNumber}`}
             target="_blank"
@@ -86,7 +86,7 @@ export default function ContactInfo() {
           </a>
         </div>
         {/* Address (No link) */}
-        <div className="bg-white overflow-hidden shadow-lg rounded-lg">
+        <div className="bg-white overflow-hidden hover:bg-emerald-100 transition-all duration-200 hover:scale-[1.02] cursor-pointer  shadow-md rounded-lg">
           <div className="px-4 py-5 sm:p-6 flex items-center">
             <div className="bg-red-600 rounded-md p-3">
               <FaLocationDot className="h-6 w-6 text-white" />

@@ -1,4 +1,4 @@
-import RelatedQualificationCard from "@/components/qualification-card";
+import RelatedQualificationCard from "@/app/(main)/components/card/qualification-card";
 import { MoveRight } from "lucide-react";
 import Link from "next/link";
 type qualification = {

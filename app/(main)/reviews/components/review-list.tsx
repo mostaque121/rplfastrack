@@ -1,4 +1,4 @@
-import ReviewCard from "@/components/review-card";
+import ReviewCard from "../../components/card/review-card";
 
 interface Course {
   id: string;

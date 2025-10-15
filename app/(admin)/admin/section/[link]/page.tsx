@@ -1,9 +1,11 @@
-import { CourseContent } from "@/app/(admin)/components/course/course-content";
-import CourseCreateBtn from "@/app/(admin)/components/course/course-create.btn";
-import { CourseCardSkeleton } from "@/app/(admin)/components/course/skeleton";
-import { ChevronRight } from "lucide-react";
+import { FormDialog } from "@/components/custom-ui/form-dialog";
+import { Button } from "@/components/ui/button";
+import { ChevronRight, Plus } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
+import { AdminCourseCard } from "./components/course-card";
+import CourseForm from "./components/course-form";
+import { CourseCardSkeleton } from "./components/skeleton";
 
 // Create a separate component for the section content
 async function SectionContent({ link }: { link: string }) {
@@ -20,6 +22,10 @@ async function SectionContent({ link }: { link: string }) {
     );
   }
 
+  const item = {
+    section: section,
+  };
+
   return (
     <>
       <div className="flex w-full justify-between gap-4">
@@ -33,13 +39,22 @@ async function SectionContent({ link }: { link: string }) {
           <ChevronRight className="w-5 text-blue-500 h-5" />
           <h4 className="text-xl font-bold">{section.title}</h4>
         </div>
-        <CourseCreateBtn section={section} />
+        <FormDialog Form={CourseForm} item={item}>
+          <Button className="flex items-center gap-2">
+            <Plus size={18} />
+            Add Course
+          </Button>
+        </FormDialog>
       </div>
 
       {section.courses.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {section.courses.map((course) => (
-            <CourseContent course={course} section={section} key={course.id} />
+            <AdminCourseCard
+              course={course}
+              section={section}
+              key={course.id}
+            />
           ))}
         </div>
       ) : (

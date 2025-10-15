@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
+import { reviewFormSchema } from "../lib/zod";
 import { checkAccess } from "./helper";
 
 export default async function getAllReview(
@@ -124,20 +125,7 @@ export async function deleteReview(
   }
 }
 
-const ReviewSchema = z.object({
-  userName: z.string().min(1, { message: "User name is required." }),
-  userImage: z.string().nullable().optional(),
-  purchasedCourse: z.string().min(1, { message: "Course ID is required." }),
-  reviewText: z.string().min(1, { message: "Review text is required." }),
-  reviewImage: z.string().nullable().optional(),
-  givenStar: z
-    .number()
-    .min(1, { message: "At least 1 star required." })
-    .max(5, { message: "Max 5 stars allowed." }),
-  reviewDate: z.date({ required_error: "Review date is required." }),
-});
-
-type ReviewFormData = z.infer<typeof ReviewSchema>;
+type ReviewFormData = z.infer<typeof reviewFormSchema>;
 
 export async function saveReview(input: ReviewFormData) {
   try {
@@ -151,7 +139,7 @@ export async function saveReview(input: ReviewFormData) {
         data: null,
       };
     }
-    const parsedData = ReviewSchema.parse(input);
+    const parsedData = reviewFormSchema.parse(input);
 
     await prisma.userReview.create({
       data: {
@@ -181,6 +169,7 @@ export async function saveReview(input: ReviewFormData) {
     throw new Error("Failed to save review. Please try again.");
   }
 }
+
 export async function updateReview(reviewId: string, input: ReviewFormData) {
   try {
     const author = await checkAccess();
@@ -193,7 +182,7 @@ export async function updateReview(reviewId: string, input: ReviewFormData) {
         data: null,
       };
     }
-    const parsedData = ReviewSchema.parse(input);
+    const parsedData = reviewFormSchema.parse(input);
 
     await prisma.userReview.update({
       where: { id: reviewId },

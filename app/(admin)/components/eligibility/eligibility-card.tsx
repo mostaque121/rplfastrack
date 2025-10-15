@@ -226,7 +226,7 @@ export default function EligibilityCard({ eligibility }: EligibilityCardProps) {
         </div>
       </CardContent>
 
-      <CardFooter className="bg-slate-50 pt-3 pb-4">
+      <CardFooter className="bg-slate-50 mt-auto pt-3 pb-4">
         <Button
           variant="outline"
           size="sm"

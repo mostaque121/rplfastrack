@@ -1,7 +1,8 @@
 import { NavigationProgressBar } from "@/components/navigation/navigation-progress-provider";
-import { RPLProvider } from "@/components/rpl-context";
+import { RPLProvider } from "@/contexts/rpl-context";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Suspense } from "react";
+import "react-quill-new/dist/quill.snow.css";
 import { getAllSections } from "./(main)/action/courses";
 import { organization } from "./(main)/scheema/scheema";
 import "./globals.css";

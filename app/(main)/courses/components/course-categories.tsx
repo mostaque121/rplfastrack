@@ -1,5 +1,5 @@
-import SectionCard from "@/components/section-card";
 import { getAllSections } from "../../action/courses";
+import SectionCard from "../../components/card/section-card";
 export default async function CourseCategories() {
   const sections = await getAllSections();
   return (

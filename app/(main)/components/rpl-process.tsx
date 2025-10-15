@@ -1,4 +1,4 @@
-import { EligibilityForm } from "@/components/eligibility-form";
+import { EligibilityForm } from "@/app/(main)/components/form/eligibility-form";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 

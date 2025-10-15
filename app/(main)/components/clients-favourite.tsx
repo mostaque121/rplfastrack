@@ -1,8 +1,8 @@
-import SectionCard from "@/components/section-card";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { getAllSections } from "../action/courses";
+import SectionCard from "./card/section-card";
 
 export default async function ClientsFavourite() {
   const sections = await getAllSections();

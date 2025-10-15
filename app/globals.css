@@ -132,6 +132,12 @@
 .response-form-input:focus {
 }
 
+.ql-editor {
+  min-height: 100px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
 .ck-editor__editable {
   max-height: 200px;
   height: 200px;

@@ -1,4 +1,4 @@
-import { ResponseForm } from "@/app/(main)/components/response-form";
+import { ResponseForm } from "@/app/(main)/components/form/response-form";
 import Image from "next/image";
 import Link from "next/link";
 import { MdOutlineNavigateNext } from "react-icons/md";

@@ -40,7 +40,7 @@ export default function SearchForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex w-full max-w-sm items-center space-x-2"
+      className="flex w-full  items-center space-x-2"
     >
       <Input
         type="search"

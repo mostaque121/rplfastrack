@@ -82,7 +82,7 @@ export function NavigationProgressBar() {
 
   return (
     <div
-      className="fixed top-0 left-0 right-0 h-1 z-50 transition-all duration-300 ease-out"
+      className="fixed top-0 left-0 right-0 h-1 z-[100] transition-all duration-300 ease-out"
       style={{
         width: `${progress}%`,
         opacity: isVisible ? 1 : 0, // Control visibility smoothly

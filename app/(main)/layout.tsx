@@ -1,10 +1,10 @@
-import Footer from "@/components/footer";
-import Navbar from "@/components/navbar";
+import { WhatsAppChatButton } from "@/components/custom-ui/whatsapp-chat-button";
 import { Toaster } from "@/components/ui/sonner";
-import { WhatsAppChatButton } from "@/components/whatsapp-chat-button";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { SessionProvider } from "next-auth/react";
 import { Metadata } from "next/types";
+import Footer from "./components/footer/footer";
+import Navbar from "./components/navbar/navbar";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://rplfastrack.com"),
@@ -103,7 +103,7 @@ export default function RootLayout({
     <SessionProvider>
       <main>
         <Navbar />
-        <div>{children}</div>
+        {children}
         {whatsAppNumber && (
           <WhatsAppChatButton phoneNumber={whatsAppNumber} size="lg" />
         )}

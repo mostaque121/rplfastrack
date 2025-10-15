@@ -16,6 +16,7 @@ type Course = {
   id: string;
   title: string;
   link: string;
+  index: number;
   imageCoverLink: string;
   imageSquareLink: string;
 };
@@ -24,6 +25,7 @@ export type Section = {
   id: string;
   imageCoverLink: string;
   imageSquareLink: string;
+  index: number;
   title: string;
   link: string;
   courses?: Course[];

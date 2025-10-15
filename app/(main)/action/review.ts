@@ -19,7 +19,7 @@ export async function saveReview(input: FormData) {
   const parsedData = ReviewSchema.parse(input);
 
   try {
-    const newReview = await prisma.userReview.create({
+    await prisma.userReview.create({
       data: {
         userName: parsedData.userName,
         userImage: parsedData.userImage || null,
@@ -30,10 +30,10 @@ export async function saveReview(input: FormData) {
       },
     });
 
-    return newReview;
+    return { success: true };
   } catch (error) {
     console.error("Error saving the review:", error);
-    throw new Error("Failed to save review. Please try again.");
+    return { success: false };
   }
 }
 

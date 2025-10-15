@@ -1,4 +1,4 @@
-import { EligibilityForm } from "@/components/eligibility-form";
+import { EligibilityForm } from "@/app/(main)/components/form/eligibility-form";
 import {
   Award,
   Briefcase,

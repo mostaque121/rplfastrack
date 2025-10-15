@@ -1,7 +1,7 @@
 "use client";
 
-import { useRPL } from "@/components/rpl-context";
-import { Button } from "@/components/ui/button";
+import { LoadingButton } from "@/components/custom-ui/loading-button";
+import SelectCourse from "@/components/custom-ui/select-course";
 import {
   Form,
   FormControl,
@@ -12,41 +12,25 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useRPL } from "@/contexts/rpl-context";
+import { reviewFormSchema } from "@/lib/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
 import { saveReview } from "../../action/review";
 import ProfileImageUpload from "./ProfileImageUpload";
 import ReviewImageUpload from "./ReviewImageUpload";
-import SelectCourse from "./SelectCourse";
 import StarRating from "./StarRating";
 
-// Define the form schema with Zod
-const formSchema = z.object({
-  userName: z.string().min(1, { message: "Name is required." }),
-  userImage: z.string().min(1, { message: "Profile image is required." }),
-  purchasedCourse: z
-    .string()
-    .min(1, { message: "Please select a valid course." }),
-  reviewText: z.string().min(1, { message: "Review text is required." }),
-  reviewImage: z.string().optional(),
-  givenStar: z.number().min(1, { message: "Rating is required." }),
-});
-
-type FormValues = z.infer<typeof formSchema>;
+type FormValues = z.infer<typeof reviewFormSchema>;
 
 const ReviewForm = () => {
   const { sections } = useRPL();
   const allCourses = sections.flatMap((section) => section.courses ?? []);
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  // Initialize the form with React Hook Form
   const form = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(reviewFormSchema),
     defaultValues: {
       userName: "",
       userImage: "",
@@ -69,20 +53,15 @@ const ReviewForm = () => {
   };
 
   const onSubmit = async (values: FormValues) => {
-    setIsSubmitting(true);
-
     try {
       const data = await saveReview(values);
-      console.log(data);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      toast.success("Review posted! It will be visible after approval.");
+      if (data.success)
+        toast.success("Review posted! It will be visible after approval.");
       resetForm();
     } catch (error) {
       console.error("Error submitting review:", error);
       toast.error("Error posting review. Please try again.");
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
@@ -134,7 +113,7 @@ const ReviewForm = () => {
                 <FormLabel>Course Purchased</FormLabel>
                 <FormControl>
                   <SelectCourse
-                    suggestions={allCourses}
+                    courses={allCourses}
                     onChange={field.onChange}
                     value={field.value}
                   />
@@ -197,20 +176,14 @@ const ReviewForm = () => {
           />
 
           {/* Submit Button */}
-          <Button
+          <LoadingButton
+            loading={form.formState.isSubmitting}
             type="submit"
             className="w-full bg-emerald-900 hover:bg-emerald-950 text-white"
-            disabled={isSubmitting}
+            loadingText="Submitting"
           >
-            {isSubmitting ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Submitting...
-              </>
-            ) : (
-              "Submit Review"
-            )}
-          </Button>
+            Submit Review
+          </LoadingButton>
         </form>
       </Form>
     </div>

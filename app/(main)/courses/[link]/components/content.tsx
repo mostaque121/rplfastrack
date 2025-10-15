@@ -49,7 +49,7 @@ export default function QualificationContent({ data }: QualificationProps) {
                   Qualification Description
                 </h2>
                 <div
-                  className="text-gray-600 qualification leading-relaxed"
+                  className="text-gray-600 ql-editor qualification leading-relaxed"
                   dangerouslySetInnerHTML={{ __html: data.description }}
                 />
               </div>
@@ -59,7 +59,7 @@ export default function QualificationContent({ data }: QualificationProps) {
                   Packaging Rules
                 </h2>
                 <div
-                  className="text-gray-600 qualification leading-relaxed"
+                  className="text-gray-600 ql-editor qualification leading-relaxed"
                   dangerouslySetInnerHTML={{ __html: data.packagingRule }}
                 />
               </div>
@@ -83,7 +83,7 @@ export default function QualificationContent({ data }: QualificationProps) {
                   Entry Requirements
                 </h2>
                 <div
-                  className="text-gray-600 qualification leading-relaxed"
+                  className="text-gray-600 ql-editor qualification leading-relaxed"
                   dangerouslySetInnerHTML={{ __html: data.entryRequirement }}
                 />
               </div>
@@ -96,7 +96,7 @@ export default function QualificationContent({ data }: QualificationProps) {
                   Job Opportunities
                 </h2>
                 <div
-                  className="text-gray-600  space-y-6 leading-relaxed"
+                  className="text-gray-600 ql-editor space-y-6 leading-relaxed"
                   dangerouslySetInnerHTML={{ __html: data.jobOpportunity }}
                 />
               </div>

@@ -1,4 +1,4 @@
-import CourseCard from "@/components/course-card";
+import CourseCard from "@/app/(main)/components/card/course-card";
 interface Qualification {
   id: string;
   link: string;

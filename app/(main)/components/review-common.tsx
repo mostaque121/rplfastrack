@@ -1,5 +1,5 @@
-import ReviewCommonContent from "@/components/review-common-content";
 import { getCommonReviews } from "../action/review";
+import ReviewCommonContent from "./review-common-content";
 export default async function ReviewCommon() {
   const { latestReviews, stats } = await getCommonReviews();
   return (

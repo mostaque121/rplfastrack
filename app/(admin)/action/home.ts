@@ -1,110 +1,71 @@
+// app/action/home.ts
+
 "use server";
 
 import { prisma } from "@/lib/prisma";
+import { getTotalUsersLast30Days } from "./analytics"; // Ensure this path is correct
 
-export async function getCourseStat() {
-  try {
-    const data = await prisma.course.count();
-    return { success: true, data };
-  } catch (error) {
-    console.error("Error fetching analytics:", error);
-    return { success: false, error: "Failed to fetch analytics data" };
-  }
-}
-export async function getEnrollmentStat() {
+export async function getAllDashboardStats() {
   try {
     const last30Days = new Date();
     last30Days.setDate(last30Days.getDate() - 30);
 
-    const data = await prisma.payment.count({
-      where: {
-        enrollmentDate: {
-          gte: last30Days,
-        },
-      },
-    });
+    // Run all independent async operations concurrently.
+    const [dbResults, visitorCount] = await Promise.all([
+      // 1. All database queries are grouped in a single transaction.
+      prisma.$transaction([
+        prisma.course.count(),
+        prisma.payment.count({
+          where: { enrollmentDate: { gte: last30Days } },
+        }),
+        prisma.response.count({ where: { createdAt: { gte: last30Days } } }),
+        prisma.eligibilitySubmission.count({
+          where: { createdAt: { gte: last30Days } },
+        }),
+        prisma.userReview.count(),
+        prisma.userReview.count({ where: { approved: false } }),
+        prisma.user.findMany({
+          where: { role: "admin" },
+          select: { name: true, email: true, image: true },
+        }),
+      ]),
 
-    return { success: true, data };
-  } catch (error) {
-    console.error("Error fetching analytics:", error);
-    return { success: false, error: "Failed to fetch analytics data" };
-  }
-}
-export async function getFormSubmissionStat() {
-  try {
-    const last30Days = new Date();
-    last30Days.setDate(last30Days.getDate() - 30);
-
-    const response = await prisma.response.count({
-      where: {
-        createdAt: {
-          gte: last30Days,
-        },
-      },
-    });
-    const eligibilitySubmission = await prisma.eligibilitySubmission.count({
-      where: {
-        createdAt: {
-          gte: last30Days,
-        },
-      },
-    });
-
-    return { success: true, data: { response, eligibilitySubmission } };
-  } catch (error) {
-    console.error("Error fetching analytics:", error);
-    return { success: false, error: "Failed to fetch analytics data" };
-  }
-}
-
-export async function getReviewStat() {
-  try {
-    const [total, pending] = await prisma.$transaction([
-      prisma.userReview.count(),
-      prisma.userReview.count({
-        where: {
-          approved: false,
-        },
-      }),
+      // 2. The analytics function which returns a number.
+      getTotalUsersLast30Days(),
     ]);
 
-    return {
-      success: true,
-      data: {
-        total,
-        pending,
-      },
-    };
-  } catch (error) {
-    console.error("Error fetching review stats:", error);
-    return {
-      success: false,
-      error: "Failed to fetch review stats",
-    };
-  }
-}
+    // Destructure the results from the transaction array.
+    const [
+      courseCount,
+      enrollmentCount,
+      responseCount,
+      eligibilitySubmissionCount,
+      totalReviews,
+      pendingReviews,
+      adminList,
+    ] = dbResults;
 
-export async function getAdminPannelStat() {
-  try {
-    const data = await prisma.user.findMany({
-      where: {
-        role: "admin",
+    // Assemble the final data object.
+    const responseData = {
+      courseStats: courseCount,
+      enrollmentStats: enrollmentCount,
+      formSubmissionStats: {
+        response: responseCount,
+        eligibilitySubmission: eligibilitySubmissionCount,
       },
-      select: {
-        name: true,
-        email: true,
-        image: true,
+      reviewStats: {
+        total: totalReviews,
+        pending: pendingReviews,
       },
-    });
-    return {
-      success: true,
-      data,
+      adminList: adminList,
+      // *** THIS IS THE FIX ***
+      // We now assign the returned number directly to visitorStats.
+      visitorStats: visitorCount,
     };
+
+    return { success: true, data: responseData };
   } catch (error) {
-    console.error("Error fetching admin panel stats:", error);
-    return {
-      success: false,
-      error: "Failed to fetch analytics data",
-    };
+    console.error("Error fetching all dashboard stats:", error);
+    return { success: false, error: "Failed to fetch dashboard data" };
   }
 }

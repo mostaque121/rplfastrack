@@ -1,6 +1,6 @@
 import { Mail, MapPin, Phone } from "lucide-react";
 
-import ContactCommonForm from "@/components/contact-common-form";
+import ContactCommonForm from "./form/contact-common-form";
 
 export default function ContactSection() {
   const email = process.env.NEXT_PUBLIC_EMAIL;
