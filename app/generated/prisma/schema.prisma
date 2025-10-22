@@ -1,0 +1,243 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  user
+  admin
+  moderator
+}
+
+model User {
+  id            String   @id @default(cuid())
+  name          String
+  email         String   @unique
+  emailVerified Boolean  @default(false)
+  image         String?
+  role          Role     @default(user)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  banned     Boolean?
+  banReason  String?
+  banExpires DateTime?
+
+  sessions          Session[]
+  accounts          Account[]
+  impersonatedUsers Session[] @relation("ImpersonatedSessions")
+
+  @@index([email])
+}
+
+model Account {
+  id                    String    @id @default(cuid())
+  userId                String
+  accountId             String
+  providerId            String
+  accessToken           String?
+  refreshToken          String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  idToken               String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([providerId, accountId])
+  @@index([accessToken])
+  @@index([refreshToken])
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  impersonatedBy String?
+  impersonator   User?   @relation("ImpersonatedSessions", fields: [impersonatedBy], references: [id])
+
+  @@index([token])
+}
+
+model Verification {
+  id         String   @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+}
+
+model Section {
+  id                  String   @id @default(cuid())
+  title               String
+  metaDescription     String
+  index               Int
+  imageSquareLink     String
+  imageSquarePublicId String
+  imageCoverLink      String
+  imageCoverPublicId  String
+  link                String   @unique
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  courses             Course[]
+}
+
+model Course {
+  id                  String       @id @default(cuid())
+  title               String
+  metaTitle           String       @unique
+  metaDescription     String
+  index               Int
+  imageSquareLink     String
+  imageSquarePublicId String
+  imageCoverLink      String
+  imageCoverPublicId  String
+  description         String
+  jobOpportunity      String
+  entryRequirement    String
+  packagingRule       String
+  coreUnits           String
+  electiveUnits       String
+  link                String       @unique
+  section             Section      @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  sectionId           String
+  reviews             UserReview[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UserReview {
+  id                String   @id @default(cuid())
+  purchasedCourse   Course   @relation(fields: [purchasedCourseId], references: [id], onDelete: Cascade)
+  purchasedCourseId String
+  userName          String
+  userImage         String?
+  reviewImage       String?
+  reviewText        String
+  givenStar         Int
+  approved          Boolean  @default(false)
+  reviewDate        DateTime @default(now())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Response {
+  id        String        @id @default(uuid())
+  name      String
+  phone     String
+  email     String
+  message   String?
+  interest  String?
+  createdAt DateTime      @default(now())
+  stage     ResponseStage @default(LEAD)
+  notes     Note[]
+}
+
+enum ResponseStage {
+  LEAD
+  INTERESTED
+  CONVERTED
+  CANCELLED
+}
+
+model EligibilitySubmission {
+  id                String   @id @default(cuid())
+  fullName          String
+  email             String
+  phoneNumber       String
+  industry          String
+  qualification     String
+  yearsOfExperience Int
+  stateLivedIn      String
+  message           String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  notes             Note[]
+}
+
+model Note {
+  id        String   @id @default(uuid())
+  content   String
+  createdAt DateTime @default(now())
+
+  responseId              String?
+  eligibilitySubmissionId String?
+
+  response              Response?              @relation(fields: [responseId], references: [id], onDelete: Cascade)
+  eligibilitySubmission EligibilitySubmission? @relation(fields: [eligibilitySubmissionId], references: [id], onDelete: Cascade)
+
+  noteType NoteType
+}
+
+enum NoteType {
+  RESPONSE
+  ELIGIBILITY
+}
+
+model Notification {
+  id          String           @id @default(uuid())
+  title       String
+  description String
+  createdAt   DateTime         @default(now())
+  type        NotificationType
+  recipients  String[] // Array of User IDs
+  readBy      String[] // Array of User IDs who have read this notification
+}
+
+enum NotificationType {
+  response
+  eligibility
+}
+
+model Payment {
+  id              String   @id @default(uuid())
+  name            String
+  qualification   String
+  phoneNumber     String
+  email           String
+  source          String
+  collegeName     String
+  courseFee       Float
+  paymentStatus   String
+  payment         Float    @default(0) // total paid so far
+  collegePayment  Float    @default(0)
+  agentCommission Float    @default(0)
+  bankCommission  Float    @default(0)
+  netProfit       Float    @default(0)
+  enrollmentDate  DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  additionalNote String?
+
+  parts PaymentPart[]
+}
+
+model PaymentPart {
+  id        String   @id @default(uuid())
+  amount    Float
+  paidAt    DateTime @default(now())
+  paymentId String
+  payment   Payment  @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+}

@@ -1,10 +1,9 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import { z } from "zod";
 import { reviewFormSchema } from "../lib/zod";
-import { checkAccess } from "./helper";
 
 export default async function getAllReview(
   search: string,
@@ -72,25 +71,14 @@ export default async function getAllReview(
 
 export async function toggleUserReviewPublish(id: string, approved: boolean) {
   try {
-    const author = await checkAccess();
-
-    if (!author || !author.id) {
-      return {
-        error: {
-          _form: ["You must be an admin to update a review."],
-        },
-        data: null,
-      };
-    }
-
     await prisma.userReview.update({
       where: { id },
       data: { approved: approved },
     });
 
     revalidatePath("/admin/review");
-    revalidateTag("user-review:all");
-    revalidateTag("user-review:common");
+    updateTag("user-review:all");
+    updateTag("user-review:common");
 
     return { success: true };
   } catch (error) {
@@ -103,20 +91,14 @@ export async function deleteReview(
   id: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    // Check if the user is an admin
-    const author = await checkAccess();
-    if (!author || !author.id) {
-      return { success: false, error: "Unauthorized" };
-    }
-
     // Delete the blog post in the database using Prisma
     await prisma.userReview.delete({
       where: { id },
     });
 
     revalidatePath("admin/review");
-    revalidateTag("review:all");
-    revalidateTag("user-review:common");
+    updateTag("review:all");
+    updateTag("user-review:common");
 
     return { success: true };
   } catch (error) {
@@ -129,16 +111,6 @@ type ReviewFormData = z.infer<typeof reviewFormSchema>;
 
 export async function saveReview(input: ReviewFormData) {
   try {
-    const author = await checkAccess();
-
-    if (!author || !author.id) {
-      return {
-        error: {
-          _form: ["You must be an admin to update a review."],
-        },
-        data: null,
-      };
-    }
     const parsedData = reviewFormSchema.parse(input);
 
     await prisma.userReview.create({
@@ -154,8 +126,8 @@ export async function saveReview(input: ReviewFormData) {
       },
     });
     revalidatePath("/admin/review");
-    revalidateTag("user-review:all");
-    revalidateTag("user-review:common");
+    updateTag("user-review:all");
+    updateTag("user-review:common");
     return { success: true, message: "Review created successfully." };
   } catch (error: unknown) {
     console.error("Error saving review:", error);
@@ -163,7 +135,7 @@ export async function saveReview(input: ReviewFormData) {
       return {
         success: false,
         message: "Validation failed.",
-        errors: error.errors,
+        errors: error.issues,
       };
     }
     throw new Error("Failed to save review. Please try again.");
@@ -172,16 +144,6 @@ export async function saveReview(input: ReviewFormData) {
 
 export async function updateReview(reviewId: string, input: ReviewFormData) {
   try {
-    const author = await checkAccess();
-
-    if (!author || !author.id) {
-      return {
-        error: {
-          _form: ["You must be an admin to update a review."],
-        },
-        data: null,
-      };
-    }
     const parsedData = reviewFormSchema.parse(input);
 
     await prisma.userReview.update({
@@ -197,8 +159,8 @@ export async function updateReview(reviewId: string, input: ReviewFormData) {
       },
     });
     revalidatePath("/admin/review");
-    revalidateTag("user-review:all");
-    revalidateTag("user-review:common");
+    updateTag("user-review:all");
+    updateTag("user-review:common");
     return { success: true, message: "Review updated successfully." };
   } catch (error: unknown) {
     console.error("Error updating review:", error);
@@ -206,7 +168,7 @@ export async function updateReview(reviewId: string, input: ReviewFormData) {
       return {
         success: false,
         message: "Validation failed.",
-        errors: error.errors,
+        errors: error.issues,
       };
     }
     throw new Error("Failed to update review. Please try again.");

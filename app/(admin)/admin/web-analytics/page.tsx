@@ -10,6 +10,7 @@ import { Stats } from "../../components/analytics/stats";
 import { TopCountry } from "../../components/analytics/top-country";
 import { TopPages } from "../../components/analytics/top-pages";
 import { TopReferrers } from "../../components/analytics/top-referrers";
+import { getUserOrRedirect } from "../../lib/get-user";
 // Loading component for Suspense
 function LoadingDashboard() {
   return (
@@ -75,6 +76,7 @@ export default async function AnalyticsPage({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
+  await getUserOrRedirect();
   // Get the days parameter from the URL or default to 30
   const params = await searchParams;
   const days = params.days ? Number.parseInt(params.days as string) : 30;

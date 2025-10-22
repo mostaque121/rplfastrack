@@ -39,7 +39,6 @@ export default function PaymentAnalytics() {
     queryKey: ["paymentAnalytics"], // only static key
     queryFn: async () => {
       const result = await getPaymentAnalytics(filters); // use the current filters
-      console.log(data);
       if (!result.success || !result.data) {
         throw new Error(result.error || "Failed to fetch analytics data");
       }

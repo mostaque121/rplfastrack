@@ -85,7 +85,7 @@ export function DashboardNav() {
                 isActive={isActive}
                 tooltip={item.title}
               >
-                <Link href={item.href}>
+                <Link prefetch={false} href={item.href}>
                   <item.icon className="h-4 w-4" />
                   <span>{item.title}</span>
                 </Link>

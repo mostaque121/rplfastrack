@@ -14,6 +14,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Skeleton } from "@/components/ui/skeleton";
+import { authClient } from "@/lib/auth-client";
 import { formatDistanceToNow } from "date-fns";
 import {
   AlertTriangle,
@@ -23,7 +24,6 @@ import {
   Mail,
   MessageSquare,
 } from "lucide-react";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
@@ -78,7 +78,7 @@ function NotificationTriggerSkeleton() {
 }
 
 export default function NotificationNav() {
-  const { data: session, status } = useSession();
+  const { data: session, isPending } = authClient.useSession();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
   const [markingAsRead, setMarkingAsRead] = useState(false);
@@ -152,7 +152,7 @@ export default function NotificationNav() {
   };
 
   // Show skeleton while session is loading
-  if (status === "loading") {
+  if (isPending) {
     return <NotificationTriggerSkeleton />;
   }
 

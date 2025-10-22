@@ -62,7 +62,6 @@ export async function exportResponsesToExcel() {
     };
   }
 }
-
 export async function exportEligibilityToExcel() {
   try {
     const submissions = await prisma.eligibilitySubmission.findMany({

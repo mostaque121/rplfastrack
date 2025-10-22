@@ -1,9 +1,13 @@
-import { auth, signIn, signOut } from "@/auth";
+import { auth } from "@/lib/auth";
 import { MoveRight } from "lucide-react";
+import { headers } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 export default async function page() {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
   if (session?.user)
     return (
       <section className="bg-[#16152f] h-[100vh] flex justify-center items-center">
@@ -44,7 +48,9 @@ export default async function page() {
             className="group beforeForm"
             action={async () => {
               "use server";
-              await signOut();
+              await auth.api.signOut({
+                headers: await headers(),
+              });
             }}
           >
             <button
@@ -86,7 +92,12 @@ export default async function page() {
           <form
             action={async () => {
               "use server";
-              await signIn("google");
+              const res = await auth.api.signInSocial({
+                body: { provider: "google" },
+              });
+              if (res.url) {
+                redirect(res.url);
+              }
             }}
           >
             <button

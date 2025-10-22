@@ -1,5 +1,6 @@
 "use client";
 
+import { Role } from "@/app/generated/prisma";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -17,7 +18,7 @@ interface UserActionsProps {
   isAdmin: boolean;
   onRoleChange: (
     userId: string,
-    newRole: string
+    newRole: Role
   ) => Promise<{ success: boolean }>;
   onDelete: (userId: string) => Promise<{ success: boolean }>;
 }
@@ -31,7 +32,7 @@ export default function UserActions({
 }: UserActionsProps) {
   const [isPending, setIsPending] = useState(false);
 
-  const handleRoleChange = async (newRole: string) => {
+  const handleRoleChange = async (newRole: Role) => {
     if (isPending) return;
 
     try {
@@ -91,10 +92,10 @@ export default function UserActions({
               Set as Admin
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={() => handleRoleChange("editor")}
+              onClick={() => handleRoleChange("moderator")}
               disabled={currentRole === "editor" || isPending}
             >
-              Set as Editor
+              Set as Moderator
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => handleRoleChange("user")}

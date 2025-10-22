@@ -1,9 +1,8 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import { z } from "zod";
-import { checkAccess } from "./helper";
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
   metaTitle: z.string().min(1, "Meta Title is required"),
@@ -69,14 +68,6 @@ export async function createCourse(
   sectionId: string,
   sectionLink: string
 ) {
-  const author = await checkAccess();
-
-  if (!author?.id) {
-    return {
-      error: { _form: ["You must be an admin to create a course."] },
-    };
-  }
-
   const link = input.metaTitle
     .replace(/[^a-zA-Z0-9\s-]/g, "") // Remove unwanted characters
     .replace(/\s+/g, "-") // Replace spaces with hyphens
@@ -109,7 +100,7 @@ export async function createCourse(
     });
     revalidatePath(`/admin/section/${sectionLink}`);
     revalidatePath(`/category/${sectionLink}`);
-    revalidateTag("section:all");
+    updateTag("section:all");
     return { success: true };
   } catch (err) {
     console.error("Create course error:", err);
@@ -118,7 +109,6 @@ export async function createCourse(
     };
   }
 }
-
 export async function updateCourse(
   id: string,
   courseLink: string,
@@ -126,13 +116,6 @@ export async function updateCourse(
   sectionLink: string,
   input: Omit<FormData, "link">
 ) {
-  const author = await checkAccess();
-
-  if (!author?.id) {
-    return {
-      error: { _form: ["You must be an admin to update a course."] },
-    };
-  }
   const link = input.metaTitle
     .replace(/[^a-zA-Z0-9\s-]/g, "") // Remove unwanted characters
     .replace(/\s+/g, "-") // Replace spaces with hyphens
@@ -196,7 +179,7 @@ export async function updateCourse(
         data: newData,
       });
     });
-    revalidateTag("section:all");
+    updateTag("section:all");
     revalidatePath(`/admin/section/${sectionLink}`);
     revalidatePath(`/category/${sectionLink}`);
     revalidatePath(`/qualifications/${courseLink}`);
@@ -209,21 +192,12 @@ export async function updateCourse(
     };
   }
 }
-
 export async function deleteCourse(
   id: string,
   courseLink: string,
   sectionId: string,
   sectionLink: string
 ) {
-  const author = await checkAccess();
-
-  if (!author?.id) {
-    return {
-      error: { _form: ["You must be an admin to delete a course."] },
-    };
-  }
-
   try {
     const sectionToDelete = await prisma.course.findUnique({
       where: { id },
@@ -256,7 +230,7 @@ export async function deleteCourse(
     revalidatePath(`/admin/section/${sectionLink}`);
     revalidatePath(`/category/${sectionLink}`);
     revalidatePath(`/qualifications/${courseLink}`);
-    revalidateTag("section:all");
+    updateTag("section:all");
 
     return { success: true };
   } catch (error) {

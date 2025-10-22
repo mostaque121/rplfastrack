@@ -1,3 +1,4 @@
+import { getUserOrRedirect } from "@/app/(admin)/lib/get-user";
 import { FormDialog } from "@/components/custom-ui/form-dialog";
 import { Button } from "@/components/ui/button";
 import { ChevronRight, Plus } from "lucide-react";
@@ -9,6 +10,7 @@ import { CourseCardSkeleton } from "./components/skeleton";
 
 // Create a separate component for the section content
 async function SectionContent({ link }: { link: string }) {
+  await getUserOrRedirect();
   // Move data fetching inside this component
   const { getSectionByLink } = await import("@/app/(admin)/action/section");
   const section = await getSectionByLink(link);

@@ -1,8 +1,7 @@
 "use server";
+import { ResponseStage } from "@/app/generated/prisma";
 import { prisma } from "@/lib/prisma";
-import { ResponseStage } from "@prisma/client";
 import { revalidatePath } from "next/cache";
-import { checkAccess } from "./helper";
 
 export const getAllResponses = async (
   search: string,
@@ -87,10 +86,6 @@ export const getAllResponses = async (
 };
 
 export async function addNote(responseId: string, content: string) {
-  const author = await checkAccess();
-  if (!author || !author.id) {
-    return { success: false, error: "Unauthorized" };
-  }
   if (!content.trim()) {
     return { success: false, error: "Note content is required" };
   }
@@ -113,10 +108,6 @@ export async function addNote(responseId: string, content: string) {
 }
 
 export async function deleteNote(responseId: string, noteId: string) {
-  const author = await checkAccess();
-  if (!author || !author.id) {
-    return { success: false, error: "Unauthorized" };
-  }
   try {
     await prisma.note.delete({
       where: {
@@ -134,10 +125,6 @@ export async function deleteNote(responseId: string, noteId: string) {
 }
 
 export async function deleteResponse(responseId: string) {
-  const author = await checkAccess();
-  if (!author || !author.id) {
-    return { success: false, error: "Unauthorized" };
-  }
   try {
     await prisma.response.delete({
       where: {
@@ -154,10 +141,6 @@ export async function deleteResponse(responseId: string) {
 }
 
 export async function editStage(responseId: string, newStage: ResponseStage) {
-  const author = await checkAccess();
-  if (!author || !author.id) {
-    return { success: false, error: "Unauthorized" };
-  }
   try {
     await prisma.response.update({
       where: { id: responseId },

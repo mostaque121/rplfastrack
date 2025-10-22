@@ -87,7 +87,6 @@ export const getAllEligibility = async (
     };
   }
 };
-
 export async function addNote(
   eligibilitySubmissionId: string,
   content: string
@@ -112,7 +111,6 @@ export async function addNote(
     return { success: false, error: "Failed to add note" };
   }
 }
-
 export async function deleteNote(
   eligibilitySubmissionId: string,
   noteId: string
@@ -132,7 +130,6 @@ export async function deleteNote(
     return { success: false, error: "Failed to delete note" };
   }
 }
-
 export async function deleteEligibility(eligibilityId: string) {
   try {
     await prisma.eligibilitySubmission.delete({

@@ -18,7 +18,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { Skeleton } from "@/components/ui/skeleton";
-import { signOut, useSession } from "next-auth/react";
+import { authClient } from "@/lib/auth-client";
 
 function NavUserSkeleton() {
   return (
@@ -39,10 +39,10 @@ function NavUserSkeleton() {
 
 export function NavUser() {
   const { isMobile } = useSidebar();
-  const { data: session, status } = useSession();
+  const { data: session, isPending } = authClient.useSession();
   const user = session?.user;
 
-  if (status === "loading") {
+  if (isPending) {
     return <NavUserSkeleton />;
   }
 
@@ -100,7 +100,7 @@ export function NavUser() {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
 
-            <DropdownMenuItem onClick={() => signOut()}>
+            <DropdownMenuItem onClick={() => authClient.signOut()}>
               <LogOut />
               Log out
             </DropdownMenuItem>

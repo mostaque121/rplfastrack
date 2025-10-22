@@ -1,60 +1,37 @@
-import { auth } from "@/auth";
-import { prisma } from "@/lib/prisma";
-import { forbidden } from "next/navigation";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 export async function checkAdmin() {
   try {
-    const session = await auth();
-    const userId = session?.user?.id;
-
-    if (!userId) {
-      forbidden();
-    }
-
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      select: { role: true },
+    const session = await auth.api.getSession({
+      headers: await headers(),
     });
 
-    if (!user) {
-      forbidden();
+    if (!session?.user.id) {
+      throw new Error("Unauthorized");
     }
-
-    if (user.role === "admin") {
+    if (session.user.role === "admin") {
       return session.user;
     } else {
-      forbidden();
+      throw new Error("Unauthorized");
     }
   } catch (error) {
     console.error("Error while checking admin status:", error);
-    forbidden();
+    throw new Error("Unauthorized");
   }
 }
 export async function checkAccess() {
   try {
-    const session = await auth();
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
     const userId = session?.user?.id;
 
     if (!userId) {
-      forbidden();
-    }
-
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      select: { role: true },
-    });
-
-    if (!user) {
-      forbidden();
-    }
-
-    if (user.role === "admin" || user.role === "editor") {
-      return session.user;
-    } else {
-      forbidden();
+      throw new Error("Unauthorized");
     }
   } catch (error) {
     console.error("Error while checking admin status:", error);
-    forbidden();
+    throw new Error("Unauthorized");
   }
 }

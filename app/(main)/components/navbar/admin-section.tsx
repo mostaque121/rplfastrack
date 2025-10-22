@@ -22,6 +22,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { authClient } from "@/lib/auth-client";
 import { formatDistanceToNow } from "date-fns";
 import {
   AlertTriangle,
@@ -33,7 +34,6 @@ import {
   Mail,
   MessageSquare,
 } from "lucide-react";
-import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -59,7 +59,7 @@ export default function AdminSection() {
   const [loading, setLoading] = useState(true);
   const [reading, setReading] = useState(false);
   const [isNotificationSheetOpen, setIsNotificationSheetOpen] = useState(false);
-  const { data: session } = useSession();
+  const { data: session } = authClient.useSession();
   const user = session?.user;
 
   useEffect(() => {
@@ -268,7 +268,7 @@ export default function AdminSection() {
           </Sheet>
           <DropdownMenuSeparator />
           <DropdownMenuItem
-            onClick={() => signOut()}
+            onClick={async () => await authClient.signOut()}
             className="cursor-pointer text-red-600"
           >
             <LogOut className="mr-2 h-4 w-4" />

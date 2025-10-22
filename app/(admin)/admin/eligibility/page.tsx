@@ -3,6 +3,7 @@ import SearchForm from "../../components/common/search-form";
 import EligibilityControl from "../../components/eligibility/eligibility-control";
 import { EligibilityExcelExportButton } from "../../components/eligibility/excel-export-button";
 import EligibilityTableSkeleton from "../../components/eligibility/skeleton";
+import { getUserOrRedirect } from "../../lib/get-user";
 
 export default async function Page({
   searchParams,
@@ -13,6 +14,8 @@ export default async function Page({
   const params = await searchParams;
   const currentPage = Number(params.page) || 1;
   const search = params.q || "";
+
+  await getUserOrRedirect();
 
   return (
     <div className=" w-full mx-auto px-5 py-10">

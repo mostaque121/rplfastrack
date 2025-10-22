@@ -27,3 +27,12 @@ export const reviewFormSchema = z.object({
   reviewImage: z.string().optional(),
   givenStar: z.number().min(1, { message: "Rating is required." }),
 });
+export const signInSchema = z.object({
+  email: z.email(),
+  password: z
+    .string()
+    .nonempty("Password is required")
+    .min(8, "Password must be more than 8 characters")
+    .max(32, "Password must be less than 32 characters"),
+});
+export type LoginFormData = z.infer<typeof signInSchema>;

@@ -9,13 +9,13 @@ import {
   createPaymentSchema,
   updatePaymentSchema,
 } from "@/app/(admin)/lib/zod";
+import { Payment } from "@/app/generated/prisma";
 import { prisma } from "@/lib/prisma";
 import type {
   PaymentFilters,
   PaymentResponse,
   StatsResponse,
 } from "@/type/payment";
-import { checkAccess } from "./helper";
 
 export type PaymentWithParts = {
   id: string;
@@ -67,7 +67,6 @@ export async function createPayment(data: CreatePaymentData) {
   const totals = calculateTotals(validation.data);
 
   try {
-    checkAccess();
     const newPayment = await prisma.payment.create({
       data: { ...paymentData, ...totals, parts: { create: parts } },
       include: { parts: true },
@@ -93,7 +92,6 @@ export async function updatePayment(data: UpdatePaymentData) {
   const totals = calculateTotals(validation.data);
 
   try {
-    checkAccess();
     const updatedPayment = await prisma.$transaction(async (tx) => {
       // Sync payment parts: update existing, create new, and delete removed ones.
       const existingParts = await tx.paymentPart.findMany({
@@ -244,19 +242,19 @@ export async function getPaymentsWithFilter(
 
 export async function getPaymentStats(): Promise<StatsResponse> {
   try {
-    const [counts, aggregates] = await Promise.all([
-      prisma.payment.groupBy({
-        by: ["paymentStatus"],
-        _count: true,
-      }),
-      prisma.payment.aggregate({
-        _sum: {
-          payment: true,
-          courseFee: true,
-        },
-        _count: true,
-      }),
-    ]);
+    // Tell TypeScript the type of the groupBy result
+    const counts = (await prisma.payment.groupBy({
+      by: ["paymentStatus"],
+      _count: true,
+    })) as Array<{ paymentStatus: Payment["paymentStatus"]; _count: number }>;
+
+    const aggregates = await prisma.payment.aggregate({
+      _sum: {
+        payment: true,
+        courseFee: true,
+      },
+      _count: true,
+    });
 
     let paidPayments = 0;
     let pendingPayments = 0;
@@ -295,7 +293,6 @@ export async function getPaymentStats(): Promise<StatsResponse> {
 export async function deletePayment(
   id: string
 ): Promise<{ success: boolean; error?: string }> {
-  checkAccess();
   try {
     await prisma.paymentPart.deleteMany({
       where: {
@@ -320,7 +317,6 @@ export async function deletePayment(
 }
 
 export async function updatePaymentNote(id: string, note: string) {
-  checkAccess();
   try {
     const payment = await prisma.payment.update({
       where: { id },

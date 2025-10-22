@@ -1,6 +1,5 @@
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/sonner";
-import { SessionProvider } from "next-auth/react";
 import { Metadata } from "next/types";
 import { QueryProvider } from "./components/common/query-provider";
 import { DashboardSidebar } from "./components/dashboard/dashboard-sidebar";
@@ -29,20 +28,18 @@ export default async function RootLayout({
   return (
     <main>
       <QueryProvider>
-        <SessionProvider>
-          <SidebarProvider>
-            <DashboardSidebar />
-            <SidebarInset>
-              <div className="flex relative  flex-col">
-                <SiteHeader />
-                <div className="flex flex-1 overflow-y-auto flex-col">
-                  {children}
-                </div>
+        <SidebarProvider>
+          <DashboardSidebar />
+          <SidebarInset>
+            <div className="flex relative  flex-col">
+              <SiteHeader />
+              <div className="flex flex-1 overflow-y-auto flex-col">
+                {children}
               </div>
-            </SidebarInset>
-          </SidebarProvider>
-          <Toaster />
-        </SessionProvider>
+            </div>
+          </SidebarInset>
+        </SidebarProvider>
+        <Toaster />
       </QueryProvider>
     </main>
   );

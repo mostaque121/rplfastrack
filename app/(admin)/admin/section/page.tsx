@@ -3,6 +3,7 @@ import { FormDialog } from "@/components/custom-ui/form-dialog";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { Suspense } from "react";
+import { getUserOrRedirect } from "../../lib/get-user";
 import AdminSectionCard from "./components/section-card";
 import SectionForm from "./components/section-form";
 import { SectionCardSkeleton } from "./components/skeleton";
@@ -33,6 +34,7 @@ async function SectionsContent() {
 }
 
 export default async function Page() {
+  await getUserOrRedirect();
   return (
     <div className="max-w-7xl space-y-6 w-full mx-auto px-5 py-10">
       <div className="flex justify-between w-full gap-4">

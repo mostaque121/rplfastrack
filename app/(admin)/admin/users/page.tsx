@@ -1,6 +1,8 @@
-import { auth } from "@/auth";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 import { Suspense } from "react";
 import SearchForm from "../../components/common/search-form";
+import { getUserOrRedirect } from "../../lib/get-user";
 import UserTableSkeleton from "./components/skeleton";
 import UserTable from "./components/user-table";
 
@@ -9,12 +11,15 @@ export default async function Page({
 }: {
   searchParams: Promise<{ q?: string; page?: string }>;
 }) {
+  await getUserOrRedirect();
   // Use await to resolve the Promise
   const params = await searchParams;
   const currentPage = Number(params.page) || 1;
   const search = params.q || "";
 
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
   const user = session?.user;
 
   if (!user) return null;

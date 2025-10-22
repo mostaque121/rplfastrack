@@ -35,8 +35,6 @@ export async function getPaymentAnalytics(filters: FilterParams) {
       },
     });
 
-    console.log(currentPeriodPayments.length);
-
     // Get previous period data for comparison
     const previousPeriodPayments = await prisma.payment.findMany({
       where: {

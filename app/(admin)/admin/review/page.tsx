@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { Suspense } from "react";
 import SearchForm from "../../components/common/search-form";
+import { getUserOrRedirect } from "../../lib/get-user";
 import { ApprovedSelector } from "./components/approved-selector";
 import ReviewForm from "./components/form/review-form";
 import { ReviewCardSkeleton } from "./components/review-card-skeleton";
@@ -13,6 +14,7 @@ export default async function Page({
 }: {
   searchParams: Promise<{ q?: string; page?: string; approved?: string }>;
 }) {
+  await getUserOrRedirect();
   // Await the searchParams promise
   const params = await searchParams;
   const currentPage = Number(params.page) || 1;

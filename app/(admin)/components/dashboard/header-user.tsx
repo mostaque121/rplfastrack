@@ -10,14 +10,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
+import { authClient } from "@/lib/auth-client";
 import { LogOut } from "lucide-react";
-import { signOut, useSession } from "next-auth/react";
-
 export default function HeaderUser() {
-  const { data: session, status } = useSession();
+  const { data: session, isPending } = authClient.useSession();
   const user = session?.user;
 
-  if (status === "loading") {
+  if (isPending) {
     return <HeaderUserSkeleton />;
   }
   if (!user) {
@@ -50,7 +49,7 @@ export default function HeaderUser() {
           <DropdownMenuSeparator />
 
           <DropdownMenuItem
-            onClick={() => signOut()}
+            onClick={() => authClient.signOut()}
             className="cursor-pointer text-destructive focus:text-destructive"
           >
             <LogOut className="mr-2 h-4 w-4" />

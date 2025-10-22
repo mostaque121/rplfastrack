@@ -1,9 +1,9 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import { z } from "zod";
-import { checkAccess } from "./helper";
+
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
   metaDescription: z.string().min(1, "Meta Description is required"),
@@ -64,14 +64,6 @@ export async function getSectionByLink(link: string) {
 }
 
 export async function createSection(input: Omit<FormData, "link">) {
-  const author = await checkAccess();
-
-  if (!author?.id) {
-    return {
-      error: { _form: ["You must be an admin to create a section."] },
-    };
-  }
-
   const link = input.title
     .replace(/[^a-zA-Z0-9\s-]/g, "") // Remove unwanted characters
     .replace(/\s+/g, "-") // Replace spaces with hyphens
@@ -98,7 +90,7 @@ export async function createSection(input: Omit<FormData, "link">) {
       await tx.section.create({ data });
     });
     revalidatePath("/admin/section");
-    revalidateTag("section:all");
+    updateTag("section:all");
     return { success: true };
   } catch (err) {
     console.error("Create section error:", err);
@@ -113,14 +105,6 @@ export async function updateSection(
   sectionLink: string,
   input: Omit<FormData, "link">
 ) {
-  const author = await checkAccess();
-
-  if (!author?.id) {
-    return {
-      error: { _form: ["You must be an admin to update a section."] },
-    };
-  }
-
   const link = input.title
     .replace(/[^a-zA-Z0-9\s-]/g, "") // Remove unwanted characters
     .replace(/\s+/g, "-") // Replace spaces with hyphens
@@ -184,7 +168,7 @@ export async function updateSection(
     });
     revalidatePath("/admin/section");
     revalidatePath(`/category/${sectionLink}`);
-    revalidateTag("section:all");
+    updateTag("section:all");
     return { success: true };
   } catch (error) {
     console.error("Update section failed:", error);
@@ -195,14 +179,6 @@ export async function updateSection(
 }
 
 export async function deleteSection(id: string, link: string) {
-  const author = await checkAccess();
-
-  if (!author?.id) {
-    return {
-      error: { _form: ["You must be an admin to delete a section."] },
-    };
-  }
-
   try {
     const sectionToDelete = await prisma.section.findUnique({
       where: { id },
@@ -242,7 +218,7 @@ export async function deleteSection(id: string, link: string) {
     });
     revalidatePath("/admin/section");
     revalidatePath(`/category/${link}`);
-    revalidateTag("section:all");
+    updateTag("section:all");
     return { success: true };
   } catch (error) {
     console.error("Delete section failed:", error);

@@ -3,6 +3,7 @@
 import { Clock, Loader2, MessageSquare, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 
+import { ResponseStage } from "@/app/generated/prisma";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -31,7 +32,6 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
-import { ResponseStage } from "@prisma/client";
 import { toast } from "sonner";
 import {
   addNote,

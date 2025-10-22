@@ -9,9 +9,7 @@ export const reviewFormSchema = z.object({
   reviewText: z.string().min(1, { message: "Review text is required." }),
   reviewImage: z.string().optional(),
   givenStar: z.number().min(1, { message: "Rating is required." }),
-  reviewDate: z.date({
-    required_error: "Review date is required.",
-  }),
+  reviewDate: z.date("Review date is required."),
 });
 
 // Schema for an individual payment installment

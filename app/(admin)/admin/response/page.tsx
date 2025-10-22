@@ -3,12 +3,14 @@ import SearchForm from "../../components/common/search-form";
 import { ExcelExportButton } from "../../components/response/excel-export-button";
 import ResponseControl from "../../components/response/response-control";
 import ResponseTableSkeleton from "../../components/response/skeleton";
+import { getUserOrRedirect } from "../../lib/get-user";
 
 export default async function Page({
   searchParams,
 }: {
   searchParams: Promise<{ q?: string; page?: string }>;
 }) {
+  await getUserOrRedirect();
   // Use await to resolve the Promise
   const params = await searchParams;
   const currentPage = Number(params.page) || 1;

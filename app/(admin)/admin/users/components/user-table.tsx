@@ -24,7 +24,7 @@ export default async function UserTable({
 }: {
   search: string;
   page: number;
-  loggedInUser: { id?: string; role: string };
+  loggedInUser: { id?: string; role?: string | null };
 }) {
   const isAdmin = loggedInUser.role === "admin";
   const pageSize = 10;

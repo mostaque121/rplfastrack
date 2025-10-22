@@ -13,7 +13,7 @@ export async function createFormSubmissionNotification({
     // 1. Find all admins and editors
     const adminsAndEditors = await prisma.user.findMany({
       where: {
-        role: { in: ["admin", "editor"] },
+        role: { in: ["admin", "moderator"] },
       },
       select: { id: true },
     });

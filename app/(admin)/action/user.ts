@@ -1,4 +1,5 @@
 "use server";
+import { Role } from "@/app/generated/prisma";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { checkAdmin } from "./helper";
@@ -69,7 +70,7 @@ export const getAllUsersBySearch = async (
   }
 };
 
-export async function updateUserRole(userId: string, newRole: string) {
+export async function updateUserRole(userId: string, newRole: Role) {
   const author = await checkAdmin();
   if (!author || !author.id) {
     return { success: false, error: "Unauthorized" };
@@ -84,10 +85,8 @@ export async function updateUserRole(userId: string, newRole: string) {
 }
 
 export async function deleteUser(userId: string) {
-  const author = await checkAdmin();
-  if (!author || !author.id) {
-    return { success: false, error: "Unauthorized" };
-  }
+  await checkAdmin();
+
   await prisma.user.delete({
     where: { id: userId },
   });

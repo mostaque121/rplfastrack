@@ -1,7 +1,6 @@
 import { WhatsAppChatButton } from "@/components/custom-ui/whatsapp-chat-button";
 import { Toaster } from "@/components/ui/sonner";
 import { GoogleAnalytics } from "@next/third-parties/google";
-import { SessionProvider } from "next-auth/react";
 import { Metadata } from "next/types";
 import Footer from "./components/footer/footer";
 import Navbar from "./components/navbar/navbar";
@@ -100,17 +99,15 @@ export default function RootLayout({
   const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
   return (
-    <SessionProvider>
-      <main>
-        <Navbar />
-        {children}
-        {whatsAppNumber && (
-          <WhatsAppChatButton phoneNumber={whatsAppNumber} size="lg" />
-        )}
-        <Footer />
-        <Toaster />
-        {GA_MEASUREMENT_ID && <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />}
-      </main>
-    </SessionProvider>
+    <main>
+      <Navbar />
+      {children}
+      {whatsAppNumber && (
+        <WhatsAppChatButton phoneNumber={whatsAppNumber} size="lg" />
+      )}
+      <Footer />
+      <Toaster />
+      {GA_MEASUREMENT_ID && <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />}
+    </main>
   );
 }
