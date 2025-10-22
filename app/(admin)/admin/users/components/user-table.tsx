@@ -1,8 +1,3 @@
-import {
-  deleteUser,
-  getAllUsersBySearch,
-  updateUserRole,
-} from "@/app/(admin)/action/user";
 import PaginationControl from "@/app/(admin)/components/common/pagination";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -15,6 +10,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { auth } from "@/lib/auth";
+import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 import UserActions from "./user-action";
 
 export default async function UserTable({
@@ -28,22 +26,34 @@ export default async function UserTable({
 }) {
   const isAdmin = loggedInUser.role === "admin";
   const pageSize = 10;
-  const getRoleBadgeVariant = (role: string) => {
+  const offset = (page - 1) * pageSize;
+  const getRoleBadgeVariant = (role?: string) => {
     switch (role) {
-      case "Admin":
+      case "admin":
         return "default";
-      case "Editor":
+      case "moderator":
         return "outline";
       default:
         return "secondary";
     }
   };
 
-  const { users, pagination } = await getAllUsersBySearch(
-    search,
-    page,
-    pageSize
-  );
+  const { users, total } = await auth.api.listUsers({
+    query: {
+      searchValue: search,
+      searchField: "name",
+      searchOperator: "contains",
+      limit: pageSize,
+      offset: offset,
+    },
+    // This endpoint requires session cookies.
+    headers: await headers(),
+  });
+
+  async function revalidate() {
+    "use server";
+    revalidatePath("/admin/users");
+  }
 
   if (users.length === 0) {
     return (
@@ -75,7 +85,10 @@ export default async function UserTable({
             <TableRow
               key={user.id}
               className={` rounded-md overflow-hidden ${
-                loggedInUser.id === user.id && "bg-green-300 hover:bg-green-400"
+                user.banned
+                  ? "bg-destructive/20 hover:bg-destructive/30"
+                  : loggedInUser.id === user.id &&
+                    "bg-green-300 hover:bg-green-400"
               }`}
             >
               <TableCell>
@@ -102,11 +115,11 @@ export default async function UserTable({
                 <TableCell className="text-right">
                   {loggedInUser.id !== user.id && (
                     <UserActions
+                      revalidate={revalidate}
                       userId={user.id}
                       currentRole={user.role}
                       isAdmin={isAdmin}
-                      onRoleChange={updateUserRole}
-                      onDelete={deleteUser}
+                      isBanned={user.banned}
                     />
                   )}
                 </TableCell>
@@ -117,8 +130,8 @@ export default async function UserTable({
       </Table>
       <div>
         <PaginationControl
-          currentPage={pagination.currentPage}
-          totalPages={pagination.totalPages}
+          currentPage={Math.floor(offset / pageSize) + 1}
+          totalPages={Math.ceil(total / pageSize)}
           searchParams={search ? { q: search } : {}}
         />
       </div>

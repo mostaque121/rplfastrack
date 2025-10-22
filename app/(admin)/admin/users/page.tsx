@@ -1,5 +1,3 @@
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
 import { Suspense } from "react";
 import SearchForm from "../../components/common/search-form";
 import { getUserOrRedirect } from "../../lib/get-user";
@@ -11,18 +9,12 @@ export default async function Page({
 }: {
   searchParams: Promise<{ q?: string; page?: string }>;
 }) {
-  await getUserOrRedirect();
+  const user = await getUserOrRedirect();
+
   // Use await to resolve the Promise
   const params = await searchParams;
   const currentPage = Number(params.page) || 1;
   const search = params.q || "";
-
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-  const user = session?.user;
-
-  if (!user) return null;
 
   return (
     <div className="max-w-7xl w-full mx-auto px-5 py-10">
@@ -38,11 +30,7 @@ export default async function Page({
           fallback={<UserTableSkeleton length={3} />}
           key={`${search}-${currentPage}`}
         >
-          <UserTable
-            loggedInUser={session.user}
-            search={search}
-            page={currentPage}
-          />
+          <UserTable loggedInUser={user} search={search} page={currentPage} />
         </Suspense>
       </div>
     </div>
