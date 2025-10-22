@@ -1,8 +1,8 @@
 "use server";
 
-import { prisma } from "@/lib/prisma"; // Adjust path as needed
+import { prisma } from "@/lib/prisma";
 import { format } from "date-fns";
-import * as XLSX from "xlsx";
+import ExcelJS from "exceljs";
 
 export async function exportResponsesToExcel() {
   try {
@@ -13,41 +13,44 @@ export async function exportResponsesToExcel() {
           take: 1,
         },
       },
-      orderBy: { createdAt: "desc" }, // latest first
+      orderBy: { createdAt: "desc" },
     });
 
-    const workbook = XLSX.utils.book_new();
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Responses");
 
-    // Map with friendly headings & preferred order
-    const excelData = responses.map((response, index) => ({
-      "No.": index + 1, // auto index
-      Date: response.createdAt
-        ? format(response.createdAt, "yyyy-MM-dd HH:mm:ss")
-        : "",
-      Name: response.name || "",
-      "Phone Number": response.phone || "",
-      "Email Address": response.email || "",
-      Interest: response.interest || "",
-      Stage: response.stage || "",
-      Message: response.message || "",
-      "Latest Note": response.notes.length > 0 ? response.notes[0].content : "",
-    }));
+    // Add headers
+    worksheet.columns = [
+      { header: "No.", key: "no", width: 6 },
+      { header: "Date", key: "date", width: 20 },
+      { header: "Name", key: "name", width: 25 },
+      { header: "Phone Number", key: "phone", width: 20 },
+      { header: "Email Address", key: "email", width: 25 },
+      { header: "Interest", key: "interest", width: 25 },
+      { header: "Stage", key: "stage", width: 15 },
+      { header: "Message", key: "message", width: 50 },
+      { header: "Latest Note", key: "latestNote", width: 50 },
+    ];
 
-    const worksheet = XLSX.utils.json_to_sheet(excelData);
-
-    // Set column widths based on content
-    const colWidths = Object.keys(excelData[0] || {}).map((key) => ({
-      wch: Math.max(key.length, 20),
-    }));
-    worksheet["!cols"] = colWidths;
-
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Responses");
-
-    const excelBuffer = XLSX.write(workbook, {
-      type: "buffer",
-      bookType: "xlsx",
+    // Add rows
+    responses.forEach((response, index) => {
+      worksheet.addRow({
+        no: index + 1,
+        date: response.createdAt
+          ? format(response.createdAt, "yyyy-MM-dd HH:mm:ss")
+          : "",
+        name: response.name || "",
+        phone: response.phone || "",
+        email: response.email || "",
+        interest: response.interest || "",
+        stage: response.stage || "",
+        message: response.message || "",
+        latestNote: response.notes.length > 0 ? response.notes[0].content : "",
+      });
     });
-    const base64 = Buffer.from(excelBuffer).toString("base64");
+
+    const buffer = await workbook.xlsx.writeBuffer();
+    const base64 = Buffer.from(buffer).toString("base64");
 
     return {
       success: true,
@@ -62,6 +65,7 @@ export async function exportResponsesToExcel() {
     };
   }
 }
+
 export async function exportEligibilityToExcel() {
   try {
     const submissions = await prisma.eligibilitySubmission.findMany({
@@ -71,48 +75,47 @@ export async function exportEligibilityToExcel() {
           take: 1,
         },
       },
-      orderBy: { createdAt: "desc" }, // latest first
+      orderBy: { createdAt: "desc" },
     });
 
-    const workbook = XLSX.utils.book_new();
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Eligibility Submissions");
 
-    // Map with friendly headings & preferred order
-    const excelData = submissions.map((submission, index) => ({
-      "No.": index + 1, // auto index
-      Date: submission.createdAt
-        ? format(submission.createdAt, "yyyy-MM-dd HH:mm:ss")
-        : "",
-      Name: submission.fullName || "",
-      "Email Address": submission.email || "",
-      "Phone Number": submission.phoneNumber || "",
-      Industry: submission.industry || "",
-      Qualification: submission.qualification || "",
-      "Years of Experience": submission.yearsOfExperience ?? "",
-      "State Lived In": submission.stateLivedIn || "",
-      Message: submission.message || "",
-      "Latest Note":
-        submission.notes.length > 0 ? submission.notes[0].content : "",
-    }));
+    worksheet.columns = [
+      { header: "No.", key: "no", width: 6 },
+      { header: "Date", key: "date", width: 20 },
+      { header: "Name", key: "name", width: 25 },
+      { header: "Email Address", key: "email", width: 25 },
+      { header: "Phone Number", key: "phone", width: 20 },
+      { header: "Industry", key: "industry", width: 20 },
+      { header: "Qualification", key: "qualification", width: 25 },
+      { header: "Years of Experience", key: "experience", width: 10 },
+      { header: "State Lived In", key: "state", width: 20 },
+      { header: "Message", key: "message", width: 50 },
+      { header: "Latest Note", key: "latestNote", width: 50 },
+    ];
 
-    const worksheet = XLSX.utils.json_to_sheet(excelData);
-
-    // Set column widths (at least 20 chars, or header length)
-    const colWidths = Object.keys(excelData[0] || {}).map((key) => ({
-      wch: Math.max(key.length, 20),
-    }));
-    worksheet["!cols"] = colWidths;
-
-    XLSX.utils.book_append_sheet(
-      workbook,
-      worksheet,
-      "Eligibility Submissions"
-    );
-
-    const excelBuffer = XLSX.write(workbook, {
-      type: "buffer",
-      bookType: "xlsx",
+    submissions.forEach((submission, index) => {
+      worksheet.addRow({
+        no: index + 1,
+        date: submission.createdAt
+          ? format(submission.createdAt, "yyyy-MM-dd HH:mm:ss")
+          : "",
+        name: submission.fullName || "",
+        email: submission.email || "",
+        phone: submission.phoneNumber || "",
+        industry: submission.industry || "",
+        qualification: submission.qualification || "",
+        experience: submission.yearsOfExperience ?? "",
+        state: submission.stateLivedIn || "",
+        message: submission.message || "",
+        latestNote:
+          submission.notes.length > 0 ? submission.notes[0].content : "",
+      });
     });
-    const base64 = Buffer.from(excelBuffer).toString("base64");
+
+    const buffer = await workbook.xlsx.writeBuffer();
+    const base64 = Buffer.from(buffer).toString("base64");
 
     return {
       success: true,
