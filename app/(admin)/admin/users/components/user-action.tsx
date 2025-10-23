@@ -47,6 +47,7 @@ export default function UserActions({
         toast.success("Role updated", {
           description: `User role has been updated to ${newRole}`,
         });
+        revalidate();
       }
 
       if (error) {

@@ -8,16 +8,7 @@ export async function proxy(request: NextRequest) {
 
   const { pathname } = request.nextUrl;
 
-  // Public routes
-  if (
-    pathname.startsWith("/public") ||
-    pathname === "/" ||
-    pathname === "/signin"
-  ) {
-    return NextResponse.next();
-  }
-
-  // Admin routes
+  // Only applies to /admin routes
   if (pathname.startsWith("/admin")) {
     if (!session) {
       return NextResponse.redirect(new URL("/signin", request.url));
@@ -32,13 +23,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     */
-    "/((?!_next/static|_next/image|favicon.ico).*)",
-  ],
+  matcher: ["/admin/:path*"], // ✅ Only match routes starting with /admin
 };
