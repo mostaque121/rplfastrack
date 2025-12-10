@@ -1,4 +1,4 @@
-import { WhatsAppChatButton } from "@/components/custom-ui/whatsapp-chat-button";
+import WhatsAppButton1 from "@/components/custom-ui/whatsapp-button";
 import { Toaster } from "@/components/ui/sonner";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { Metadata } from "next/types";
@@ -102,9 +102,7 @@ export default function RootLayout({
     <main>
       <Navbar />
       {children}
-      {whatsAppNumber && (
-        <WhatsAppChatButton phoneNumber={whatsAppNumber} size="lg" />
-      )}
+      {whatsAppNumber && <WhatsAppButton1 phoneNumber={whatsAppNumber} />}
       <Footer />
       <Toaster />
       {GA_MEASUREMENT_ID && <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />}

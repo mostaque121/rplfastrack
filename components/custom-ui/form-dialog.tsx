@@ -6,7 +6,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger, // 1. Import DialogTrigger
 } from "@/components/ui/dialog";
 import * as React from "react";
 import { useState } from "react";
@@ -31,10 +30,8 @@ export function FormDialog<T>({
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   return (
-    // 3. The Dialog now wraps everything
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-      {/* 4. Use DialogTrigger with asChild to wrap your custom button */}
-      <DialogTrigger asChild>{children}</DialogTrigger>
+      <div onClick={() => setIsDialogOpen(true)}>{children}</div>
 
       <DialogContent className="md:w-[calc(100%-100px)] w-full rounded-none md:rounded-md p-0 gap-0 overflow-hidden !max-w-5xl">
         <DialogHeader>

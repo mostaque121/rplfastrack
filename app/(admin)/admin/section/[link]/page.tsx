@@ -41,6 +41,7 @@ async function SectionContent({ link }: { link: string }) {
           <ChevronRight className="w-5 text-blue-500 h-5" />
           <h4 className="text-xl font-bold">{section.title}</h4>
         </div>
+
         <FormDialog Form={CourseForm} item={item}>
           <Button className="flex items-center gap-2">
             <Plus size={18} />
