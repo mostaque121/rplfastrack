@@ -1,4 +1,4 @@
-import { ac, admin as adminRole, moderator, user } from "@/lib/permisssion";
+import { ac, adminRole, user } from "@/lib/permisssion";
 import { Redis } from "@upstash/redis";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
@@ -20,7 +20,6 @@ export const auth = betterAuth({
       ac,
       roles: {
         user,
-        moderator,
         admin: adminRole,
       },
     }),

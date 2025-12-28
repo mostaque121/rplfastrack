@@ -16,11 +16,4 @@ export const user = ac.newRole({
   // user has no permissions by default
 });
 
-export const moderator = ac.newRole({
-  ...userAc.statements,
-  // moderator has same permissions as user (no permissions)
-});
-
-export const admin = ac.newRole({
-  ...adminAc.statements,
-});
+export const adminRole = ac.newRole({ ...adminAc.statements });

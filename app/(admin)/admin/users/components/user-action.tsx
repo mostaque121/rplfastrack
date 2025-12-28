@@ -1,6 +1,5 @@
 "use client";
 
-import { Role } from "@/app/generated/prisma";
 import { ConfirmationDialog } from "@/components/custom-ui/confirmation-dialog";
 import { Button } from "@/components/ui/button";
 import {
@@ -34,7 +33,7 @@ export default function UserActions({
   const [popoverOpen, setPopoverOpen] = useState(false);
 
   // Role change
-  const handleRoleChange = async (newRole: Role) => {
+  const handleRoleChange = async (newRole: "admin" | "user") => {
     if (isPending) return;
     try {
       setIsPending(true);
@@ -154,14 +153,7 @@ export default function UserActions({
               >
                 Set as Admin
               </Button>
-              <Button
-                variant="ghost"
-                className="w-full text-left"
-                onClick={() => handleRoleChange("moderator")}
-                disabled={currentRole === "moderator" || isPending}
-              >
-                Set as Moderator
-              </Button>
+
               <Button
                 variant="ghost"
                 className="w-full text-left"
