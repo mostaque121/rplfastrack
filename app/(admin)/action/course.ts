@@ -68,7 +68,7 @@ export async function createCourse(
   sectionId: string,
   sectionLink: string
 ) {
-  const link = input.metaTitle
+  const link = input.title
     .replace(/[^a-zA-Z0-9\s-]/g, "") // Remove unwanted characters
     .replace(/\s+/g, "-") // Replace spaces with hyphens
     .replace(/-+/g, "-") // Collapse multiple hyphens
@@ -79,7 +79,7 @@ export async function createCourse(
   const parsed = formSchema.safeParse({ ...input, link });
 
   if (!parsed.success) {
-    return { error: parsed.error.flatten().fieldErrors };
+    return { error: parsed.error.issues };
   }
 
   const data = parsed.data;
@@ -116,7 +116,7 @@ export async function updateCourse(
   sectionLink: string,
   input: Omit<FormData, "link">
 ) {
-  const link = input.metaTitle
+  const link = input.title
     .replace(/[^a-zA-Z0-9\s-]/g, "") // Remove unwanted characters
     .replace(/\s+/g, "-") // Replace spaces with hyphens
     .replace(/-+/g, "-") // Collapse multiple hyphens
@@ -128,7 +128,7 @@ export async function updateCourse(
 
   if (!parsed.success) {
     return {
-      error: parsed.error.flatten().fieldErrors,
+      error: parsed.error.issues,
     };
   }
 
