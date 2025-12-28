@@ -13,7 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { ImageUploaderClient } from "@/components/uploader/ImageUploaderClient";
+import { ImageUploaderServer } from "@/components/uploader/image-uploader-server";
 import { useRPL } from "@/contexts/rpl-context";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -140,7 +140,7 @@ export default function SectionForm({ onCloseForm, item }: SectionFormProps) {
               <FormItem className="text-center">
                 <FormLabel>Square Image</FormLabel>
                 <FormControl>
-                  <ImageUploaderClient
+                  <ImageUploaderServer
                     uploadPreset="service-square"
                     initialImage={item?.imageSquareLink}
                     initialPublicId={item?.imageSquarePublicId}
@@ -161,7 +161,7 @@ export default function SectionForm({ onCloseForm, item }: SectionFormProps) {
               <FormItem className="text-center">
                 <FormLabel>Cover Image</FormLabel>
                 <FormControl>
-                  <ImageUploaderClient
+                  <ImageUploaderServer
                     uploadPreset="service-cover"
                     initialImage={item?.imageCoverLink}
                     initialPublicId={item?.imageCoverPublicId}

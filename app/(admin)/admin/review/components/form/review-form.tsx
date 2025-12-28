@@ -4,8 +4,6 @@ import { saveReview, updateReview } from "@/app/(admin)/action/review";
 import { reviewFormSchema } from "@/app/(admin)/lib/zod";
 import { LoadingButton } from "@/components/custom-ui/loading-button";
 import SelectCourse from "@/components/custom-ui/select-course";
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
 import {
   Form,
   FormControl,
@@ -15,21 +13,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { Textarea } from "@/components/ui/textarea";
-import { ImageUploaderClient } from "@/components/uploader/ImageUploaderClient";
+import { ImageUploaderServer } from "@/components/uploader/image-uploader-server";
 import { useRPL } from "@/contexts/rpl-context";
-import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
+import { DatePicker } from "../../../../../../components/custom-ui/date-picker";
 import StarRating from "./star-rating";
 
 type FormValues = z.infer<typeof reviewFormSchema>;
@@ -162,7 +154,7 @@ export default function ReviewForm({
               <FormItem>
                 <FormLabel>User Avatar (Optional)</FormLabel>
                 <FormControl>
-                  <ImageUploaderClient
+                  <ImageUploaderServer
                     aspectRatio={1}
                     uploadPreset="avatar"
                     initialImage={field.value}
@@ -220,7 +212,7 @@ export default function ReviewForm({
               <FormItem>
                 <FormLabel>Review Image (Optional)</FormLabel>
                 <FormControl>
-                  <ImageUploaderClient
+                  <ImageUploaderServer
                     uploadPreset="review-image"
                     initialImage={field.value}
                     onImageUploaded={field.onChange}
@@ -256,27 +248,11 @@ export default function ReviewForm({
                   <CalendarIcon className="w-4 h-4" />
                   Review Date
                 </FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className={cn(
-                        "w-full justify-start text-left font-normal",
-                        !field.value && "text-muted-foreground"
-                      )}
-                    >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {field.value ? format(field.value, "PPP") : "Pick a date"}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={field.value}
-                      onSelect={field.onChange}
-                    />
-                  </PopoverContent>
-                </Popover>
+                <DatePicker
+                  className="w-full"
+                  selected={field.value}
+                  onSelect={field.onChange}
+                />
                 <FormMessage />
               </FormItem>
             )}

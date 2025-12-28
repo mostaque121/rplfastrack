@@ -13,7 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { ImageUploaderClient } from "@/components/uploader/ImageUploaderClient";
+import { ImageUploaderServer } from "@/components/uploader/image-uploader-server";
 import { zodResolver } from "@hookform/resolvers/zod";
 import dynamic from "next/dynamic";
 import { useForm } from "react-hook-form";
@@ -208,7 +208,7 @@ export default function CourseForm({ onCloseForm, item }: SectionFormProps) {
               <FormItem className="text-center">
                 <FormLabel>Square Image</FormLabel>
                 <FormControl>
-                  <ImageUploaderClient
+                  <ImageUploaderServer
                     uploadPreset="service-square"
                     initialImage={item.course?.imageSquareLink}
                     initialPublicId={item.course?.imageSquarePublicId}
@@ -229,7 +229,7 @@ export default function CourseForm({ onCloseForm, item }: SectionFormProps) {
               <FormItem className="text-center">
                 <FormLabel>Cover Image</FormLabel>
                 <FormControl>
-                  <ImageUploaderClient
+                  <ImageUploaderServer
                     uploadPreset="service-cover"
                     initialImage={item.course?.imageCoverLink}
                     initialPublicId={item.course?.imageCoverPublicId}
