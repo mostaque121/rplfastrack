@@ -23,7 +23,7 @@ export default function TermsOfService() {
             Terms of Service
           </h1>
           <p className="mt-4 text-lg text-gray-600">
-            Last Updated: May 10, 2025
+            Last Updated: March 13, 2026
           </p>
         </div>
 
@@ -166,14 +166,65 @@ export default function TermsOfService() {
               will not affect services for which you have already paid.
             </p>
             <p>
-              Refunds are subject to our Refund Policy, which is incorporated
-              into these Terms by reference.
+              Refunds are subject to our{" "}
+              <Link
+                href="/refund-policy"
+                className="text-emerald-600 hover:text-emerald-800 font-medium"
+              >
+                Refund Policy
+              </Link>
+              , which is incorporated into these Terms by reference.
             </p>
           </section>
 
           <section className="mb-8">
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-              8. Limitation of Liability
+              8. Refund Policy
+            </h2>
+            <p>
+              RPL Fast Track maintains a clear and transparent Refund Policy
+              that governs all refund requests in relation to our services. By
+              engaging our services and making payment, you acknowledge that you
+              have read and agreed to the terms outlined in our Refund Policy.
+            </p>
+            <p className="mt-2">Key points of our Refund Policy include:</p>
+            <ul className="list-disc pl-6 mb-4 mt-2">
+              <li>
+                Cancellations made within 7 days of payment are eligible for a
+                full refund, less a 10% non-refundable administration fee
+                deducted from the total deposit paid
+              </li>
+              <li>
+                Once the assessment process has commenced, no refund will be
+                issued as resources have been allocated to your application
+              </li>
+              <li>
+                RPL Fast Track operates solely as a recruitment and referral
+                partner of our Registered Training Organisation (RTO). We are
+                not responsible for any decisions made by ASQA or outcomes
+                related to certificates issued by our partner RTO, and no refund
+                will be provided in such circumstances
+              </li>
+              <li>
+                Special circumstances such as serious illness or bereavement may
+                be considered on a case-by-case basis
+              </li>
+            </ul>
+            <p>
+              For full details, please review our{" "}
+              <Link
+                href="/refund-policy"
+                className="text-emerald-600 hover:text-emerald-800 font-medium"
+              >
+                Refund Policy
+              </Link>
+              , which is incorporated into these Terms by reference.
+            </p>
+          </section>
+
+          <section className="mb-8">
+            <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+              9. Limitation of Liability
             </h2>
             <p>
               To the maximum extent permitted by law, RPL Fast Track shall not
@@ -201,7 +252,7 @@ export default function TermsOfService() {
 
           <section className="mb-8">
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-              9. Indemnification
+              10. Indemnification
             </h2>
             <p>
               You agree to defend, indemnify, and hold harmless RPL Fast Track,
@@ -215,7 +266,7 @@ export default function TermsOfService() {
 
           <section className="mb-8">
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-              10. Termination
+              11. Termination
             </h2>
             <p>
               We may terminate or suspend your access to our services
@@ -232,7 +283,7 @@ export default function TermsOfService() {
 
           <section className="mb-8">
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-              11. Governing Law
+              12. Governing Law
             </h2>
             <p>
               These Terms shall be governed by and construed in accordance with
@@ -244,7 +295,7 @@ export default function TermsOfService() {
 
           <section className="mb-8">
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-              12. Changes to Terms
+              13. Changes to Terms
             </h2>
             <p>
               We reserve the right to modify these Terms at any time. We will
@@ -257,7 +308,7 @@ export default function TermsOfService() {
 
           <section>
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-              13. Contact Us
+              14. Contact Us
             </h2>
             <p>
               If you have any questions about these Terms, please contact us at:

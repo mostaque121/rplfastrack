@@ -22,7 +22,7 @@ export default function RefundPolicy() {
             Refund Policy
           </h1>
           <p className="mt-4 text-lg text-gray-600">
-            Last Updated: May 10, 2025
+            Last Updated: March 13, 2026
           </p>
         </div>
 
@@ -53,8 +53,9 @@ export default function RefundPolicy() {
             </p>
             <ul className="list-disc pl-6 mb-4">
               <li>
-                Within 7 days of payment: Full refund minus a $100
-                administration fee
+                Within 7 days of payment: A full refund will be issued, less a
+                10% non-refundable administration fee deducted from the total
+                deposit paid
               </li>
               <li>Between 8-14 days of payment: 75% refund</li>
               <li>Between 15-30 days of payment: 50% refund</li>
@@ -76,7 +77,58 @@ export default function RefundPolicy() {
             </ul>
 
             <h3 className="text-xl font-medium text-gray-900 mb-3">
-              2.3 Unsuccessful Applications
+              2.3 ASQA Decisions &amp; Partner RTO Responsibilities
+            </h3>
+            <p>
+              RPL Fast Track operates solely as a{" "}
+              <strong>recruitment and referral partner</strong> of our
+              Registered Training Organisation (RTO). We facilitate the RPL
+              process on behalf of the RTO but do not issue qualifications or
+              certifications ourselves.
+            </p>
+            <p className="mt-2">
+              Any decision made by ASQA (Australian Skills Quality Authority) —
+              including audits, sanctions, suspension, or cancellation of
+              certificates issued by our partner RTO — is entirely outside the
+              control and responsibility of RPL Fast Track. In such cases:
+            </p>
+            <ul className="list-disc pl-6 mb-4 mt-2">
+              <li>
+                RPL Fast Track bears <strong>no liability</strong> for any
+                outcome resulting from ASQA&apos;s decisions or actions taken
+                against the RTO
+              </li>
+              <li>
+                The <strong>RTO is solely responsible</strong> for all matters
+                relating to the issuance, validity, and compliance of
+                certificates under its scope of registration
+              </li>
+              <li>
+                <strong>No refund will be provided</strong> by RPL Fast Track in
+                relation to any such circumstances
+              </li>
+            </ul>
+
+            <h3 className="text-xl font-medium text-gray-900 mb-3">
+              2.4 Unsuccessful Applications
+            </h3>
+            <p>If your RPL application is unsuccessful:</p>
+            <ul className="list-disc pl-6 mb-4">
+              <li>
+                A 100% refund will be provided as the application was not
+                successful
+              </li>
+              <li>
+                We will provide feedback on why the application was unsuccessful
+              </li>
+              <li>
+                We may offer guidance on additional evidence or training needed
+                for a future application
+              </li>
+            </ul>
+
+            <h3 className="text-xl font-medium text-gray-900 mb-3">
+              2.5 Unsuccessful Applications
             </h3>
             <p>If your RPL application is unsuccessful:</p>
             <ul className="list-disc pl-6 mb-4">

@@ -7,69 +7,71 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseEntries: MetadataRoute.Sitemap = [
     {
       url: "https://rplfastrack.com",
-      lastModified: new Date(),
+      lastModified: new Date("2026-03-13"),
       priority: 1.0,
     },
     {
       url: "https://rplfastrack.com/about-us",
-      lastModified: new Date(),
+      lastModified: new Date("2026-03-13"),
       priority: 0.9,
     },
     {
       url: "https://rplfastrack.com/about-rpl",
-      lastModified: new Date(),
+      lastModified: new Date("2026-03-13"),
       priority: 0.9,
     },
     {
       url: "https://rplfastrack.com/contact",
-      lastModified: new Date(),
+      lastModified: new Date("2026-03-13"),
       priority: 0.8,
     },
     {
       url: "https://rplfastrack.com/courses",
-      lastModified: new Date(),
+      lastModified: new Date("2026-03-13"),
       priority: 0.9,
     },
     {
       url: "https://rplfastrack.com/privacy-policy",
-      lastModified: new Date(),
+      lastModified: new Date("2025-05-10"),
       priority: 0.4,
     },
     {
       url: "https://rplfastrack.com/refund-policy",
-      lastModified: new Date(),
+      lastModified: new Date("2025-05-10"),
       priority: 0.4,
     },
     {
       url: "https://rplfastrack.com/terms-of-service",
-      lastModified: new Date(),
+      lastModified: new Date("2025-05-10"),
       priority: 0.4,
     },
     {
       url: "https://rplfastrack.com/cookie-policy",
-      lastModified: new Date(),
+      lastModified: new Date("2025-05-10"),
       priority: 0.3,
     },
     {
       url: "https://rplfastrack.com/faq",
-      lastModified: new Date(),
+      lastModified: new Date("2026-03-13"),
       priority: 0.6,
     },
     {
       url: "https://rplfastrack.com/reviews",
-      lastModified: new Date(),
+      lastModified: new Date("2026-03-13"),
       priority: 0.6,
     },
     {
       url: "https://rplfastrack.com/write-review",
-      lastModified: new Date(),
+      lastModified: new Date("2026-03-13"),
       priority: 0.6,
     },
   ];
 
   const sectionEntries: MetadataRoute.Sitemap = sections.map((section) => ({
     url: `https://rplfastrack.com/section/${section.link}`,
-    lastModified: new Date(),
+    lastModified: section.updatedAt
+      ? new Date(section.updatedAt)
+      : new Date("2026-03-13"),
     priority: 0.7,
   }));
 
@@ -77,10 +79,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     section.courses
       ? section.courses.map((course) => ({
           url: `https://rplfastrack.com/courses/${course.link}`,
-          lastModified: new Date(),
+          lastModified: course.updatedAt
+            ? new Date(course.updatedAt)
+            : new Date("2026-03-13"),
           priority: 0.8,
         }))
-      : []
+      : [],
   );
 
   return [...baseEntries, ...sectionEntries, ...courseEntries];
