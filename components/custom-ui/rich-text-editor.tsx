@@ -25,7 +25,17 @@ export default function RichTextEditor({
         { indent: "-1" },
         { indent: "+1" },
       ],
-      [{ direction: "rtl" }, { align: [] }],
+      [
+        { table: "insert" },
+        { table: "delete" },
+        { table: "insert-row-below" },
+        { table: "insert-row-above" },
+        { table: "insert-column-left" },
+        { table: "insert-column-right" },
+        { table: "delete-row" },
+        { table: "delete-column" },
+        { table: "delete-table" },
+      ],
     ],
   };
   const formats = [

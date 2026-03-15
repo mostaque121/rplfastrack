@@ -23,7 +23,7 @@ const RichTextEditor = dynamic(
   () => import("@/components/custom-ui/rich-text-editor"),
   {
     ssr: false,
-  }
+  },
 );
 
 interface Course {
@@ -91,7 +91,7 @@ export default function CourseForm({ onCloseForm, item }: SectionFormProps) {
 
   const handleSquareImageUpload = (
     imageLink: string,
-    imagePublicId: string
+    imagePublicId: string,
   ) => {
     form.setValue("imageSquareLink", imageLink);
     form.setValue("imageSquarePublicId", imagePublicId);
@@ -110,7 +110,7 @@ export default function CourseForm({ onCloseForm, item }: SectionFormProps) {
           item.course.link,
           item.section.id,
           item.section.link,
-          data
+          data,
         );
       } else {
         if (item) {
@@ -119,7 +119,7 @@ export default function CourseForm({ onCloseForm, item }: SectionFormProps) {
       }
       if (result?.success) {
         toast.success(
-          `Course ${isEditMode ? "updated" : "created"} successfully!`
+          `Course ${isEditMode ? "updated" : "created"} successfully!`,
         );
         onCloseForm();
       } else {
