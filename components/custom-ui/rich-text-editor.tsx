@@ -12,7 +12,7 @@ export default function RichTextEditor({
   onContentChange,
 }: SectionProps) {
   const modules = {
-    syntax: false, // enable code highlighting if desired
+    table: false,
     toolbar: [
       [{ size: [] }],
       ["bold", "italic", "underline", "strike"],
@@ -25,19 +25,10 @@ export default function RichTextEditor({
         { indent: "-1" },
         { indent: "+1" },
       ],
-      [
-        { table: "insert" },
-        { table: "delete" },
-        { table: "insert-row-below" },
-        { table: "insert-row-above" },
-        { table: "insert-column-left" },
-        { table: "insert-column-right" },
-        { table: "delete-row" },
-        { table: "delete-column" },
-        { table: "delete-table" },
-      ],
+      ["table"],
     ],
   };
+
   const formats = [
     "font",
     "size",
@@ -59,6 +50,9 @@ export default function RichTextEditor({
     "video",
     "formula",
     "table",
+    "table-cell-line",
+    "table-col",
+    "table-row",
   ];
 
   return (
