@@ -87,6 +87,7 @@ async function createHubSpotEligibilityContact(
         qualification: data.qualification,
         experience: data.yearsOfExperience,
         city: data.stateLivedIn,
+        message: data.message,
       },
     }),
   });

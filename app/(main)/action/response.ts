@@ -75,6 +75,8 @@ async function createHubSpotContact(
         firstname: firstName,
         lastname: lastName,
         phone: data.phone,
+        qualification: data.interest,
+        message: data.message,
       },
     }),
   });
