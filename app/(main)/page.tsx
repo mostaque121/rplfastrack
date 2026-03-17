@@ -1,4 +1,3 @@
-import { getAllCourses } from "./action/courses";
 import AboutRpl from "./components/about-rpl";
 import EmployerRecognition from "./components/australian-recognize";
 import ClientsFavourite from "./components/clients-favourite";
@@ -17,11 +16,6 @@ export const metadata = {
 };
 
 export default async function page() {
-  const courses = await getAllCourses();
-  console.log(
-    "Fetched courses for homepage:",
-    courses.map((c) => c.title),
-  );
   return (
     <div>
       <script
