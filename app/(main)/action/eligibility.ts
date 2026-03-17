@@ -5,6 +5,8 @@ import { prisma } from "@/lib/prisma";
 import nodemailer from "nodemailer";
 import brevoTransport from "nodemailer-brevo-transport";
 
+/* ---------------- TYPES ---------------- */
+
 type EligibilityFormData = {
   industry: string;
   qualification: string;
@@ -16,124 +18,19 @@ type EligibilityFormData = {
   message?: string;
 };
 
-const HUBSPOT_TIMEOUT_MS = 12000;
-const HUBSPOT_MAX_ATTEMPTS = 3;
-
-function sleep(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-function isRetryableNetworkError(error: unknown) {
-  if (!error || typeof error !== "object") {
-    return false;
-  }
-
-  const maybeError = error as {
-    message?: string;
-    code?: string;
-    cause?: unknown;
-  };
-  const message = (maybeError.message || "").toLowerCase();
-  const code = (maybeError.code || "").toUpperCase();
-
-  if (
-    code === "ECONNRESET" ||
-    code === "ETIMEDOUT" ||
-    code === "ECONNABORTED"
-  ) {
-    return true;
-  }
-
-  if (
-    message.includes("fetch failed") ||
-    message.includes("socket hang up") ||
-    message.includes("timed out") ||
-    message.includes("network")
-  ) {
-    return true;
-  }
-
-  const cause = maybeError.cause;
-  if (!cause || typeof cause !== "object") {
-    return false;
-  }
-
-  const causeCode = ((cause as { code?: string }).code || "").toUpperCase();
-  return (
-    causeCode === "ECONNRESET" ||
-    causeCode === "ETIMEDOUT" ||
-    causeCode === "ECONNABORTED"
-  );
-}
-
-function isRetryableHubSpotStatus(status: number) {
-  return status === 429 || status >= 500;
-}
-
-async function withRetry<T>(
-  taskName: string,
-  operation: () => Promise<T>,
-  options?: {
-    maxAttempts?: number;
-    baseDelayMs?: number;
-  },
-) {
-  const maxAttempts = options?.maxAttempts ?? 3;
-  const baseDelayMs = options?.baseDelayMs ?? 500;
-
-  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
-    try {
-      return await operation();
-    } catch (error) {
-      const canRetry = attempt < maxAttempts && isRetryableNetworkError(error);
-
-      if (!canRetry) {
-        throw error;
-      }
-
-      const delay = baseDelayMs * 2 ** (attempt - 1);
-      console.warn(
-        `[${taskName}] Attempt ${attempt} failed with transient network error. Retrying in ${delay}ms.`,
-      );
-      await sleep(delay);
-    }
-  }
-
-  throw new Error(`[${taskName}] Exhausted retries.`);
-}
-
-async function sendMailWithRetry(mailOptions: {
-  from: string;
-  to: string;
-  subject: string;
-  text: string;
-}) {
-  return withRetry(
-    "sendEligibilityEmail",
-    async () => {
-      await transporter.sendMail(mailOptions);
-    },
-    {
-      maxAttempts: 3,
-      baseDelayMs: 500,
-    },
-  );
-}
+/* ---------------- BACKGROUND ---------------- */
 
 function runInBackground(taskName: string, task: Promise<unknown>) {
   void task.catch((error) => {
-    console.error(
-      `[saveEligibilityData] Background task failed: ${taskName}`,
-      error,
-    );
+    console.error(`[Background task failed: ${taskName}]`, error);
   });
 }
 
+/* ---------------- UTILITIES ---------------- */
+
 function getFirstAndLastName(fullName: string) {
   const trimmed = fullName.trim();
-  if (!trimmed) {
-    return { firstName: "", lastName: "" };
-  }
+  if (!trimmed) return { firstName: "", lastName: "" };
 
   const [firstName, ...rest] = trimmed.split(/\s+/);
   return {
@@ -147,23 +44,59 @@ function createConflictReadableEmail(originalEmail: string) {
   const atIndex = trimmedEmail.lastIndexOf("@");
 
   if (atIndex <= 0 || atIndex === trimmedEmail.length - 1) {
-    return `hs409-duplicate-${Date.now()}@invalid.local`;
+    return `hs409-${Date.now()}@invalid.local`;
   }
 
   const localPart = trimmedEmail.slice(0, atIndex);
   const domain = trimmedEmail.slice(atIndex + 1);
 
-  // Preserve readability for managers while signaling this was auto-modified.
   const readableLocal = localPart.replace(
     /[^a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]/g,
     "_",
   );
+
   const marker = `hs409-${Date.now().toString().slice(-6)}`;
   const maxLocalLength = Math.max(1, 64 - marker.length - 1);
-  const shortenedLocal = readableLocal.slice(0, maxLocalLength);
 
-  return `${shortenedLocal}+${marker}@${domain}`;
+  return `${readableLocal.slice(0, maxLocalLength)}+${marker}@${domain}`;
 }
+
+/* ---------------- NETWORK HELPERS ---------------- */
+
+async function fetchWithTimeout(
+  url: string,
+  options: RequestInit,
+  timeout = 8000,
+) {
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeout);
+
+  try {
+    return await fetch(url, {
+      ...options,
+      signal: controller.signal,
+    });
+  } finally {
+    clearTimeout(id);
+  }
+}
+
+async function retry<T>(fn: () => Promise<T>, retries = 3): Promise<T> {
+  let lastError;
+
+  for (let i = 0; i < retries; i++) {
+    try {
+      return await fn();
+    } catch (err) {
+      lastError = err;
+      await new Promise((r) => setTimeout(r, 1000));
+    }
+  }
+
+  throw lastError;
+}
+
+/* ---------------- HUBSPOT ---------------- */
 
 async function createHubSpotEligibilityContact(
   token: string,
@@ -172,124 +105,86 @@ async function createHubSpotEligibilityContact(
 ) {
   const { firstName, lastName } = getFirstAndLastName(data.fullName);
 
-  return withRetry(
-    "createHubSpotEligibilityContact",
-    async () => {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(
-        () => controller.abort(),
-        HUBSPOT_TIMEOUT_MS,
-      );
-
-      try {
-        const response = await fetch(
-          "https://api.hubapi.com/crm/v3/objects/contacts",
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              properties: {
-                response_time: new Date().toISOString(),
-                email,
-                firstname: firstName,
-                lastname: lastName,
-                phone: data.phoneNumber,
-                industry: data.industry,
-                qualification: data.qualification,
-                experience: data.yearsOfExperience,
-                city: data.stateLivedIn,
-                message: data.message,
-              },
-            }),
-            signal: controller.signal,
-          },
-        );
-
-        if (isRetryableHubSpotStatus(response.status)) {
-          const body = await response.text();
-          throw new Error(
-            `HubSpot temporary error (${response.status}): ${body.slice(0, 400)}`,
-          );
-        }
-
-        return response;
-      } catch (error) {
-        if (error instanceof Error && error.name === "AbortError") {
-          const timeoutError = new Error(
-            `HubSpot request timed out after ${HUBSPOT_TIMEOUT_MS}ms`,
-          ) as Error & { code?: string };
-          timeoutError.code = "ETIMEDOUT";
-          throw timeoutError;
-        }
-
-        throw error;
-      } finally {
-        clearTimeout(timeoutId);
-      }
-    },
+  return fetchWithTimeout(
+    "https://api.hubapi.com/crm/v3/objects/contacts",
     {
-      maxAttempts: HUBSPOT_MAX_ATTEMPTS,
-      baseDelayMs: 600,
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        properties: {
+          response_time: new Date().toISOString(),
+          email,
+          firstname: firstName,
+          lastname: lastName,
+          phone: data.phoneNumber,
+          industry: data.industry,
+          qualification: data.qualification,
+          experience: data.yearsOfExperience,
+          city: data.stateLivedIn,
+          message: data.message,
+        },
+      }),
     },
+    8000,
   );
 }
 
 async function syncEligibilityToHubSpot(data: EligibilityFormData) {
   const token = process.env.HUBSPOT_ACCESS_TOKEN;
+  if (!token) return;
 
-  if (!token) {
-    return;
-  }
-
-  const response = await createHubSpotEligibilityContact(
-    token,
-    data,
-    data.email,
-  );
-
-  if (response.ok) {
-    return;
-  }
-
-  if (response.status === 409) {
-    const conflictBody = await response.text();
-    const fallbackEmail = createConflictReadableEmail(data.email);
-    const retryResponse = await createHubSpotEligibilityContact(
+  return retry(async () => {
+    const response = await createHubSpotEligibilityContact(
       token,
       data,
-      fallbackEmail,
+      data.email,
     );
 
-    if (retryResponse.ok) {
-      console.warn(
-        `[syncEligibilityToHubSpot] Duplicate email in HubSpot. Saved with fallback email: ${fallbackEmail}. Original email: ${data.email}`,
+    if (response.ok) return;
+
+    if (response.status === 409) {
+      const fallbackEmail = createConflictReadableEmail(data.email);
+
+      const retryResponse = await createHubSpotEligibilityContact(
+        token,
+        data,
+        fallbackEmail,
       );
-      return;
+
+      if (retryResponse.ok) {
+        console.warn(
+          `[HubSpot] Duplicate handled. Saved with fallback email: ${fallbackEmail}`,
+        );
+        return;
+      }
+
+      throw new Error(
+        `HubSpot retry failed (${retryResponse.status}): ${await retryResponse.text()}`,
+      );
     }
 
-    const retryBody = await retryResponse.text();
     throw new Error(
-      `HubSpot sync retry failed after 409. Original email: ${data.email}, fallback email: ${fallbackEmail}, first error: ${conflictBody}, retry error (${retryResponse.status}): ${retryBody}`,
+      `HubSpot failed (${response.status}): ${await response.text()}`,
     );
-  }
-
-  const errorBody = await response.text();
-  throw new Error(`HubSpot sync failed (${response.status}): ${errorBody}`);
+  });
 }
 
-// Email transporter
+/* ---------------- EMAIL ---------------- */
+
 const transporter = nodemailer.createTransport(
   new brevoTransport({
     apiKey: process.env.SENDINBLUE_API_KEY!,
   }),
 );
 
+/* ---------------- MAIN FUNCTION ---------------- */
+
 export async function saveEligibilityData(data: EligibilityFormData) {
   try {
-    // Manual validation
+    // ✅ Validation
     if (!data.industry) return { error: "Industry is required" };
     if (!data.qualification) return { error: "Qualification is required" };
     if (!data.yearsOfExperience)
@@ -302,7 +197,7 @@ export async function saveEligibilityData(data: EligibilityFormData) {
     if (!data.phoneNumber || data.phoneNumber.length < 8)
       return { error: "Valid phone number is required" };
 
-    // Save to database
+    // ✅ Save DB first
     await prisma.eligibilitySubmission.create({
       data: {
         fullName: data.fullName,
@@ -321,41 +216,38 @@ export async function saveEligibilityData(data: EligibilityFormData) {
       to: process.env.RECEIVER_EMAIL!,
       subject: "New Eligibility Submission",
       text: `
-------------------------------------------------------------
-               New Eligibility Form Submission
-------------------------------------------------------------
+New Eligibility Submission
 
-Full Name:           ${data.fullName}
-Email:               ${data.email}
-Phone Number:        ${data.phoneNumber}
-Industry:            ${data.industry}
-Qualification:       ${data.qualification}
-Years of Experience: ${data.yearsOfExperience}
-State Lived In:      ${data.stateLivedIn}
+Name: ${data.fullName}
+Email: ${data.email}
+Phone: ${data.phoneNumber}
+Industry: ${data.industry}
+Qualification: ${data.qualification}
+Experience: ${data.yearsOfExperience}
+State: ${data.stateLivedIn}
 
 Message:
-${data.message?.trim() || "No message provided"}
-
-------------------------------------------------------------
-Submitted via your website eligibility form.
-------------------------------------------------------------
+${data.message || "None"}
       `,
     };
 
+    // ✅ Critical tasks → await (SAFE)
     if (process.env.NODE_ENV !== "development") {
-      runInBackground("sendEligibilityEmail", sendMailWithRetry(mailOptions));
+      await Promise.allSettled([
+        transporter.sendMail(mailOptions),
+        syncEligibilityToHubSpot(data),
+      ]);
     }
 
+    // ✅ Non-critical → background
     runInBackground(
       "createFormSubmissionNotification",
       createFormSubmissionNotification({
         title: "New Eligibility Form Submitted",
-        description: `${data.fullName} has submitted a eligibility form.`,
+        description: `${data.fullName} submitted eligibility form.`,
         type: "eligibility",
       }),
     );
-
-    runInBackground("syncEligibilityToHubSpot", syncEligibilityToHubSpot(data));
 
     return { success: true, message: "Data saved successfully" };
   } catch (error) {

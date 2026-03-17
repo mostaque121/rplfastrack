@@ -8,106 +8,17 @@ import { z } from "zod";
 
 type ResponseFormData = z.infer<typeof responseFormSchema>;
 
-const HUBSPOT_TIMEOUT_MS = 12000;
-const HUBSPOT_MAX_ATTEMPTS = 3;
-
-function sleep(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-function isRetryableNetworkError(error: unknown) {
-  if (!error || typeof error !== "object") {
-    return false;
-  }
-
-  const maybeError = error as {
-    message?: string;
-    code?: string;
-    cause?: unknown;
-  };
-  const message = (maybeError.message || "").toLowerCase();
-  const code = (maybeError.code || "").toUpperCase();
-
-  if (
-    code === "ECONNRESET" ||
-    code === "ETIMEDOUT" ||
-    code === "ECONNABORTED"
-  ) {
-    return true;
-  }
-
-  if (
-    message.includes("fetch failed") ||
-    message.includes("socket hang up") ||
-    message.includes("timed out") ||
-    message.includes("network")
-  ) {
-    return true;
-  }
-
-  const cause = maybeError.cause;
-  if (!cause || typeof cause !== "object") {
-    return false;
-  }
-
-  const causeCode = ((cause as { code?: string }).code || "").toUpperCase();
-  return (
-    causeCode === "ECONNRESET" ||
-    causeCode === "ETIMEDOUT" ||
-    causeCode === "ECONNABORTED"
-  );
-}
-
-function isRetryableHubSpotStatus(status: number) {
-  return status === 429 || status >= 500;
-}
-
-async function withRetry<T>(
-  taskName: string,
-  operation: () => Promise<T>,
-  options?: {
-    maxAttempts?: number;
-    baseDelayMs?: number;
-  },
-) {
-  const maxAttempts = options?.maxAttempts ?? 3;
-  const baseDelayMs = options?.baseDelayMs ?? 500;
-
-  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
-    try {
-      return await operation();
-    } catch (error) {
-      const canRetry = attempt < maxAttempts && isRetryableNetworkError(error);
-
-      if (!canRetry) {
-        throw error;
-      }
-
-      const delay = baseDelayMs * 2 ** (attempt - 1);
-      console.warn(
-        `[${taskName}] Attempt ${attempt} failed with transient network error. Retrying in ${delay}ms.`,
-      );
-      await sleep(delay);
-    }
-  }
-
-  throw new Error(`[${taskName}] Exhausted retries.`);
-}
-
 function runInBackground(taskName: string, task: Promise<unknown>) {
   void task.catch((error) => {
-    console.error(
-      `[createResponse] Background task failed: ${taskName}`,
-      error,
-    );
+    console.error(`[Background task failed: ${taskName}]`, error);
   });
 }
 
+/* ---------------- UTILITIES ---------------- */
+
 function getFirstAndLastName(fullName: string) {
   const trimmed = fullName.trim();
-  if (!trimmed) {
-    return { firstName: "", lastName: "" };
-  }
+  if (!trimmed) return { firstName: "", lastName: "" };
 
   const [firstName, ...rest] = trimmed.split(/\s+/);
   return {
@@ -121,23 +32,59 @@ function createConflictReadableEmail(originalEmail: string) {
   const atIndex = trimmedEmail.lastIndexOf("@");
 
   if (atIndex <= 0 || atIndex === trimmedEmail.length - 1) {
-    return `hs409-duplicate-${Date.now()}@invalid.local`;
+    return `hs409-${Date.now()}@invalid.local`;
   }
 
   const localPart = trimmedEmail.slice(0, atIndex);
   const domain = trimmedEmail.slice(atIndex + 1);
 
-  // Keep original local part readable, append a conflict marker for managers.
   const readableLocal = localPart.replace(
     /[^a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]/g,
     "_",
   );
+
   const marker = `hs409-${Date.now().toString().slice(-6)}`;
   const maxLocalLength = Math.max(1, 64 - marker.length - 1);
-  const shortenedLocal = readableLocal.slice(0, maxLocalLength);
 
-  return `${shortenedLocal}+${marker}@${domain}`;
+  return `${readableLocal.slice(0, maxLocalLength)}+${marker}@${domain}`;
 }
+
+/* ---------------- NETWORK HELPERS ---------------- */
+
+async function fetchWithTimeout(
+  url: string,
+  options: RequestInit,
+  timeout = 8000,
+) {
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeout);
+
+  try {
+    return await fetch(url, {
+      ...options,
+      signal: controller.signal,
+    });
+  } finally {
+    clearTimeout(id);
+  }
+}
+
+async function retry<T>(fn: () => Promise<T>, retries = 3): Promise<T> {
+  let lastError;
+
+  for (let i = 0; i < retries; i++) {
+    try {
+      return await fn();
+    } catch (err) {
+      lastError = err;
+      await new Promise((r) => setTimeout(r, 1000));
+    }
+  }
+
+  throw lastError;
+}
+
+/* ---------------- HUBSPOT ---------------- */
 
 async function createHubSpotContact(
   token: string,
@@ -146,109 +93,71 @@ async function createHubSpotContact(
 ) {
   const { firstName, lastName } = getFirstAndLastName(data.name);
 
-  return withRetry(
-    "createHubSpotContact",
-    async () => {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(
-        () => controller.abort(),
-        HUBSPOT_TIMEOUT_MS,
-      );
-
-      try {
-        const response = await fetch(
-          "https://api.hubapi.com/crm/v3/objects/contacts",
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              properties: {
-                response_time: new Date().toISOString(),
-                email,
-                firstname: firstName,
-                lastname: lastName,
-                phone: data.phone,
-                qualification: data.interest,
-                message: data.message,
-              },
-            }),
-            signal: controller.signal,
-          },
-        );
-
-        if (isRetryableHubSpotStatus(response.status)) {
-          const body = await response.text();
-          throw new Error(
-            `HubSpot temporary error (${response.status}): ${body.slice(0, 400)}`,
-          );
-        }
-
-        return response;
-      } catch (error) {
-        if (error instanceof Error && error.name === "AbortError") {
-          const timeoutError = new Error(
-            `HubSpot request timed out after ${HUBSPOT_TIMEOUT_MS}ms`,
-          ) as Error & { code?: string };
-          timeoutError.code = "ETIMEDOUT";
-          throw timeoutError;
-        }
-
-        throw error;
-      } finally {
-        clearTimeout(timeoutId);
-      }
-    },
+  return fetchWithTimeout(
+    "https://api.hubapi.com/crm/v3/objects/contacts",
     {
-      maxAttempts: HUBSPOT_MAX_ATTEMPTS,
-      baseDelayMs: 600,
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        properties: {
+          response_time: new Date().toISOString(),
+          email,
+          firstname: firstName,
+          lastname: lastName,
+          phone: data.phone,
+          qualification: data.interest,
+          message: data.message,
+        },
+      }),
     },
+    8000,
   );
 }
 
 async function syncContactToHubSpot(data: ResponseFormData) {
   const token = process.env.HUBSPOT_ACCESS_TOKEN;
+  if (!token) return;
 
-  if (!token) {
-    return;
-  }
+  return retry(async () => {
+    const response = await createHubSpotContact(token, data, data.email);
 
-  const response = await createHubSpotContact(token, data, data.email);
+    if (response.ok) return;
 
-  if (response.ok) {
-    return;
-  }
+    if (response.status === 409) {
+      const fallbackEmail = createConflictReadableEmail(data.email);
 
-  if (response.status === 409) {
-    const conflictBody = await response.text();
-    const fallbackEmail = createConflictReadableEmail(data.email);
-    const retryResponse = await createHubSpotContact(
-      token,
-      data,
-      fallbackEmail,
-    );
-
-    if (retryResponse.ok) {
-      console.warn(
-        `[syncContactToHubSpot] Duplicate email in HubSpot. Saved with fallback email: ${fallbackEmail}. Original email: ${data.email}`,
+      const retryResponse = await createHubSpotContact(
+        token,
+        data,
+        fallbackEmail,
       );
-      return;
+
+      if (retryResponse.ok) {
+        console.warn(
+          `[HubSpot] Duplicate handled. Saved with fallback email: ${fallbackEmail}`,
+        );
+        return;
+      }
+
+      throw new Error(
+        `HubSpot retry failed (${retryResponse.status}): ${await retryResponse.text()}`,
+      );
     }
 
-    const retryBody = await retryResponse.text();
     throw new Error(
-      `HubSpot sync retry failed after 409. Original email: ${data.email}, fallback email: ${fallbackEmail}, first error: ${conflictBody}, retry error (${retryResponse.status}): ${retryBody}`,
+      `HubSpot failed (${response.status}): ${await response.text()}`,
     );
-  }
-
-  const errorBody = await response.text();
-  throw new Error(`HubSpot sync failed (${response.status}): ${errorBody}`);
+  });
 }
+
+/* ---------------- MAIN ACTIONS ---------------- */
 
 export async function createResponse(data: ResponseFormData) {
   const parsed = responseFormSchema.safeParse(data);
+
   if (!parsed.success) {
     return {
       success: false,
@@ -259,6 +168,7 @@ export async function createResponse(data: ResponseFormData) {
   const formData = parsed.data;
 
   try {
+    // ✅ Save first (fast + reliable)
     await prisma.response.create({
       data: {
         name: formData.name,
@@ -269,8 +179,9 @@ export async function createResponse(data: ResponseFormData) {
       },
     });
 
-    runInBackground(
-      "sendContactNotificationEmail",
+    // ✅ Run critical network tasks safely (await)
+    await Promise.allSettled([
+      syncContactToHubSpot(formData),
       sendContactNotificationEmail({
         name: formData.name,
         email: formData.email,
@@ -278,18 +189,17 @@ export async function createResponse(data: ResponseFormData) {
         message: formData.message,
         interest: formData.interest,
       }),
-    );
+    ]);
 
+    // ✅ Non-critical → background OK
     runInBackground(
       "createFormSubmissionNotification",
       createFormSubmissionNotification({
         title: "New Response Form Submitted",
-        description: `${formData.name} has submitted a response form.`,
+        description: `${formData.name} submitted a response form.`,
         type: "response",
       }),
     );
-
-    runInBackground("syncContactToHubSpot", syncContactToHubSpot(formData));
 
     return {
       success: true,
@@ -297,12 +207,15 @@ export async function createResponse(data: ResponseFormData) {
     };
   } catch (error) {
     console.error("Form submission error:", error);
+
     return {
       success: false,
       message: "Something went wrong. Please try again later.",
     };
   }
 }
+
+/* ---------------- CONTACT ---------------- */
 
 type ContactData = z.infer<typeof contactSchema>;
 
@@ -330,8 +243,14 @@ export async function createContact(data: ContactData) {
       },
     });
 
-    runInBackground(
-      "sendContactNotificationEmail:createContact",
+    await Promise.allSettled([
+      syncContactToHubSpot({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        message: formData.message,
+        interest,
+      }),
       sendContactNotificationEmail({
         name: formData.name,
         email: formData.email,
@@ -339,25 +258,14 @@ export async function createContact(data: ContactData) {
         message: formData.message,
         interest,
       }),
-    );
+    ]);
 
     runInBackground(
       "createFormSubmissionNotification:createContact",
       createFormSubmissionNotification({
         title: "New Response Form Submitted",
-        description: `${formData.name} has submitted a response form.`,
+        description: `${formData.name} submitted a response form.`,
         type: "response",
-      }),
-    );
-
-    runInBackground(
-      "syncContactToHubSpot:createContact",
-      syncContactToHubSpot({
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        message: formData.message,
-        interest,
       }),
     );
 
@@ -367,6 +275,7 @@ export async function createContact(data: ContactData) {
     };
   } catch (error) {
     console.error("DB Error:", error);
+
     return {
       success: false,
       message: "Failed to submit form",
