@@ -77,5 +77,19 @@ export const getAllSections = unstable_cache(
   ["get_all_sections"],
   {
     tags: ["section:all"],
-  }
+  },
 );
+
+export async function getAllCourses() {
+  try {
+    const courses = await prisma.course.findMany({
+      orderBy: {
+        title: "asc",
+      },
+    });
+    return courses;
+  } catch (error) {
+    console.error("Error fetching courses:", error);
+    return [];
+  }
+}

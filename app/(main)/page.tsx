@@ -1,3 +1,4 @@
+import { getAllCourses } from "./action/courses";
 import AboutRpl from "./components/about-rpl";
 import EmployerRecognition from "./components/australian-recognize";
 import ClientsFavourite from "./components/clients-favourite";
@@ -15,7 +16,12 @@ export const metadata = {
     "Get nationally recognized qualifications in Australia through RPL. Fast-track your career by validating your skills and work experience today.",
 };
 
-export default function page() {
+export default async function page() {
+  const courses = await getAllCourses();
+  console.log(
+    "Fetched courses for homepage:",
+    courses.map((c) => c.title),
+  );
   return (
     <div>
       <script

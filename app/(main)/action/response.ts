@@ -68,9 +68,7 @@ async function createHubSpotContact(
     },
     body: JSON.stringify({
       properties: {
-        date: new Date().toLocaleString("en-AU", {
-          timeZone: "Australia/Sydney",
-        }),
+        response_time: new Date().toISOString(),
         email,
         firstname: firstName,
         lastname: lastName,

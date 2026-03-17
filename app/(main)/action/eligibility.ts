@@ -76,9 +76,7 @@ async function createHubSpotEligibilityContact(
     },
     body: JSON.stringify({
       properties: {
-        date: new Date().toLocaleString("en-AU", {
-          timeZone: "Australia/Sydney",
-        }),
+        response_time: new Date().toISOString(),
         email,
         firstname: firstName,
         lastname: lastName,
@@ -198,7 +196,12 @@ Submitted via your website eligibility form.
       `,
     };
 
-    runInBackground("sendEligibilityEmail", transporter.sendMail(mailOptions));
+    if (process.env.NODE_ENV !== "development") {
+      runInBackground(
+        "sendEligibilityEmail",
+        transporter.sendMail(mailOptions),
+      );
+    }
 
     runInBackground(
       "createFormSubmissionNotification",

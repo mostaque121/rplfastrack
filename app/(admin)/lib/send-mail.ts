@@ -4,7 +4,7 @@ import brevoTransport from "nodemailer-brevo-transport";
 const transporter = nodemailer.createTransport(
   new brevoTransport({
     apiKey: process.env.SENDINBLUE_API_KEY!,
-  })
+  }),
 );
 
 export async function sendContactNotificationEmail(data: {
@@ -37,5 +37,7 @@ Submitted from your website contact form.
     `,
   };
 
-  await transporter.sendMail(mailOptions);
+  if (process.env.NODE_ENV !== "development") {
+    await transporter.sendMail(mailOptions);
+  }
 }
