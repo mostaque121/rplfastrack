@@ -7,6 +7,58 @@ const transporter = nodemailer.createTransport(
   }),
 );
 
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function isRetryableEmailError(error: unknown) {
+  if (!error || typeof error !== "object") {
+    return false;
+  }
+
+  const maybeError = error as { message?: string; code?: string };
+  const code = (maybeError.code || "").toUpperCase();
+  const message = (maybeError.message || "").toLowerCase();
+
+  if (code === "ECONNRESET" || code === "ETIMEDOUT" || code === "EAI_AGAIN") {
+    return true;
+  }
+
+  return (
+    message.includes("socket hang up") ||
+    message.includes("timed out") ||
+    message.includes("temporary")
+  );
+}
+
+async function sendMailWithRetry(mailOptions: {
+  from: string;
+  to: string;
+  subject: string;
+  text: string;
+}) {
+  const maxAttempts = 3;
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+    try {
+      await transporter.sendMail(mailOptions);
+      return;
+    } catch (error) {
+      const canRetry = attempt < maxAttempts && isRetryableEmailError(error);
+
+      if (!canRetry) {
+        throw error;
+      }
+
+      const delay = 500 * 2 ** (attempt - 1);
+      console.warn(
+        `[sendContactNotificationEmail] Attempt ${attempt} failed. Retrying in ${delay}ms.`,
+      );
+      await sleep(delay);
+    }
+  }
+}
+
 export async function sendContactNotificationEmail(data: {
   name: string;
   email: string;
@@ -38,6 +90,6 @@ Submitted from your website contact form.
   };
 
   if (process.env.NODE_ENV !== "development") {
-    await transporter.sendMail(mailOptions);
+    await sendMailWithRetry(mailOptions);
   }
 }

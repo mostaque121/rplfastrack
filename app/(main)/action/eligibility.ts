@@ -16,6 +16,110 @@ type EligibilityFormData = {
   message?: string;
 };
 
+const HUBSPOT_TIMEOUT_MS = 12000;
+const HUBSPOT_MAX_ATTEMPTS = 3;
+
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function isRetryableNetworkError(error: unknown) {
+  if (!error || typeof error !== "object") {
+    return false;
+  }
+
+  const maybeError = error as {
+    message?: string;
+    code?: string;
+    cause?: unknown;
+  };
+  const message = (maybeError.message || "").toLowerCase();
+  const code = (maybeError.code || "").toUpperCase();
+
+  if (
+    code === "ECONNRESET" ||
+    code === "ETIMEDOUT" ||
+    code === "ECONNABORTED"
+  ) {
+    return true;
+  }
+
+  if (
+    message.includes("fetch failed") ||
+    message.includes("socket hang up") ||
+    message.includes("timed out") ||
+    message.includes("network")
+  ) {
+    return true;
+  }
+
+  const cause = maybeError.cause;
+  if (!cause || typeof cause !== "object") {
+    return false;
+  }
+
+  const causeCode = ((cause as { code?: string }).code || "").toUpperCase();
+  return (
+    causeCode === "ECONNRESET" ||
+    causeCode === "ETIMEDOUT" ||
+    causeCode === "ECONNABORTED"
+  );
+}
+
+function isRetryableHubSpotStatus(status: number) {
+  return status === 429 || status >= 500;
+}
+
+async function withRetry<T>(
+  taskName: string,
+  operation: () => Promise<T>,
+  options?: {
+    maxAttempts?: number;
+    baseDelayMs?: number;
+  },
+) {
+  const maxAttempts = options?.maxAttempts ?? 3;
+  const baseDelayMs = options?.baseDelayMs ?? 500;
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+    try {
+      return await operation();
+    } catch (error) {
+      const canRetry = attempt < maxAttempts && isRetryableNetworkError(error);
+
+      if (!canRetry) {
+        throw error;
+      }
+
+      const delay = baseDelayMs * 2 ** (attempt - 1);
+      console.warn(
+        `[${taskName}] Attempt ${attempt} failed with transient network error. Retrying in ${delay}ms.`,
+      );
+      await sleep(delay);
+    }
+  }
+
+  throw new Error(`[${taskName}] Exhausted retries.`);
+}
+
+async function sendMailWithRetry(mailOptions: {
+  from: string;
+  to: string;
+  subject: string;
+  text: string;
+}) {
+  return withRetry(
+    "sendEligibilityEmail",
+    async () => {
+      await transporter.sendMail(mailOptions);
+    },
+    {
+      maxAttempts: 3,
+      baseDelayMs: 500,
+    },
+  );
+}
+
 function runInBackground(taskName: string, task: Promise<unknown>) {
   void task.catch((error) => {
     console.error(
@@ -68,27 +172,69 @@ async function createHubSpotEligibilityContact(
 ) {
   const { firstName, lastName } = getFirstAndLastName(data.fullName);
 
-  return fetch("https://api.hubapi.com/crm/v3/objects/contacts", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
+  return withRetry(
+    "createHubSpotEligibilityContact",
+    async () => {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(
+        () => controller.abort(),
+        HUBSPOT_TIMEOUT_MS,
+      );
+
+      try {
+        const response = await fetch(
+          "https://api.hubapi.com/crm/v3/objects/contacts",
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              properties: {
+                response_time: new Date().toISOString(),
+                email,
+                firstname: firstName,
+                lastname: lastName,
+                phone: data.phoneNumber,
+                industry: data.industry,
+                qualification: data.qualification,
+                experience: data.yearsOfExperience,
+                city: data.stateLivedIn,
+                message: data.message,
+              },
+            }),
+            signal: controller.signal,
+          },
+        );
+
+        if (isRetryableHubSpotStatus(response.status)) {
+          const body = await response.text();
+          throw new Error(
+            `HubSpot temporary error (${response.status}): ${body.slice(0, 400)}`,
+          );
+        }
+
+        return response;
+      } catch (error) {
+        if (error instanceof Error && error.name === "AbortError") {
+          const timeoutError = new Error(
+            `HubSpot request timed out after ${HUBSPOT_TIMEOUT_MS}ms`,
+          ) as Error & { code?: string };
+          timeoutError.code = "ETIMEDOUT";
+          throw timeoutError;
+        }
+
+        throw error;
+      } finally {
+        clearTimeout(timeoutId);
+      }
     },
-    body: JSON.stringify({
-      properties: {
-        response_time: new Date().toISOString(),
-        email,
-        firstname: firstName,
-        lastname: lastName,
-        phone: data.phoneNumber,
-        industry: data.industry,
-        qualification: data.qualification,
-        experience: data.yearsOfExperience,
-        city: data.stateLivedIn,
-        message: data.message,
-      },
-    }),
-  });
+    {
+      maxAttempts: HUBSPOT_MAX_ATTEMPTS,
+      baseDelayMs: 600,
+    },
+  );
 }
 
 async function syncEligibilityToHubSpot(data: EligibilityFormData) {
@@ -197,10 +343,7 @@ Submitted via your website eligibility form.
     };
 
     if (process.env.NODE_ENV !== "development") {
-      runInBackground(
-        "sendEligibilityEmail",
-        transporter.sendMail(mailOptions),
-      );
+      runInBackground("sendEligibilityEmail", sendMailWithRetry(mailOptions));
     }
 
     runInBackground(
