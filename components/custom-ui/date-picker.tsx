@@ -16,6 +16,15 @@ interface CalendarPickerProps {
   placeholder?: string;
   className?: string;
 }
+const formatDate = (date: Date) => {
+  return date
+    .toLocaleDateString("en-GB", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    })
+    .toLowerCase();
+};
 
 export function DatePicker({
   selected,
@@ -34,7 +43,7 @@ export function DatePicker({
             id="date"
             className={`${className} justify-between font-normal`}
           >
-            {selected ? new Date(selected).toLocaleDateString() : placeholder}
+            {selected ? formatDate(new Date(selected)) : placeholder}
             <ChevronDownIcon className="ml-2 h-4 w-4 opacity-50" />
           </Button>
         </PopoverTrigger>

@@ -11,6 +11,8 @@ import {
   BadgeDollarSign,
   ChartColumnStacked,
   ChartNoAxesCombined,
+  FilePlus,
+  FileText,
   Globe,
   LayoutDashboard,
   Mail,
@@ -67,6 +69,16 @@ const items = [
     title: "Users",
     icon: Users,
     href: "/admin/users",
+  },
+  {
+    title: "Invoices",
+    icon: FileText,
+    href: "/admin/invoice",
+  },
+  {
+    title: "Create Invoice",
+    icon: FilePlus,
+    href: "/admin/invoice/create",
   },
 ];
 

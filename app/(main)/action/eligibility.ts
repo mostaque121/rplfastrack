@@ -1,11 +1,13 @@
 "use server";
 
 import { createFormSubmissionNotification } from "@/app/(admin)/lib/create-notification";
+import { sendEligibilityNotificationEmail } from "@/app/(admin)/lib/send-mail";
 import { prisma } from "@/lib/prisma";
+import { after } from "next/server";
 import nodemailer from "nodemailer";
 import brevoTransport from "nodemailer-brevo-transport";
 
-/* ---------------- TYPES ---------------- */
+/* ------------------ CONFIG & TYPES ------------------ */
 
 type EligibilityFormData = {
   industry: string;
@@ -18,15 +20,13 @@ type EligibilityFormData = {
   message?: string;
 };
 
-/* ---------------- BACKGROUND ---------------- */
+const transporter = nodemailer.createTransport(
+  new brevoTransport({
+    apiKey: process.env.SENDINBLUE_API_KEY!,
+  }),
+);
 
-function runInBackground(taskName: string, task: Promise<unknown>) {
-  void task.catch((error) => {
-    console.error(`[Background task failed: ${taskName}]`, error);
-  });
-}
-
-/* ---------------- UTILITIES ---------------- */
+/* -------------------- UTILITIES -------------------- */
 
 function getFirstAndLastName(fullName: string) {
   const trimmed = fullName.trim();
@@ -61,7 +61,7 @@ function createConflictReadableEmail(originalEmail: string) {
   return `${readableLocal.slice(0, maxLocalLength)}+${marker}@${domain}`;
 }
 
-/* ---------------- NETWORK HELPERS ---------------- */
+/* ------------------ NETWORK HELPERS ------------------ */
 
 async function fetchWithTimeout(
   url: string,
@@ -96,7 +96,7 @@ async function retry<T>(fn: () => Promise<T>, retries = 3): Promise<T> {
   throw lastError;
 }
 
-/* ---------------- HUBSPOT ---------------- */
+/* -------------------- HUBSPOT -------------------- */
 
 async function createHubSpotEligibilityContact(
   token: string,
@@ -135,7 +135,10 @@ async function createHubSpotEligibilityContact(
 async function syncEligibilityToHubSpot(data: EligibilityFormData) {
   const token = process.env.HUBSPOT_ACCESS_TOKEN;
   if (!token) return;
-
+  if (process.env.NODE_ENV === "development") {
+    console.log("[HubSpot] Skipping contact sync in development");
+    return;
+  }
   return retry(async () => {
     const response = await createHubSpotEligibilityContact(
       token,
@@ -172,32 +175,24 @@ async function syncEligibilityToHubSpot(data: EligibilityFormData) {
   });
 }
 
-/* ---------------- EMAIL ---------------- */
-
-const transporter = nodemailer.createTransport(
-  new brevoTransport({
-    apiKey: process.env.SENDINBLUE_API_KEY!,
-  }),
-);
-
-/* ---------------- MAIN FUNCTION ---------------- */
+/* ------------------ MAIN ACTIONS ------------------ */
 
 export async function saveEligibilityData(data: EligibilityFormData) {
-  try {
-    // ✅ Validation
-    if (!data.industry) return { error: "Industry is required" };
-    if (!data.qualification) return { error: "Qualification is required" };
-    if (!data.yearsOfExperience)
-      return { error: "Years of experience is required" };
-    if (!data.stateLivedIn) return { error: "State is required" };
-    if (!data.fullName || data.fullName.length < 2)
-      return { error: "Full name is required" };
-    if (!data.email || !data.email.includes("@"))
-      return { error: "Valid email is required" };
-    if (!data.phoneNumber || data.phoneNumber.length < 8)
-      return { error: "Valid phone number is required" };
+  // 1. Structural Validation Layer
+  if (!data.industry) return { error: "Industry is required" };
+  if (!data.qualification) return { error: "Qualification is required" };
+  if (!data.yearsOfExperience)
+    return { error: "Years of experience is required" };
+  if (!data.stateLivedIn) return { error: "State is required" };
+  if (!data.fullName || data.fullName.length < 2)
+    return { error: "Full name is required" };
+  if (!data.email || !data.email.includes("@"))
+    return { error: "Valid email is required" };
+  if (!data.phoneNumber || data.phoneNumber.length < 8)
+    return { error: "Valid phone number is required" };
 
-    // ✅ Save DB first
+  try {
+    // 2. Critical Path: Local State Synchronization (Database Save)
     await prisma.eligibilitySubmission.create({
       data: {
         fullName: data.fullName,
@@ -205,53 +200,58 @@ export async function saveEligibilityData(data: EligibilityFormData) {
         phoneNumber: data.phoneNumber,
         industry: data.industry,
         qualification: data.qualification,
-        yearsOfExperience: parseInt(data.yearsOfExperience),
+        yearsOfExperience: parseInt(data.yearsOfExperience) || 0,
         stateLivedIn: data.stateLivedIn,
         message: data.message || "",
       },
     });
+    // 3. Non-Critical Deferred Processing Layer
+    after(async () => {
+      try {
+        const results = await Promise.allSettled([
+          syncEligibilityToHubSpot(data),
+          sendEligibilityNotificationEmail({
+            name: data.fullName,
+            email: data.email,
+            phone: data.phoneNumber,
+            message: data.message,
+            industry: data.industry,
+            qualification: data.qualification,
+            yearsOfExperience: data.yearsOfExperience,
+            state: data.stateLivedIn,
+          }),
+          createFormSubmissionNotification({
+            title: "New Eligibility Form Submitted",
+            description: `${data.fullName} submitted eligibility form.`,
+            type: "eligibility",
+          }),
+        ]);
+        // Systematic Background Exception Tracking
+        results.forEach((result, index) => {
+          if (result.status === "rejected") {
+            console.error(
+              `[Background Task Error][saveEligibilityData][Task ${index}]:`,
+              result.reason,
+            );
+          }
+        });
+      } catch (error) {
+        console.error(
+          "[Unexpected error in after() block of saveEligibilityData]:",
+          error,
+        );
+      }
+    });
 
-    const mailOptions = {
-      from: process.env.SENDER_EMAIL!,
-      to: process.env.RECEIVER_EMAIL!,
-      subject: "New Eligibility Submission",
-      text: `
-New Eligibility Submission
-
-Name: ${data.fullName}
-Email: ${data.email}
-Phone: ${data.phoneNumber}
-Industry: ${data.industry}
-Qualification: ${data.qualification}
-Experience: ${data.yearsOfExperience}
-State: ${data.stateLivedIn}
-
-Message:
-${data.message || "None"}
-      `,
+    // Structural JSON response return vector
+    return {
+      success: true,
+      message: "Data saved successfully",
     };
-
-    // ✅ Critical tasks → await (SAFE)
-    if (process.env.NODE_ENV !== "development") {
-      await Promise.allSettled([
-        transporter.sendMail(mailOptions),
-        syncEligibilityToHubSpot(data),
-      ]);
-    }
-
-    // ✅ Non-critical → background
-    runInBackground(
-      "createFormSubmissionNotification",
-      createFormSubmissionNotification({
-        title: "New Eligibility Form Submitted",
-        description: `${data.fullName} submitted eligibility form.`,
-        type: "eligibility",
-      }),
-    );
-
-    return { success: true, message: "Data saved successfully" };
   } catch (error) {
     console.error("Error saving eligibility data:", error);
-    return { error: "Failed to save data. Please try again." };
+    return {
+      error: "Failed to save data. Please try again.",
+    };
   }
 }

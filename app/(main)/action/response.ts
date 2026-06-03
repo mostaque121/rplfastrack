@@ -4,15 +4,11 @@ import { createFormSubmissionNotification } from "@/app/(admin)/lib/create-notif
 import { sendContactNotificationEmail } from "@/app/(admin)/lib/send-mail";
 import { prisma } from "@/lib/prisma";
 import { contactSchema, responseFormSchema } from "@/lib/zod";
+import { after } from "next/server";
 import { z } from "zod";
 
 type ResponseFormData = z.infer<typeof responseFormSchema>;
-
-function runInBackground(taskName: string, task: Promise<unknown>) {
-  void task.catch((error) => {
-    console.error(`[Background task failed: ${taskName}]`, error);
-  });
-}
+type ContactData = z.infer<typeof contactSchema>;
 
 /* ---------------- UTILITIES ---------------- */
 
@@ -120,7 +116,10 @@ async function createHubSpotContact(
 async function syncContactToHubSpot(data: ResponseFormData) {
   const token = process.env.HUBSPOT_ACCESS_TOKEN;
   if (!token) return;
-
+  if (process.env.NODE_ENV === "development") {
+    console.log("[HubSpot] Skipping contact sync in development");
+    return;
+  }
   return retry(async () => {
     const response = await createHubSpotContact(token, data, data.email);
 
@@ -168,7 +167,7 @@ export async function createResponse(data: ResponseFormData) {
   const formData = parsed.data;
 
   try {
-    // ✅ Save first (fast + reliable)
+    // 1. Critical path: Save to DB immediately
     await prisma.response.create({
       data: {
         name: formData.name,
@@ -179,27 +178,41 @@ export async function createResponse(data: ResponseFormData) {
       },
     });
 
-    // ✅ Run critical network tasks safely (await)
-    await Promise.allSettled([
-      syncContactToHubSpot(formData),
-      sendContactNotificationEmail({
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        message: formData.message,
-        interest: formData.interest,
-      }),
-    ]);
+    // 2. Non-critical path: Defer all external API requests to background execution
+    after(async () => {
+      try {
+        const results = await Promise.allSettled([
+          syncContactToHubSpot(formData),
+          sendContactNotificationEmail({
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            message: formData.message,
+            interest: formData.interest,
+          }),
+          createFormSubmissionNotification({
+            title: "New Response Form Submitted",
+            description: `${formData.name} submitted a response form.`,
+            type: "response",
+          }),
+        ]);
 
-    // ✅ Non-critical → background OK
-    runInBackground(
-      "createFormSubmissionNotification",
-      createFormSubmissionNotification({
-        title: "New Response Form Submitted",
-        description: `${formData.name} submitted a response form.`,
-        type: "response",
-      }),
-    );
+        // Monitor background failures in your server logs
+        results.forEach((result, index) => {
+          if (result.status === "rejected") {
+            console.error(
+              `[Background Task Error][createResponse][Task ${index}]:`,
+              result.reason,
+            );
+          }
+        });
+      } catch (error) {
+        console.error(
+          "[Unexpected error in after() block of createResponse]:",
+          error,
+        );
+      }
+    });
 
     return {
       success: true,
@@ -207,7 +220,6 @@ export async function createResponse(data: ResponseFormData) {
     };
   } catch (error) {
     console.error("Form submission error:", error);
-
     return {
       success: false,
       message: "Something went wrong. Please try again later.",
@@ -216,8 +228,6 @@ export async function createResponse(data: ResponseFormData) {
 }
 
 /* ---------------- CONTACT ---------------- */
-
-type ContactData = z.infer<typeof contactSchema>;
 
 export async function createContact(data: ContactData) {
   const parsed = contactSchema.safeParse(data);
@@ -232,42 +242,49 @@ export async function createContact(data: ContactData) {
   const formData = parsed.data;
   const interest = formData.qualification || formData.industry || "none";
 
+  const payload: ResponseFormData = {
+    name: formData.name,
+    email: formData.email,
+    phone: formData.phone,
+    message: formData.message,
+    interest,
+  };
+
   try {
+    // 1. Critical path: Save to DB immediately
     await prisma.response.create({
-      data: {
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        message: formData.message,
-        interest,
-      },
+      data: payload,
     });
 
-    await Promise.allSettled([
-      syncContactToHubSpot({
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        message: formData.message,
-        interest,
-      }),
-      sendContactNotificationEmail({
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        message: formData.message,
-        interest,
-      }),
-    ]);
+    // 2. Non-critical path: Defer all external API requests to background execution
+    after(async () => {
+      try {
+        const results = await Promise.allSettled([
+          syncContactToHubSpot(payload),
+          sendContactNotificationEmail(payload),
+          createFormSubmissionNotification({
+            title: "New Response Form Submitted",
+            description: `${payload.name} submitted a response form.`,
+            type: "response",
+          }),
+        ]);
 
-    runInBackground(
-      "createFormSubmissionNotification:createContact",
-      createFormSubmissionNotification({
-        title: "New Response Form Submitted",
-        description: `${formData.name} submitted a response form.`,
-        type: "response",
-      }),
-    );
+        // Monitor background failures in your server logs
+        results.forEach((result, index) => {
+          if (result.status === "rejected") {
+            console.error(
+              `[Background Task Error][createContact][Task ${index}]:`,
+              result.reason,
+            );
+          }
+        });
+      } catch (error) {
+        console.error(
+          "[Unexpected error in after() block of createContact]:",
+          error,
+        );
+      }
+    });
 
     return {
       success: true,
@@ -275,7 +292,6 @@ export async function createContact(data: ContactData) {
     };
   } catch (error) {
     console.error("DB Error:", error);
-
     return {
       success: false,
       message: "Failed to submit form",

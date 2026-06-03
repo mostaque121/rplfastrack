@@ -50,9 +50,6 @@ export default function RichTextEditor({
     "video",
     "formula",
     "table",
-    "table-cell-line",
-    "table-col",
-    "table-row",
   ];
 
   return (

@@ -1,6 +1,5 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import * as React from "react";
 
@@ -12,7 +11,7 @@ export interface NumberInputProps extends Omit<
   onChange?: (value: number) => void;
 }
 
-const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
+const NumberInputDefault = React.forwardRef<HTMLInputElement, NumberInputProps>(
   ({ className, value, onChange, ...props }, ref) => {
     const [inputValue, setInputValue] = React.useState("");
     const [isFocused, setIsFocused] = React.useState(false);
@@ -77,9 +76,9 @@ const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
     };
 
     return (
-      <Input
+      <input
         type="text"
-        inputMode="decimal" // Changed to "decimal" to give mobile users a period button on their number pad
+        inputMode="decimal"
         ref={ref}
         className={cn(className)}
         value={inputValue}
@@ -91,6 +90,6 @@ const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
     );
   },
 );
-NumberInput.displayName = "NumberInput";
+NumberInputDefault.displayName = "NumberInputDefault";
 
-export { NumberInput };
+export { NumberInputDefault };

@@ -242,6 +242,42 @@ model PaymentPart {
   payment     Payment  @relation(fields: [paymentId], references: [id], onDelete: Cascade)
 }
 
+model Invoice {
+   id                String        @id @default(uuid())
+
+   invoiceNumber     String
+   invoiceDate       DateTime      
+   paymentDue        DateTime      
+
+   extraNotes        String?
+   gstIncluded       Boolean
+
+   bankAccountName   String
+   bankAccountNumber String
+   bankBSB           String
+
+   billToName        String
+   billToEmail       String
+
+   items             InvoiceItem[]
+
+   total             Decimal       
+   amountPaid        Decimal       
+   amountDue         Decimal     
+
+   pdfLink           String  
+   pdfID             String
+}
+
+model InvoiceItem {
+  id          String   @id @default(uuid())
+  description String
+  quantity    Int
+  price       Decimal  
+  
+  invoiceId   String
+  invoice     Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+}
 
 
 

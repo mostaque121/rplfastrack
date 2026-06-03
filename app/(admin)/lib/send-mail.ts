@@ -93,3 +93,37 @@ Submitted from your website contact form.
     await sendMailWithRetry(mailOptions);
   }
 }
+export async function sendEligibilityNotificationEmail(data: {
+  name: string;
+  email: string;
+  phone: string;
+  message?: string | null;
+  state: string;
+  industry: string;
+  qualification: string;
+  yearsOfExperience: string;
+}) {
+  const mailOptions = {
+    from: process.env.SENDER_EMAIL!,
+    to: process.env.RECEIVER_EMAIL!,
+    subject: "New Eligibility Submission",
+    text: `
+New Eligibility Submission
+
+Name: ${data.name}
+Email: ${data.email}
+Phone: ${data.phone}
+Industry: ${data.industry}
+Qualification: ${data.qualification}
+Experience: ${data.yearsOfExperience}
+State: ${data.state}
+
+Message:
+${data.message || "None"}
+      `,
+  };
+
+  if (process.env.NODE_ENV !== "development") {
+    await sendMailWithRetry(mailOptions);
+  }
+}

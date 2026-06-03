@@ -49,4 +49,10 @@ export const auth = betterAuth({
       await redis.del(key);
     },
   },
+  session: {
+    cookieCache: {
+      enabled: true,
+      maxAge: 5 * 60,
+    },
+  },
 });
