@@ -208,15 +208,15 @@ const s = StyleSheet.create({
     marginBottom: 14,
   },
   notesTitle: {
-    fontSize: 11,
+    fontSize: 9.5,
     fontFamily: "Helvetica-Bold",
     color: DARK,
     marginBottom: 6,
   },
-  notesText: { fontSize: 10, color: DARK, marginBottom: 2, lineHeight: 1.5 },
-  policyText: { fontSize: 10, color: GREY, marginBottom: 2, lineHeight: 1.5 },
+  notesText: { fontSize: 9, color: DARK, marginBottom: 2, lineHeight: 1.5 },
+  policyText: { fontSize: 9, color: GREY, marginBottom: 2, lineHeight: 1.5 },
   notesBold: {
-    fontSize: 10,
+    fontSize: 9,
     fontFamily: "Helvetica-Bold",
     color: DARK,
     marginTop: 5,
@@ -268,7 +268,9 @@ export function InvoicePDF({ invoice }: Props) {
             <Text style={s.companyDetail}>{invoice.companyCountry}</Text>
             <Text style={s.companyDetail}>Mobile: {invoice.companyMobile}</Text>
             <Text style={s.companyDetail}>{invoice.companyWebsite}</Text>
-            <Text style={s.companyDetail}>ABN: {invoice.companyABN}</Text>
+            {invoice.companyABN && invoice.companyABN.trim() && (
+              <Text style={s.companyDetail}>ABN: {invoice.companyABN}</Text>
+            )}
           </View>
         </View>
 

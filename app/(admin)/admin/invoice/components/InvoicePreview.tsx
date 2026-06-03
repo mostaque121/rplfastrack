@@ -321,9 +321,23 @@ export default function InvoicePreview({ defaultValues }: Props) {
                   <p className="text-white/75 text-xs">
                     {COMPANY_DEFAULTS.companyWebsite}
                   </p>
-                  <p className="text-white/70 text-xs">
-                    ABN: {COMPANY_DEFAULTS.companyABN}
-                  </p>
+
+                  <FormField
+                    control={control}
+                    name="companyABN"
+                    render={({ field }) => (
+                      <FormItem className="m-0 p-0">
+                        <FormControl>
+                          <Input
+                            {...field}
+                            placeholder="ABN (optional)"
+                            className="bg-transparent px-2 border border-white/30 text-white/70 text-xs py-0 h-6 focus-visible:ring-0 focus-visible:border-white"
+                          />
+                        </FormControl>
+                        <FormMessage className="text-xs" />
+                      </FormItem>
+                    )}
+                  />
                 </div>
                 <span className="text-white text-3xl font-extrabold tracking-widest opacity-90">
                   INVOICE

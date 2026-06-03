@@ -22,7 +22,7 @@ export const InvoicePayloadSchema = z.object({
   companyCountry: z.string().min(1),
   companyMobile: z.string().min(1),
   companyWebsite: z.string().min(1),
-  companyABN: z.string().min(1),
+  companyABN: z.string().optional(),
   logoUrl: z.string().optional(),
 
   // ── Recipient ──────────────────────────────────────────────────────────────
