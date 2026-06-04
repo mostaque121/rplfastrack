@@ -297,7 +297,7 @@ export default function InvoicePreview({ defaultValues }: Props) {
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
           <div className="max-w-3xl mx-auto">
             {/* ── Top bar ─────────────────────────────────────────────────── */}
-            <div className="mb-6 flex items-center justify-between">
+            <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between">
               <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
                 Create Invoice
               </h1>
@@ -313,7 +313,7 @@ export default function InvoicePreview({ defaultValues }: Props) {
             {/* ── Invoice card ────────────────────────────────────────────── */}
             <div className="bg-white rounded-2xl shadow-md border border-gray-200/80 overflow-hidden">
               {/* Header stripe */}
-              <div className="bg-[#2e7d32] px-8 py-5 flex justify-between items-center">
+              <div className="bg-[#2e7d32] px-4 sm:px-8 py-5 flex justify-between items-center">
                 <div>
                   <p className="text-green-100 text-xs font-bold uppercase tracking-widest mb-0.5">
                     {COMPANY_DEFAULTS.companyName}
@@ -344,9 +344,9 @@ export default function InvoicePreview({ defaultValues }: Props) {
                 </span>
               </div>
 
-              <div className="px-8 py-6 space-y-6">
+              <div className="px-4 sm:px-8 py-6 space-y-6">
                 {/* ── Bill-to + Meta ──────────────────────────────────────── */}
-                <div className="grid grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
                   {/* Bill To */}
                   <div className="space-y-3">
                     <p className="text-[10px] uppercase tracking-widest text-gray-400 font-bold">
@@ -361,7 +361,7 @@ export default function InvoicePreview({ defaultValues }: Props) {
                             <Input
                               {...field}
                               placeholder="Client full name"
-                              className="border-0 border-b border-gray-200 rounded-none px-0 focus-visible:ring-0 focus-visible:border-green-600 bg-transparent text-sm font-semibold"
+                              className="w-full border-0 border-b border-gray-200 rounded-none px-0 focus-visible:ring-0 focus-visible:border-green-600 bg-transparent text-sm font-semibold"
                             />
                           </FormControl>
                           <FormMessage className="text-xs" />
@@ -378,7 +378,7 @@ export default function InvoicePreview({ defaultValues }: Props) {
                               {...field}
                               type="email"
                               placeholder="client@email.com"
-                              className="border-0 border-b border-gray-200 rounded-none px-0 focus-visible:ring-0 focus-visible:border-green-600 bg-transparent text-sm text-gray-500"
+                              className="w-full border-0 border-b border-gray-200 rounded-none px-0 focus-visible:ring-0 focus-visible:border-green-600 bg-transparent text-sm text-gray-500"
                             />
                           </FormControl>
                           <FormMessage className="text-xs" />
@@ -404,10 +404,10 @@ export default function InvoicePreview({ defaultValues }: Props) {
                                 <input
                                   {...field}
                                   className={`
-                                    text-right text-sm font-semibold outline-none bg-transparent w-28
-                                    transition-colors duration-300
-                                    ${isSuccess ? "text-green-700" : "text-gray-800"}
-                                  `}
+                                      text-right text-sm font-semibold outline-none bg-transparent w-24 sm:w-28
+                                      transition-colors duration-300
+                                      ${isSuccess ? "text-green-700" : "text-gray-800"}
+                                    `}
                                 />
                               </FormControl>
 
@@ -435,7 +435,7 @@ export default function InvoicePreview({ defaultValues }: Props) {
                                 {isGenerating ? (
                                   <Loader2 className="w-3.5 h-3.5 animate-spin text-green-600" />
                                 ) : isSuccess ? (
-                                  <Check className="w-3.5 h-3.5 stroke-[3]" />
+                                  <Check className="w-3.5 h-3.5 stroke-3" />
                                 ) : (
                                   <Sparkles className="w-3.5 h-3.5" />
                                 )}
@@ -461,7 +461,7 @@ export default function InvoicePreview({ defaultValues }: Props) {
                               <DatePicker
                                 selected={field.value}
                                 onSelect={field.onChange}
-                                className="w-40"
+                                className="w-32 sm:w-40"
                               />
                             </FormControl>
                           </div>
@@ -484,7 +484,7 @@ export default function InvoicePreview({ defaultValues }: Props) {
                               <DatePicker
                                 selected={field.value}
                                 onSelect={field.onChange}
-                                className="w-40"
+                                className="w-32 sm:w-40"
                               />
                             </FormControl>
                           </div>
@@ -507,8 +507,8 @@ export default function InvoicePreview({ defaultValues }: Props) {
 
                 {/* ── Line items ──────────────────────────────────────────── */}
                 <div>
-                  {/* Table header */}
-                  <div className="grid grid-cols-12 bg-[#2e7d32] text-white text-xs font-semibold rounded-xl px-4 py-2.5">
+                  {/* Table header (hidden on xs) */}
+                  <div className="hidden sm:grid grid-cols-12 bg-[#2e7d32] text-white text-xs font-semibold rounded-xl px-4 py-2.5">
                     <span className="col-span-6">Items Description</span>
                     <span className="col-span-2 text-center">Qty</span>
                     <span className="col-span-2 text-right">Price</span>
@@ -519,7 +519,7 @@ export default function InvoicePreview({ defaultValues }: Props) {
                     {fields.map((field, i) => (
                       <div
                         key={field.id}
-                        className={`grid grid-cols-12 items-start px-4 py-2.5 text-sm group ${
+                        className={`grid grid-cols-1 sm:grid-cols-12 items-start px-4 py-2.5 text-sm group ${
                           i % 2 === 1 ? "bg-gray-50/50" : ""
                         }`}
                       >
@@ -528,7 +528,7 @@ export default function InvoicePreview({ defaultValues }: Props) {
                           control={control}
                           name={`items.${i}.description`}
                           render={({ field }) => (
-                            <FormItem className="col-span-6 pr-2">
+                            <FormItem className="col-span-1 sm:col-span-6 pr-2">
                               <FormControl>
                                 <SelectCourseName
                                   courses={allCourses}
@@ -546,7 +546,7 @@ export default function InvoicePreview({ defaultValues }: Props) {
                           control={control}
                           name={`items.${i}.quantity`}
                           render={({ field }) => (
-                            <FormItem className="col-span-2">
+                            <FormItem className="col-span-1 sm:col-span-2">
                               <FormControl>
                                 <NumberInput
                                   {...field}
@@ -565,7 +565,7 @@ export default function InvoicePreview({ defaultValues }: Props) {
                           control={control}
                           name={`items.${i}.price`}
                           render={({ field }) => (
-                            <FormItem className="col-span-2 ml-3">
+                            <FormItem className="col-span-1 sm:col-span-2 sm:ml-3">
                               <FormControl>
                                 <NumberInput
                                   {...field}
@@ -580,7 +580,7 @@ export default function InvoicePreview({ defaultValues }: Props) {
                         />
 
                         {/* Amount + remove */}
-                        <div className="col-span-2 flex items-center justify-end gap-2">
+                        <div className="col-span-1 sm:col-span-2 flex items-center justify-end gap-2">
                           <span className="font-semibold py-2 text-gray-900 tabular-nums">
                             {fmt(
                               (Number(watchedItems[i]?.price) || 0) *
@@ -622,7 +622,7 @@ export default function InvoicePreview({ defaultValues }: Props) {
 
                 {/* ── Totals summary ──────────────────────────────────────── */}
                 <div className="flex flex-col items-end gap-2 text-sm pt-2">
-                  <div className="flex justify-between w-56 border-b border-gray-100 pb-2 px-1">
+                  <div className="flex justify-between w-full sm:w-56 border-b border-gray-100 pb-2 px-1">
                     <span className="text-gray-400">Subtotal:</span>
                     <span className="font-semibold text-gray-800 tabular-nums">
                       {fmt(totalAmount)}
@@ -634,7 +634,7 @@ export default function InvoicePreview({ defaultValues }: Props) {
                     control={control}
                     name="amountPaid"
                     render={({ field }) => (
-                      <FormItem className="w-56">
+                      <FormItem className="w-full sm:w-56">
                         <div className="flex justify-between items-center border-b border-gray-100 pb-2 px-1">
                           <FormLabel className="text-gray-400 font-normal text-sm">
                             Amount Paid:
@@ -646,7 +646,7 @@ export default function InvoicePreview({ defaultValues }: Props) {
                                 {...field}
                                 onChange={field.onChange}
                                 placeholder="0.00"
-                                className="w-20 text-right outline-none bg-transparent font-semibold text-gray-800 focus:text-green-700 transition-colors"
+                                className="w-28 sm:w-20 text-right outline-none bg-transparent font-semibold text-gray-800 focus:text-green-700 transition-colors"
                               />
                             </div>
                           </FormControl>
@@ -656,7 +656,7 @@ export default function InvoicePreview({ defaultValues }: Props) {
                     )}
                   />
 
-                  <div className="flex justify-between w-56 bg-green-50 px-3 py-2.5 rounded-xl border border-green-100">
+                  <div className="flex justify-between w-full sm:w-56 bg-green-50 px-3 py-2.5 rounded-xl border border-green-100">
                     <span className="text-green-800 font-bold text-xs">
                       Total Due (AUD):
                     </span>
@@ -673,7 +673,7 @@ export default function InvoicePreview({ defaultValues }: Props) {
                   </p>
 
                   {/* Banking details — editable */}
-                  <div className="grid grid-cols-3 gap-3 bg-white p-3 rounded-lg border border-gray-100 shadow-inner">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-white p-3 rounded-lg border border-gray-100 shadow-inner">
                     {(
                       [
                         { name: "bankAccountName", label: "Account Name" },
@@ -793,7 +793,7 @@ export default function InvoicePreview({ defaultValues }: Props) {
             </div>
 
             {/* ── Footer action + download ────────────────────────────────── */}
-            <div className="mt-6 flex flex-col items-end gap-3">
+            <div className="mt-6 flex flex-col sm:flex-row sm:justify-end items-end sm:items-center gap-3">
               {generatedPdfLink && (
                 <div className="w-full rounded-lg border border-green-200 bg-green-50 px-4 py-2.5 text-sm text-green-700">
                   <div className="font-medium">
@@ -816,7 +816,7 @@ export default function InvoicePreview({ defaultValues }: Props) {
                   generatedPdfLink ? handleGenerateAnotherPdf : undefined
                 }
                 disabled={isSubmitting}
-                className="bg-[#2e7d32] hover:bg-[#1b5e20] text-white px-6 py-3 gap-2 font-bold"
+                className="w-full sm:w-auto bg-[#2e7d32] hover:bg-[#1b5e20] text-white px-6 py-3 gap-2 font-bold"
               >
                 {isSubmitting ? (
                   <>
