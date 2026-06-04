@@ -41,14 +41,7 @@ export const auth = betterAuth({
       : []),
   ],
   rateLimit: {
-    storage: "secondary-storage", // Use your Redis secondary storage
-    window: 60,
-    max: 100,
-  },
-  advanced: {
-    ipAddress: {
-      ipAddressHeaders: ["x-vercel-forwarded-for", "x-forwarded-for"],
-    },
+    enabled: false,
   },
 
   secondaryStorage: {
