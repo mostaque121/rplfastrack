@@ -1,4 +1,5 @@
 import { ac, adminRole, user } from "@/lib/permisssion";
+import { expo } from "@better-auth/expo";
 import { Redis } from "@upstash/redis";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
@@ -16,6 +17,7 @@ export const auth = betterAuth({
     provider: "postgresql",
   }),
   plugins: [
+    expo(),
     admin({
       ac,
       roles: {
@@ -32,6 +34,12 @@ export const auth = betterAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     },
   },
+  trustedOrigins: [
+    "rplfastrack://",
+    ...(process.env.NODE_ENV === "development"
+      ? ["exp://", "exp://**", "exp://192.168.*.*:*/**", "exp+rplfastrack://**"]
+      : []),
+  ],
 
   secondaryStorage: {
     get: async (key) => {
