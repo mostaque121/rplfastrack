@@ -245,7 +245,7 @@ export default function InvoicePreview({ defaultValues }: Props) {
 
     const payload = serializeForApi({ ...values, totalAmount, amountDue });
 
-    const res = await fetch("/api/invoice", {
+    const res = await fetch("/api/admin/invoices", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),

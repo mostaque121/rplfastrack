@@ -27,17 +27,17 @@ function LoadingDashboard() {
         {Array(4)
           .fill(0)
           .map((_, i) => (
-            <Skeleton key={i} className="h-[120px] w-full" />
+            <Skeleton key={i} className="h-30 w-full" />
           ))}
       </div>
-      <Skeleton className="h-[350px] w-full" />
+      <Skeleton className="h-87.5 w-full" />
       <div className="grid gap-6 md:grid-cols-2">
-        <Skeleton className="h-[400px] w-full" />
-        <Skeleton className="h-[400px] w-full" />
+        <Skeleton className="h-100 w-full" />
+        <Skeleton className="h-100 w-full" />
       </div>
       <div className="grid gap-6 md:grid-cols-2">
-        <Skeleton className="h-[400px] w-full" />
-        <Skeleton className="h-[400px] w-full" />
+        <Skeleton className="h-100 w-full" />
+        <Skeleton className="h-100 w-full" />
       </div>
     </div>
   );

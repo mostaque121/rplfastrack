@@ -21,7 +21,7 @@ export default function InvoiceDeleteButton({
   const handleDelete = async () => {
     setIsDeleting(true);
     try {
-      const response = await fetch(`/api/invoices/${invoiceId}`, {
+      const response = await fetch(`/api/admin/invoices/${invoiceId}`, {
         method: "DELETE",
       });
 

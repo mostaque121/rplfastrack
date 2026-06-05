@@ -1,20 +1,13 @@
-import { v2 as cloudinary } from "cloudinary";
 import { NextResponse } from "next/server";
 
-import { getUserOrRedirect } from "@/app/(admin)/lib/get-user";
+import { cloudinary } from "@/lib/cloudinary-client";
 import { prisma } from "@/lib/prisma";
+import { withAdminGuard } from "@/lib/withAdminGuard";
 
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
-  api_key: process.env.CLOUDINARY_API_KEY!,
-  api_secret: process.env.CLOUDINARY_API_SECRET!,
-});
-
-export async function DELETE(
+export const DELETE = withAdminGuard(async function DELETE(
   _request: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  await getUserOrRedirect();
   try {
     const { id } = await params;
 
@@ -48,4 +41,4 @@ export async function DELETE(
       { status: 500 },
     );
   }
-}
+});

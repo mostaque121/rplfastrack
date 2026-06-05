@@ -34,15 +34,15 @@ export const auth = betterAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     },
   },
+  emailAndPassword: {
+    enabled: true,
+  },
   trustedOrigins: [
     "rplfastrack://",
     ...(process.env.NODE_ENV === "development"
       ? ["exp://", "exp://**", "exp://192.168.*.*:*/**", "exp+rplfastrack://**"]
       : []),
   ],
-  rateLimit: {
-    enabled: false,
-  },
 
   secondaryStorage: {
     get: async (key) => {

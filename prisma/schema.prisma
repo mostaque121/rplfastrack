@@ -152,6 +152,7 @@ model Response {
   createdAt DateTime @default(now())
   stage     ResponseStage @default(LEAD)
   notes     Note[]  
+  @@index([createdAt])
 }
 enum ResponseStage {
   LEAD
@@ -173,6 +174,8 @@ model EligibilitySubmission {
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
   notes              Note[]  
+
+  @@index([createdAt])
 }
 
 model Note {
@@ -267,6 +270,8 @@ model Invoice {
 
    pdfLink           String  
    pdfID             String
+
+   @@index([invoiceDate])
 }
 
 model InvoiceItem {

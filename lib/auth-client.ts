@@ -8,7 +8,6 @@ export const authClient = createAuthClient({
       ac,
       roles: {
         user,
-
         admin: adminRole,
       },
     }),

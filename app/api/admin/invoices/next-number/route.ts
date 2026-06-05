@@ -8,9 +8,10 @@
 import { NextInvoiceNumberResponseSchema } from "@/app/(admin)/admin/invoice/schema";
 import { getUserOrRedirect } from "@/app/(admin)/lib/get-user";
 import { getNextInvoiceNumber } from "@/app/(admin)/lib/getNextInvoiceNumber";
+import { withAdminGuard } from "@/lib/withAdminGuard";
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export const GET = withAdminGuard(async function GET() {
   await getUserOrRedirect();
   try {
     const invoiceNumber = await getNextInvoiceNumber();
@@ -26,4 +27,4 @@ export async function GET() {
       { status: 500 },
     );
   }
-}
+});

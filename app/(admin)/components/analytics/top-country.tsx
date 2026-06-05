@@ -33,7 +33,7 @@ export function TopCountry({ data, days }: TopCountryProps) {
   const topReferrers = referrers
     .sort(
       (a: { sessions: number }, b: { sessions: number }) =>
-        b.sessions - a.sessions
+        b.sessions - a.sessions,
     )
     .slice(0, 10);
 

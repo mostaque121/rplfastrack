@@ -114,7 +114,7 @@ export default function NotificationNav() {
   }, [fetchNotifications, user?.id]);
 
   const unreadCount = notifications.filter(
-    (n) => user?.id && !n.readBy.includes(user.id)
+    (n) => user?.id && !n.readBy.includes(user.id),
   ).length;
 
   const handleMarkAllAsRead = async () => {
@@ -128,7 +128,7 @@ export default function NotificationNav() {
           prev.map((notification) => ({
             ...notification,
             readBy: [...notification.readBy, user.id],
-          }))
+          })),
         );
       }
     } catch (error) {
@@ -183,8 +183,8 @@ export default function NotificationNav() {
           )}
         </Button>
       </SheetTrigger>
-      <SheetContent className="w-[400px] px-4 sm:w-full flex flex-col h-full">
-        <SheetHeader className="flex-shrink-0 pb-4">
+      <SheetContent className="w-100 px-4 sm:w-full flex flex-col h-full">
+        <SheetHeader className="shrink-0 pb-4">
           <div className="flex items-center justify-between">
             <SheetTitle>Notifications</SheetTitle>
             {unreadCount > 0 && (
@@ -247,7 +247,7 @@ export default function NotificationNav() {
                   >
                     <div className="flex items-start space-x-3">
                       <div
-                        className={`flex h-8 w-8 items-center justify-center rounded-full flex-shrink-0 ${
+                        className={`flex h-8 w-8 items-center justify-center rounded-full shrink-0 ${
                           !isRead
                             ? "bg-primary text-primary-foreground"
                             : "bg-muted text-muted-foreground"
@@ -267,7 +267,7 @@ export default function NotificationNav() {
                             {notification.title}
                           </p>
                           {!isRead && (
-                            <div className="h-2 w-2 rounded-full bg-primary flex-shrink-0 mt-1" />
+                            <div className="h-2 w-2 rounded-full bg-primary shrink-0 mt-1" />
                           )}
                         </div>
                         <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
@@ -278,7 +278,7 @@ export default function NotificationNav() {
                             new Date(notification.createdAt),
                             {
                               addSuffix: true,
-                            }
+                            },
                           )}
                         </p>
                       </div>

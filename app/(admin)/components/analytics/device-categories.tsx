@@ -59,7 +59,7 @@ export function DeviceCategories({ data, days }: DeviceCategoriesProps) {
       </CardHeader>
       <CardContent className="pt-6">
         {devices.length > 0 ? (
-          <div className="h-[300px]">
+          <div className="h-75">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie

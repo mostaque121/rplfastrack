@@ -45,7 +45,7 @@ export function Browsers({ data, days }: BrowsersProps) {
       </CardHeader>
       <CardContent className="pt-6">
         {browsers.length > 0 ? (
-          <div className="h-[300px]">
+          <div className="h-75">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
                 data={browsers}

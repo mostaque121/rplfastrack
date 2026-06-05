@@ -10,7 +10,7 @@ export default async function page() {
   });
   if (session?.user)
     return (
-      <section className="bg-[#16152f] h-[100vh] flex justify-center items-center">
+      <section className="bg-[#16152f] h-screen flex justify-center items-center">
         <div className="flex flex-col items-center gap-4">
           {session.user.image && (
             <div className="mb-6 flex justify-center">

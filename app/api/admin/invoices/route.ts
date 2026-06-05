@@ -7,23 +7,17 @@
  * and returns that URL to the caller.
  */
 
+import { cloudinary } from "@/lib/cloudinary-client";
+import { withAdminGuard } from "@/lib/withAdminGuard";
 import { renderToBuffer } from "@react-pdf/renderer";
-import { v2 as cloudinary } from "cloudinary";
 import { NextRequest, NextResponse } from "next/server";
 import React from "react";
 import { ZodError } from "zod";
 
 import { InvoicePDF } from "@/app/(admin)/admin/invoice/components/InvoicePDF";
 import { InvoicePayloadSchema } from "@/app/(admin)/admin/invoice/schema";
-import { getUserOrRedirect } from "@/app/(admin)/lib/get-user";
 import { sendInvoiceEmail } from "@/lib/mail";
 import { prisma } from "@/lib/prisma";
-
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
-  api_key: process.env.CLOUDINARY_API_KEY!,
-  api_secret: process.env.CLOUDINARY_API_SECRET!,
-});
 
 const MONTHS: Record<string, number> = {
   january: 0,
@@ -108,17 +102,21 @@ function uploadPdfToCloudinary(buffer: Buffer, publicId: string) {
   });
 }
 
-export async function POST(req: NextRequest) {
-  await getUserOrRedirect();
+export const POST = withAdminGuard(async function POST(req: NextRequest) {
   try {
     const raw = await req.json();
 
     // ── Validate — throws ZodError on bad data ─────────────────────────────
     const invoice = InvoicePayloadSchema.parse(raw);
-
+    const invoiceWithDefaults = {
+      ...invoice,
+      logoUrl:
+        invoice.logoUrl ||
+        `${process.env.NEXT_PUBLIC_BASE_URL}/invoice-logo.png`,
+    };
     // ── Render PDF ────────────────────────────────────────────────────────
     const buffer = await renderToBuffer(
-      React.createElement(InvoicePDF, { invoice }) as any,
+      React.createElement(InvoicePDF, { invoice: invoiceWithDefaults }) as any,
     );
 
     const pdfBuffer = Buffer.from(buffer);
@@ -201,4 +199,78 @@ export async function POST(req: NextRequest) {
       { status: 500 },
     );
   }
-}
+});
+
+export const GET = withAdminGuard(async function GET(request: Request) {
+  try {
+    // 1. Parse query parameters from the request URL
+    const { searchParams } = new URL(request.url);
+    const search = searchParams.get("search") || undefined;
+    const page = parseInt(searchParams.get("page") || "1", 10);
+    const pageSize = parseInt(searchParams.get("pageSize") || "10", 10);
+
+    // 2. Calculate the offset for Prisma's `skip`
+    const offset = (page - 1) * pageSize;
+
+    // 3. Build the where clause
+    const where = search
+      ? {
+          OR: [
+            {
+              billToName: {
+                contains: search,
+                mode: "insensitive" as const,
+              },
+            },
+            {
+              billToEmail: {
+                contains: search,
+                mode: "insensitive" as const,
+              },
+            },
+            {
+              invoiceNumber: {
+                contains: search,
+                mode: "insensitive" as const,
+              },
+            },
+          ],
+        }
+      : undefined;
+
+    // 4. Fetch data and total count concurrently
+    const [invoices, totalCount] = await Promise.all([
+      prisma.invoice.findMany({
+        where,
+        orderBy: [{ invoiceDate: "desc" }, { invoiceNumber: "desc" }],
+        skip: offset,
+        take: pageSize,
+        select: {
+          id: true,
+          billToName: true,
+          billToEmail: true,
+          invoiceNumber: true,
+          pdfLink: true,
+        },
+      }),
+      prisma.invoice.count({ where }),
+    ]);
+
+    // 5. Return the exact shaped response
+    return NextResponse.json({
+      invoices,
+      pagination: {
+        page,
+        pageSize,
+        totalPages: Math.ceil(totalCount / pageSize),
+        totalCount,
+      },
+    });
+  } catch (error) {
+    console.error("Error fetching invoices:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch invoices." },
+      { status: 500 },
+    );
+  }
+});

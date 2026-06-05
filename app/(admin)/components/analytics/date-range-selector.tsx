@@ -24,14 +24,14 @@ export function DateRangeSelector() {
       params.set("days", days);
       router.push(`?${params.toString()}`);
     },
-    [router, searchParams]
+    [router, searchParams],
   );
 
   return (
     <div className="flex items-center space-x-2">
       <span className="text-sm font-medium">Time period:</span>
       <Select value={currentDays} onValueChange={setDays}>
-        <SelectTrigger className="w-[180px]">
+        <SelectTrigger className="w-45">
           <SelectValue placeholder="Select time period" />
         </SelectTrigger>
         <SelectContent>
