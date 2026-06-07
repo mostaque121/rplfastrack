@@ -114,7 +114,7 @@ export const POST = withAdminGuard(async function POST(req: NextRequest) {
         invoice.logoUrl ||
         `${process.env.NEXT_PUBLIC_BASE_URL}/invoice-logo.png`,
     };
-    // ── Render PDF ────────────────────────────────────────────────────────
+    // ── Render PDF ────────────────────────────────────────────────────────────────
     const buffer = await renderToBuffer(
       React.createElement(InvoicePDF, { invoice: invoiceWithDefaults }) as any,
     );

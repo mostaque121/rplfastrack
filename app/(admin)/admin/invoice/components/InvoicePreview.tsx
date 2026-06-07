@@ -97,7 +97,7 @@ function useTotals(
 
 /** Fetch the next invoice number from the API */
 async function fetchNextInvoiceNumber(): Promise<string> {
-  const res = await fetch("/api/invoice/next-number");
+  const res = await fetch("/api/invoices/next-number");
   if (!res.ok) throw new Error("Failed to fetch invoice number");
   const data: NextInvoiceNumberResponse = await res.json();
   return data.invoiceNumber;

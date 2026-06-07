@@ -14,6 +14,7 @@ import {
   View,
 } from "@react-pdf/renderer";
 
+import { formatInvoiceDate } from "@/lib/format-invoice-date";
 import type { InvoicePayload } from "../schema";
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
@@ -287,8 +288,16 @@ export function InvoicePDF({ invoice }: Props) {
             {(
               [
                 { k: "Invoice Number:", v: invoice.invoiceNumber, bold: true },
-                { k: "Invoice Date:", v: invoice.invoiceDate, bold: false },
-                { k: "Payment Due:", v: invoice.paymentDue, bold: false },
+                {
+                  k: "Invoice Date:",
+                  v: formatInvoiceDate(invoice.invoiceDate),
+                  bold: false,
+                },
+                {
+                  k: "Payment Due:",
+                  v: formatInvoiceDate(invoice.paymentDue),
+                  bold: false,
+                },
               ] as const
             ).map(({ k, v, bold }) => (
               <View key={k} style={s.metaLine}>
