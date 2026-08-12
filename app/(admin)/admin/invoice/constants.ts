@@ -29,7 +29,7 @@ export const COMPANY_DEFAULTS: Pick<
   companyCountry: "Australia",
   companyMobile: "+61 483 921 139",
   companyWebsite: "www.rplfastrack.com",
-  companyABN: "83 684 384 183",
+  companyABN: process.env.NEXT_PUBLIC_DEFAULT_ABN || "67 700 873 632",
   bankAccountName:
     process.env.NEXT_PUBLIC_DEFAULT_BANK_NAME || "Your Bank Name",
   bankBSB: process.env.NEXT_PUBLIC_DEFAULT_BANK_BSB || "012257",
