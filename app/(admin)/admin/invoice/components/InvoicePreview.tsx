@@ -39,9 +39,9 @@ import {
   Sparkles,
   Trash2,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useFieldArray, useForm, useWatch } from "react-hook-form";
-
 // shadcn/ui primitives — adjust import paths to match your project
 import { DatePicker } from "@/components/custom-ui/date-picker"; // your existing component
 
@@ -184,11 +184,14 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 interface Props {
   /** Pre-fill specific fields, e.g. when editing an existing invoice */
   defaultValues?: Partial<InvoiceFormValues>;
+  /** Present only in edit mode — switches submit to PUT /api/admin/invoices/:id */
+  invoiceId?: string;
 }
-
 type NumberGenState = "idle" | "loading" | "success";
 
-export default function InvoicePreview({ defaultValues }: Props) {
+export default function InvoicePreview({ defaultValues, invoiceId }: Props) {
+  const isEditMode = Boolean(invoiceId);
+  const router = useRouter();
   const { sections } = useRPL();
   const allCourses = sections.flatMap((section) => section.courses ?? []);
   const [generatedPdfLink, setGeneratedPdfLink] = useState<string | null>(null);
@@ -280,7 +283,6 @@ export default function InvoicePreview({ defaultValues }: Props) {
   }, [setValue]);
 
   // ── Submit → generate PDF ────────────────────────────────────────────────
-
   const onSubmit = async (values: InvoiceFormValues) => {
     if (generatedPdfLink) {
       return;
@@ -288,15 +290,19 @@ export default function InvoicePreview({ defaultValues }: Props) {
 
     const payload = serializeForApi({ ...values, totalAmount, amountDue });
 
-    const res = await fetch("/api/admin/invoices", {
-      method: "POST",
+    const url = isEditMode
+      ? `/api/admin/invoices/${invoiceId}`
+      : "/api/admin/invoices";
+    const method = isEditMode ? "PUT" : "POST";
+
+    const res = await fetch(url, {
+      method,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
 
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
-      // Surface first validation error if present
       const firstIssue = Object.values(
         (err as { issues?: Record<string, string[]> }).issues ?? {},
       )[0]?.[0];
@@ -312,6 +318,13 @@ export default function InvoicePreview({ defaultValues }: Props) {
       form.setError("root", {
         message: "Invoice was created, but no PDF link was returned.",
       });
+      return;
+    }
+
+    if (isEditMode) {
+      // Edit mode: confirm, open the updated PDF, then go back to the list.
+      window.open(data.pdfLink, "_blank", "noopener,noreferrer");
+      router.push("/admin/invoice");
       return;
     }
 
@@ -457,43 +470,47 @@ export default function InvoicePreview({ defaultValues }: Props) {
                               <FormControl>
                                 <input
                                   {...field}
+                                  readOnly={isEditMode}
                                   aria-label="Invoice number"
                                   className={`
                                       text-right text-sm font-mono font-semibold outline-none bg-transparent w-24 sm:w-28
                                       transition-colors duration-300
+                                      ${isEditMode ? "text-[#8a8578] cursor-not-allowed" : ""}
                                       ${isSuccess ? "text-[#1B4D3E]" : "text-[#1C1F1C]"}
                                     `}
                                 />
                               </FormControl>
 
-                              {/* Auto-generate button */}
-                              <button
-                                type="button"
-                                onClick={generateInvoiceNumber}
-                                disabled={isGenerating}
-                                title="Auto-generate next invoice number"
-                                aria-label="Auto-generate next invoice number"
-                                className={`
-                                  relative p-1.5 rounded-md cursor-pointer transition-all duration-300 overflow-hidden
-                                  ${
-                                    isSuccess
-                                      ? "bg-[#f2ead9] text-[#a67c3d] ring-2 ring-[#a67c3d]/40 scale-105"
-                                      : "bg-[#F3F1EA] hover:bg-[#eee9db] text-[#8a8578] hover:text-[#a67c3d]"
-                                  }
-                                  disabled:cursor-not-allowed
-                                `}
-                              >
-                                {isSuccess && (
-                                  <span className="absolute inset-0 rounded-md animate-ping bg-[#a67c3d]/20" />
-                                )}
-                                {isGenerating ? (
-                                  <Loader2 className="w-3.5 h-3.5 animate-spin text-[#1B4D3E]" />
-                                ) : isSuccess ? (
-                                  <Check className="w-3.5 h-3.5 stroke-3" />
-                                ) : (
-                                  <Sparkles className="w-3.5 h-3.5" />
-                                )}
-                              </button>
+                              {/* Auto-generate — create mode only; number is fixed once an invoice exists */}
+                              {!isEditMode && (
+                                <button
+                                  type="button"
+                                  onClick={generateInvoiceNumber}
+                                  disabled={isGenerating}
+                                  title="Auto-generate next invoice number"
+                                  aria-label="Auto-generate next invoice number"
+                                  className={`
+                                    relative p-1.5 rounded-md cursor-pointer transition-all duration-300 overflow-hidden
+                                    ${
+                                      isSuccess
+                                        ? "bg-[#f2ead9] text-[#a67c3d] ring-2 ring-[#a67c3d]/40 scale-105"
+                                        : "bg-[#F3F1EA] hover:bg-[#eee9db] text-[#8a8578] hover:text-[#a67c3d]"
+                                    }
+                                    disabled:cursor-not-allowed
+                                  `}
+                                >
+                                  {isSuccess && (
+                                    <span className="absolute inset-0 rounded-md animate-ping bg-[#a67c3d]/20" />
+                                  )}
+                                  {isGenerating ? (
+                                    <Loader2 className="w-3.5 h-3.5 animate-spin text-[#1B4D3E]" />
+                                  ) : isSuccess ? (
+                                    <Check className="w-3.5 h-3.5 stroke-3" />
+                                  ) : (
+                                    <Sparkles className="w-3.5 h-3.5" />
+                                  )}
+                                </button>
+                              )}
                             </div>
                           </div>
                           <FormMessage className="text-xs" />
@@ -900,7 +917,8 @@ export default function InvoicePreview({ defaultValues }: Props) {
               >
                 {isSubmitting ? (
                   <>
-                    <Loader2 className="w-4 h-4 animate-spin" /> Generating…
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    {isEditMode ? "Saving…" : "Generating…"}
                   </>
                 ) : generatedPdfLink ? (
                   <>
@@ -908,7 +926,8 @@ export default function InvoicePreview({ defaultValues }: Props) {
                   </>
                 ) : (
                   <>
-                    <Download className="w-4 h-4" /> Generate PDF
+                    <Download className="w-4 h-4" />
+                    {isEditMode ? "Save changes" : "Generate PDF"}
                   </>
                 )}
               </Button>

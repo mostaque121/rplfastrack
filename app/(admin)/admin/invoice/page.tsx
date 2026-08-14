@@ -16,7 +16,7 @@ import { getUserOrRedirect } from "../../lib/get-user";
 import InvoiceDeleteButton from "./components/invoice-delete-button";
 import InvoiceSearchForm from "./components/invoice-search-form";
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 20;
 
 export default async function Page({
   searchParams,
@@ -82,7 +82,7 @@ export default async function Page({
             <h1 className="text-3xl font-bold tracking-tight">Invoices</h1>
             <p className="text-sm text-muted-foreground">
               Search by name, email, or invoice number, preview the PDF, or
-              download and delete records from one place.
+              download, edit, and delete records from one place.
             </p>
           </div>
 
@@ -124,6 +124,7 @@ export default async function Page({
                     <TableHead>Email</TableHead>
                     <TableHead>Invoice Number</TableHead>
                     <TableHead className="text-center">Preview</TableHead>
+                    <TableHead className="text-center">Edit</TableHead>
                     <TableHead className="text-right">Delete</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -147,6 +148,15 @@ export default async function Page({
                           </a>
                         </Button>
                       </TableCell>
+
+                      <TableCell className="text-center">
+                        <Button asChild variant="outline" size="sm">
+                          <Link href={`/admin/invoice/${invoice.id}/edit`}>
+                            Edit
+                          </Link>
+                        </Button>
+                      </TableCell>
+
                       <TableCell className="text-right">
                         <InvoiceDeleteButton
                           invoiceId={invoice.id}
