@@ -1,15 +1,8 @@
-import Select, { StylesConfig } from "react-select";
+import React, { useEffect, useRef, useState } from "react";
 
-// Type for the course data from props
 type Course = {
   id: string;
   title: string;
-};
-
-// Type for react-select option
-type SelectOption = {
-  value: string;
-  label: string;
 };
 
 type SelectCourseProps = {
@@ -19,96 +12,83 @@ type SelectCourseProps = {
   error?: string;
 };
 
-const emeraldColor = "#10b981";
-const emeraldHoverColor = "#d1fae5";
-
-// Custom styles
-const customStyles: StylesConfig<SelectOption, false> = {
-  control: (base, state) => ({
-    ...base,
-    backgroundColor: "white",
-    borderColor: state.isFocused ? emeraldColor : "#e5e7eb",
-    boxShadow: state.isFocused ? `0 0 0 1px ${emeraldColor}` : "none",
-    "&:hover": {
-      borderColor: state.isFocused ? emeraldColor : "#d1d5db",
-    },
-    borderRadius: "0.375rem",
-
-    // ✅ height override
-    minHeight: "32px",
-  }),
-
-  // ✅ allow multi-line layout behavior
-  valueContainer: (base) => ({
-    ...base,
-    display: "flex",
-    flexWrap: "wrap",
-    alignItems: "center",
-    maxHeight: "60px",
-    overflow: "hidden",
-  }),
-
-  option: (base, state) => ({
-    ...base,
-    backgroundColor: state.isSelected
-      ? emeraldColor
-      : state.isFocused
-        ? emeraldHoverColor
-        : "white",
-    color: state.isSelected ? "white" : "#111827",
-    "&:active": {
-      backgroundColor: emeraldColor,
-      color: "white",
-    },
-    borderRadius: "0.25rem",
-    margin: "0 4px",
-    width: "calc(100% - 8px)",
-  }),
-
-  menu: (base) => ({
-    ...base,
-    borderRadius: "0.375rem",
-    marginTop: "4px",
-  }),
-
-  // ✅ 2-line clamp for selected value
-  singleValue: (base) => ({
-    ...base,
-    color: "#111827",
-    whiteSpace: "normal",
-    display: "-webkit-box",
-    WebkitBoxOrient: "vertical",
-    WebkitLineClamp: 2,
-    overflow: "hidden",
-  }),
-};
-
 const SelectCourseName: React.FC<SelectCourseProps> = ({
   courses,
-  value,
+  value = "",
   onChange,
   error,
 }) => {
-  const formattedOptions: SelectOption[] = courses.map((o) => ({
-    value: o.id,
-    label: o.title,
-  }));
+  const [isOpen, setIsOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  const selected = formattedOptions.find((o) => o.label === value) || null;
+  const currentValue = value || "";
+
+  // Filter options based on typed input
+  const filteredCourses = courses.filter((c) =>
+    c.title.toLowerCase().includes(currentValue.toLowerCase()),
+  );
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
-    <div className="relative w-full mx-auto">
-      <Select
-        value={selected}
-        onChange={(newValue) => onChange(newValue ? newValue.label : null)}
-        options={formattedOptions}
-        isClearable
-        styles={customStyles}
-        placeholder="Select a course..."
-        captureMenuScroll={false}
-        menuPlacement="bottom"
-        menuShouldScrollIntoView={false}
-      />
+    <div ref={containerRef} className="relative w-full mx-auto">
+      <div className="relative flex items-center">
+        <input
+          type="text"
+          value={currentValue}
+          onChange={(e) => {
+            onChange(e.target.value || null);
+            setIsOpen(true);
+          }}
+          onFocus={() => setIsOpen(true)}
+          placeholder="Select or type a course..."
+          className={`w-full px-3 py-2 text-sm text-gray-900 bg-white border rounded-md outline-none transition-all ${
+            isOpen
+              ? "border-[#10b981] ring-1 ring-[#10b981]"
+              : "border-gray-200 hover:border-gray-300"
+          }`}
+        />
+
+        {currentValue && (
+          <button
+            type="button"
+            onClick={() => onChange(null)}
+            className="absolute right-2 text-gray-400 hover:text-gray-600 text-xs px-1 font-bold"
+          >
+            ✕
+          </button>
+        )}
+      </div>
+
+      {/* Helper Suggestion Dropdown */}
+      {isOpen && filteredCourses.length > 0 && (
+        <ul className="absolute z-50 w-full mt-1 max-h-56 overflow-auto bg-white border border-gray-200 rounded-md shadow-lg p-1 text-sm">
+          {filteredCourses.map((course) => (
+            <li
+              key={course.id}
+              onClick={() => {
+                onChange(course.title);
+                setIsOpen(false);
+              }}
+              className="px-3 py-2 cursor-pointer rounded text-gray-900 hover:bg-[#d1fae5] transition-colors"
+            >
+              {course.title}
+            </li>
+          ))}
+        </ul>
+      )}
 
       {error && <div className="mt-2 text-red-600 text-sm">{error}</div>}
     </div>
