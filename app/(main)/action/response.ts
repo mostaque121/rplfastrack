@@ -2,6 +2,7 @@
 
 import { createFormSubmissionNotification } from "@/app/(admin)/lib/create-notification";
 import { sendContactNotificationEmail } from "@/app/(admin)/lib/send-mail";
+import { sendLeadToCrm } from "@/lib/crm";
 import { prisma } from "@/lib/prisma";
 import { contactSchema, responseFormSchema } from "@/lib/zod";
 import { after } from "next/server";
@@ -168,7 +169,7 @@ export async function createResponse(data: ResponseFormData) {
 
   try {
     // 1. Critical path: Save to DB immediately
-    await prisma.response.create({
+    const response = await prisma.response.create({
       data: {
         name: formData.name,
         email: formData.email,
@@ -194,6 +195,20 @@ export async function createResponse(data: ResponseFormData) {
             title: "New Response Form Submitted",
             description: `${formData.name} submitted a response form.`,
             type: "response",
+          }),
+          sendLeadToCrm({
+            submissionId: response.id,
+            form: "contact",
+            name: formData.name,
+            phone: formData.phone,
+            email: formData.email,
+            message: formData.message,
+            qualification:
+              formData.interest === "RPL" || formData.interest === "none"
+                ? undefined
+                : formData.interest,
+            sourceDetail: `Enquiry form: ${formData.interest}`,
+            submittedAt: response.createdAt.toISOString(),
           }),
         ]);
 
@@ -252,7 +267,7 @@ export async function createContact(data: ContactData) {
 
   try {
     // 1. Critical path: Save to DB immediately
-    await prisma.response.create({
+    const response = await prisma.response.create({
       data: payload,
     });
 
@@ -266,6 +281,18 @@ export async function createContact(data: ContactData) {
             title: "New Response Form Submitted",
             description: `${payload.name} submitted a response form.`,
             type: "response",
+          }),
+          sendLeadToCrm({
+            submissionId: response.id,
+            form: "contact",
+            name: formData.name,
+            phone: formData.phone,
+            email: formData.email,
+            qualification: formData.qualification,
+            industry: formData.industry,
+            message: formData.message,
+            sourceDetail: "Contact page",
+            submittedAt: response.createdAt.toISOString(),
           }),
         ]);
 

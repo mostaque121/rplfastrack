@@ -23,16 +23,9 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useRPL } from "@/contexts/rpl-context";
+import { experienceYears } from "@/lib/experience-years";
 import { CheckCircle2 } from "lucide-react";
 import { useRef, useState } from "react";
-
-const experienceYears = [
-  { id: "1", name: "Less than 1 year" },
-  { id: "1-3", name: "1-3 years" },
-  { id: "3-5", name: "3-5 years" },
-  { id: "5-10", name: "5-10 years" },
-  { id: "10+", name: "More than 10 years" },
-];
 
 const australianStates = [
   { id: "nsw", name: "New South Wales" },

@@ -2,6 +2,8 @@
 
 import { createFormSubmissionNotification } from "@/app/(admin)/lib/create-notification";
 import { sendEligibilityNotificationEmail } from "@/app/(admin)/lib/send-mail";
+import { sendLeadToCrm } from "@/lib/crm";
+import { getExperienceLabel } from "@/lib/experience-years";
 import { prisma } from "@/lib/prisma";
 import { after } from "next/server";
 import nodemailer from "nodemailer";
@@ -193,7 +195,7 @@ export async function saveEligibilityData(data: EligibilityFormData) {
 
   try {
     // 2. Critical Path: Local State Synchronization (Database Save)
-    await prisma.eligibilitySubmission.create({
+    const submission = await prisma.eligibilitySubmission.create({
       data: {
         fullName: data.fullName,
         email: data.email,
@@ -224,6 +226,20 @@ export async function saveEligibilityData(data: EligibilityFormData) {
             title: "New Eligibility Form Submitted",
             description: `${data.fullName} submitted eligibility form.`,
             type: "eligibility",
+          }),
+          sendLeadToCrm({
+            submissionId: submission.id,
+            form: "eligibility",
+            name: data.fullName,
+            phone: data.phoneNumber,
+            email: data.email,
+            qualification: data.qualification,
+            industry: data.industry,
+            experience: getExperienceLabel(data.yearsOfExperience),
+            state: data.stateLivedIn,
+            message: data.message,
+            sourceDetail: "Eligibility form",
+            submittedAt: submission.createdAt.toISOString(),
           }),
         ]);
         // Systematic Background Exception Tracking
