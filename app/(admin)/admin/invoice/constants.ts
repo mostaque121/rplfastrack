@@ -29,12 +29,10 @@ export const COMPANY_DEFAULTS: Pick<
   companyCountry: "Australia",
   companyMobile: "+61 483 921 139",
   companyWebsite: "www.rplfastrack.com",
-  companyABN: process.env.NEXT_PUBLIC_DEFAULT_ABN || "67 700 873 632",
-  bankAccountName:
-    process.env.NEXT_PUBLIC_DEFAULT_BANK_NAME || "Your Bank Name",
-  bankBSB: process.env.NEXT_PUBLIC_DEFAULT_BANK_BSB || "012257",
-  bankAccountNumber:
-    process.env.NEXT_PUBLIC_DEFAULT_BANK_ACCOUNT_NUMBER || "669735113",
+  companyABN: "67 700 873 632",
+  bankAccountName: "Fast Track Group Australia Pty Ltd",
+  bankBSB: "033121",
+  bankAccountNumber: "754088",
   extraNotes: "Please write your full name in the payment description.",
   gstIncluded: true,
   logoUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/invoice-logo.png`,
