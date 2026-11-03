@@ -1,5 +1,6 @@
 "use server";
 
+import { requireAdmin } from "@/app/(admin)/action/helper";
 import { prisma } from "@/lib/prisma";
 import { CACHE_TAGS } from "@/config/cache-tags";
 import { revalidatePath, updateTag } from "next/cache";
@@ -26,6 +27,7 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 export async function getCourses() {
+  await requireAdmin();
   try {
     const courses = await prisma.course.findMany({
       orderBy: {
@@ -41,6 +43,7 @@ export async function getCourses() {
   }
 }
 export async function getCourseById(id: string) {
+  await requireAdmin();
   try {
     const course = await prisma.course.findUnique({
       where: { id },
@@ -52,6 +55,7 @@ export async function getCourseById(id: string) {
   }
 }
 export async function getCourseByLink(link: string) {
+  await requireAdmin();
   try {
     const course = await prisma.course.findUnique({
       where: { link },
@@ -69,6 +73,7 @@ export async function createCourse(
   sectionId: string,
   sectionLink: string,
 ) {
+  await requireAdmin();
   const link = input.title
     .replace(/[^a-zA-Z0-9\s-]/g, "") // Remove unwanted characters
     .replace(/\s+/g, "-") // Replace spaces with hyphens
@@ -117,6 +122,7 @@ export async function updateCourse(
   sectionLink: string,
   input: Omit<FormData, "link">,
 ) {
+  await requireAdmin();
   const link = input.title
     .replace(/[^a-zA-Z0-9\s-]/g, "") // Remove unwanted characters
     .replace(/\s+/g, "-") // Replace spaces with hyphens
@@ -200,6 +206,7 @@ export async function deleteCourse(
   sectionId: string,
   sectionLink: string,
 ) {
+  await requireAdmin();
   try {
     const sectionToDelete = await prisma.course.findUnique({
       where: { id },

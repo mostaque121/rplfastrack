@@ -2,9 +2,10 @@
 import { Role } from "@/app/generated/prisma";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { checkAdmin } from "./helper";
+import { requireAdmin } from "./helper";
 
 export const getAllUsers = async () => {
+  await requireAdmin();
   try {
     const users = await prisma.user.findMany(); // Fetch all users
     return users;
@@ -17,8 +18,9 @@ export const getAllUsers = async () => {
 export const getAllUsersBySearch = async (
   search: string,
   page: number,
-  pageSize: number
+  pageSize: number,
 ) => {
+  await requireAdmin();
   type SearchCondition = {
     OR: {
       name?: { contains: string; mode: "insensitive" };
@@ -71,7 +73,7 @@ export const getAllUsersBySearch = async (
 };
 
 export async function updateUserRole(userId: string, newRole: Role) {
-  const author = await checkAdmin();
+  const author = await requireAdmin();
   if (!author || !author.id) {
     return { success: false, error: "Unauthorized" };
   }
@@ -85,7 +87,7 @@ export async function updateUserRole(userId: string, newRole: Role) {
 }
 
 export async function deleteUser(userId: string) {
-  await checkAdmin();
+  await requireAdmin();
 
   await prisma.user.delete({
     where: { id: userId },

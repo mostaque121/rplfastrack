@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
+import { requireAdmin } from "@/app/(admin)/action/helper";
 import { prisma } from "@/lib/prisma";
 import type { AnalyticsData, FilterParams } from "@/type/type";
 import {
@@ -15,6 +16,7 @@ import {
 import { PaymentWithParts } from "./payments";
 
 export async function getPaymentAnalytics(filters: FilterParams) {
+  await requireAdmin();
   try {
     const { startDate, endDate, previousStartDate } = getDateRanges(filters);
 
@@ -52,7 +54,7 @@ export async function getPaymentAnalytics(filters: FilterParams) {
     // Calculate overview metrics
     const overview = calculateOverviewMetrics(
       currentPeriodPayments,
-      previousPeriodPayments
+      previousPeriodPayments,
     );
 
     // Generate trend data
@@ -60,7 +62,7 @@ export async function getPaymentAnalytics(filters: FilterParams) {
       currentPeriodPayments,
       startDate,
       endDate,
-      filters.type
+      filters.type,
     );
 
     // Get distributions
@@ -123,13 +125,13 @@ function getDateRanges(filters: FilterParams) {
     startDate = filters.dateRange.from;
     endDate = filters.dateRange.to;
     const daysDiff = Math.ceil(
-      (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)
+      (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24),
     );
     previousStartDate = subDays(startDate, daysDiff);
   } else if (filters.type === "monthFilter" && filters.monthFilter) {
     const [year, month] = filters.monthFilter.split("-");
     startDate = startOfMonth(
-      new Date(Number.parseInt(year), Number.parseInt(month) - 1)
+      new Date(Number.parseInt(year), Number.parseInt(month) - 1),
     );
     endDate = endOfMonth(startDate);
     previousStartDate = startOfMonth(subMonths(startDate, 1));
@@ -144,14 +146,14 @@ function getDateRanges(filters: FilterParams) {
 
 function calculateOverviewMetrics(
   currentPayments: PaymentWithParts[],
-  previousPayments: PaymentWithParts[]
+  previousPayments: PaymentWithParts[],
 ) {
   // Current period calculations
   const totalRevenue = currentPayments.reduce((sum, p) => sum + p.payment, 0);
   const totalProfit = currentPayments.reduce((sum, p) => sum + p.netProfit, 0);
   const totalStudents = currentPayments.length;
   const totalEnrollments = currentPayments.filter(
-    (p) => p.enrollmentDate
+    (p) => p.enrollmentDate,
   ).length;
   const averagePayment = totalStudents > 0 ? totalRevenue / totalStudents : 0;
   const averageProfit = totalStudents > 0 ? totalProfit / totalStudents : 0;
@@ -159,15 +161,15 @@ function calculateOverviewMetrics(
   // Previous period calculations
   const previousRevenue = previousPayments.reduce(
     (sum, p) => sum + p.payment,
-    0
+    0,
   );
   const previousProfit = previousPayments.reduce(
     (sum, p) => sum + p.netProfit,
-    0
+    0,
   );
   const previousStudents = previousPayments.length;
   const previousEnrollments = previousPayments.filter(
-    (p) => p.enrollmentDate
+    (p) => p.enrollmentDate,
   ).length;
   const previousAvgPayment =
     previousStudents > 0
@@ -224,7 +226,7 @@ async function generateTrendData(
   payments: PaymentWithParts[],
   startDate: Date | undefined,
   endDate: Date,
-  filterType: string
+  filterType: string,
 ) {
   const revenueAndProfit: Array<{
     period: string;
@@ -239,13 +241,13 @@ async function generateTrendData(
       return { revenueAndProfit, enrollments };
     }
     startDate = new Date(
-      Math.min(...payments.map((p) => new Date(p.enrollmentDate).getTime()))
+      Math.min(...payments.map((p) => new Date(p.enrollmentDate).getTime())),
     );
   }
 
   if (filterType === "timeRange" || filterType === "dateRange") {
     const daysDiff = Math.ceil(
-      (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)
+      (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24),
     );
 
     if (daysDiff <= 31) {
@@ -291,7 +293,7 @@ async function generateTrendData(
             isWithinInterval(new Date(p.enrollmentDate), {
               start: monthStart,
               end: monthEnd,
-            })
+            }),
           ).length,
         });
       }
@@ -301,7 +303,7 @@ async function generateTrendData(
     const monthStart = startDate;
     const monthEnd = endDate;
     const daysInMonth = Math.ceil(
-      (monthEnd.getTime() - monthStart.getTime()) / (1000 * 60 * 60 * 24)
+      (monthEnd.getTime() - monthStart.getTime()) / (1000 * 60 * 60 * 24),
     );
 
     for (let i = 0; i <= daysInMonth; i++) {
@@ -329,10 +331,13 @@ async function generateTrendData(
 
 async function getDistributions(payments: PaymentWithParts[]) {
   // Payment status distribution
-  const statusCounts = payments.reduce((acc, payment) => {
-    acc[payment.paymentStatus] = (acc[payment.paymentStatus] || 0) + 1;
-    return acc;
-  }, {} as Record<string, number>);
+  const statusCounts = payments.reduce(
+    (acc, payment) => {
+      acc[payment.paymentStatus] = (acc[payment.paymentStatus] || 0) + 1;
+      return acc;
+    },
+    {} as Record<string, number>,
+  );
 
   const paymentStatus = Object.entries(statusCounts).map(([name, value]) => ({
     name,
@@ -340,14 +345,17 @@ async function getDistributions(payments: PaymentWithParts[]) {
   }));
 
   // Revenue and profit by source
-  const sourceData = payments.reduce((acc, payment) => {
-    if (!acc[payment.source]) {
-      acc[payment.source] = { revenue: 0, profit: 0 };
-    }
-    acc[payment.source].revenue += payment.payment;
-    acc[payment.source].profit += payment.netProfit;
-    return acc;
-  }, {} as Record<string, { revenue: number; profit: number }>);
+  const sourceData = payments.reduce(
+    (acc, payment) => {
+      if (!acc[payment.source]) {
+        acc[payment.source] = { revenue: 0, profit: 0 };
+      }
+      acc[payment.source].revenue += payment.payment;
+      acc[payment.source].profit += payment.netProfit;
+      return acc;
+    },
+    {} as Record<string, { revenue: number; profit: number }>,
+  );
 
   const revenueAndProfitBySource = Object.entries(sourceData)
     .map(([source, data]) => ({
@@ -359,14 +367,17 @@ async function getDistributions(payments: PaymentWithParts[]) {
     .slice(0, 5);
 
   // Top colleges
-  const collegeData = payments.reduce((acc, payment) => {
-    if (!acc[payment.collegeName]) {
-      acc[payment.collegeName] = { revenue: 0, students: 0 };
-    }
-    acc[payment.collegeName].revenue += payment.payment;
-    acc[payment.collegeName].students += 1;
-    return acc;
-  }, {} as Record<string, { revenue: number; students: number }>);
+  const collegeData = payments.reduce(
+    (acc, payment) => {
+      if (!acc[payment.collegeName]) {
+        acc[payment.collegeName] = { revenue: 0, students: 0 };
+      }
+      acc[payment.collegeName].revenue += payment.payment;
+      acc[payment.collegeName].students += 1;
+      return acc;
+    },
+    {} as Record<string, { revenue: number; students: number }>,
+  );
 
   const topColleges = Object.entries(collegeData)
     .map(([college, data]) => ({
@@ -378,15 +389,21 @@ async function getDistributions(payments: PaymentWithParts[]) {
     .slice(0, 5);
 
   // Top qualification
-  const qualificationData = payments.reduce((acc, payment) => {
-    if (!acc[payment.qualification]) {
-      acc[payment.qualification] = { revenue: 0, netProfit: 0, students: 0 };
-    }
-    acc[payment.qualification].revenue += payment.payment;
-    acc[payment.qualification].students += 1;
-    acc[payment.qualification].netProfit += payment.netProfit;
-    return acc;
-  }, {} as Record<string, { revenue: number; students: number; netProfit: number }>);
+  const qualificationData = payments.reduce(
+    (acc, payment) => {
+      if (!acc[payment.qualification]) {
+        acc[payment.qualification] = { revenue: 0, netProfit: 0, students: 0 };
+      }
+      acc[payment.qualification].revenue += payment.payment;
+      acc[payment.qualification].students += 1;
+      acc[payment.qualification].netProfit += payment.netProfit;
+      return acc;
+    },
+    {} as Record<
+      string,
+      { revenue: number; students: number; netProfit: number }
+    >,
+  );
 
   const topQualifications = Object.entries(qualificationData)
     .map(([qualification, data]) => ({
@@ -464,7 +481,7 @@ function generateInsights(payments: PaymentWithParts[], overview: any) {
 
   // Payment status insight
   const installmentPayments = payments.filter((p) =>
-    p.paymentStatus.toLowerCase().includes("installment")
+    p.paymentStatus.toLowerCase().includes("installment"),
   );
   const installmentRate =
     payments.length > 0

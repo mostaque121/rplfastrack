@@ -1,5 +1,6 @@
 "use server";
 
+import { requireAdmin } from "@/app/(admin)/action/helper";
 import { prisma } from "@/lib/prisma";
 import { CACHE_TAGS } from "@/config/cache-tags";
 import { revalidatePath, updateTag } from "next/cache";
@@ -12,6 +13,7 @@ export default async function getAllReview(
   page: number,
   pageSize: number,
 ) {
+  await requireAdmin();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const whereCondition: any = {
     approved,
@@ -71,6 +73,7 @@ export default async function getAllReview(
 }
 
 export async function toggleUserReviewPublish(id: string, approved: boolean) {
+  await requireAdmin();
   try {
     await prisma.userReview.update({
       where: { id },
@@ -91,6 +94,7 @@ export async function toggleUserReviewPublish(id: string, approved: boolean) {
 export async function deleteReview(
   id: string,
 ): Promise<{ success: boolean; error?: string }> {
+  await requireAdmin();
   try {
     // Delete the blog post in the database using Prisma
     await prisma.userReview.delete({
@@ -111,6 +115,7 @@ export async function deleteReview(
 type ReviewFormData = z.infer<typeof reviewFormSchema>;
 
 export async function saveReview(input: ReviewFormData) {
+  await requireAdmin();
   try {
     const parsedData = reviewFormSchema.parse(input);
 
@@ -144,6 +149,7 @@ export async function saveReview(input: ReviewFormData) {
 }
 
 export async function updateReview(reviewId: string, input: ReviewFormData) {
+  await requireAdmin();
   try {
     const parsedData = reviewFormSchema.parse(input);
 

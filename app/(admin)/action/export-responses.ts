@@ -1,10 +1,12 @@
 "use server";
 
+import { requireAdmin } from "@/app/(admin)/action/helper";
 import { prisma } from "@/lib/prisma";
 import { format } from "date-fns";
 import ExcelJS from "exceljs";
 
 export async function exportResponsesToExcel() {
+  await requireAdmin();
   try {
     const responses = await prisma.response.findMany({
       include: {
@@ -67,6 +69,7 @@ export async function exportResponsesToExcel() {
 }
 
 export async function exportEligibilityToExcel() {
+  await requireAdmin();
   try {
     const submissions = await prisma.eligibilitySubmission.findMany({
       include: {

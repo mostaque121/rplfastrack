@@ -1,4 +1,6 @@
 "use server";
+
+import { requireAdmin } from "@/app/(admin)/action/helper";
 import { ResponseStage } from "@/app/generated/prisma";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
@@ -6,8 +8,9 @@ import { revalidatePath } from "next/cache";
 export const getAllResponses = async (
   search: string,
   page: number,
-  pageSize: number
+  pageSize: number,
 ) => {
+  await requireAdmin();
   type SearchCondition = {
     OR: {
       name?: { contains: string; mode: "insensitive" };
@@ -86,6 +89,7 @@ export const getAllResponses = async (
 };
 
 export async function addNote(responseId: string, content: string) {
+  await requireAdmin();
   if (!content.trim()) {
     return { success: false, error: "Note content is required" };
   }
@@ -108,6 +112,7 @@ export async function addNote(responseId: string, content: string) {
 }
 
 export async function deleteNote(responseId: string, noteId: string) {
+  await requireAdmin();
   try {
     await prisma.note.delete({
       where: {
@@ -125,6 +130,7 @@ export async function deleteNote(responseId: string, noteId: string) {
 }
 
 export async function deleteResponse(responseId: string) {
+  await requireAdmin();
   try {
     await prisma.response.delete({
       where: {
@@ -141,6 +147,7 @@ export async function deleteResponse(responseId: string) {
 }
 
 export async function editStage(responseId: string, newStage: ResponseStage) {
+  await requireAdmin();
   try {
     await prisma.response.update({
       where: { id: responseId },

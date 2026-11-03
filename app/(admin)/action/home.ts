@@ -2,10 +2,12 @@
 
 "use server";
 
+import { requireAdmin } from "@/app/(admin)/action/helper";
 import { prisma } from "@/lib/prisma";
 import { getTotalUsersLast30Days } from "./analytics"; // Ensure this path is correct
 
 export async function getAllDashboardStats() {
+  await requireAdmin();
   try {
     const last30Days = new Date();
     last30Days.setDate(last30Days.getDate() - 30);

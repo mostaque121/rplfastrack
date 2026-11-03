@@ -1,4 +1,6 @@
 "use server";
+
+import { requireAdmin } from "@/app/(admin)/action/helper";
 import { prisma } from "@/lib/prisma";
 
 type GetNotificationsOptions = {
@@ -14,6 +16,7 @@ export async function getNotifications({
   pageSize = 20,
   unreadOnly = false,
 }: GetNotificationsOptions) {
+  await requireAdmin();
   const skip = (page - 1) * pageSize;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -54,6 +57,7 @@ export async function getNotifications({
 }
 
 export async function markAllNotificationsAsRead(userId: string) {
+  await requireAdmin();
   try {
     await prisma.notification.updateMany({
       where: {

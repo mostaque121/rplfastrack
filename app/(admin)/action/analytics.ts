@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
+import { requireAdmin } from "@/app/(admin)/action/helper";
 import { BetaAnalyticsDataClient } from "@google-analytics/data";
 import { format, subDays } from "date-fns";
 
@@ -27,7 +28,7 @@ async function runReport(
   dimensions: string[],
   metrics: string[],
   days = 30,
-  orderBy?: any
+  orderBy?: any,
 ) {
   try {
     const { startDate, endDate } = getDateRange(days);
@@ -49,6 +50,7 @@ async function runReport(
 
 // Dashboard Data Fetcher
 export async function fetchDashboardData(days = 30) {
+  await requireAdmin();
   try {
     const [
       analyticsData,
@@ -96,7 +98,7 @@ async function getAnalyticsData(days = 30) {
     {
       dimension: { dimensionName: "date" },
       desc: false,
-    }
+    },
   );
 }
 
@@ -108,7 +110,7 @@ async function getTopPages(days = 30) {
     {
       metric: { metricName: "screenPageViews" },
       desc: true,
-    }
+    },
   );
 }
 
@@ -120,7 +122,7 @@ async function getTopReferrers(days = 30) {
     {
       metric: { metricName: "sessions" },
       desc: true,
-    }
+    },
   );
 }
 
@@ -147,6 +149,7 @@ async function getUserCountries(days = 30) {
 }
 
 export async function getTotalUsersLast30Days() {
+  await requireAdmin();
   try {
     const response = await runReport([], ["totalUsers"], 30);
 

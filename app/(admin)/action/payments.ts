@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
+import { requireAdmin } from "@/app/(admin)/action/helper";
 import type {
   CreatePaymentData,
   UpdatePaymentData,
@@ -58,6 +59,7 @@ const calculateTotals = (data: {
 
 // CREATE ACTION
 export async function createPayment(data: CreatePaymentData) {
+  await requireAdmin();
   const validation = createPaymentSchema.safeParse(data);
   if (!validation.success) {
     return { success: false, error: "Invalid input data." };
@@ -83,6 +85,7 @@ export async function createPayment(data: CreatePaymentData) {
 
 // UPDATE ACTION
 export async function updatePayment(data: UpdatePaymentData) {
+  await requireAdmin();
   const validation = updatePaymentSchema.safeParse(data);
   if (!validation.success) {
     return { success: false, error: "Invalid input data." };
@@ -106,11 +109,11 @@ export async function updatePayment(data: UpdatePaymentData) {
 
       // Delete parts that are no longer present
       const idsToDelete = [...existingPartIds].filter(
-        (partId) => !incomingParts.has(partId)
+        (partId) => !incomingParts.has(partId),
       );
       if (idsToDelete.length > 0) {
         operations.push(
-          tx.paymentPart.deleteMany({ where: { id: { in: idsToDelete } } })
+          tx.paymentPart.deleteMany({ where: { id: { in: idsToDelete } } }),
         );
       }
 
@@ -122,12 +125,12 @@ export async function updatePayment(data: UpdatePaymentData) {
             tx.paymentPart.update({
               where: { id: part.id },
               data: { amount: part.amount, paidAt: part.paidAt },
-            })
+            }),
           );
         } else {
           // Create new
           operations.push(
-            tx.paymentPart.create({ data: { ...part, paymentId: id } })
+            tx.paymentPart.create({ data: { ...part, paymentId: id } }),
           );
         }
       }
@@ -153,8 +156,9 @@ export async function updatePayment(data: UpdatePaymentData) {
 }
 
 export async function getPaymentsWithFilter(
-  filters: PaymentFilters
+  filters: PaymentFilters,
 ): Promise<PaymentResponse> {
+  await requireAdmin();
   try {
     const { search, status, dateFrom, dateTo, page, limit } = filters;
     const skip = (page - 1) * limit;
@@ -241,6 +245,7 @@ export async function getPaymentsWithFilter(
 }
 
 export async function getPaymentStats(): Promise<StatsResponse> {
+  await requireAdmin();
   try {
     // Tell TypeScript the type of the groupBy result
     const counts = (await prisma.payment.groupBy({
@@ -291,8 +296,9 @@ export async function getPaymentStats(): Promise<StatsResponse> {
 }
 
 export async function deletePayment(
-  id: string
+  id: string,
 ): Promise<{ success: boolean; error?: string }> {
+  await requireAdmin();
   try {
     await prisma.paymentPart.deleteMany({
       where: {
@@ -317,6 +323,7 @@ export async function deletePayment(
 }
 
 export async function updatePaymentNote(id: string, note: string) {
+  await requireAdmin();
   try {
     const payment = await prisma.payment.update({
       where: { id },

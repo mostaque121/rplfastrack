@@ -1,7 +1,7 @@
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 
-export async function checkAdmin() {
+export async function requireAdmin() {
   try {
     const session = await auth.api.getSession({
       headers: await headers(),

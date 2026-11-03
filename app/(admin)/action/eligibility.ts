@@ -1,12 +1,15 @@
 "use server";
+
+import { requireAdmin } from "@/app/(admin)/action/helper";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
 export const getAllEligibility = async (
   search: string,
   page: number,
-  pageSize: number
+  pageSize: number,
 ) => {
+  await requireAdmin();
   type SearchCondition = {
     OR: {
       name?: { contains: string; mode: "insensitive" };
@@ -89,8 +92,9 @@ export const getAllEligibility = async (
 };
 export async function addNote(
   eligibilitySubmissionId: string,
-  content: string
+  content: string,
 ) {
+  await requireAdmin();
   if (!content.trim()) {
     return { success: false, error: "Note content is required" };
   }
@@ -113,8 +117,9 @@ export async function addNote(
 }
 export async function deleteNote(
   eligibilitySubmissionId: string,
-  noteId: string
+  noteId: string,
 ) {
+  await requireAdmin();
   try {
     await prisma.note.delete({
       where: {
@@ -131,6 +136,7 @@ export async function deleteNote(
   }
 }
 export async function deleteEligibility(eligibilityId: string) {
+  await requireAdmin();
   try {
     await prisma.eligibilitySubmission.delete({
       where: {
