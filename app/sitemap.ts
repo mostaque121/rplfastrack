@@ -1,93 +1,55 @@
-import { SITE_URL } from "@/config/site";
 import { absoluteUrl } from "@/lib/url";
 import type { MetadataRoute } from "next";
 import { getAllSections } from "./(main)/action/courses";
 
+// Static pages get no lastModified: a made-up date is worse than none.
+// /write-review is left out on purpose (noindex, no search value).
+const STATIC_PAGES: { path: string; priority: number }[] = [
+  { path: "/about-us", priority: 0.9 },
+  { path: "/about-rpl", priority: 0.9 },
+  { path: "/contact", priority: 0.8 },
+  { path: "/faq", priority: 0.6 },
+  { path: "/reviews", priority: 0.6 },
+  { path: "/privacy-policy", priority: 0.4 },
+  { path: "/refund-policy", priority: 0.4 },
+  { path: "/terms-of-service", priority: 0.4 },
+  { path: "/cookie-policy", priority: 0.3 },
+];
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const sections = await getAllSections();
+  const courses = sections.flatMap((section) => section.courses ?? []);
 
-  const baseEntries: MetadataRoute.Sitemap = [
-    {
-      url: SITE_URL,
-      lastModified: new Date("2026-03-13"),
-      priority: 1.0,
+  // The home page and /courses list every section and course, so they
+  // change whenever any of them does.
+  const latestUpdate = [...sections, ...courses].reduce<Date | undefined>(
+    (latest, item) => {
+      const date = new Date(item.updatedAt);
+      return !latest || date > latest ? date : latest;
     },
-    {
-      url: absoluteUrl("/about-us"),
-      lastModified: new Date("2026-03-13"),
-      priority: 0.9,
-    },
-    {
-      url: absoluteUrl("/about-rpl"),
-      lastModified: new Date("2026-03-13"),
-      priority: 0.9,
-    },
-    {
-      url: absoluteUrl("/contact"),
-      lastModified: new Date("2026-03-13"),
-      priority: 0.8,
-    },
-    {
-      url: absoluteUrl("/courses"),
-      lastModified: new Date("2026-03-13"),
-      priority: 0.9,
-    },
-    {
-      url: absoluteUrl("/privacy-policy"),
-      lastModified: new Date("2025-05-10"),
-      priority: 0.4,
-    },
-    {
-      url: absoluteUrl("/refund-policy"),
-      lastModified: new Date("2025-05-10"),
-      priority: 0.4,
-    },
-    {
-      url: absoluteUrl("/terms-of-service"),
-      lastModified: new Date("2025-05-10"),
-      priority: 0.4,
-    },
-    {
-      url: absoluteUrl("/cookie-policy"),
-      lastModified: new Date("2025-05-10"),
-      priority: 0.3,
-    },
-    {
-      url: absoluteUrl("/faq"),
-      lastModified: new Date("2026-03-13"),
-      priority: 0.6,
-    },
-    {
-      url: absoluteUrl("/reviews"),
-      lastModified: new Date("2026-03-13"),
-      priority: 0.6,
-    },
-    {
-      url: absoluteUrl("/write-review"),
-      lastModified: new Date("2026-03-13"),
-      priority: 0.6,
-    },
-  ];
-
-  const sectionEntries: MetadataRoute.Sitemap = sections.map((section) => ({
-    url: absoluteUrl(`/section/${section.link}`),
-    lastModified: section.updatedAt
-      ? new Date(section.updatedAt)
-      : new Date("2026-03-13"),
-    priority: 0.7,
-  }));
-
-  const courseEntries: MetadataRoute.Sitemap = sections.flatMap((section) =>
-    section.courses
-      ? section.courses.map((course) => ({
-          url: absoluteUrl(`/courses/${course.link}`),
-          lastModified: course.updatedAt
-            ? new Date(course.updatedAt)
-            : new Date("2026-03-13"),
-          priority: 0.8,
-        }))
-      : [],
+    undefined,
   );
 
-  return [...baseEntries, ...sectionEntries, ...courseEntries];
+  return [
+    { url: absoluteUrl("/"), lastModified: latestUpdate, priority: 1.0 },
+    {
+      url: absoluteUrl("/courses"),
+      lastModified: latestUpdate,
+      priority: 0.9,
+    },
+    ...STATIC_PAGES.map(({ path, priority }) => ({
+      url: absoluteUrl(path),
+      priority,
+    })),
+    ...sections.map((section) => ({
+      url: absoluteUrl(`/section/${section.link}`),
+      lastModified: new Date(section.updatedAt),
+      priority: 0.7,
+    })),
+    ...courses.map((course) => ({
+      url: absoluteUrl(`/courses/${course.link}`),
+      lastModified: new Date(course.updatedAt),
+      priority: 0.8,
+    })),
+  ];
 }

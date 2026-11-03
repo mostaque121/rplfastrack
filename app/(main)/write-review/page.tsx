@@ -7,6 +7,10 @@ export const metadata = {
   alternates: {
     canonical: absoluteUrl("/write-review"),
   },
+  robots: {
+    index: false,
+    follow: true,
+  },
   openGraph: {
     title: "Write a Review - RPL Fast Track",
     description:
