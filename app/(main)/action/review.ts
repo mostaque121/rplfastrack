@@ -1,5 +1,6 @@
 "use server";
 import { prisma } from "@/lib/prisma";
+import { CACHE_TAGS } from "@/config/cache-tags";
 import { unstable_cache } from "next/cache";
 import { z } from "zod";
 
@@ -75,7 +76,7 @@ export async function _getCommonReviews() {
         acc[star] = allReviews.filter((r) => r.givenStar === star).length;
         return acc;
       },
-      {} as Record<number, number>
+      {} as Record<number, number>,
     );
 
     // Only show latest 3 reviews for homepage
@@ -106,8 +107,8 @@ export const getCommonReviews = unstable_cache(
   _getCommonReviews,
   ["common-reviews"],
   {
-    tags: ["user-review:common"],
-  }
+    tags: [CACHE_TAGS.reviewsCommon],
+  },
 );
 
 export async function _getAllReviews() {
@@ -139,5 +140,5 @@ export async function _getAllReviews() {
   }
 }
 export const getAllReviews = unstable_cache(_getAllReviews, ["reviews"], {
-  tags: ["user-review:all"],
+  tags: [CACHE_TAGS.reviewsAll],
 });

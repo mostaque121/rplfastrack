@@ -1,6 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
+import { CACHE_TAGS } from "@/config/cache-tags";
 import { revalidatePath, updateTag } from "next/cache";
 import { z } from "zod";
 const formSchema = z.object({
@@ -66,7 +67,7 @@ export async function getCourseByLink(link: string) {
 export async function createCourse(
   input: Omit<FormData, "link">,
   sectionId: string,
-  sectionLink: string
+  sectionLink: string,
 ) {
   const link = input.title
     .replace(/[^a-zA-Z0-9\s-]/g, "") // Remove unwanted characters
@@ -99,8 +100,8 @@ export async function createCourse(
       });
     });
     revalidatePath(`/admin/section/${sectionLink}`);
-    revalidatePath(`/category/${sectionLink}`);
-    updateTag("section:all");
+    revalidatePath(`/section/${sectionLink}`);
+    updateTag(CACHE_TAGS.sections);
     return { success: true };
   } catch (err) {
     console.error("Create course error:", err);
@@ -114,7 +115,7 @@ export async function updateCourse(
   courseLink: string,
   sectionId: string,
   sectionLink: string,
-  input: Omit<FormData, "link">
+  input: Omit<FormData, "link">,
 ) {
   const link = input.title
     .replace(/[^a-zA-Z0-9\s-]/g, "") // Remove unwanted characters
@@ -179,10 +180,11 @@ export async function updateCourse(
         data: newData,
       });
     });
-    updateTag("section:all");
+    updateTag(CACHE_TAGS.sections);
     revalidatePath(`/admin/section/${sectionLink}`);
-    revalidatePath(`/category/${sectionLink}`);
-    revalidatePath(`/qualifications/${courseLink}`);
+    revalidatePath(`/section/${sectionLink}`);
+    revalidatePath(`/courses/${courseLink}`);
+    if (newData.link !== courseLink) revalidatePath(`/courses/${newData.link}`);
 
     return { success: true };
   } catch (error) {
@@ -196,7 +198,7 @@ export async function deleteCourse(
   id: string,
   courseLink: string,
   sectionId: string,
-  sectionLink: string
+  sectionLink: string,
 ) {
   try {
     const sectionToDelete = await prisma.course.findUnique({
@@ -228,9 +230,9 @@ export async function deleteCourse(
     });
 
     revalidatePath(`/admin/section/${sectionLink}`);
-    revalidatePath(`/category/${sectionLink}`);
-    revalidatePath(`/qualifications/${courseLink}`);
-    updateTag("section:all");
+    revalidatePath(`/section/${sectionLink}`);
+    revalidatePath(`/courses/${courseLink}`);
+    updateTag(CACHE_TAGS.sections);
 
     return { success: true };
   } catch (error) {

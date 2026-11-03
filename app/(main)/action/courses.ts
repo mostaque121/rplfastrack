@@ -1,4 +1,5 @@
 "use server";
+import { CACHE_TAGS } from "@/config/cache-tags";
 import { prisma } from "@/lib/prisma";
 import { Section } from "@/type/type";
 import { unstable_cache } from "next/cache";
@@ -94,7 +95,7 @@ export const getAllSections = unstable_cache(
   _getAllSections,
   ["get_all_sections"],
   {
-    tags: ["section:all"],
+    tags: [CACHE_TAGS.sections],
   },
 );
 

@@ -1,6 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
+import { CACHE_TAGS } from "@/config/cache-tags";
 import { revalidatePath, updateTag } from "next/cache";
 import { z } from "zod";
 import { reviewFormSchema } from "../lib/zod";
@@ -9,7 +10,7 @@ export default async function getAllReview(
   search: string,
   approved: boolean,
   page: number,
-  pageSize: number
+  pageSize: number,
 ) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const whereCondition: any = {
@@ -77,8 +78,8 @@ export async function toggleUserReviewPublish(id: string, approved: boolean) {
     });
 
     revalidatePath("/admin/review");
-    updateTag("user-review:all");
-    updateTag("user-review:common");
+    updateTag(CACHE_TAGS.reviewsAll);
+    updateTag(CACHE_TAGS.reviewsCommon);
 
     return { success: true };
   } catch (error) {
@@ -88,7 +89,7 @@ export async function toggleUserReviewPublish(id: string, approved: boolean) {
 }
 
 export async function deleteReview(
-  id: string
+  id: string,
 ): Promise<{ success: boolean; error?: string }> {
   try {
     // Delete the blog post in the database using Prisma
@@ -96,9 +97,9 @@ export async function deleteReview(
       where: { id },
     });
 
-    revalidatePath("admin/review");
-    updateTag("review:all");
-    updateTag("user-review:common");
+    revalidatePath("/admin/review");
+    updateTag(CACHE_TAGS.reviewsAll);
+    updateTag(CACHE_TAGS.reviewsCommon);
 
     return { success: true };
   } catch (error) {
@@ -126,8 +127,8 @@ export async function saveReview(input: ReviewFormData) {
       },
     });
     revalidatePath("/admin/review");
-    updateTag("user-review:all");
-    updateTag("user-review:common");
+    updateTag(CACHE_TAGS.reviewsAll);
+    updateTag(CACHE_TAGS.reviewsCommon);
     return { success: true, message: "Review created successfully." };
   } catch (error: unknown) {
     console.error("Error saving review:", error);
@@ -159,8 +160,8 @@ export async function updateReview(reviewId: string, input: ReviewFormData) {
       },
     });
     revalidatePath("/admin/review");
-    updateTag("user-review:all");
-    updateTag("user-review:common");
+    updateTag(CACHE_TAGS.reviewsAll);
+    updateTag(CACHE_TAGS.reviewsCommon);
     return { success: true, message: "Review updated successfully." };
   } catch (error: unknown) {
     console.error("Error updating review:", error);

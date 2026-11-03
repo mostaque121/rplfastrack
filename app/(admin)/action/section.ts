@@ -1,6 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
+import { CACHE_TAGS } from "@/config/cache-tags";
 import { revalidatePath, updateTag } from "next/cache";
 import { z } from "zod";
 
@@ -90,7 +91,7 @@ export async function createSection(input: Omit<FormData, "link">) {
       await tx.section.create({ data });
     });
     revalidatePath("/admin/section");
-    updateTag("section:all");
+    updateTag(CACHE_TAGS.sections);
     return { success: true };
   } catch (err) {
     console.error("Create section error:", err);
@@ -103,7 +104,7 @@ export async function createSection(input: Omit<FormData, "link">) {
 export async function updateSection(
   id: string,
   sectionLink: string,
-  input: Omit<FormData, "link">
+  input: Omit<FormData, "link">,
 ) {
   const link = input.title
     .replace(/[^a-zA-Z0-9\s-]/g, "") // Remove unwanted characters
@@ -167,8 +168,10 @@ export async function updateSection(
       });
     });
     revalidatePath("/admin/section");
-    revalidatePath(`/category/${sectionLink}`);
-    updateTag("section:all");
+    revalidatePath(`/section/${sectionLink}`);
+    if (newData.link !== sectionLink)
+      revalidatePath(`/section/${newData.link}`);
+    updateTag(CACHE_TAGS.sections);
     return { success: true };
   } catch (error) {
     console.error("Update section failed:", error);
@@ -217,8 +220,8 @@ export async function deleteSection(id: string, link: string) {
       });
     });
     revalidatePath("/admin/section");
-    revalidatePath(`/category/${link}`);
-    updateTag("section:all");
+    revalidatePath(`/section/${link}`);
+    updateTag(CACHE_TAGS.sections);
     return { success: true };
   } catch (error) {
     console.error("Delete section failed:", error);
