@@ -26,10 +26,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        {/* Only the progress bar needs Suspense (useSearchParams). Wrapping
+            children would start streaming before the page runs, so notFound()
+            and redirects would be sent as 200 (soft 404). */}
         <Suspense fallback={null}>
           <NavigationProgressBar />
-          {children}
         </Suspense>
+        {children}
       </body>
     </html>
   );
