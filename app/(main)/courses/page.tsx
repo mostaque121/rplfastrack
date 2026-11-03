@@ -1,3 +1,4 @@
+import { absoluteUrl } from "@/lib/url";
 import { getAllSections } from "../action/courses";
 import ContactSection from "../components/contact-common";
 import DocumentsNeed from "../components/documents-need";
@@ -31,13 +32,13 @@ export async function generateMetadata() {
     "Prior learning recognition",
     "Career advancement Australia", ${keywords}`,
       alternates: {
-        canonical: "https://rplfastrack.com/courses",
+        canonical: absoluteUrl("/courses"),
       },
       openGraph: {
         title: "Courses - Recognized Certifications via RPL",
         description:
           "Discover how RPL helps you achieve Australian qualifications by assessing your existing skills and experience.",
-        url: "https://rplfastrack.com/courses",
+        url: absoluteUrl("/courses"),
         type: "website",
         images: [
           {

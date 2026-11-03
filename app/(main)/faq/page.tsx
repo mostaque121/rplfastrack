@@ -1,3 +1,4 @@
+import { absoluteUrl } from "@/lib/url";
 import {
   Accordion,
   AccordionContent,
@@ -14,13 +15,13 @@ export const metadata: Metadata = {
   description:
     "Find answers to common questions about our Recognition of Prior Learning (RPL) services, eligibility, process, costs, and more.",
   alternates: {
-    canonical: "https://rplfastrack.com/faq",
+    canonical: absoluteUrl("/faq"),
   },
   openGraph: {
     title: "FAQs - Recognition of Prior Learning | RPL Fast Track",
     description:
       "Explore our Frequently Asked Questions to understand the RPL process, eligibility, documentation, timelines, and how we help you succeed.",
-    url: "https://rplfastrack.com/faq",
+    url: absoluteUrl("/faq"),
     type: "article",
     images: [
       {

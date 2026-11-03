@@ -1,3 +1,4 @@
+import { absoluteUrl } from "@/lib/url";
 import Link from "next/link";
 
 export const metadata = {
@@ -5,7 +6,7 @@ export const metadata = {
   description:
     "Read the Terms of Service for RPL Fast Track to understand your rights, responsibilities, and the conditions of using our RPL services.",
   alternates: {
-    canonical: "https://rplfastrack.com/terms-of-service",
+    canonical: absoluteUrl("/terms-of-service"),
   },
 };
 

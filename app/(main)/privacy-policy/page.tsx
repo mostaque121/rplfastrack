@@ -1,3 +1,4 @@
+import { absoluteUrl } from "@/lib/url";
 import Link from "next/link";
 
 export const metadata = {
@@ -5,7 +6,7 @@ export const metadata = {
   description:
     "Read RPL Fast Track's Privacy Policy to understand how we collect, use, and protect your personal information in accordance with Australian laws.",
   alternates: {
-    canonical: "https://rplfastrack.com/privacy-policy",
+    canonical: absoluteUrl("/privacy-policy"),
   },
 };
 

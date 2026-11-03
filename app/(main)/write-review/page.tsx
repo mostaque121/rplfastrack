@@ -1,16 +1,17 @@
+import { absoluteUrl } from "@/lib/url";
 import ReviewForm from "./components/ReviewForm";
 export const metadata = {
   title: "Write a Review",
   description:
     "Share your experience with RPL Fast Track and help others understand the value of Recognition of Prior Learning in Australia.",
   alternates: {
-    canonical: "https://rplfastrack.com/write-review",
+    canonical: absoluteUrl("/write-review"),
   },
   openGraph: {
     title: "Write a Review - RPL Fast Track",
     description:
       "Tell us how RPL Fast Track helped you. Submit your review and inspire others on their Recognition of Prior Learning journey.",
-    url: "https://rplfastrack.com/write-review",
+    url: absoluteUrl("/write-review"),
     type: "article",
     images: [
       {

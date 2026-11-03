@@ -1,3 +1,4 @@
+import { absoluteUrl } from "@/lib/url";
 import { getAllReviews } from "../action/review";
 import ReviewHero from "./components/review-hero";
 import ReviewList from "./components/review-list";
@@ -8,13 +9,13 @@ export const metadata = {
   description:
     "Read real client reviews and testimonials about their experience with RPL Fast Track. See how we've helped individuals achieve recognition for their skills in Australia.",
   alternates: {
-    canonical: "https://rplfastrack.com/reviews",
+    canonical: absoluteUrl("/reviews"),
   },
   openGraph: {
     title: "Client Reviews - RPL Fast Track Australia",
     description:
       "Discover what our clients say about their Recognition of Prior Learning journey with RPL Fast Track. Trusted by skilled professionals across Australia.",
-    url: "https://rplfastrack.com/reviews",
+    url: absoluteUrl("/reviews"),
     type: "article",
     images: [
       {

@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/config/site";
 import WhatsAppButton1 from "@/components/custom-ui/whatsapp-button";
 import { Toaster } from "@/components/ui/sonner";
 import { GoogleAnalytics } from "@next/third-parties/google";
@@ -6,7 +7,7 @@ import Footer from "./components/footer/footer";
 import Navbar from "./components/navbar/navbar";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://rplfastrack.com"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "RPL Fast Track",
     template: "%s | RPL Fast Track",
@@ -40,7 +41,7 @@ export const metadata: Metadata = {
     "fast rpl",
   ],
   authors: [
-    { name: "RPL Fast Track Australia", url: "https://rplfastrack.com" },
+    { name: "RPL Fast Track Australia", url: SITE_URL },
   ],
   creator: "RPL Fast Track Australia",
   publisher: "RPL Fast Track Australia",
@@ -66,7 +67,7 @@ export const metadata: Metadata = {
     title: "RPL Fast Track Australia",
     description:
       "Get nationally recognized qualifications in Australia through our RPL Fast Track process. Convert your experience into certification quickly and affordably.",
-    url: "https://rplfastrack.com",
+    url: SITE_URL,
     locale: "en_US",
     siteName: "RPL Fast Track",
     type: "website",

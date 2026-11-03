@@ -1,3 +1,4 @@
+import { absoluteUrl } from "@/lib/url";
 import DocumentsNeed from "../components/documents-need";
 import FaqCommon from "../components/faq-common";
 import EligibilityForRPL from "../courses/components/eligibility";
@@ -29,13 +30,13 @@ export const metadata = {
     "RPL benefits",
   ],
   alternates: {
-    canonical: "https://rplfastrack.com/about-rpl",
+    canonical: absoluteUrl("/about-rpl"),
   },
   openGraph: {
     title: "About RPL - Recognition of Prior Learning Explained",
     description:
       "Discover how RPL allows skilled individuals to gain official qualifications based on their experience. See how the process works in Australia.",
-    url: "https://rplfastrack.com/about-rpl",
+    url: absoluteUrl("/about-rpl"),
     type: "article",
     images: [
       {

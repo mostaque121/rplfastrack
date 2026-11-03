@@ -1,3 +1,4 @@
+import { absoluteUrl } from "@/lib/url";
 import { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
@@ -6,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://rplfastrack.com/sitemap.xml",
+    sitemap: absoluteUrl("/sitemap.xml"),
   };
 }

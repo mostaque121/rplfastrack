@@ -1,10 +1,11 @@
+import { absoluteUrl } from "@/lib/url";
 import Link from "next/link";
 export const metadata = {
   title: "Refund Policy",
   description:
     "Review RPL Fast Track’s refund policy to understand the terms and conditions regarding cancellations, eligibility, and refund procedures.",
   alternates: {
-    canonical: "https://rplfastrack.com/refund-policy",
+    canonical: absoluteUrl("/refund-policy"),
   },
 };
 

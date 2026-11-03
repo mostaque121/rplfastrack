@@ -1,3 +1,4 @@
+import { absoluteUrl } from "@/lib/url";
 import ContactForm from "./components/contact-form";
 import ContactInfo from "./components/contact-info";
 import ContactHero from "./components/hero";
@@ -7,13 +8,13 @@ export const metadata = {
   description:
     "Get in touch with RPL Fast Track Australia. Whether you have questions about our courses, services, or need assistance with Recognition of Prior Learning (RPL), our dedicated team is here to help you achieve your goals.",
   alternates: {
-    canonical: "https://rplfastrack.com/contact",
+    canonical: absoluteUrl("/contact"),
   },
   openGraph: {
     title: "Contact Us - RPL Fast Track",
     description:
       "Reach out to RPL Fast Track Australia for expert guidance on your Recognition of Prior Learning journey.",
-    url: "https://rplfastrack.com/contact",
+    url: absoluteUrl("/contact"),
     type: "website",
     images: [
       {

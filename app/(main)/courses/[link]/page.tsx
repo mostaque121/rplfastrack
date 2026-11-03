@@ -1,3 +1,5 @@
+import { SITE_URL } from "@/config/site";
+import { absoluteUrl } from "@/lib/url";
 import { notFound } from "next/navigation";
 import type { BreadcrumbList } from "schema-dts";
 import { Course, WithContext } from "schema-dts";
@@ -52,12 +54,12 @@ export async function generateMetadata({
       description: pageDescription,
       keywords: bestKeywords,
       alternates: {
-        canonical: `https://rplfastrack.com/courses/${data.link}`,
+        canonical: absoluteUrl(`/courses/${data.link}`),
       },
       openGraph: {
         title: pageTitle,
         description: `${data.metaDescription}`,
-        url: `https://rplfastrack.com/courses/${data.link}`,
+        url: absoluteUrl(`/courses/${data.link}`),
         type: "article",
         images: [
           {
@@ -112,7 +114,7 @@ export default async function Page({
     "@context": "https://schema.org",
     "@type": "Course",
     name: course.title,
-    url: `https://rplfastrack.com/courses/${course.link}`,
+    url: absoluteUrl(`/courses/${course.link}`),
     description: striptags(course.description),
     inLanguage: "en",
     image: [course.imageCoverLink, course.imageSquareLink],
@@ -120,7 +122,7 @@ export default async function Page({
     offers: [
       {
         "@type": "Offer",
-        url: `https://rplfastrack.com/courses/${course.link}`,
+        url: absoluteUrl(`/courses/${course.link}`),
         category: "Paid",
         availability: "https://schema.org/InStock",
         priceCurrency: "AUD",
@@ -150,25 +152,25 @@ export default async function Page({
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "https://rplfastrack.com",
+        item: SITE_URL,
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Courses",
-        item: "https://rplfastrack.com/courses",
+        item: absoluteUrl("/courses"),
       },
       {
         "@type": "ListItem",
         position: 3,
         name: course.section.title,
-        item: `https://rplfastrack.com/section/${course.section.link}`,
+        item: absoluteUrl(`/section/${course.section.link}`),
       },
       {
         "@type": "ListItem",
         position: 4,
         name: course.title,
-        item: `https://rplfastrack.com/courses/${course.link}`,
+        item: absoluteUrl(`/courses/${course.link}`),
       },
     ],
   };

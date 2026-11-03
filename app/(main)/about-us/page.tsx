@@ -1,3 +1,4 @@
+import { absoluteUrl } from "@/lib/url";
 import { getAllSections } from "../action/courses";
 import ContactSection from "../components/contact-common";
 import ReviewCommon from "../components/review-common";
@@ -29,13 +30,13 @@ export const metadata = {
     "Recognition of Prior Learning experts",
   ],
   alternates: {
-    canonical: "https://rplfastrack.com/about-us",
+    canonical: absoluteUrl("/about-us"),
   },
   openGraph: {
     title: "About Us - RPL Fast Track",
     description:
       "Meet the team behind RPL Fast Track. Learn how we help people get certified in Australia through Recognition of Prior Learning.",
-    url: "https://rplfastrack.com/about-us",
+    url: absoluteUrl("/about-us"),
     type: "article",
     images: [
       {

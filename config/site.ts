@@ -1,0 +1,8 @@
+export const SITE_URL = "https://www.rplfastrack.com";
+
+export const siteConfig = {
+  name: "RPL Fast Track",
+  url: SITE_URL,
+  locale: "en_AU",
+  language: "en-AU",
+} as const;

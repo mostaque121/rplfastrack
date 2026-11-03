@@ -1,3 +1,5 @@
+import { SITE_URL } from "@/config/site";
+import { absoluteUrl } from "@/lib/url";
 import { notFound } from "next/navigation";
 import { BreadcrumbList, CollectionPage, WithContext } from "schema-dts";
 import { getAllSections, getSectionByLink } from "../../action/courses";
@@ -28,12 +30,12 @@ export async function generateMetadata({
       description: `${data.metaDescription}`,
       keywords: `RPL, Fast Track, Australia, courses, ${data.title}, ${keywords}, ${data.title} courses, ${data.title} training`,
       alternates: {
-        canonical: `https://rplfastrack.com/section/${link}`,
+        canonical: absoluteUrl(`/section/${link}`),
       },
       openGraph: {
         title: `Courses in ${data.title}`,
         description: `${data.metaDescription}`,
-        url: `https://rplfastrack.com/section/${data.link}`,
+        url: absoluteUrl(`/section/${data.link}`),
         images: [`${data.imageCoverLink}`],
         type: "website",
       },
@@ -80,7 +82,7 @@ export default async function Page({
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     name: `${section.title} | RPL Fast Track`,
-    url: `https://rplfastrack.com/section/${section.link}`,
+    url: absoluteUrl(`/section/${section.link}`),
     description:
       "Find Recognition of Prior Learning (RPL) courses related to Community Services industry.",
     about: {
@@ -97,19 +99,19 @@ export default async function Page({
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "https://rplfastrack.com",
+        item: SITE_URL,
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Courses",
-        item: "https://rplfastrack.com/courses",
+        item: absoluteUrl("/courses"),
       },
       {
         "@type": "ListItem",
         position: 3,
         name: section.title,
-        item: `https://rplfastrack.com/section/${section.link}`,
+        item: absoluteUrl(`/section/${section.link}`),
       },
     ],
   };

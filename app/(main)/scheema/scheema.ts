@@ -1,3 +1,5 @@
+import { SITE_URL } from "@/config/site";
+import { absoluteUrl } from "@/lib/url";
 import type {
   BreadcrumbList,
   CollectionPage,
@@ -13,8 +15,8 @@ const organization: WithContext<Organization> = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: "RPL Fast Track",
-  url: "https://rplfastrack.com",
-  logo: "https://rplfastrack.com/fav.png",
+  url: SITE_URL,
+  logo: absoluteUrl("/fav.png"),
   contactPoint: {
     "@type": "ContactPoint",
     telephone: process.env.NEXT_PUBLIC_PHONE_NUMBER,
@@ -43,7 +45,7 @@ const homePageSchema: WithContext<WebPage> = {
   "@type": "WebPage",
 
   name: "RPL Fast Track - Accelerate Your Skills Recognition",
-  url: "https://rplfastrack.com",
+  url: SITE_URL,
 
   description:
     "RPL Fast Track helps you fast-track your qualifications with Recognition of Prior Learning (RPL) in Australia.",
@@ -53,7 +55,7 @@ const allCoursesSchema: WithContext<CollectionPage> = {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
   name: "Courses | RPL Fast Track",
-  url: "https://rplfastrack.com/courses",
+  url: absoluteUrl("/courses"),
   description:
     "Explore all RPL-recognized qualifications across various industries in Australia.",
 };
@@ -66,13 +68,13 @@ const coursesBreadcrumb: WithContext<BreadcrumbList> = {
       "@type": "ListItem",
       position: 1,
       name: "Home",
-      item: "https://rplfastrack.com",
+      item: SITE_URL,
     },
     {
       "@type": "ListItem",
       position: 2,
       name: "Courses",
-      item: "https://rplfastrack.com/courses",
+      item: absoluteUrl("/courses"),
     },
   ],
 };
@@ -84,13 +86,13 @@ const aboutPageBreadcrumb: WithContext<BreadcrumbList> = {
       "@type": "ListItem",
       position: 1,
       name: "Home",
-      item: "https://rplfastrack.com",
+      item: SITE_URL,
     },
     {
       "@type": "ListItem",
       position: 2,
       name: "About",
-      item: "https://rplfastrack.com/about-us",
+      item: absoluteUrl("/about-us"),
     },
   ],
 };
@@ -98,7 +100,7 @@ const aboutWebPageSchema: WithContext<WebPage> = {
   "@context": "https://schema.org",
   "@type": "WebPage",
   name: "About Us | RPL Fast Track",
-  url: "https://rplfastrack.com/about-us",
+  url: absoluteUrl("/about-us"),
   description:
     "Learn more about RPL Fast Track—our mission, vision, and how we help you fast-track your qualifications in Australia.",
 };
@@ -106,7 +108,7 @@ const aboutRplPageSchema: WithContext<WebPage> = {
   "@context": "https://schema.org",
   "@type": "WebPage",
   name: "About RPL | RPL Fast Track",
-  url: "https://rplfastrack.com/about-rpl",
+  url: absoluteUrl("/about-rpl"),
   description:
     "Learn what Recognition of Prior Learning (RPL) is and how it can help you gain qualifications for your existing skills and experience in Australia.",
 };
@@ -127,13 +129,13 @@ const aboutRplBreadcrumb: WithContext<BreadcrumbList> = {
       "@type": "ListItem",
       position: 1,
       name: "Home",
-      item: "https://rplfastrack.com",
+      item: SITE_URL,
     },
     {
       "@type": "ListItem",
       position: 2,
       name: "About RPL",
-      item: "https://rplfastrack.com/about-rpl",
+      item: absoluteUrl("/about-rpl"),
     },
   ],
 };
