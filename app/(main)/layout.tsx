@@ -1,10 +1,13 @@
 import { SITE_URL, siteConfig } from "@/config/site";
 import WhatsAppButton1 from "@/components/custom-ui/whatsapp-button";
+import { RPLProvider } from "@/contexts/rpl-context";
 import { Toaster } from "@/components/ui/sonner";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { Metadata } from "next/types";
+import { getAllSections } from "./action/courses";
 import Footer from "./components/footer/footer";
 import Navbar from "./components/navbar/navbar";
+import { organization } from "./scheema/scheema";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -14,9 +17,7 @@ export const metadata: Metadata = {
   },
   description:
     "Get nationally recognized qualifications in Australia through our RPL Fast Track process. Convert your skills, experience, and prior learning into formal certification quickly and affordably.",
-  authors: [
-    { name: "RPL Fast Track Australia", url: SITE_URL },
-  ],
+  authors: [{ name: "RPL Fast Track Australia", url: SITE_URL }],
   creator: "RPL Fast Track Australia",
   publisher: "RPL Fast Track Australia",
   formatDetection: {
@@ -62,22 +63,29 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function MainLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const sections = await getAllSections();
   const whatsAppNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
   const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
   return (
-    <main>
-      <Navbar />
-      {children}
-      {whatsAppNumber && <WhatsAppButton1 phoneNumber={whatsAppNumber} />}
-      <Footer />
-      <Toaster />
-      {GA_MEASUREMENT_ID && <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />}
-    </main>
+    <RPLProvider initialQualifications={sections}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organization) }}
+      />
+      <main>
+        <Navbar />
+        {children}
+        {whatsAppNumber && <WhatsAppButton1 phoneNumber={whatsAppNumber} />}
+        <Footer />
+        <Toaster />
+        {GA_MEASUREMENT_ID && <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />}
+      </main>
+    </RPLProvider>
   );
 }

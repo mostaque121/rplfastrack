@@ -1,6 +1,8 @@
 import { SITE_URL, siteConfig } from "@/config/site";
 import { absoluteUrl } from "@/lib/url";
 import { notFound } from "next/navigation";
+// Styles the Quill-authored course HTML (ql-editor, ql-align-*, ql-indent-*).
+import "react-quill-new/dist/quill.core.css";
 import type { BreadcrumbList } from "schema-dts";
 import { Course, WithContext } from "schema-dts";
 import striptags from "striptags";
@@ -34,7 +36,6 @@ export async function generateMetadata({
 
     const pageTitle = `${data.metaTitle}`;
     const pageDescription = `${data.metaDescription}`;
-
 
     return {
       title: pageTitle,

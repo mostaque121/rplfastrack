@@ -1,3 +1,5 @@
+import { getAllSections } from "@/app/(main)/action/courses";
+import { RPLProvider } from "@/contexts/rpl-context";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/sonner";
 import { Metadata } from "next/types";
@@ -20,27 +22,30 @@ export const metadata: Metadata = {
   description: "Admin Dashboard - Private Area",
 };
 
-export default async function RootLayout({
+export default async function AdminLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const sections = await getAllSections();
   return (
     <main>
-      <QueryProvider>
-        <SidebarProvider>
-          <DashboardSidebar />
-          <SidebarInset>
-            <div className="flex relative  flex-col">
-              <SiteHeader />
-              <div className="flex flex-1 overflow-y-auto flex-col">
-                {children}
+      <RPLProvider initialQualifications={sections}>
+        <QueryProvider>
+          <SidebarProvider>
+            <DashboardSidebar />
+            <SidebarInset>
+              <div className="flex relative  flex-col">
+                <SiteHeader />
+                <div className="flex flex-1 overflow-y-auto flex-col">
+                  {children}
+                </div>
               </div>
-            </div>
-          </SidebarInset>
-        </SidebarProvider>
-        <Toaster />
-      </QueryProvider>
+            </SidebarInset>
+          </SidebarProvider>
+          <Toaster />
+        </QueryProvider>
+      </RPLProvider>
     </main>
   );
 }
