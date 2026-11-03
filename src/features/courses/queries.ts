@@ -11,6 +11,9 @@ import { Section } from "@/types/shared";
 // query is never cached, so a DB hiccup can't store an empty result (and a
 // failed regeneration keeps serving the previous page).
 // unstable_cache stores JSON, so Date fields come back as strings.
+// Only PUBLISHED courses are public; drafts 404 and stay out of every list.
+
+const published = { status: "PUBLISHED" } as const;
 
 /** Every section with its course list. Sent to the client on every page
  * (navbar, search, forms), so it only has the fields in `Section`. */
@@ -36,6 +39,7 @@ export const listSections = cache(
               imageCoverLink: true,
               updatedAt: true,
             },
+            where: published,
             orderBy: { index: "asc" },
           },
         },
@@ -50,7 +54,7 @@ export const getCourseByLink = cache((link: string) =>
   unstable_cache(
     () =>
       prisma.course.findUnique({
-        where: { link },
+        where: { link, ...published },
         select: {
           title: true,
           link: true,
@@ -84,6 +88,7 @@ export const getSectionByLink = cache((link: string) =>
           imageCoverLink: true,
           courses: {
             select: { id: true, title: true, link: true, imageSquareLink: true },
+            where: published,
             orderBy: { index: "asc" },
           },
         },
