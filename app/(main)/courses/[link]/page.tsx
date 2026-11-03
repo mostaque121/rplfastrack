@@ -1,6 +1,5 @@
 import { SITE_URL, siteConfig } from "@/config/site";
 import { absoluteUrl } from "@/lib/url";
-import { notFound } from "next/navigation";
 // Styles the Quill-authored course HTML (ql-editor, ql-align-*, ql-indent-*).
 import "react-quill-new/dist/quill.core.css";
 import type { BreadcrumbList } from "schema-dts";
@@ -11,6 +10,7 @@ import {
   getCourseByLink,
   getSectionByLink,
 } from "../../action/courses";
+import { redirectOrNotFound } from "../../action/redirects";
 import ContactSection from "../../components/contact-common";
 import DocumentsNeed from "../../components/documents-need";
 import ReviewCommon from "../../components/review-common";
@@ -95,7 +95,7 @@ export default async function Page({
   const { link } = await params;
   const course = await getCourseByLink(link);
   if (!course) {
-    notFound();
+    return redirectOrNotFound(`/courses/${link}`);
   }
   const courseSchema: WithContext<Course> = {
     "@context": "https://schema.org",

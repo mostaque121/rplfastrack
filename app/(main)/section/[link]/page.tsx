@@ -1,8 +1,8 @@
 import { SITE_URL } from "@/config/site";
 import { absoluteUrl } from "@/lib/url";
-import { notFound } from "next/navigation";
 import { BreadcrumbList, CollectionPage, WithContext } from "schema-dts";
 import { getAllSections, getSectionByLink } from "../../action/courses";
+import { redirectOrNotFound } from "../../action/redirects";
 import ContactSection from "../../components/contact-common";
 import DocumentsNeed from "../../components/documents-need";
 import EligibilityForRPL from "../../courses/components/eligibility";
@@ -74,7 +74,7 @@ export default async function Page({
   const allSections = await getAllSections();
   const section = await getSectionByLink(link);
   if (!section) {
-    notFound();
+    return redirectOrNotFound(`/section/${link}`);
   }
   const sectionScheema: WithContext<CollectionPage> = {
     "@context": "https://schema.org",

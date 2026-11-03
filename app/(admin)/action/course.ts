@@ -1,6 +1,7 @@
 "use server";
 
 import { requireAdmin } from "@/app/(admin)/action/helper";
+import { recordRedirect } from "@/app/(admin)/lib/record-redirect";
 import { prisma } from "@/lib/prisma";
 import { CACHE_TAGS } from "@/config/cache-tags";
 import { revalidatePath, updateTag } from "next/cache";
@@ -185,8 +186,17 @@ export async function updateCourse(
         where: { id },
         data: newData,
       });
+
+      if (newData.link !== existing.link) {
+        await recordRedirect(
+          tx,
+          `/courses/${existing.link}`,
+          `/courses/${newData.link}`,
+        );
+      }
     });
     updateTag(CACHE_TAGS.sections);
+    if (newData.link !== existing.link) updateTag(CACHE_TAGS.redirects);
     revalidatePath(`/admin/section/${sectionLink}`);
     revalidatePath(`/section/${sectionLink}`);
     revalidatePath(`/courses/${courseLink}`);

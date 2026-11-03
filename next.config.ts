@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { LEGACY_REDIRECTS } from "./config/redirects";
 
 const nextConfig: NextConfig = {
   images: {
@@ -12,6 +13,13 @@ const nextConfig: NextConfig = {
         hostname: "res.cloudinary.com", // Cloudinary images
       },
     ],
+  },
+  async redirects() {
+    return LEGACY_REDIRECTS.map(({ from, to }) => ({
+      source: from,
+      destination: to,
+      permanent: true,
+    }));
   },
 };
 

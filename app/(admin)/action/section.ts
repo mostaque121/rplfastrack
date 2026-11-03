@@ -1,6 +1,7 @@
 "use server";
 
 import { requireAdmin } from "@/app/(admin)/action/helper";
+import { recordRedirect } from "@/app/(admin)/lib/record-redirect";
 import { prisma } from "@/lib/prisma";
 import { CACHE_TAGS } from "@/config/cache-tags";
 import { revalidatePath, updateTag } from "next/cache";
@@ -172,12 +173,21 @@ export async function updateSection(
         where: { id },
         data: newData,
       });
+
+      if (newData.link !== existing.link) {
+        await recordRedirect(
+          tx,
+          `/section/${existing.link}`,
+          `/section/${newData.link}`,
+        );
+      }
     });
     revalidatePath("/admin/section");
     revalidatePath(`/section/${sectionLink}`);
     if (newData.link !== sectionLink)
       revalidatePath(`/section/${newData.link}`);
     updateTag(CACHE_TAGS.sections);
+    if (newData.link !== existing.link) updateTag(CACHE_TAGS.redirects);
     return { success: true };
   } catch (error) {
     console.error("Update section failed:", error);

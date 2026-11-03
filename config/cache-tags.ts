@@ -4,4 +4,5 @@ export const CACHE_TAGS = {
   sections: "section:all",
   reviewsAll: "user-review:all",
   reviewsCommon: "user-review:common",
+  redirects: "redirect:all",
 } as const;

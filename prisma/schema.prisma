@@ -284,3 +284,12 @@ model InvoiceItem {
   invoiceId String
   invoice   Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
 }
+
+// Old URL -> new URL (301). Written automatically when a course or section
+// link changes in the admin panel; read (cached) only on a 404.
+model Redirect {
+  id        String   @id @default(cuid())
+  fromPath  String   @unique // "/courses/old-slug"
+  toPath    String // "/courses/new-slug"
+  createdAt DateTime @default(now())
+}
