@@ -13,6 +13,9 @@ export const metadata = {
   title: "RPL Fast Track - Accelerate Your Skills Recognition",
   description:
     "Get nationally recognized qualifications in Australia through RPL. Fast-track your career by validating your skills and work experience today.",
+  alternates: {
+    canonical: "/",
+  },
 };
 
 export default async function page() {

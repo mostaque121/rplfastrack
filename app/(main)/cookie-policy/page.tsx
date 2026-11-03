@@ -1,9 +1,13 @@
+import { absoluteUrl } from "@/lib/url";
 import Link from "next/link";
 
 export const metadata = {
   title: "Cookie Policy",
   description:
     "Learn about how RPL Fast Track Australia uses cookies to enhance your browsing experience and protect your privacy.",
+  alternates: {
+    canonical: absoluteUrl("/cookie-policy"),
+  },
 };
 
 export default function CookiePolicy() {
