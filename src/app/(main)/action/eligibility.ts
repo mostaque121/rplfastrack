@@ -2,9 +2,9 @@
 
 import { createFormSubmissionNotification } from "@/app/(admin)/lib/create-notification";
 import { sendEligibilityNotificationEmail } from "@/app/(admin)/lib/send-mail";
-import { sendLeadToCrm } from "@/lib/crm";
+import { sendLeadToCrm } from "@/server/crm";
 import { getExperienceLabel } from "@/lib/experience-years";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/server/db";
 import { after } from "next/server";
 
 /* ------------------ CONFIG & TYPES ------------------ */

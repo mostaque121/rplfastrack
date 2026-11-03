@@ -2,7 +2,7 @@
 
 import { requireAdmin } from "@/app/(admin)/action/helper";
 import { ResponseStage } from "@/generated/prisma";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/server/db";
 import { revalidatePath } from "next/cache";
 
 export const getAllResponses = async (

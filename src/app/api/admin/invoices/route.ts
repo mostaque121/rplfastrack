@@ -7,9 +7,9 @@
  * and returns that URL to the caller.
  */
 
-import { cloudinary } from "@/lib/cloudinary-client";
+import { cloudinary } from "@/server/cloudinary";
 import { absoluteUrl } from "@/lib/url";
-import { withAdminGuard } from "@/lib/with-admin-guard";
+import { withAdminGuard } from "@/server/with-admin-guard";
 import { renderToBuffer } from "@react-pdf/renderer";
 import { NextRequest, NextResponse } from "next/server";
 import React from "react";
@@ -17,8 +17,8 @@ import { ZodError } from "zod";
 
 import { InvoicePDF } from "@/app/(admin)/admin/invoice/components/invoice-pdf";
 import { InvoicePayloadSchema } from "@/app/(admin)/admin/invoice/schema";
-import { sendInvoiceEmail } from "@/lib/mail";
-import { prisma } from "@/lib/prisma";
+import { sendInvoiceEmail } from "@/server/mail";
+import { prisma } from "@/server/db";
 
 const MONTHS: Record<string, number> = {
   january: 0,

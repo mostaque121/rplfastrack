@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/server/db";
 
 export async function getNextInvoiceNumber(): Promise<string> {
   const latestInvoice = await prisma.invoice.findFirst({

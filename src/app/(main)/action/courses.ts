@@ -1,6 +1,6 @@
 "use server";
 import { CACHE_TAGS } from "@/config/cache-tags";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/server/db";
 import { Section } from "@/types/shared";
 import { unstable_cache } from "next/cache";
 

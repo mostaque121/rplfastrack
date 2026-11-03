@@ -3,7 +3,7 @@ import {
   getDateRange,
   property,
 } from "@/lib/analytics-client";
-import { withAdminGuard } from "@/lib/with-admin-guard";
+import { withAdminGuard } from "@/server/with-admin-guard";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = withAdminGuard(async function GET(request: NextRequest) {

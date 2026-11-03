@@ -10,7 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { auth } from "@/lib/auth";
+import { auth } from "@/server/auth";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import UserActions from "./user-action";

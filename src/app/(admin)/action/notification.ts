@@ -1,7 +1,7 @@
 "use server";
 
 import { requireAdmin } from "@/app/(admin)/action/helper";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/server/db";
 
 type GetNotificationsOptions = {
   userId: string;

@@ -2,7 +2,7 @@
 
 import { requireAdmin } from "@/app/(admin)/action/helper";
 import { recordRedirect } from "@/app/(admin)/lib/record-redirect";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/server/db";
 import { CACHE_TAGS } from "@/config/cache-tags";
 import { revalidatePath, updateTag } from "next/cache";
 import { z } from "zod";

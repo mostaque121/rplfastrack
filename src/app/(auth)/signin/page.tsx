@@ -1,4 +1,4 @@
-import { auth } from "@/lib/auth";
+import { auth } from "@/server/auth";
 import { MoveRight } from "lucide-react";
 import { headers } from "next/headers";
 import Image from "next/image";

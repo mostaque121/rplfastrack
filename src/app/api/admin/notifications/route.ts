@@ -1,7 +1,7 @@
 import { Prisma } from "@/generated/prisma";
-import { auth } from "@/lib/auth"; // Import your Better Auth instance
-import { prisma } from "@/lib/prisma";
-import { withAdminGuard } from "@/lib/with-admin-guard";
+import { auth } from "@/server/auth"; // Import your Better Auth instance
+import { prisma } from "@/server/db";
+import { withAdminGuard } from "@/server/with-admin-guard";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 

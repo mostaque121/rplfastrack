@@ -1,4 +1,6 @@
-import { auth } from "@/lib/auth"; // Adjust this to point to your Better Auth instance
+import "server-only";
+
+import { auth } from "@/server/auth"; // Adjust this to point to your Better Auth instance
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 

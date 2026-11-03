@@ -1,7 +1,7 @@
 "use server";
 
 import { requireAdmin } from "@/app/(admin)/action/helper";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/server/db";
 import { CACHE_TAGS } from "@/config/cache-tags";
 import { revalidatePath, updateTag } from "next/cache";
 import { z } from "zod";

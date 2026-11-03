@@ -1,6 +1,6 @@
 "use server";
 import { Role } from "@/generated/prisma";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/server/db";
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "./helper";
 

@@ -1,5 +1,5 @@
 import "server-only";
-import type { prisma } from "@/lib/prisma";
+import type { prisma } from "@/server/db";
 
 // The (Accelerate-extended) client passed to prisma.$transaction callbacks.
 type TransactionClient = Parameters<

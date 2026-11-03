@@ -2,7 +2,7 @@
 "use server";
 
 import { requireAdmin } from "@/app/(admin)/action/helper";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/server/db";
 import type { AnalyticsData, FilterParams } from "@/types/shared";
 import {
   eachMonthOfInterval,

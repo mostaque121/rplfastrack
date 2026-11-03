@@ -11,7 +11,7 @@ import {
   updatePaymentSchema,
 } from "@/app/(admin)/lib/zod";
 import { Payment } from "@/generated/prisma";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/server/db";
 import type {
   PaymentFilters,
   PaymentResponse,

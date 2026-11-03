@@ -1,3 +1,5 @@
+import "server-only";
+
 import { siteConfig } from "@/config/site";
 import { env } from "@/env";
 import { v2 as cloudinary } from "cloudinary";

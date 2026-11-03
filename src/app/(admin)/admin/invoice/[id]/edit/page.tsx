@@ -3,7 +3,7 @@
  */
 
 import { getUserOrRedirect } from "@/app/(admin)/lib/get-user";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/server/db";
 import { notFound } from "next/navigation";
 import InvoicePreview from "../../components/invoice-preview";
 import type { InvoiceFormValues } from "../../schema";

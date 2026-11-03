@@ -2,8 +2,8 @@
 
 import { createFormSubmissionNotification } from "@/app/(admin)/lib/create-notification";
 import { sendContactNotificationEmail } from "@/app/(admin)/lib/send-mail";
-import { sendLeadToCrm } from "@/lib/crm";
-import { prisma } from "@/lib/prisma";
+import { sendLeadToCrm } from "@/server/crm";
+import { prisma } from "@/server/db";
 import { contactSchema, responseFormSchema } from "@/lib/zod";
 import { after } from "next/server";
 import { z } from "zod";

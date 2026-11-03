@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/server/db";
 import { Plus, Search } from "lucide-react";
 import Link from "next/link";
 

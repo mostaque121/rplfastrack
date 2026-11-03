@@ -5,11 +5,11 @@ import { ZodError } from "zod";
 
 import { InvoicePDF } from "@/app/(admin)/admin/invoice/components/invoice-pdf";
 import { InvoicePayloadSchema } from "@/app/(admin)/admin/invoice/schema";
-import { cloudinary } from "@/lib/cloudinary-client";
+import { cloudinary } from "@/server/cloudinary";
 import { absoluteUrl } from "@/lib/url";
-import { sendInvoiceEmail } from "@/lib/mail";
-import { prisma } from "@/lib/prisma";
-import { withAdminGuard } from "@/lib/with-admin-guard";
+import { sendInvoiceEmail } from "@/server/mail";
+import { prisma } from "@/server/db";
+import { withAdminGuard } from "@/server/with-admin-guard";
 
 // Reuse the same date parser as the create route.
 const MONTHS: Record<string, number> = {

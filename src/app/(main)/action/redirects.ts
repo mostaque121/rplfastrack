@@ -1,6 +1,6 @@
 import "server-only";
 import { CACHE_TAGS } from "@/config/cache-tags";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/server/db";
 import { unstable_cache } from "next/cache";
 import { notFound, permanentRedirect } from "next/navigation";
 

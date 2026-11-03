@@ -1,3 +1,5 @@
+import "server-only";
+
 import { env } from "@/env";
 import { ac, adminRole, user } from "@/lib/permissions";
 import { Redis } from "@upstash/redis";
@@ -6,7 +8,7 @@ import { APIError } from "better-auth/api";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { nextCookies } from "better-auth/next-js";
 import { admin } from "better-auth/plugins";
-import { prisma } from "./prisma";
+import { prisma } from "./db";
 
 const redis = new Redis({
   url: env.UPSTASH_REDIS_REST_URL,
