@@ -5,7 +5,6 @@ import { Toaster } from "@/components/ui/sonner";
 import { RPLProvider } from "@/contexts/rpl-context";
 import { listSections } from "@/features/courses/queries";
 
-import { QueryProvider } from "./components/common/query-provider";
 import { DashboardSidebar } from "./components/dashboard/dashboard-sidebar";
 import { SiteHeader } from "./components/dashboard/site-header";
 
@@ -33,18 +32,16 @@ export default async function AdminLayout({
   return (
     <main>
       <RPLProvider initialQualifications={sections}>
-        <QueryProvider>
-          <SidebarProvider>
-            <DashboardSidebar />
-            <SidebarInset>
-              <div className="relative flex flex-col">
-                <SiteHeader />
-                <div className="flex flex-1 flex-col overflow-y-auto">{children}</div>
-              </div>
-            </SidebarInset>
-          </SidebarProvider>
-          <Toaster />
-        </QueryProvider>
+        <SidebarProvider>
+          <DashboardSidebar />
+          <SidebarInset>
+            <div className="relative flex flex-col">
+              <SiteHeader />
+              <div className="flex flex-1 flex-col overflow-y-auto">{children}</div>
+            </div>
+          </SidebarInset>
+        </SidebarProvider>
+        <Toaster />
       </RPLProvider>
     </main>
   );

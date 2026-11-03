@@ -15,7 +15,7 @@ import { prisma } from "@/server/db";
 import InvoiceDeleteButton from "./components/invoice-delete-button";
 import InvoiceSearchForm from "./components/invoice-search-form";
 import PaginationControl from "../../components/common/pagination";
-import { getUserOrRedirect } from "../../lib/get-user";
+import { getAdminOrRedirect } from "@/server/admin";
 
 const PAGE_SIZE = 20;
 
@@ -24,7 +24,7 @@ export default async function Page({
 }: {
   searchParams: Promise<{ q?: string; page?: string }>;
 }) {
-  await getUserOrRedirect();
+  await getAdminOrRedirect();
 
   const params = await searchParams;
   const search = params.q?.trim() ?? "";

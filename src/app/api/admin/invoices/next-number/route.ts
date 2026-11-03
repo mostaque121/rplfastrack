@@ -9,11 +9,11 @@ import { NextResponse } from "next/server";
 
 import { NextInvoiceNumberResponseSchema } from "@/app/(admin)/admin/invoice/schema";
 import { getNextInvoiceNumber } from "@/app/(admin)/lib/get-next-invoice-number";
-import { getUserOrRedirect } from "@/app/(admin)/lib/get-user";
+import { getAdminOrRedirect } from "@/server/admin";
 import { withAdminGuard } from "@/server/with-admin-guard";
 
 export const GET = withAdminGuard(async function GET() {
-  await getUserOrRedirect();
+  await getAdminOrRedirect();
   try {
     const invoiceNumber = await getNextInvoiceNumber();
 

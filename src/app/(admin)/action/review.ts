@@ -3,7 +3,7 @@
 import { revalidatePath, updateTag } from "next/cache";
 import { z } from "zod";
 
-import { requireAdmin } from "@/app/(admin)/action/helper";
+import { requireAdmin } from "@/server/admin";
 import { CACHE_TAGS } from "@/config/cache-tags";
 import { prisma } from "@/server/db";
 

@@ -1,15 +1,12 @@
 "use client";
 
 import {
-  BadgeCheck,
-  BadgeDollarSign,
-  ChartColumnStacked,
   ChartNoAxesCombined,
   FilePlus,
   FileText,
   Globe,
+  Inbox,
   LayoutDashboard,
-  Mail,
   Star,
   Users,
 } from "lucide-react";
@@ -24,63 +21,14 @@ import {
 } from "@/components/ui/sidebar";
 
 const items = [
-  {
-    title: "Dashboard",
-    icon: LayoutDashboard,
-    href: "/admin",
-  },
-  {
-    title: "Web Analytics",
-    icon: ChartNoAxesCombined,
-    href: "/admin/web-analytics",
-  },
-  {
-    title: "Business Overview",
-    icon: ChartColumnStacked,
-    href: "/admin/business-overview",
-  },
-
-  {
-    title: "Response",
-    icon: Mail,
-    href: "/admin/response",
-  },
-  {
-    title: "Eligibility",
-    icon: BadgeCheck,
-    href: "/admin/eligibility",
-  },
-
-  {
-    title: "Courses",
-    icon: Globe,
-    href: "/admin/section",
-  },
-  {
-    title: "Payments",
-    icon: BadgeDollarSign,
-    href: "/admin/payments",
-  },
-  {
-    title: "Review",
-    icon: Star,
-    href: "/admin/review",
-  },
-  {
-    title: "Users",
-    icon: Users,
-    href: "/admin/users",
-  },
-  {
-    title: "Invoices",
-    icon: FileText,
-    href: "/admin/invoice",
-  },
-  {
-    title: "Create Invoice",
-    icon: FilePlus,
-    href: "/admin/invoice/create",
-  },
+  { title: "Dashboard", icon: LayoutDashboard, href: "/admin" },
+  { title: "Leads", icon: Inbox, href: "/admin/leads" },
+  { title: "Analytics", icon: ChartNoAxesCombined, href: "/admin/web-analytics" },
+  { title: "Courses", icon: Globe, href: "/admin/section" },
+  { title: "Reviews", icon: Star, href: "/admin/review" },
+  { title: "Invoices", icon: FileText, href: "/admin/invoice" },
+  { title: "Create Invoice", icon: FilePlus, href: "/admin/invoice/create" },
+  { title: "Team", icon: Users, href: "/admin/users" },
 ];
 
 export function DashboardNav() {
@@ -90,7 +38,10 @@ export function DashboardNav() {
     <SidebarGroup>
       <SidebarMenu>
         {items.map((item) => {
-          const isActive = pathname === item.href;
+          const isActive =
+            item.href === "/admin"
+              ? pathname === item.href
+              : pathname === item.href || pathname.startsWith(`${item.href}/`);
           return (
             <SidebarMenuItem key={item.href}>
               <SidebarMenuButton asChild isActive={isActive} tooltip={item.title}>

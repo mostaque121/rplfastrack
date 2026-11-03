@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import AdminSectionCard from "./components/section-card";
 import SectionForm from "./components/section-form";
 import { SectionCardSkeleton } from "./components/skeleton";
-import { getUserOrRedirect } from "../../lib/get-user";
+import { getAdminOrRedirect } from "@/server/admin";
 // Create a separate component for sections content
 async function SectionsContent() {
   // Move data fetching inside this component
@@ -34,7 +34,7 @@ async function SectionsContent() {
 }
 
 export default async function Page() {
-  await getUserOrRedirect();
+  await getAdminOrRedirect();
   return (
     <div className="mx-auto w-full max-w-7xl space-y-6 px-5 py-10">
       <div className="flex w-full justify-between gap-4">

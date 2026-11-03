@@ -1,22 +1,9 @@
 "use client";
 
-import { formatDistanceToNow } from "date-fns";
-import {
-  AlertTriangle,
-  Bell,
-  FileText,
-  LayoutDashboard,
-  Loader2,
-  LogOut,
-  Mail,
-  MessageSquare,
-} from "lucide-react";
+import { LayoutDashboard, LogOut } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
-import { getNotifications, markAllNotificationsAsRead } from "@/app/(admin)/action/notification";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -26,74 +13,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { authClient } from "@/lib/auth-client";
 
-const iconMap = {
-  response: MessageSquare,
-  eligibility: FileText,
-  system: AlertTriangle,
-  default: Mail,
-};
-
-type Notification = {
-  id: string;
-  createdAt: Date;
-  title: string;
-  description: string;
-  type: "response" | "eligibility";
-  recipients: string[];
-  readBy: string[];
-};
-
 export default function AdminSection() {
-  const [notifications, setNotifications] = useState<Notification[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [reading, setReading] = useState(false);
-  const [isNotificationSheetOpen, setIsNotificationSheetOpen] = useState(false);
   const { data: session } = authClient.useSession();
   const user = session?.user;
-
-  useEffect(() => {
-    const fetchNotifications = async () => {
-      if (!user?.id) return;
-      try {
-        const result = await getNotifications({
-          userId: user.id,
-          page: 1,
-          pageSize: 10,
-          unreadOnly: false,
-        });
-        setNotifications(result.notifications);
-      } catch (error) {
-        console.error("Failed to fetch notifications:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchNotifications();
-  }, [user?.id]);
 
   if (!user) {
     return null;
   }
-
-  const unreadCount = notifications.filter((n) => !n.readBy.includes(user.id)).length;
-
-  const handleMarkAllAsRead = async () => {
-    setReading(true);
-    const res = await markAllNotificationsAsRead(user.id);
-    if (res.success) {
-      setNotifications((prev) =>
-        prev.map((notification) => ({
-          ...notification,
-          readBy: [...notification.readBy, user.id],
-        })),
-      );
-    }
-    setReading(false);
-  };
 
   const initials = user.name
     ? user.name
@@ -110,14 +38,6 @@ export default function AdminSection() {
               <AvatarImage src={user.image || ""} alt={user.name || "User"} />
               <AvatarFallback>{initials}</AvatarFallback>
             </Avatar>
-            {unreadCount > 0 && (
-              <Badge
-                variant="destructive"
-                className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full p-0 text-xs"
-              >
-                {unreadCount > 9 ? "9+" : unreadCount}
-              </Badge>
-            )}
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-64" align="end" forceMount>
@@ -128,7 +48,7 @@ export default function AdminSection() {
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          {(user.role === "admin" || user.role === "editor") && (
+          {user.role === "admin" && (
             <Link prefetch={false} href="/admin" passHref>
               <DropdownMenuItem className="cursor-pointer">
                 <LayoutDashboard className="mr-2 h-4 w-4" />
@@ -136,108 +56,6 @@ export default function AdminSection() {
               </DropdownMenuItem>
             </Link>
           )}
-
-          <DropdownMenuSeparator />
-          <Sheet open={isNotificationSheetOpen} onOpenChange={setIsNotificationSheetOpen}>
-            <SheetTrigger asChild>
-              <DropdownMenuItem
-                className="cursor-pointer"
-                onSelect={(e) => {
-                  e.preventDefault();
-                  setIsNotificationSheetOpen(true);
-                }}
-              >
-                <Bell className="mr-2 h-4 w-4" />
-                <span>Notifications</span>
-                {unreadCount > 0 && (
-                  <Badge variant="secondary" className="ml-auto h-5 px-1.5 text-xs">
-                    {unreadCount}
-                  </Badge>
-                )}
-              </DropdownMenuItem>
-            </SheetTrigger>
-            <SheetContent className="h-screen w-full gap-0 overflow-y-scroll px-4 sm:w-[540px]">
-              {loading ? (
-                <div>
-                  <SheetTitle>Notifications</SheetTitle>
-                  <p>Loading...</p>
-                </div>
-              ) : (
-                <div>
-                  <SheetHeader className="gap-1 p-0 px-4 py-4">
-                    <SheetTitle>Notifications</SheetTitle>
-                    {unreadCount > 0 && (
-                      <div>
-                        <button
-                          onClick={handleMarkAllAsRead}
-                          className="flex cursor-pointer items-center gap-2 text-left text-xs text-emerald-600 transition-all duration-300 hover:text-emerald-700"
-                        >
-                          Mark all as read{" "}
-                          {reading && <Loader2 className="mr-2 h-3 w-3 animate-spin" />}
-                        </button>
-                      </div>
-                    )}
-                  </SheetHeader>
-                  <div className="space-y-2">
-                    {notifications.map((notification) => {
-                      const IconComponent = iconMap[notification.type] || iconMap.default;
-                      const read = notification.readBy.includes(user.id);
-                      const link =
-                        notification.type === "eligibility"
-                          ? "/admin/eligibility"
-                          : notification.type === "response"
-                            ? "/admin/response"
-                            : "/admin"; // default path or handle other types
-
-                      return (
-                        <div key={notification.id}>
-                          <Link
-                            prefetch={false}
-                            href={link}
-                            className={`flex cursor-pointer items-start space-x-3 rounded-lg border p-3 transition-colors hover:bg-gray-100 ${
-                              !read ? "border-primary/20 bg-emerald-100" : "border-border bg-white"
-                            }`}
-                          >
-                            <div
-                              className={`flex h-8 w-8 items-center justify-center rounded-full ${
-                                !read ? "bg-emerald-500" : "bg-muted"
-                              }`}
-                            >
-                              <IconComponent
-                                className={`h-4 w-4 ${
-                                  !read ? "text-white" : "text-muted-foreground"
-                                }`}
-                              />
-                            </div>
-                            <div className="flex-1 space-y-1">
-                              <div className="flex items-center justify-between">
-                                <p
-                                  className={`text-sm font-medium ${
-                                    !read ? "text-foreground" : "text-muted-foreground"
-                                  }`}
-                                >
-                                  {notification.title}
-                                </p>
-                                {!read && <div className="h-2 w-2 rounded-full bg-emerald-500" />}
-                              </div>
-                              <p className="text-xs text-muted-foreground">
-                                {notification.description}
-                              </p>
-                              <p className="text-xs text-muted-foreground">
-                                {formatDistanceToNow(new Date(notification.createdAt), {
-                                  addSuffix: true,
-                                })}
-                              </p>
-                            </div>
-                          </Link>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-            </SheetContent>
-          </Sheet>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             onClick={async () => await authClient.signOut()}

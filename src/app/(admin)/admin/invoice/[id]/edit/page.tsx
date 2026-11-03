@@ -4,7 +4,7 @@
 
 import { notFound } from "next/navigation";
 
-import { getUserOrRedirect } from "@/app/(admin)/lib/get-user";
+import { getAdminOrRedirect } from "@/server/admin";
 import { prisma } from "@/server/db";
 
 import InvoicePreview from "../../components/invoice-preview";
@@ -43,7 +43,7 @@ async function getInvoice(id: string) {
 }
 
 export default async function EditInvoicePage({ params }: { params: Promise<{ id: string }> }) {
-  await getUserOrRedirect();
+  await getAdminOrRedirect();
   const { id } = await params;
 
   const invoice = await getInvoice(id);

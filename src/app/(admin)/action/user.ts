@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { Role } from "@/generated/prisma";
 import { prisma } from "@/server/db";
 
-import { requireAdmin } from "./helper";
+import { requireAdmin } from "@/server/admin";
 
 export const getAllUsers = async () => {
   await requireAdmin();

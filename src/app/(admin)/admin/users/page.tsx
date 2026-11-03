@@ -3,14 +3,14 @@ import { Suspense } from "react";
 import UserTableSkeleton from "./components/skeleton";
 import UserTable from "./components/user-table";
 import SearchForm from "../../components/common/search-form";
-import { getUserOrRedirect } from "../../lib/get-user";
+import { getAdminOrRedirect } from "@/server/admin";
 
 export default async function Page({
   searchParams,
 }: {
   searchParams: Promise<{ q?: string; page?: string }>;
 }) {
-  const user = await getUserOrRedirect();
+  const user = await getAdminOrRedirect();
 
   // Use await to resolve the Promise
   const params = await searchParams;

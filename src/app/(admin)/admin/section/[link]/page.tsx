@@ -2,7 +2,7 @@ import { ChevronRight, Plus } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 
-import { getUserOrRedirect } from "@/app/(admin)/lib/get-user";
+import { getAdminOrRedirect } from "@/server/admin";
 import { FormDialog } from "@/components/custom-ui/form-dialog";
 import { Button } from "@/components/ui/button";
 
@@ -12,7 +12,7 @@ import { CourseCardSkeleton } from "./components/skeleton";
 
 // Create a separate component for the section content
 async function SectionContent({ link }: { link: string }) {
-  await getUserOrRedirect();
+  await getAdminOrRedirect();
   // Move data fetching inside this component
   const { getSectionByLink } = await import("@/app/(admin)/action/section");
   const section = await getSectionByLink(link);

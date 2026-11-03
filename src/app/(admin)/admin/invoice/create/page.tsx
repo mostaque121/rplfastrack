@@ -1,8 +1,8 @@
-import { getUserOrRedirect } from "@/app/(admin)/lib/get-user";
+import { getAdminOrRedirect } from "@/server/admin";
 
 import InvoicePreview from "../components/invoice-preview";
 
 export default async function CreateInvoicePage() {
-  await getUserOrRedirect();
+  await getAdminOrRedirect();
   return <InvoicePreview />;
 }

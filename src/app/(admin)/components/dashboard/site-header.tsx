@@ -2,7 +2,6 @@ import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 
 import HeaderUser from "./header-user";
-import NotificationNav from "./notification-nav";
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 flex h-12 shrink-0 items-center gap-2 border-b bg-white transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
@@ -11,7 +10,6 @@ export function SiteHeader() {
         <Separator orientation="vertical" className="mx-2 data-[orientation=vertical]:h-4" />
         <h1 className="text-base font-medium">Admin Dashboard</h1>
         <div className="ml-auto flex items-center gap-2">
-          <NotificationNav />
           <HeaderUser />
         </div>
       </div>

@@ -1,10 +1,18 @@
-import { getUserOrRedirect } from "../lib/get-user";
-import HomeDashboard from "./components/home-dashboard";
-export default async function Page() {
-  await getUserOrRedirect();
+import { PageHeader } from "@/app/(admin)/_components/page-header";
+import { LeadCounts, TopLeadPages, UnsyncedLeads } from "@/features/leads/components/lead-overview";
+import { getAdminOrRedirect } from "@/server/admin";
+
+export default async function DashboardPage() {
+  const user = await getAdminOrRedirect();
+
   return (
-    <div className="container mx-auto px-4 py-10">
-      <HomeDashboard />
+    <div className="container mx-auto space-y-6 px-4 py-8">
+      <PageHeader title="Dashboard" description={`Signed in as ${user.name}`} />
+      <UnsyncedLeads />
+      <LeadCounts />
+      <div className="grid gap-4 lg:grid-cols-2">
+        <TopLeadPages />
+      </div>
     </div>
   );
 }

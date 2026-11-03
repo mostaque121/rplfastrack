@@ -4,7 +4,7 @@
 import { BetaAnalyticsDataClient } from "@google-analytics/data";
 import { format, subDays } from "date-fns";
 
-import { requireAdmin } from "@/app/(admin)/action/helper";
+import { requireAdmin } from "@/server/admin";
 import { env } from "@/env";
 
 const analyticsDataClient = new BetaAnalyticsDataClient({

@@ -1,20 +1,19 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { after } from "next/server";
 import { z } from "zod";
 
-import { createFormSubmissionNotification } from "@/app/(admin)/lib/create-notification";
-import {
-  sendContactNotificationEmail,
-  sendEligibilityNotificationEmail,
-} from "@/app/(admin)/lib/send-mail";
 import { Prisma } from "@/generated/prisma";
 import { Attribution, attributionSchema } from "@/lib/attribution";
 import { getExperienceLabel } from "@/lib/experience-years";
 import { contactSchema, responseFormSchema } from "@/lib/zod";
-import { CrmLead, sendLeadToCrm } from "@/server/crm";
+import { requireAdmin } from "@/server/admin";
 import { prisma } from "@/server/db";
+
+import { crmSourceSelect, syncLeadToCrm } from "./crm-sync";
+import { sendContactNotificationEmail, sendEligibilityNotificationEmail } from "./notify-email";
 
 type ResponseFormData = z.infer<typeof responseFormSchema>;
 type ContactData = z.infer<typeof contactSchema>;
@@ -46,10 +45,7 @@ async function deviceFromUserAgent() {
 async function saveLead(
   input: LeadInput,
   attribution: Attribution | undefined,
-  tasks: {
-    notify: () => Promise<unknown>[];
-    crm: (lead: { id: string; createdAt: Date }) => CrmLead;
-  },
+  notify: () => Promise<unknown>,
 ) {
   const parsedAttribution = attributionSchema.safeParse(attribution ?? {});
 
@@ -61,36 +57,14 @@ async function saveLead(
       ...(parsedAttribution.success ? parsedAttribution.data : {}),
       device: await deviceFromUserAgent(),
     },
-    select: { id: true, createdAt: true },
+    select: crmSourceSelect,
   });
 
   after(async () => {
-    const [crm, ...rest] = await Promise.allSettled([
-      sendLeadToCrm(tasks.crm(lead)),
-      ...tasks.notify(),
-    ]);
-
-    rest.forEach((result, index) => {
-      if (result.status === "rejected") {
-        console.error(`[Lead ${lead.id}] background task ${index} failed:`, result.reason);
-      }
-    });
-
-    const outcome =
-      crm.status === "rejected"
-        ? { status: "FAILED" as const, error: String(crm.reason).slice(0, 500) }
-        : crm.value;
-    if (outcome.status === "SKIPPED") return;
-
-    await prisma.lead
-      .update({
-        where: { id: lead.id },
-        data: {
-          crmStatus: outcome.status,
-          crmError: outcome.status === "FAILED" ? outcome.error : null,
-        },
-      })
-      .catch((error) => console.error(`[Lead ${lead.id}] saving CRM status failed:`, error));
+    const [, email] = await Promise.allSettled([syncLeadToCrm(lead), notify()]);
+    if (email.status === "rejected") {
+      console.error(`[Lead ${lead.id}] notification email failed:`, email.reason);
+    }
   });
 
   return lead;
@@ -109,9 +83,6 @@ export async function createResponse(data: ResponseFormData, attribution?: Attri
   }
 
   const formData = parsed.data;
-  const qualification =
-    formData.interest === "RPL" || formData.interest === "none" ? undefined : formData.interest;
-
   try {
     await saveLead(
       {
@@ -123,27 +94,7 @@ export async function createResponse(data: ResponseFormData, attribution?: Attri
         interest: formData.interest === "none" ? undefined : formData.interest,
       },
       attribution,
-      {
-        notify: () => [
-          sendContactNotificationEmail(formData),
-          createFormSubmissionNotification({
-            title: "New Response Form Submitted",
-            description: `${formData.name} submitted a response form.`,
-            type: "response",
-          }),
-        ],
-        crm: (lead) => ({
-          submissionId: lead.id,
-          form: "contact",
-          name: formData.name,
-          phone: formData.phone,
-          email: formData.email,
-          message: formData.message,
-          qualification,
-          sourceDetail: `Enquiry form: ${formData.interest}`,
-          submittedAt: lead.createdAt.toISOString(),
-        }),
-      },
+      () => sendContactNotificationEmail(formData),
     );
 
     return {
@@ -186,34 +137,14 @@ export async function createContact(data: ContactData, attribution?: Attribution
         details: formData.industry ? { industry: formData.industry } : undefined,
       },
       attribution,
-      {
-        notify: () => [
-          sendContactNotificationEmail({
-            name: formData.name,
-            email: formData.email,
-            phone: formData.phone,
-            message: formData.message,
-            interest,
-          }),
-          createFormSubmissionNotification({
-            title: "New Response Form Submitted",
-            description: `${formData.name} submitted a response form.`,
-            type: "response",
-          }),
-        ],
-        crm: (lead) => ({
-          submissionId: lead.id,
-          form: "contact",
+      () =>
+        sendContactNotificationEmail({
           name: formData.name,
-          phone: formData.phone,
           email: formData.email,
-          qualification: formData.qualification,
-          industry: formData.industry,
+          phone: formData.phone,
           message: formData.message,
-          sourceDetail: "Contact page",
-          submittedAt: lead.createdAt.toISOString(),
+          interest,
         }),
-      },
     );
 
     return {
@@ -263,44 +194,23 @@ export async function saveEligibilityData(data: EligibilityFormData, attribution
         message: data.message,
         details: {
           industry: data.industry,
-          yearsOfExperience: parseInt(data.yearsOfExperience) || 0,
+          yearsOfExperience: data.yearsOfExperience, // band id, e.g. "1-3"
+          experience: getExperienceLabel(data.yearsOfExperience),
           state: data.stateLivedIn,
         },
       },
       attribution,
-      {
-        notify: () => [
-          sendEligibilityNotificationEmail({
-            name: data.fullName,
-            email: data.email,
-            phone: data.phoneNumber,
-            message: data.message,
-            industry: data.industry,
-            qualification: data.qualification,
-            yearsOfExperience: data.yearsOfExperience,
-            state: data.stateLivedIn,
-          }),
-          createFormSubmissionNotification({
-            title: "New Eligibility Form Submitted",
-            description: `${data.fullName} submitted eligibility form.`,
-            type: "eligibility",
-          }),
-        ],
-        crm: (lead) => ({
-          submissionId: lead.id,
-          form: "eligibility",
+      () =>
+        sendEligibilityNotificationEmail({
           name: data.fullName,
-          phone: data.phoneNumber,
           email: data.email,
-          qualification: data.qualification,
-          industry: data.industry,
-          experience: getExperienceLabel(data.yearsOfExperience),
-          state: data.stateLivedIn,
+          phone: data.phoneNumber,
           message: data.message,
-          sourceDetail: "Eligibility form",
-          submittedAt: lead.createdAt.toISOString(),
+          industry: data.industry,
+          qualification: data.qualification,
+          yearsOfExperience: data.yearsOfExperience,
+          state: data.stateLivedIn,
         }),
-      },
     );
 
     return {
@@ -313,4 +223,18 @@ export async function saveEligibilityData(data: EligibilityFormData, attribution
       error: "Failed to save data. Please try again.",
     };
   }
+}
+
+/* ---------------- ADMIN: CRM RETRY ---------------- */
+
+export async function retryLeadSync(id: string) {
+  await requireAdmin();
+  const lead = await prisma.lead.findUnique({ where: { id }, select: crmSourceSelect });
+  if (!lead) return { success: false, message: "Lead not found" };
+
+  const outcome = await syncLeadToCrm(lead);
+  revalidatePath("/admin", "layout");
+  if (outcome.status === "SYNCED") return { success: true, message: "Sent to the CRM" };
+  if (outcome.status === "SKIPPED") return { success: false, message: "The CRM isn't configured" };
+  return { success: false, message: outcome.error };
 }

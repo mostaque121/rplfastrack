@@ -9,14 +9,14 @@ import ReviewForm from "./components/form/review-form";
 import { ReviewCardSkeleton } from "./components/review-card-skeleton";
 import ReviewControl from "./components/review-control";
 import SearchForm from "../../components/common/search-form";
-import { getUserOrRedirect } from "../../lib/get-user";
+import { getAdminOrRedirect } from "@/server/admin";
 
 export default async function Page({
   searchParams,
 }: {
   searchParams: Promise<{ q?: string; page?: string; approved?: string }>;
 }) {
-  await getUserOrRedirect();
+  await getAdminOrRedirect();
   // Await the searchParams promise
   const params = await searchParams;
   const currentPage = Number(params.page) || 1;
