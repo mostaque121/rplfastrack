@@ -1,4 +1,4 @@
-import { Prisma } from "@/app/generated/prisma";
+import { Prisma } from "@/generated/prisma";
 import { auth } from "@/lib/auth"; // Import your Better Auth instance
 import { prisma } from "@/lib/prisma";
 import { withAdminGuard } from "@/lib/withAdminGuard";

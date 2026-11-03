@@ -1,4 +1,4 @@
-import { PrismaClient } from "@/app/generated/prisma";
+import { PrismaClient } from "@/generated/prisma";
 // OLD DB
 export const oldPrisma = new PrismaClient({
   datasources: {

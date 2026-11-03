@@ -3,7 +3,7 @@
 import { Clock, Loader2, MessageSquare, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 
-import { ResponseStage } from "@/app/generated/prisma";
+import { ResponseStage } from "@/generated/prisma";
 import { Button } from "@/components/ui/button";
 import {
   Card,

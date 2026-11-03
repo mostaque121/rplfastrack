@@ -41,4 +41,7 @@ yarn-error.log*
 next-env.d.ts
 
 # prisma generated
-/app/generated/*
+/src/generated/
+
+# private exported data (search console, GA4, etc.)
+/docs/data/

@@ -10,7 +10,7 @@ import {
   createPaymentSchema,
   updatePaymentSchema,
 } from "@/app/(admin)/lib/zod";
-import { Payment } from "@/app/generated/prisma";
+import { Payment } from "@/generated/prisma";
 import { prisma } from "@/lib/prisma";
 import type {
   PaymentFilters,

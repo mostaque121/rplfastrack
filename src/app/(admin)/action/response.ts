@@ -1,7 +1,7 @@
 "use server";
 
 import { requireAdmin } from "@/app/(admin)/action/helper";
-import { ResponseStage } from "@/app/generated/prisma";
+import { ResponseStage } from "@/generated/prisma";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
