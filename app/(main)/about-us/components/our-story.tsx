@@ -68,7 +68,7 @@ export default function OurStory() {
           <div className="mt-10 lg:mt-0">
             <div className="aspect-w-5 aspect-h-3 rounded-lg overflow-hidden shadow-lg">
               <Image
-                src="/meeting.jpg"
+                src="/meeting.webp"
                 sizes="(min-width: 1024px) 50vw, 100vw"
                 alt="Team meeting"
                 width={800}

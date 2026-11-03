@@ -8,7 +8,7 @@ export default function EligibilityForRPL() {
         <div className="grid gap-10 lg:grid-cols-2 lg:gap-16 items-center">
           <div className="relative h-[350px] w-full rounded-lg overflow-hidden">
             <Image
-              src="/eligibility.jpg"
+              src="/eligibility.webp"
               sizes="(min-width: 1024px) 50vw, 100vw"
               alt="RPL eligibility"
               fill

@@ -9,7 +9,7 @@ export default function HomeHero() {
     <div className="relative py-16">
       {/* Background Image */}
       <Image
-        src="/home-hero.jpg"
+        src="/home-hero.webp"
         sizes="100vw"
         alt="Background Image"
         fill

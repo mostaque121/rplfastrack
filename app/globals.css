@@ -220,7 +220,7 @@
 }
 
 .qualification-hero {
-  background-image: url("/qualifications-bg.jpg");
+  background-image: url("/qualifications-bg.webp");
   filter: brightness(0.3);
   position: absolute;
   inset: 0;
@@ -229,7 +229,7 @@
   background-position: left;
 }
 .contact-hero {
-  background-image: url("/contact-hero.jpg");
+  background-image: url("/contact-hero.webp");
   filter: brightness(0.3);
   position: absolute;
   inset: 0;
@@ -238,7 +238,7 @@
   background-position: left;
 }
 .about-us-hero {
-  background-image: url("/about-us-hero.jpg");
+  background-image: url("/about-us-hero.webp");
   filter: brightness(0.3);
   position: absolute;
   inset: 0;
@@ -247,7 +247,7 @@
   background-position: center;
 }
 .about-rpl-hero {
-  background-image: url("/about-rpl-hero.jpg");
+  background-image: url("/about-rpl-hero.webp");
   filter: brightness(0.3);
   position: absolute;
   inset: 0;
@@ -256,15 +256,15 @@
   background-position: center;
 }
 .faq-hero {
-  background-image: url("/faq-hero.jpg");
+  background-image: url("/faq-hero.webp");
   background-position: center;
 }
 .review-hero {
-  background-image: url("/review-hero.jpg");
+  background-image: url("/review-hero.webp");
   background-position: center;
 }
 .auth-bg {
-  background-image: url("/home-hero.jpg");
+  background-image: url("/home-hero.webp");
   background-position: center;
 }
 

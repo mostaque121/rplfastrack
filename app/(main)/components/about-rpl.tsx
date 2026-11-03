@@ -68,7 +68,7 @@ export default function AboutRpl() {
               {/* Large Main Image */}
               <div className="col-span-4 row-span-4 relative rounded-xl overflow-hidden shadow-lg">
                 <Image
-                  src="/recognition.jpg"
+                  src="/recognition.webp"
                   sizes="(min-width: 768px) 33vw, 67vw"
                   width={500}
                   height={400}
@@ -88,7 +88,7 @@ export default function AboutRpl() {
               {/* Top Right Image */}
               <div className="col-span-2 row-span-2 relative rounded-xl overflow-hidden shadow-lg">
                 <Image
-                  src="/success.jpg"
+                  src="/success.webp"
                   sizes="(min-width: 768px) 17vw, 33vw"
                   width={200}
                   height={200}
@@ -105,7 +105,7 @@ export default function AboutRpl() {
               {/* Bottom Right Image */}
               <div className="col-span-2 row-span-2 relative rounded-xl overflow-hidden shadow-lg">
                 <Image
-                  src="/time.jpg"
+                  src="/time.webp"
                   sizes="(min-width: 768px) 17vw, 33vw"
                   width={200}
                   height={200}
@@ -122,7 +122,7 @@ export default function AboutRpl() {
               {/* Bottom Left Image */}
               <div className="col-span-3 row-span-2 relative rounded-xl overflow-hidden shadow-lg">
                 <Image
-                  src="/industry.jpg"
+                  src="/industry.webp"
                   sizes="(min-width: 768px) 25vw, 50vw"
                   width={300}
                   height={200}
