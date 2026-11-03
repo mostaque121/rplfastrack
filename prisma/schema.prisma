@@ -99,6 +99,11 @@ model Section {
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
   courses             Course[]
+
+  metaTitle String? // SEO title; `title` stays the display title
+  intro     String? // rich text, 200–400 words of section content
+  imageAlt  String?
+  faqs      Faq[]
 }
 
 model Course {
@@ -122,8 +127,58 @@ model Course {
   sectionId           String
   reviews             UserReview[]
 
+  code             String? // national code, e.g. "CPC40920"
+  heroIntro        String? // rich text: unique 2–3 sentence intro
+  whoIsItFor       String? // rich text
+  evidenceExamples String? // rich text
+  licensingInfo    String? // rich text
+  duration         String? // e.g. "4–8 weeks"
+  deliveryMode     String? // e.g. "Online assessment, Australia-wide"
+  searchAliases    String[] @default([]) // e.g. ["cert 4 plumbing"]; site search and related links, not meta tags
+  imageAlt         String?
+  isPopular        Boolean  @default(false)
+  faqs             Faq[]
+
+  // Drafts are not in the sitemap and 404 publicly
+  status PublishStatus @default(DRAFT)
+
+  // Superseded qualifications show a "replaced by" notice
+  qualificationStatus QualificationStatus @default(CURRENT)
+  replacedById        String?
+  replacedBy          Course?             @relation("CourseReplacement", fields: [replacedById], references: [id], onDelete: SetNull)
+  replaces            Course[]            @relation("CourseReplacement")
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([status])
+}
+
+enum PublishStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum QualificationStatus {
+  CURRENT
+  SUPERSEDED
+}
+
+// Q&A pairs for a course or a section, rendered with FAQPage schema
+model Faq {
+  id        String   @id @default(cuid())
+  question  String
+  answer    String // rich text
+  index     Int      @default(0)
+  courseId  String?
+  sectionId String?
+  course    Course?  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  section   Section? @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([courseId])
+  @@index([sectionId])
 }
 
 model UserReview {
@@ -283,6 +338,48 @@ model InvoiceItem {
 
   invoiceId String
   invoice   Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+}
+
+// Backup copy of every form submission; the CRM is the system of record.
+// Replaces Response and EligibilitySubmission (dropped later, after export).
+model Lead {
+  id       String   @id @default(cuid())
+  form     LeadForm
+  name     String
+  email    String
+  phone    String
+  interest String? // qualification / course title
+  message  String?
+  details  Json? // eligibility answers: industry, yearsOfExperience, state
+
+  // Attribution
+  landingPage String?
+  utmSource   String?
+  utmMedium   String?
+  utmCampaign String?
+  gclid       String?
+  fbclid      String?
+  device      String?
+
+  crmStatus CrmSyncStatus @default(PENDING)
+  crmError  String?
+  createdAt DateTime      @default(now())
+
+  @@index([createdAt])
+  @@index([crmStatus])
+}
+
+enum LeadForm {
+  HERO
+  RESPONSE
+  ELIGIBILITY
+  CONTACT
+}
+
+enum CrmSyncStatus {
+  PENDING
+  SYNCED
+  FAILED
 }
 
 // Old URL -> new URL (301). Written automatically when a course or section
