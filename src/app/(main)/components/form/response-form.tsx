@@ -11,6 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { createResponse } from "@/features/leads/actions";
+import { getAttribution } from "@/lib/attribution";
 import { trackLead } from "@/lib/track-lead";
 import { responseFormSchema } from "@/lib/zod";
 
@@ -35,7 +36,7 @@ export function ResponseForm({ interest = "RPL" }: { interest?: string }) {
 
   async function onSubmit(data: FormData) {
     try {
-      const result = await createResponse(data);
+      const result = await createResponse(data, getAttribution());
 
       if (result.success) {
         trackLead("response", data.interest);

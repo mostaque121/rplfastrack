@@ -26,6 +26,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useRPL } from "@/contexts/rpl-context";
 import { saveEligibilityData } from "@/features/leads/actions";
+import { getAttribution } from "@/lib/attribution";
 import { experienceYears } from "@/lib/experience-years";
 import { trackLead } from "@/lib/track-lead";
 
@@ -149,7 +150,7 @@ export function EligibilityForm({
 
     try {
       // Call the server action to save the data
-      const result = await saveEligibilityData(formData);
+      const result = await saveEligibilityData(formData, getAttribution());
 
       if (result.error) {
         setError(result.error);

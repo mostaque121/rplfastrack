@@ -18,6 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { createResponse } from "@/features/leads/actions";
+import { getAttribution } from "@/lib/attribution";
 import { trackLead } from "@/lib/track-lead";
 import { responseFormSchema } from "@/lib/zod";
 
@@ -42,7 +43,7 @@ export default function ContactCommonForm({ interest = "RPL" }: { interest?: str
 
   async function onSubmit(data: FormData) {
     try {
-      const result = await createResponse(data);
+      const result = await createResponse(data, getAttribution());
 
       if (result.success) {
         trackLead("response", data.interest);

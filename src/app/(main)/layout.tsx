@@ -1,6 +1,7 @@
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { Metadata } from "next/types";
 
+import { AttributionCapture } from "@/components/attribution-capture";
 import WhatsAppButton1 from "@/components/custom-ui/whatsapp-button";
 import { Toaster } from "@/components/ui/sonner";
 import { SITE_URL, siteConfig } from "@/config/site";
@@ -85,6 +86,7 @@ export default async function MainLayout({
         <WhatsAppButton1 />
         <Footer />
         <Toaster />
+        <AttributionCapture />
         {env.VERCEL_ENV === "production" && <GoogleAnalytics gaId={siteConfig.gaMeasurementId} />}
       </main>
     </RPLProvider>

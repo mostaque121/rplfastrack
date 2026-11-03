@@ -5,6 +5,7 @@ import { useState } from "react";
 
 import { useRPL } from "@/contexts/rpl-context";
 import { createContact } from "@/features/leads/actions";
+import { getAttribution } from "@/lib/attribution";
 import { trackLead } from "@/lib/track-lead";
 
 export default function ContactForm() {
@@ -36,7 +37,7 @@ export default function ContactForm() {
     setFormStatus("submitting");
 
     try {
-      const result = await createContact(formData);
+      const result = await createContact(formData, getAttribution());
 
       if (result.success) {
         trackLead("contact", formData.qualification || formData.industry);

@@ -17,6 +17,9 @@ export type CrmLead = {
   submittedAt?: string;
 };
 
+export type CrmResult =
+  { status: "SYNCED" } | { status: "FAILED"; error: string } | { status: "SKIPPED" }; // CRM not configured
+
 const TIMEOUT_MS = 8000;
 const RETRY_DELAYS_MS = [1000, 2000, 4000];
 
@@ -40,19 +43,21 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 /* ---------------- CRM ---------------- */
 
-export async function sendLeadToCrm(lead: CrmLead) {
+export async function sendLeadToCrm(lead: CrmLead): Promise<CrmResult> {
   const url = env.CRM_INTAKE_URL;
   const key = env.CRM_INTAKE_KEY;
 
   if (!url || !key) {
     console.warn("[CRM] CRM_INTAKE_URL or CRM_INTAKE_KEY is not set; skipping lead sync");
-    return;
+    return { status: "SKIPPED" };
   }
 
   // Drop empty optional fields so the CRM doesn't receive blank strings
   const body = JSON.stringify(
     Object.fromEntries(Object.entries(lead).filter(([, v]) => v !== undefined && v !== "")),
   );
+
+  let lastError = "";
 
   // 1 initial attempt + up to 3 retries (1s, 2s, 4s)
   for (let attempt = 0; attempt <= RETRY_DELAYS_MS.length; attempt++) {
@@ -75,10 +80,11 @@ export async function sendLeadToCrm(lead: CrmLead) {
         "network",
         error instanceof Error ? error.message : error,
       );
+      lastError = `Network: ${error instanceof Error ? error.message : String(error)}`;
       continue;
     }
 
-    if (response.ok) return;
+    if (response.ok) return { status: "SYNCED" };
 
     const text = await response.text().catch(() => "");
 
@@ -88,7 +94,7 @@ export async function sendLeadToCrm(lead: CrmLead) {
         response.status,
         text,
       );
-      return;
+      return { status: "FAILED", error: `401 Unauthorized: ${text}`.slice(0, 500) };
     }
 
     if (response.status >= 400 && response.status < 500) {
@@ -97,9 +103,10 @@ export async function sendLeadToCrm(lead: CrmLead) {
         response.status,
         text,
       );
-      return;
+      return { status: "FAILED", error: `${response.status}: ${text}`.slice(0, 500) };
     }
 
+    lastError = `${response.status}: ${text}`;
     console.error(`[CRM] Server error (attempt ${attempt + 1})`, response.status, text);
   }
 
@@ -108,4 +115,5 @@ export async function sendLeadToCrm(lead: CrmLead) {
     "failed",
     "",
   );
+  return { status: "FAILED", error: lastError.slice(0, 500) };
 }

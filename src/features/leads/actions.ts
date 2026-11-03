@@ -1,5 +1,6 @@
 "use server";
 
+import { headers } from "next/headers";
 import { after } from "next/server";
 import { z } from "zod";
 
@@ -8,17 +9,96 @@ import {
   sendContactNotificationEmail,
   sendEligibilityNotificationEmail,
 } from "@/app/(admin)/lib/send-mail";
+import { Prisma } from "@/generated/prisma";
+import { Attribution, attributionSchema } from "@/lib/attribution";
 import { getExperienceLabel } from "@/lib/experience-years";
 import { contactSchema, responseFormSchema } from "@/lib/zod";
-import { sendLeadToCrm } from "@/server/crm";
+import { CrmLead, sendLeadToCrm } from "@/server/crm";
 import { prisma } from "@/server/db";
 
 type ResponseFormData = z.infer<typeof responseFormSchema>;
 type ContactData = z.infer<typeof contactSchema>;
 
-/* ---------------- MAIN ACTIONS ---------------- */
+/* ---------------- SAVE + BACKGROUND TASKS ---------------- */
 
-export async function createResponse(data: ResponseFormData) {
+type LeadInput = {
+  form: "RESPONSE" | "CONTACT" | "ELIGIBILITY";
+  name: string;
+  email: string;
+  phone: string;
+  interest?: string;
+  message?: string;
+  details?: Prisma.InputJsonObject;
+};
+
+async function deviceFromUserAgent() {
+  const ua = (await headers()).get("user-agent") ?? "";
+  if (/iPad|Tablet|Android(?!.*Mobile)/i.test(ua)) return "tablet";
+  if (/Mobi|iPhone|Android/i.test(ua)) return "mobile";
+  return ua ? "desktop" : undefined;
+}
+
+/**
+ * Critical path: save the Lead (the backup copy). Then, after the response
+ * is sent, notify the team and sync to the CRM, recording the sync result
+ * so failures can be retried from the admin.
+ */
+async function saveLead(
+  input: LeadInput,
+  attribution: Attribution | undefined,
+  tasks: {
+    notify: () => Promise<unknown>[];
+    crm: (lead: { id: string; createdAt: Date }) => CrmLead;
+  },
+) {
+  const parsedAttribution = attributionSchema.safeParse(attribution ?? {});
+
+  const lead = await prisma.lead.create({
+    data: {
+      ...input,
+      interest: input.interest || null,
+      message: input.message || null,
+      ...(parsedAttribution.success ? parsedAttribution.data : {}),
+      device: await deviceFromUserAgent(),
+    },
+    select: { id: true, createdAt: true },
+  });
+
+  after(async () => {
+    const [crm, ...rest] = await Promise.allSettled([
+      sendLeadToCrm(tasks.crm(lead)),
+      ...tasks.notify(),
+    ]);
+
+    rest.forEach((result, index) => {
+      if (result.status === "rejected") {
+        console.error(`[Lead ${lead.id}] background task ${index} failed:`, result.reason);
+      }
+    });
+
+    const outcome =
+      crm.status === "rejected"
+        ? { status: "FAILED" as const, error: String(crm.reason).slice(0, 500) }
+        : crm.value;
+    if (outcome.status === "SKIPPED") return;
+
+    await prisma.lead
+      .update({
+        where: { id: lead.id },
+        data: {
+          crmStatus: outcome.status,
+          crmError: outcome.status === "FAILED" ? outcome.error : null,
+        },
+      })
+      .catch((error) => console.error(`[Lead ${lead.id}] saving CRM status failed:`, error));
+  });
+
+  return lead;
+}
+
+/* ---------------- RESPONSE (enquiry forms) ---------------- */
+
+export async function createResponse(data: ResponseFormData, attribution?: Attribution) {
   const parsed = responseFormSchema.safeParse(data);
 
   if (!parsed.success) {
@@ -29,61 +109,42 @@ export async function createResponse(data: ResponseFormData) {
   }
 
   const formData = parsed.data;
+  const qualification =
+    formData.interest === "RPL" || formData.interest === "none" ? undefined : formData.interest;
 
   try {
-    // 1. Critical path: Save to DB immediately
-    const response = await prisma.response.create({
-      data: {
+    await saveLead(
+      {
+        form: "RESPONSE",
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
         message: formData.message,
-        interest: formData.interest,
+        interest: formData.interest === "none" ? undefined : formData.interest,
       },
-    });
-
-    // 2. Non-critical path: Defer all external API requests to background execution
-    after(async () => {
-      try {
-        const results = await Promise.allSettled([
-          sendContactNotificationEmail({
-            name: formData.name,
-            email: formData.email,
-            phone: formData.phone,
-            message: formData.message,
-            interest: formData.interest,
-          }),
+      attribution,
+      {
+        notify: () => [
+          sendContactNotificationEmail(formData),
           createFormSubmissionNotification({
             title: "New Response Form Submitted",
             description: `${formData.name} submitted a response form.`,
             type: "response",
           }),
-          sendLeadToCrm({
-            submissionId: response.id,
-            form: "contact",
-            name: formData.name,
-            phone: formData.phone,
-            email: formData.email,
-            message: formData.message,
-            qualification:
-              formData.interest === "RPL" || formData.interest === "none"
-                ? undefined
-                : formData.interest,
-            sourceDetail: `Enquiry form: ${formData.interest}`,
-            submittedAt: response.createdAt.toISOString(),
-          }),
-        ]);
-
-        // Monitor background failures in your server logs
-        results.forEach((result, index) => {
-          if (result.status === "rejected") {
-            console.error(`[Background Task Error][createResponse][Task ${index}]:`, result.reason);
-          }
-        });
-      } catch (error) {
-        console.error("[Unexpected error in after() block of createResponse]:", error);
-      }
-    });
+        ],
+        crm: (lead) => ({
+          submissionId: lead.id,
+          form: "contact",
+          name: formData.name,
+          phone: formData.phone,
+          email: formData.email,
+          message: formData.message,
+          qualification,
+          sourceDetail: `Enquiry form: ${formData.interest}`,
+          submittedAt: lead.createdAt.toISOString(),
+        }),
+      },
+    );
 
     return {
       success: true,
@@ -100,7 +161,7 @@ export async function createResponse(data: ResponseFormData) {
 
 /* ---------------- CONTACT ---------------- */
 
-export async function createContact(data: ContactData) {
+export async function createContact(data: ContactData, attribution?: Attribution) {
   const parsed = contactSchema.safeParse(data);
 
   if (!parsed.success) {
@@ -113,54 +174,47 @@ export async function createContact(data: ContactData) {
   const formData = parsed.data;
   const interest = formData.qualification || formData.industry || "none";
 
-  const payload: ResponseFormData = {
-    name: formData.name,
-    email: formData.email,
-    phone: formData.phone,
-    message: formData.message,
-    interest,
-  };
-
   try {
-    // 1. Critical path: Save to DB immediately
-    const response = await prisma.response.create({
-      data: payload,
-    });
-
-    // 2. Non-critical path: Defer all external API requests to background execution
-    after(async () => {
-      try {
-        const results = await Promise.allSettled([
-          sendContactNotificationEmail(payload),
+    await saveLead(
+      {
+        form: "CONTACT",
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        message: formData.message,
+        interest: interest === "none" ? undefined : interest,
+        details: formData.industry ? { industry: formData.industry } : undefined,
+      },
+      attribution,
+      {
+        notify: () => [
+          sendContactNotificationEmail({
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            message: formData.message,
+            interest,
+          }),
           createFormSubmissionNotification({
             title: "New Response Form Submitted",
-            description: `${payload.name} submitted a response form.`,
+            description: `${formData.name} submitted a response form.`,
             type: "response",
           }),
-          sendLeadToCrm({
-            submissionId: response.id,
-            form: "contact",
-            name: formData.name,
-            phone: formData.phone,
-            email: formData.email,
-            qualification: formData.qualification,
-            industry: formData.industry,
-            message: formData.message,
-            sourceDetail: "Contact page",
-            submittedAt: response.createdAt.toISOString(),
-          }),
-        ]);
-
-        // Monitor background failures in your server logs
-        results.forEach((result, index) => {
-          if (result.status === "rejected") {
-            console.error(`[Background Task Error][createContact][Task ${index}]:`, result.reason);
-          }
-        });
-      } catch (error) {
-        console.error("[Unexpected error in after() block of createContact]:", error);
-      }
-    });
+        ],
+        crm: (lead) => ({
+          submissionId: lead.id,
+          form: "contact",
+          name: formData.name,
+          phone: formData.phone,
+          email: formData.email,
+          qualification: formData.qualification,
+          industry: formData.industry,
+          message: formData.message,
+          sourceDetail: "Contact page",
+          submittedAt: lead.createdAt.toISOString(),
+        }),
+      },
+    );
 
     return {
       success: true,
@@ -188,8 +242,7 @@ type EligibilityFormData = {
   message?: string;
 };
 
-export async function saveEligibilityData(data: EligibilityFormData) {
-  // 1. Structural Validation Layer
+export async function saveEligibilityData(data: EligibilityFormData, attribution?: Attribution) {
   if (!data.industry) return { error: "Industry is required" };
   if (!data.qualification) return { error: "Qualification is required" };
   if (!data.yearsOfExperience) return { error: "Years of experience is required" };
@@ -200,23 +253,23 @@ export async function saveEligibilityData(data: EligibilityFormData) {
     return { error: "Valid phone number is required" };
 
   try {
-    // 2. Critical Path: Local State Synchronization (Database Save)
-    const submission = await prisma.eligibilitySubmission.create({
-      data: {
-        fullName: data.fullName,
+    await saveLead(
+      {
+        form: "ELIGIBILITY",
+        name: data.fullName,
         email: data.email,
-        phoneNumber: data.phoneNumber,
-        industry: data.industry,
-        qualification: data.qualification,
-        yearsOfExperience: parseInt(data.yearsOfExperience) || 0,
-        stateLivedIn: data.stateLivedIn,
-        message: data.message || "",
+        phone: data.phoneNumber,
+        interest: data.qualification,
+        message: data.message,
+        details: {
+          industry: data.industry,
+          yearsOfExperience: parseInt(data.yearsOfExperience) || 0,
+          state: data.stateLivedIn,
+        },
       },
-    });
-    // 3. Non-Critical Deferred Processing Layer
-    after(async () => {
-      try {
-        const results = await Promise.allSettled([
+      attribution,
+      {
+        notify: () => [
           sendEligibilityNotificationEmail({
             name: data.fullName,
             email: data.email,
@@ -232,36 +285,24 @@ export async function saveEligibilityData(data: EligibilityFormData) {
             description: `${data.fullName} submitted eligibility form.`,
             type: "eligibility",
           }),
-          sendLeadToCrm({
-            submissionId: submission.id,
-            form: "eligibility",
-            name: data.fullName,
-            phone: data.phoneNumber,
-            email: data.email,
-            qualification: data.qualification,
-            industry: data.industry,
-            experience: getExperienceLabel(data.yearsOfExperience),
-            state: data.stateLivedIn,
-            message: data.message,
-            sourceDetail: "Eligibility form",
-            submittedAt: submission.createdAt.toISOString(),
-          }),
-        ]);
-        // Systematic Background Exception Tracking
-        results.forEach((result, index) => {
-          if (result.status === "rejected") {
-            console.error(
-              `[Background Task Error][saveEligibilityData][Task ${index}]:`,
-              result.reason,
-            );
-          }
-        });
-      } catch (error) {
-        console.error("[Unexpected error in after() block of saveEligibilityData]:", error);
-      }
-    });
+        ],
+        crm: (lead) => ({
+          submissionId: lead.id,
+          form: "eligibility",
+          name: data.fullName,
+          phone: data.phoneNumber,
+          email: data.email,
+          qualification: data.qualification,
+          industry: data.industry,
+          experience: getExperienceLabel(data.yearsOfExperience),
+          state: data.stateLivedIn,
+          message: data.message,
+          sourceDetail: "Eligibility form",
+          submittedAt: lead.createdAt.toISOString(),
+        }),
+      },
+    );
 
-    // Structural JSON response return vector
     return {
       success: true,
       message: "Data saved successfully",
