@@ -1,4 +1,5 @@
 import { absoluteUrl } from "@/lib/url";
+
 import ReviewForm from "./components/review-form";
 export const metadata = {
   title: "Write a Review",

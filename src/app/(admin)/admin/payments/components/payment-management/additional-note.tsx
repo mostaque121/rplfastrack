@@ -1,10 +1,11 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+
 import { updatePaymentNote } from "@/app/(admin)/action/payments";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
 
 interface PaymentNoteEditorProps {
   paymentId: string;
@@ -12,11 +13,7 @@ interface PaymentNoteEditorProps {
   onSuccess?: () => void;
 }
 
-export function PaymentNoteEditor({
-  paymentId,
-  initialNote,
-  onSuccess,
-}: PaymentNoteEditorProps) {
+export function PaymentNoteEditor({ paymentId, initialNote, onSuccess }: PaymentNoteEditorProps) {
   const [note, setNote] = useState<string>(initialNote ?? "");
   const [savedNote, setSavedNote] = useState<string>(initialNote ?? "");
   const [loading, setLoading] = useState(false);
@@ -52,7 +49,7 @@ export function PaymentNoteEditor({
   const hasChanged = note !== savedNote;
 
   return (
-    <div className="space-y-3 w-full">
+    <div className="w-full space-y-3">
       <Textarea
         value={note}
         onChange={(e) => setNote(e.target.value)}
@@ -67,12 +64,7 @@ export function PaymentNoteEditor({
           <Button onClick={handleSave} disabled={loading}>
             {loading ? "Saving..." : "Save"}
           </Button>
-          <Button
-            type="button"
-            variant="outline"
-            onClick={handleCancel}
-            disabled={loading}
-          >
+          <Button type="button" variant="outline" onClick={handleCancel} disabled={loading}>
             Cancel
           </Button>
         </div>

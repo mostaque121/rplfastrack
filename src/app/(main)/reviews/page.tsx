@@ -1,5 +1,6 @@
-import { absoluteUrl } from "@/lib/url";
 import { listReviews } from "@/features/reviews/queries";
+import { absoluteUrl } from "@/lib/url";
+
 import ReviewHero from "./components/review-hero";
 import ReviewList from "./components/review-list";
 import ReviewStats from "./components/review-stats";

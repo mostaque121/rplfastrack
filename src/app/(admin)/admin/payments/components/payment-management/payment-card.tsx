@@ -1,18 +1,13 @@
 "use client";
 
+import { format } from "date-fns";
+import { Building, Edit, GraduationCap, Mail, Phone, Trash2 } from "lucide-react";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import type { PaymentWithParts } from "@/types/payment";
-import { format } from "date-fns";
-import {
-  Building,
-  Edit,
-  GraduationCap,
-  Mail,
-  Phone,
-  Trash2,
-} from "lucide-react";
+
 import { PaymentNoteEditor } from "./additional-note";
 
 interface PaymentCardProps {
@@ -22,19 +17,14 @@ interface PaymentCardProps {
   onSuccess: () => void;
 }
 
-export function PaymentCard({
-  payment,
-  onEdit,
-  onDelete,
-  onSuccess,
-}: PaymentCardProps) {
+export function PaymentCard({ payment, onEdit, onDelete, onSuccess }: PaymentCardProps) {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "paid":
         return (
           <Badge
             variant="default"
-            className="bg-green-50 text-green-700 border-green-200 font-medium text-xs"
+            className="border-green-200 bg-green-50 text-xs font-medium text-green-700"
           >
             Paid
           </Badge>
@@ -43,7 +33,7 @@ export function PaymentCard({
         return (
           <Badge
             variant="secondary"
-            className="bg-yellow-50 text-yellow-700 border-yellow-200 font-medium text-xs"
+            className="border-yellow-200 bg-yellow-50 text-xs font-medium text-yellow-700"
           >
             Installment
           </Badge>
@@ -52,14 +42,14 @@ export function PaymentCard({
         return (
           <Badge
             variant="destructive"
-            className="bg-red-50 text-red-700 border-red-200 font-medium text-xs"
+            className="border-red-200 bg-red-50 text-xs font-medium text-red-700"
           >
             Refunded
           </Badge>
         );
       default:
         return (
-          <Badge variant="outline" className="font-medium text-xs">
+          <Badge variant="outline" className="text-xs font-medium">
             {status}
           </Badge>
         );
@@ -67,16 +57,14 @@ export function PaymentCard({
   };
 
   return (
-    <Card className="border border-gray-200 hover:shadow-md transition-shadow duration-200">
+    <Card className="border border-gray-200 transition-shadow duration-200 hover:shadow-md">
       <CardContent>
         <div className="space-y-4">
           {/* Header Section */}
-          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-3">
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
             <div className="flex-1">
-              <div className="flex items-start justify-between mb-2">
-                <h3 className="text-lg font-semibold text-gray-900">
-                  {payment.name}
-                </h3>
+              <div className="mb-2 flex items-start justify-between">
+                <h3 className="text-lg font-semibold text-gray-900">{payment.name}</h3>
                 <div className="flex items-center gap-2">
                   {getStatusBadge(payment.paymentStatus)}
                   <div className="flex gap-1">
@@ -99,29 +87,29 @@ export function PaymentCard({
                   </div>
                 </div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
+              <div className="grid grid-cols-1 gap-4 text-sm text-gray-600 md:grid-cols-2">
                 <div className="space-y-1">
                   <div className="flex items-center">
-                    <GraduationCap className="h-4 w-4 mr-2 flex-shrink-0" />
+                    <GraduationCap className="mr-2 h-4 w-4 flex-shrink-0" />
                     <span>{payment.qualification}</span>
                   </div>
                   <div className="flex items-center">
-                    <Building className="h-4 w-4 mr-2 flex-shrink-0" />
+                    <Building className="mr-2 h-4 w-4 flex-shrink-0" />
                     <span>{payment.collegeName}</span>
                   </div>
                 </div>
                 <div className="space-y-1">
                   <div className="flex items-center">
-                    <Mail className="h-4 w-4 mr-2 flex-shrink-0" />
+                    <Mail className="mr-2 h-4 w-4 flex-shrink-0" />
                     <span>{payment.email}</span>
                   </div>
                   <div className="flex items-center">
-                    <Phone className="h-4 w-4 mr-2 flex-shrink-0" />
+                    <Phone className="mr-2 h-4 w-4 flex-shrink-0" />
                     <span>{payment.phoneNumber}</span>
                   </div>
                 </div>
               </div>
-              <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
+              <div className="mt-2 flex items-center gap-4 text-xs text-gray-500">
                 <span>
                   Source: <span className="font-medium">{payment.source}</span>
                 </span>
@@ -137,34 +125,34 @@ export function PaymentCard({
           </div>
 
           {/* Financial Information */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 py-3 bg-gray-50 rounded-lg px-4">
+          <div className="grid grid-cols-2 gap-4 rounded-lg bg-gray-50 px-4 py-3 md:grid-cols-3 lg:grid-cols-5">
             <div>
-              <p className="text-xs text-gray-500 mb-1">Course Fee</p>
+              <p className="mb-1 text-xs text-gray-500">Course Fee</p>
               <p className="text-sm font-semibold text-gray-900">
                 ${payment.courseFee.toLocaleString()}
               </p>
             </div>
             <div>
-              <p className="text-xs text-gray-500 mb-1">Total Paid</p>
+              <p className="mb-1 text-xs text-gray-500">Total Paid</p>
               <p className="text-sm font-semibold text-green-600">
                 ${payment.payment.toLocaleString()}
               </p>
             </div>
 
             <div>
-              <p className="text-xs text-gray-500 mb-1">College Payment</p>
+              <p className="mb-1 text-xs text-gray-500">College Payment</p>
               <p className="text-sm font-semibold text-blue-600">
                 ${payment.collegePayment.toLocaleString()}
               </p>
             </div>
             <div>
-              <p className="text-xs text-gray-500 mb-1">Agent Commission</p>
+              <p className="mb-1 text-xs text-gray-500">Agent Commission</p>
               <p className="text-sm font-semibold text-orange-600">
                 ${payment.agentCommission.toLocaleString()}
               </p>
             </div>
             <div>
-              <p className="text-xs text-gray-500 mb-1">Bank Commission</p>
+              <p className="mb-1 text-xs text-gray-500">Bank Commission</p>
               <p className="text-sm font-semibold text-purple-600">
                 ${payment.bankCommission.toLocaleString()}
               </p>
@@ -172,10 +160,8 @@ export function PaymentCard({
           </div>
 
           {/* Net Profit */}
-          <div className="flex items-center justify-between py-2 px-4 bg-green-50 rounded-lg">
-            <span className="text-sm font-medium text-green-700">
-              Net Profit
-            </span>
+          <div className="flex items-center justify-between rounded-lg bg-green-50 px-4 py-2">
+            <span className="text-sm font-medium text-green-700">Net Profit</span>
             <span className="text-lg font-bold text-green-700">
               ${payment.netProfit.toLocaleString()}
             </span>
@@ -184,19 +170,17 @@ export function PaymentCard({
           {/* Installments */}
           {payment.parts.length > 0 && (
             <div>
-              <h4 className="text-sm font-medium text-gray-700 mb-3">
+              <h4 className="mb-3 text-sm font-medium text-gray-700">
                 Payment History ({payment.parts.length} installments)
               </h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
                 {payment.parts.map((part, index) => (
                   <div
                     key={part.id}
-                    className="flex items-center justify-between p-3 bg-white border border-gray-200 rounded-lg"
+                    className="flex items-center justify-between rounded-lg border border-gray-200 bg-white p-3"
                   >
                     <div>
-                      <p className="text-xs text-gray-500">
-                        Installment {index + 1}
-                      </p>
+                      <p className="text-xs text-gray-500">Installment {index + 1}</p>
                       <p className="text-sm font-semibold text-gray-900">
                         ${part.amount.toLocaleString()}
                       </p>

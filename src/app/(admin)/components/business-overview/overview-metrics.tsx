@@ -1,17 +1,11 @@
 "use client";
 
+import { Calendar, DollarSign, Target, TrendingDown, TrendingUp, Users } from "lucide-react";
+
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import type { AnalyticsData } from "@/types/shared";
-import {
-  Calendar,
-  DollarSign,
-  Target,
-  TrendingDown,
-  TrendingUp,
-  Users,
-} from "lucide-react";
 
 interface OverviewMetricsProps {
   analytics: AnalyticsData | null;
@@ -77,29 +71,22 @@ export function OverviewMetrics({ analytics, loading }: OverviewMetricsProps) {
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
       {metrics.map((metric, index) => (
         <Card key={index}>
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div className="min-w-0 flex-1">
-                <p className="text-xs font-medium text-muted-foreground truncate">
-                  {metric.title}
-                </p>
-                <p className="text-lg md:text-xl font-bold truncate">
-                  {metric.value}
-                </p>
+                <p className="truncate text-xs font-medium text-muted-foreground">{metric.title}</p>
+                <p className="truncate text-lg font-bold md:text-xl">{metric.value}</p>
                 <div
-                  className={cn(
-                    "flex items-center gap-1 text-xs",
-                    getGrowthColor(metric.growth)
-                  )}
+                  className={cn("flex items-center gap-1 text-xs", getGrowthColor(metric.growth))}
                 >
                   {getGrowthIcon(metric.growth)}
                   <span>{Math.abs(metric.growth).toFixed(1)}%</span>
                 </div>
               </div>
-              <div className={cn("p-2 rounded-full shrink-0", metric.bgColor)}>
+              <div className={cn("shrink-0 rounded-full p-2", metric.bgColor)}>
                 <metric.icon className={cn("h-4 w-4", metric.iconColor)} />
               </div>
             </div>
@@ -113,7 +100,7 @@ export function OverviewMetrics({ analytics, loading }: OverviewMetricsProps) {
 // Skeleton component placed outside for clarity
 function MetricsSkeleton() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
       {[...Array(5)].map((_, index) => (
         <Card key={index}>
           <CardContent className="p-4">
@@ -123,7 +110,7 @@ function MetricsSkeleton() {
                 <Skeleton className="h-6 w-32" /> {/* Value */}
                 <Skeleton className="h-3 w-20" /> {/* Growth */}
               </div>
-              <div className="p-2 rounded-full shrink-0">
+              <div className="shrink-0 rounded-full p-2">
                 <Skeleton className="h-6 w-6 rounded-full" /> {/* Icon */}
               </div>
             </div>

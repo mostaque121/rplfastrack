@@ -1,8 +1,9 @@
 import "server-only";
 
-import { env } from "@/env";
 import nodemailer from "nodemailer";
 import brevoTransport from "nodemailer-brevo-transport";
+
+import { env } from "@/env";
 
 const transporter = nodemailer.createTransport(
   new brevoTransport({

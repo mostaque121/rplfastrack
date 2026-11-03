@@ -9,14 +9,10 @@ type Industry = {
 
 export default function IndustryCard({ industry }: { industry: Industry }) {
   return (
-    <div className="bg-white border border-emerald-100 hover:border-emerald-400 shadow-sm hover:shadow-md transition-all duration-300 rounded-xl overflow-hidden flex flex-col h-full group">
-      <Link
-        prefetch={false}
-        href={`/section/${industry.link}`}
-        className="block overflow-hidden"
-      >
+    <div className="group flex h-full flex-col overflow-hidden rounded-xl border border-emerald-100 bg-white shadow-sm transition-all duration-300 hover:border-emerald-400 hover:shadow-md">
+      <Link prefetch={false} href={`/section/${industry.link}`} className="block overflow-hidden">
         <div className="p-3 pb-0">
-          <div className="relative rounded-lg overflow-hidden w-full pb-[70%]">
+          <div className="relative w-full overflow-hidden rounded-lg pb-[70%]">
             <Image
               src={industry.imageSquareLink}
               alt={`${industry.title} Image`}
@@ -28,13 +24,9 @@ export default function IndustryCard({ industry }: { industry: Industry }) {
         </div>
       </Link>
 
-      <div className="p-4 pt-2 flex-1 flex flex-col">
-        <Link
-          prefetch={false}
-          href={`/section/${industry.link}`}
-          className="block flex-1"
-        >
-          <h3 className="tex-base font-bold text-gray-800 group-hover:text-emerald-600 transition-colors">
+      <div className="flex flex-1 flex-col p-4 pt-2">
+        <Link prefetch={false} href={`/section/${industry.link}`} className="block flex-1">
+          <h3 className="tex-base font-bold text-gray-800 transition-colors group-hover:text-emerald-600">
             {industry.title}
           </h3>
         </Link>
@@ -44,7 +36,7 @@ export default function IndustryCard({ industry }: { industry: Industry }) {
         <Link
           prefetch={false}
           href={`/section/${industry.link}`}
-          className="block w-full text-center bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-1.5 text-sm rounded-lg transition-colors"
+          className="block w-full rounded-lg bg-emerald-600 py-1.5 text-center text-sm font-medium text-white transition-colors hover:bg-emerald-700"
         >
           View all Course
         </Link>

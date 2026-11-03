@@ -1,18 +1,15 @@
 "use client";
 
-import type React from "react";
-
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
-export default function SearchForm({
-  initialValue = "",
-}: {
-  initialValue?: string;
-}) {
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
+import type React from "react";
+
+export default function SearchForm({ initialValue = "" }: { initialValue?: string }) {
   const [searchQuery, setSearchQuery] = useState(initialValue);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -38,10 +35,7 @@ export default function SearchForm({
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex w-full  items-center space-x-2"
-    >
+    <form onSubmit={handleSubmit} className="flex w-full items-center space-x-2">
       <Input
         type="search"
         placeholder="Search ..."
@@ -50,7 +44,7 @@ export default function SearchForm({
         className="flex-1"
       />
       <Button type="submit">
-        <Search className="h-4 w-4 mr-2" />
+        <Search className="mr-2 h-4 w-4" />
         Search
       </Button>
     </form>

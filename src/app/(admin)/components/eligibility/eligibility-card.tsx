@@ -2,14 +2,10 @@
 
 import { Clock, Loader2, MessageSquare, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import {
   Dialog,
   DialogClose,
@@ -23,12 +19,8 @@ import {
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
-import { toast } from "sonner";
-import {
-  addNote,
-  deleteEligibility,
-  deleteNote,
-} from "../../action/eligibility";
+
+import { addNote, deleteEligibility, deleteNote } from "../../action/eligibility";
 
 type Note = {
   id: string;
@@ -108,9 +100,7 @@ export default function EligibilityCard({ eligibility }: EligibilityCardProps) {
       const result = await deleteNote(eligibility.id, noteId);
       if (result.success) {
         // ✅ Remove the deleted note from the state
-        setInitialNotes((prevNotes) =>
-          prevNotes.filter((note) => note.id !== noteId)
-        );
+        setInitialNotes((prevNotes) => prevNotes.filter((note) => note.id !== noteId));
 
         toast.success("Note deleted", {
           description: "The note has been deleted successfully.",
@@ -156,12 +146,12 @@ export default function EligibilityCard({ eligibility }: EligibilityCardProps) {
   return (
     <Card className="overflow-hidden py-0 transition-all hover:shadow-md">
       <CardHeader className="bg-slate-50 pt-4 pb-2">
-        <div className="flex justify-between items-center">
-          <h3 className="font-medium text-lg">{eligibility.fullName}</h3>
+        <div className="flex items-center justify-between">
+          <h3 className="text-lg font-medium">{eligibility.fullName}</h3>
           <Button
             variant="ghost"
             size="icon"
-            className="h-8 w-8 text-destructive hover:text-destructive hover:bg-gray-100 duration-200 transition-all rounded-full"
+            className="h-8 w-8 rounded-full text-destructive transition-all duration-200 hover:bg-gray-100 hover:text-destructive"
             onClick={() => setIsDeleteDialogOpen(true)}
           >
             <Trash2 className="h-4 w-4" />
@@ -174,9 +164,7 @@ export default function EligibilityCard({ eligibility }: EligibilityCardProps) {
         <div className="space-y-2 text-sm">
           <div className="grid grid-cols-3">
             <span className="text-muted-foreground">Date:</span>
-            <span className="col-span-2">
-              {formatDate(eligibility.createdAt)}
-            </span>
+            <span className="col-span-2">{formatDate(eligibility.createdAt)}</span>
           </div>
           <div className="grid grid-cols-3">
             <span className="text-muted-foreground">Phone:</span>
@@ -214,29 +202,22 @@ export default function EligibilityCard({ eligibility }: EligibilityCardProps) {
                 <div className="flex items-center gap-1 text-xs text-muted-foreground">
                   <MessageSquare className="h-3 w-3" />
                   <span>Latest Note</span>
-                  <span className="flex items-center ml-auto">
-                    <Clock className="h-3 w-3 mr-1" />
+                  <span className="ml-auto flex items-center">
+                    <Clock className="mr-1 h-3 w-3" />
                     {formatDate(lastNote.createdAt)}
                   </span>
                 </div>
-                <p className="text-sm line-clamp-2">{lastNote.content}</p>
+                <p className="line-clamp-2 text-sm">{lastNote.content}</p>
               </div>
             </>
           )}
         </div>
       </CardContent>
 
-      <CardFooter className="bg-slate-50 mt-auto pt-3 pb-4">
-        <Button
-          variant="outline"
-          size="sm"
-          className="w-full"
-          onClick={() => setIsNotesOpen(true)}
-        >
-          <MessageSquare className="h-4 w-4 mr-2" />
-          {initialNotes.length > 0
-            ? `Manage Notes (${eligibility.notes.length})`
-            : "Add Notes"}
+      <CardFooter className="mt-auto bg-slate-50 pt-3 pb-4">
+        <Button variant="outline" size="sm" className="w-full" onClick={() => setIsNotesOpen(true)}>
+          <MessageSquare className="mr-2 h-4 w-4" />
+          {initialNotes.length > 0 ? `Manage Notes (${eligibility.notes.length})` : "Add Notes"}
         </Button>
       </CardFooter>
 
@@ -246,23 +227,18 @@ export default function EligibilityCard({ eligibility }: EligibilityCardProps) {
             <DialogTitle>Notes for {eligibility.fullName}</DialogTitle>
           </DialogHeader>
 
-          <div className="space-y-4 my-4 max-h-[300px] overflow-y-auto">
+          <div className="my-4 max-h-[300px] space-y-4 overflow-y-auto">
             {initialNotes.length === 0 ? (
-              <p className="text-center text-muted-foreground py-4">
-                No notes yet
-              </p>
+              <p className="py-4 text-center text-muted-foreground">No notes yet</p>
             ) : (
               initialNotes.map((note) => (
-                <div
-                  key={note.id}
-                  className="flex flex-col p-3 border rounded-md"
-                >
+                <div key={note.id} className="flex flex-col rounded-md border p-3">
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex-1">{note.content}</div>
 
                     <Dialog>
                       <DialogTrigger>
-                        <div className="h-8 w-8 cursor-pointer hover:bg-gray-100 duration-200 transition-all rounded-full flex items-center justify-center text-destructive">
+                        <div className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-destructive transition-all duration-200 hover:bg-gray-100">
                           <Trash2 className="h-4 w-4" />
                           <span className="sr-only">Delete note</span>
                         </div>
@@ -271,7 +247,7 @@ export default function EligibilityCard({ eligibility }: EligibilityCardProps) {
                         <DialogHeader>
                           <DialogTitle>Delete Response</DialogTitle>
                         </DialogHeader>
-                        <DialogFooter className="flex space-x-2 justify-end">
+                        <DialogFooter className="flex justify-end space-x-2">
                           <DialogClose asChild>
                             <Button type="button" variant="secondary">
                               Cancel
@@ -282,16 +258,14 @@ export default function EligibilityCard({ eligibility }: EligibilityCardProps) {
                             onClick={() => confirmDeleteNote(note.id)}
                             disabled={deletingNote}
                           >
-                            {deletingNote && (
-                              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            )}
+                            {deletingNote && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                             Delete
                           </Button>
                         </DialogFooter>
                       </DialogContent>
                     </Dialog>
                   </div>
-                  <div className="text-xs text-muted-foreground mt-2">
+                  <div className="mt-2 text-xs text-muted-foreground">
                     {formatDate(note.createdAt)}
                   </div>
                 </div>
@@ -313,13 +287,13 @@ export default function EligibilityCard({ eligibility }: EligibilityCardProps) {
             </div>
             <Button
               onClick={handleAddNote}
-              className="mb-[1px] flex flex-col h-16 cursor-pointer"
+              className="mb-[1px] flex h-16 cursor-pointer flex-col"
               disabled={addingNote || !newNote.trim()}
             >
               {addingNote ? (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               ) : (
-                <Plus className="h-4 w-4 mr-1" />
+                <Plus className="mr-1 h-4 w-4" />
               )}
               Add
             </Button>
@@ -333,15 +307,12 @@ export default function EligibilityCard({ eligibility }: EligibilityCardProps) {
           <DialogHeader>
             <DialogTitle>Delete Response</DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete this response from{" "}
-              {eligibility.fullName}? This action cannot be undone.
+              Are you sure you want to delete this response from {eligibility.fullName}? This action
+              cannot be undone.
             </DialogDescription>
           </DialogHeader>
-          <DialogFooter className="flex space-x-2 justify-end">
-            <Button
-              variant="outline"
-              onClick={() => setIsDeleteDialogOpen(false)}
-            >
+          <DialogFooter className="flex justify-end space-x-2">
+            <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)}>
               Cancel
             </Button>
             <Button
@@ -350,9 +321,7 @@ export default function EligibilityCard({ eligibility }: EligibilityCardProps) {
               disabled={deletingResponse}
             >
               Delete
-              {deletingResponse && (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              )}
+              {deletingResponse && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             </Button>
           </DialogFooter>
         </DialogContent>

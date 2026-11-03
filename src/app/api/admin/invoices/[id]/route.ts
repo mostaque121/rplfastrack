@@ -5,10 +5,10 @@ import { ZodError } from "zod";
 
 import { InvoicePDF } from "@/app/(admin)/admin/invoice/components/invoice-pdf";
 import { InvoicePayloadSchema } from "@/app/(admin)/admin/invoice/schema";
-import { cloudinary } from "@/server/cloudinary";
 import { absoluteUrl } from "@/lib/url";
-import { sendInvoiceEmail } from "@/server/mail";
+import { cloudinary } from "@/server/cloudinary";
 import { prisma } from "@/server/db";
+import { sendInvoiceEmail } from "@/server/mail";
 import { withAdminGuard } from "@/server/with-admin-guard";
 
 // Reuse the same date parser as the create route.
@@ -60,25 +60,20 @@ function parseInvoiceDate(value: string): Date {
 }
 
 function uploadPdfToCloudinary(buffer: Buffer, publicId: string) {
-  return new Promise<{ secure_url: string; public_id: string }>(
-    (resolve, reject) => {
-      const stream = cloudinary.uploader.upload_stream(
-        { folder: "invoices", public_id: publicId, resource_type: "raw" },
-        (error, result) => {
-          if (error) return reject(error);
-          if (!result)
-            return reject(
-              new Error("Cloudinary did not return an upload result"),
-            );
-          resolve({
-            secure_url: result.secure_url,
-            public_id: result.public_id,
-          });
-        },
-      );
-      stream.end(buffer);
-    },
-  );
+  return new Promise<{ secure_url: string; public_id: string }>((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      { folder: "invoices", public_id: publicId, resource_type: "raw" },
+      (error, result) => {
+        if (error) return reject(error);
+        if (!result) return reject(new Error("Cloudinary did not return an upload result"));
+        resolve({
+          secure_url: result.secure_url,
+          public_id: result.public_id,
+        });
+      },
+    );
+    stream.end(buffer);
+  });
 }
 
 type RouteParams = { params: Promise<{ id: string }> };
@@ -105,10 +100,7 @@ export const DELETE = withAdminGuard(async function DELETE(
     });
 
     if (destroyResult.result !== "ok" && destroyResult.result !== "not found") {
-      return NextResponse.json(
-        { error: "Failed to remove PDF from Cloudinary" },
-        { status: 500 },
-      );
+      return NextResponse.json({ error: "Failed to remove PDF from Cloudinary" }, { status: 500 });
     }
 
     await prisma.invoice.delete({ where: { id } });
@@ -116,18 +108,12 @@ export const DELETE = withAdminGuard(async function DELETE(
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("[api/invoices/[id]] delete error:", error);
-    return NextResponse.json(
-      { error: "Failed to delete invoice" },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: "Failed to delete invoice" }, { status: 500 });
   }
 });
 
 // ── GET /api/admin/invoices/:id ─────────────────────────────────────────────
-export const GET = withAdminGuard(async function GET(
-  _req: NextRequest,
-  { params }: RouteParams,
-) {
+export const GET = withAdminGuard(async function GET(_req: NextRequest, { params }: RouteParams) {
   const { id } = await params;
   const invoice = await prisma.invoice.findUnique({
     where: { id },
@@ -138,10 +124,7 @@ export const GET = withAdminGuard(async function GET(
 });
 
 // ── PUT /api/admin/invoices/:id ──────────────────────────────────────────────
-export const PUT = withAdminGuard(async function PUT(
-  req: NextRequest,
-  { params }: RouteParams,
-) {
+export const PUT = withAdminGuard(async function PUT(req: NextRequest, { params }: RouteParams) {
   const { id } = await params;
 
   try {
@@ -154,9 +137,7 @@ export const PUT = withAdminGuard(async function PUT(
     const invoice = InvoicePayloadSchema.parse(raw);
     const invoiceWithDefaults = {
       ...invoice,
-      logoUrl:
-        invoice.logoUrl ||
-        absoluteUrl("/invoice-logo.png"),
+      logoUrl: invoice.logoUrl || absoluteUrl("/invoice-logo.png"),
     };
 
     // Re-render the PDF with the updated data
@@ -228,9 +209,6 @@ export const PUT = withAdminGuard(async function PUT(
       );
     }
     console.error("[invoices/:id PUT] update error:", err);
-    return NextResponse.json(
-      { error: "Failed to update invoice" },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: "Failed to update invoice" }, { status: 500 });
   }
 });

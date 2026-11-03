@@ -1,5 +1,7 @@
 "use client";
 
+import * as React from "react";
+
 import {
   Dialog,
   DialogContent,
@@ -7,7 +9,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import * as React from "react";
 
 interface AddBtnProps<T> {
   item?: T;
@@ -21,13 +22,7 @@ interface AddBtnProps<T> {
   onOpenChange: (open: boolean) => void;
 }
 
-export function EditDialog<T>({
-  Form,
-  item,
-  isOpen,
-  onOpenChange,
-  onSuccess,
-}: AddBtnProps<T>) {
+export function EditDialog<T>({ Form, item, isOpen, onOpenChange, onSuccess }: AddBtnProps<T>) {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent
@@ -37,18 +32,14 @@ export function EditDialog<T>({
             e.preventDefault();
           }
         }}
-        className="md:w-[calc(100%-100px)] w-full rounded-none md:rounded-md p-0 gap-0 overflow-hidden !max-w-5xl"
+        className="w-full !max-w-5xl gap-0 overflow-hidden rounded-none p-0 md:w-[calc(100%-100px)] md:rounded-md"
       >
         <DialogHeader>
           <DialogTitle className="hidden">a</DialogTitle>
           <DialogDescription className="hidden">a</DialogDescription>
         </DialogHeader>
-        <div className="md:max-h-[calc(100dvh-30px)] px-5 md:px-6 pb-60 md:pb-12 pt-6 h-full max-h-[calc(100dvh)] overflow-y-auto">
-          <Form
-            onCloseForm={() => onOpenChange(false)}
-            item={item}
-            onSuccess={onSuccess}
-          />
+        <div className="h-full max-h-[calc(100dvh)] overflow-y-auto px-5 pt-6 pb-60 md:max-h-[calc(100dvh-30px)] md:px-6 md:pb-12">
+          <Form onCloseForm={() => onOpenChange(false)} item={item} onSuccess={onSuccess} />
         </div>
       </DialogContent>
     </Dialog>

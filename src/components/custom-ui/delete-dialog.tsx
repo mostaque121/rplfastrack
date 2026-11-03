@@ -1,5 +1,8 @@
 "use client";
 
+import { Loader2 } from "lucide-react";
+import * as React from "react";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,8 +15,6 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { buttonVariants } from "@/components/ui/button"; // Import buttonVariants
-import { Loader2 } from "lucide-react";
-import * as React from "react";
 
 interface DeleteDialogProps {
   children: React.ReactNode;
@@ -50,9 +51,7 @@ export function DeleteDialog({
           <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={isLoading}>
-            {cancelText}
-          </AlertDialogCancel>
+          <AlertDialogCancel disabled={isLoading}>{cancelText}</AlertDialogCancel>
           <AlertDialogAction
             onClick={handleConfirmClick}
             disabled={isLoading}

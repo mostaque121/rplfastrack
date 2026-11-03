@@ -7,9 +7,6 @@
  * and returns that URL to the caller.
  */
 
-import { cloudinary } from "@/server/cloudinary";
-import { absoluteUrl } from "@/lib/url";
-import { withAdminGuard } from "@/server/with-admin-guard";
 import { renderToBuffer } from "@react-pdf/renderer";
 import { NextRequest, NextResponse } from "next/server";
 import React from "react";
@@ -17,8 +14,11 @@ import { ZodError } from "zod";
 
 import { InvoicePDF } from "@/app/(admin)/admin/invoice/components/invoice-pdf";
 import { InvoicePayloadSchema } from "@/app/(admin)/admin/invoice/schema";
-import { sendInvoiceEmail } from "@/server/mail";
+import { absoluteUrl } from "@/lib/url";
+import { cloudinary } from "@/server/cloudinary";
 import { prisma } from "@/server/db";
+import { sendInvoiceEmail } from "@/server/mail";
+import { withAdminGuard } from "@/server/with-admin-guard";
 
 const MONTHS: Record<string, number> = {
   january: 0,
@@ -111,9 +111,7 @@ export const POST = withAdminGuard(async function POST(req: NextRequest) {
     const invoice = InvoicePayloadSchema.parse(raw);
     const invoiceWithDefaults = {
       ...invoice,
-      logoUrl:
-        invoice.logoUrl ||
-        absoluteUrl("/invoice-logo.png"),
+      logoUrl: invoice.logoUrl || absoluteUrl("/invoice-logo.png"),
     };
     // ── Render PDF ────────────────────────────────────────────────────────────────
     const buffer = await renderToBuffer(
@@ -195,10 +193,7 @@ export const POST = withAdminGuard(async function POST(req: NextRequest) {
       );
     }
     console.error("[invoice/route] PDF generation error:", err);
-    return NextResponse.json(
-      { error: "Failed to generate PDF" },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: "Failed to generate PDF" }, { status: 500 });
   }
 });
 
@@ -269,9 +264,6 @@ export const GET = withAdminGuard(async function GET(request: Request) {
     });
   } catch (error) {
     console.error("Error fetching invoices:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch invoices." },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: "Failed to fetch invoices." }, { status: 500 });
   }
 });

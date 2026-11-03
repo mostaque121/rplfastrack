@@ -1,10 +1,7 @@
 "use client";
 
 import { IoIosCheckmarkCircle } from "react-icons/io";
-import {
-  VerticalTimeline,
-  VerticalTimelineElement,
-} from "react-vertical-timeline-component";
+import { VerticalTimeline, VerticalTimelineElement } from "react-vertical-timeline-component";
 import "react-vertical-timeline-component/style.min.css";
 
 const steps = [
@@ -32,11 +29,9 @@ const steps = [
 
 export default function RPLTimeline() {
   return (
-    <section className="py-16 md:py-24 bg-[#F5F7FA]">
+    <section className="bg-[#F5F7FA] py-16 md:py-24">
       <div className="container mx-auto px-4 md:px-8">
-        <h2 className="text-3xl font-bold text-center mt-4 text-emerald-600 ">
-          RPL Process
-        </h2>
+        <h2 className="mt-4 text-center text-3xl font-bold text-emerald-600">RPL Process</h2>
         <VerticalTimeline lineColor="#059669">
           {steps.map((step, index) => (
             <VerticalTimelineElement
@@ -59,12 +54,8 @@ export default function RPLTimeline() {
                 boxShadow: "none",
               }}
             >
-              <h3 className="text-lg text-whitr font-semibold mb-2">
-                {step.title}
-              </h3>
-              <p className="text-sm text-gray-100 leading-relaxed">
-                {step.description}
-              </p>
+              <h3 className="text-whitr mb-2 text-lg font-semibold">{step.title}</h3>
+              <p className="text-sm leading-relaxed text-gray-100">{step.description}</p>
             </VerticalTimelineElement>
           ))}
         </VerticalTimeline>

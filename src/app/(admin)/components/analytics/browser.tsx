@@ -1,22 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import {
-  Bar,
-  BarChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
+import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface BrowsersProps {
   data: any;
@@ -39,9 +26,7 @@ export function Browsers({ data, days }: BrowsersProps) {
     <Card className="py-6">
       <CardHeader>
         <CardTitle>Browser Usage</CardTitle>
-        <CardDescription>
-          Distribution of visits by browser in the last {days} days
-        </CardDescription>
+        <CardDescription>Distribution of visits by browser in the last {days} days</CardDescription>
       </CardHeader>
       <CardContent className="pt-6">
         {browsers.length > 0 ? (
@@ -65,17 +50,13 @@ export function Browsers({ data, days }: BrowsersProps) {
                   textAnchor="end"
                 />
                 <YAxis tickLine={false} axisLine={false} tickMargin={10} />
-                <Tooltip
-                  formatter={(value: number) => value.toLocaleString()}
-                />
+                <Tooltip formatter={(value: number) => value.toLocaleString()} />
                 <Bar dataKey="sessions" fill="#8884d8" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
         ) : (
-          <p className="text-center text-sm text-muted-foreground">
-            No data available.
-          </p>
+          <p className="text-center text-sm text-muted-foreground">No data available.</p>
         )}
       </CardContent>
     </Card>

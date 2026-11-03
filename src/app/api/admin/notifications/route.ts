@@ -1,9 +1,10 @@
+import { headers } from "next/headers";
+import { NextRequest, NextResponse } from "next/server";
+
 import { Prisma } from "@/generated/prisma";
 import { auth } from "@/server/auth"; // Import your Better Auth instance
 import { prisma } from "@/server/db";
 import { withAdminGuard } from "@/server/with-admin-guard";
-import { headers } from "next/headers";
-import { NextRequest, NextResponse } from "next/server";
 
 export const GET = withAdminGuard(async function GET(request: NextRequest) {
   try {
@@ -16,10 +17,7 @@ export const GET = withAdminGuard(async function GET(request: NextRequest) {
     const userId = session?.user?.id;
 
     if (!userId) {
-      return NextResponse.json(
-        { error: "Unauthorized: Please log in." },
-        { status: 401 },
-      );
+      return NextResponse.json({ error: "Unauthorized: Please log in." }, { status: 401 });
     }
 
     // 3. Extract only pagination parameters from the URL
@@ -60,10 +58,7 @@ export const GET = withAdminGuard(async function GET(request: NextRequest) {
     });
   } catch (error) {
     console.error("Failed to fetch notifications:", error);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 });
 
@@ -78,10 +73,7 @@ export const POST = withAdminGuard(async function POST(request: NextRequest) {
     const userId = session?.user?.id;
 
     if (!userId) {
-      return NextResponse.json(
-        { error: "Unauthorized: Please log in." },
-        { status: 401 },
-      );
+      return NextResponse.json({ error: "Unauthorized: Please log in." }, { status: 401 });
     }
 
     // 3. Execute the Prisma update for the logged-in user

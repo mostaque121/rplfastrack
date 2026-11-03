@@ -1,20 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  Cell,
-  Legend,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip,
-} from "recharts";
+import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
+
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface TopCountryProps {
   data: any;
@@ -31,10 +19,7 @@ export function TopCountry({ data, days }: TopCountryProps) {
 
   // Sort the referrers by sessions (descending) and limit to the top 10
   const topReferrers = referrers
-    .sort(
-      (a: { sessions: number }, b: { sessions: number }) =>
-        b.sessions - a.sessions,
-    )
+    .sort((a: { sessions: number }, b: { sessions: number }) => b.sessions - a.sessions)
     .slice(0, 10);
 
   // Define a set of 10 distinct colors
@@ -56,8 +41,7 @@ export function TopCountry({ data, days }: TopCountryProps) {
       <CardHeader>
         <CardTitle>Sessions by Country</CardTitle>
         <CardDescription>
-          The number of sessions from the top 10 countries in the last {days}{" "}
-          days.
+          The number of sessions from the top 10 countries in the last {days} days.
         </CardDescription>
       </CardHeader>
       <CardContent>

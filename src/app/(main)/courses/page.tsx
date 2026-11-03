@@ -1,11 +1,8 @@
+import { allCoursesSchema, coursesBreadcrumb, serviceSchema } from "@/lib/seo";
 import { absoluteUrl } from "@/lib/url";
+
 import ContactSection from "../components/contact-common";
 import DocumentsNeed from "../components/documents-need";
-import {
-  allCoursesSchema,
-  coursesBreadcrumb,
-  serviceSchema,
-} from "@/lib/seo";
 import CourseCategories from "./components/course-categories";
 import EligibilityForRPL from "./components/eligibility";
 import HeroSection from "./components/hero";
@@ -36,8 +33,7 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Qualifications - Recognized Certifications via RPL",
-    description:
-      "Achieve Australian qualifications quickly by validating your skills with RPL.",
+    description: "Achieve Australian qualifications quickly by validating your skills with RPL.",
     images: ["/qualifications-bg.jpg"],
   },
 };

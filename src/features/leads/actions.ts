@@ -1,5 +1,8 @@
 "use server";
 
+import { after } from "next/server";
+import { z } from "zod";
+
 import { createFormSubmissionNotification } from "@/app/(admin)/lib/create-notification";
 import {
   sendContactNotificationEmail,
@@ -9,8 +12,6 @@ import { getExperienceLabel } from "@/lib/experience-years";
 import { contactSchema, responseFormSchema } from "@/lib/zod";
 import { sendLeadToCrm } from "@/server/crm";
 import { prisma } from "@/server/db";
-import { after } from "next/server";
-import { z } from "zod";
 
 type ResponseFormData = z.infer<typeof responseFormSchema>;
 type ContactData = z.infer<typeof contactSchema>;
@@ -76,17 +77,11 @@ export async function createResponse(data: ResponseFormData) {
         // Monitor background failures in your server logs
         results.forEach((result, index) => {
           if (result.status === "rejected") {
-            console.error(
-              `[Background Task Error][createResponse][Task ${index}]:`,
-              result.reason,
-            );
+            console.error(`[Background Task Error][createResponse][Task ${index}]:`, result.reason);
           }
         });
       } catch (error) {
-        console.error(
-          "[Unexpected error in after() block of createResponse]:",
-          error,
-        );
+        console.error("[Unexpected error in after() block of createResponse]:", error);
       }
     });
 
@@ -159,17 +154,11 @@ export async function createContact(data: ContactData) {
         // Monitor background failures in your server logs
         results.forEach((result, index) => {
           if (result.status === "rejected") {
-            console.error(
-              `[Background Task Error][createContact][Task ${index}]:`,
-              result.reason,
-            );
+            console.error(`[Background Task Error][createContact][Task ${index}]:`, result.reason);
           }
         });
       } catch (error) {
-        console.error(
-          "[Unexpected error in after() block of createContact]:",
-          error,
-        );
+        console.error("[Unexpected error in after() block of createContact]:", error);
       }
     });
 
@@ -203,13 +192,10 @@ export async function saveEligibilityData(data: EligibilityFormData) {
   // 1. Structural Validation Layer
   if (!data.industry) return { error: "Industry is required" };
   if (!data.qualification) return { error: "Qualification is required" };
-  if (!data.yearsOfExperience)
-    return { error: "Years of experience is required" };
+  if (!data.yearsOfExperience) return { error: "Years of experience is required" };
   if (!data.stateLivedIn) return { error: "State is required" };
-  if (!data.fullName || data.fullName.length < 2)
-    return { error: "Full name is required" };
-  if (!data.email || !data.email.includes("@"))
-    return { error: "Valid email is required" };
+  if (!data.fullName || data.fullName.length < 2) return { error: "Full name is required" };
+  if (!data.email || !data.email.includes("@")) return { error: "Valid email is required" };
   if (!data.phoneNumber || data.phoneNumber.length < 8)
     return { error: "Valid phone number is required" };
 
@@ -271,10 +257,7 @@ export async function saveEligibilityData(data: EligibilityFormData) {
           }
         });
       } catch (error) {
-        console.error(
-          "[Unexpected error in after() block of saveEligibilityData]:",
-          error,
-        );
+        console.error("[Unexpected error in after() block of saveEligibilityData]:", error);
       }
     });
 

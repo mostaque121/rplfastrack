@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
-import { env } from "@/env";
-import { requireAdmin } from "@/app/(admin)/action/helper";
 import { BetaAnalyticsDataClient } from "@google-analytics/data";
 import { format, subDays } from "date-fns";
+
+import { requireAdmin } from "@/app/(admin)/action/helper";
+import { env } from "@/env";
 
 const analyticsDataClient = new BetaAnalyticsDataClient({
   credentials: {
@@ -25,12 +26,7 @@ function getDateRange(days: number) {
   };
 }
 
-async function runReport(
-  dimensions: string[],
-  metrics: string[],
-  days = 30,
-  orderBy?: any,
-) {
+async function runReport(dimensions: string[], metrics: string[], days = 30, orderBy?: any) {
   try {
     const { startDate, endDate } = getDateRange(days);
 
@@ -53,21 +49,15 @@ async function runReport(
 export async function fetchDashboardData(days = 30) {
   await requireAdmin();
   try {
-    const [
-      analyticsData,
-      topPages,
-      topReferrers,
-      deviceCategories,
-      browsers,
-      userCountries,
-    ] = await Promise.all([
-      getAnalyticsData(days),
-      getTopPages(days),
-      getTopReferrers(days),
-      getDeviceCategories(days),
-      getBrowsers(days),
-      getUserCountries(days),
-    ]);
+    const [analyticsData, topPages, topReferrers, deviceCategories, browsers, userCountries] =
+      await Promise.all([
+        getAnalyticsData(days),
+        getTopPages(days),
+        getTopReferrers(days),
+        getDeviceCategories(days),
+        getBrowsers(days),
+        getUserCountries(days),
+      ]);
 
     return {
       analyticsData,
@@ -88,13 +78,7 @@ export async function fetchDashboardData(days = 30) {
 async function getAnalyticsData(days = 30) {
   return runReport(
     ["date"],
-    [
-      "sessions",
-      "totalUsers",
-      "screenPageViews",
-      "bounceRate",
-      "userEngagementDuration",
-    ],
+    ["sessions", "totalUsers", "screenPageViews", "bounceRate", "userEngagementDuration"],
     days,
     {
       dimension: { dimensionName: "date" },
@@ -104,27 +88,17 @@ async function getAnalyticsData(days = 30) {
 }
 
 async function getTopPages(days = 30) {
-  return runReport(
-    ["pagePath"],
-    ["screenPageViews", "userEngagementDuration"],
-    days,
-    {
-      metric: { metricName: "screenPageViews" },
-      desc: true,
-    },
-  );
+  return runReport(["pagePath"], ["screenPageViews", "userEngagementDuration"], days, {
+    metric: { metricName: "screenPageViews" },
+    desc: true,
+  });
 }
 
 async function getTopReferrers(days = 30) {
-  return runReport(
-    ["sessionSource"],
-    ["sessions", "userEngagementDuration"],
-    days,
-    {
-      metric: { metricName: "sessions" },
-      desc: true,
-    },
-  );
+  return runReport(["sessionSource"], ["sessions", "userEngagementDuration"], days, {
+    metric: { metricName: "sessions" },
+    desc: true,
+  });
 }
 
 async function getDeviceCategories(days = 30) {

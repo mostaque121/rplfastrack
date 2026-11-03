@@ -1,23 +1,18 @@
 "use client";
-import { LoadingButton } from "@/components/custom-ui/loading-button";
-import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { responseFormSchema } from "@/lib/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+
+import { LoadingButton } from "@/components/custom-ui/loading-button";
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { createResponse } from "@/features/leads/actions";
 import { trackLead } from "@/lib/track-lead";
+import { responseFormSchema } from "@/lib/zod";
 
 type FormData = z.infer<typeof responseFormSchema>;
 
@@ -58,8 +53,7 @@ export function ResponseForm({ interest = "RPL" }: { interest?: string }) {
         setFormState({ success: true, message: result.message });
       } else {
         toast.error("Error", {
-          description:
-            result.message || "Something went wrong. Please try again.",
+          description: result.message || "Something went wrong. Please try again.",
         });
         setFormState({ success: false, message: result.message });
       }
@@ -75,32 +69,26 @@ export function ResponseForm({ interest = "RPL" }: { interest?: string }) {
   }
 
   return (
-    <div className="bg-background py-10 border-ring border-[2px] rounded-lg md:px-8 px-4 w-full md:w-96 shadow-md">
-      <p className="text-lg font-bold text-black text-center mb-3 leading-tight">
+    <div className="w-full rounded-lg border-[2px] border-ring bg-background px-4 py-10 shadow-md md:w-96 md:px-8">
+      <p className="mb-3 text-center text-lg leading-tight font-bold text-black">
         Interested in {interest}?
       </p>
-      <h3 className="text-center text-2xl font-semibold text-emerald-600 mb-10">
+      <h3 className="mb-10 text-center text-2xl font-semibold text-emerald-600">
         Get your free consultants!
       </h3>
 
       {/*  Success */}
       {formState?.success ? (
-        <div className="text-emerald-600 text-center p-4">
-          <div className="animate-bounce mb-2">
+        <div className="p-4 text-center text-emerald-600">
+          <div className="mb-2 animate-bounce">
             <svg
-              className="w-20 h-20 text-green-600 mx-auto"
+              className="mx-auto h-20 w-20 text-green-600"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
-              <circle
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="2"
-              />
+              <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -113,7 +101,7 @@ export function ResponseForm({ interest = "RPL" }: { interest?: string }) {
           <p className="mb-4 text-xl">We will contact you soon.</p>
           <Button
             onClick={() => setFormState(null)}
-            className="bg-emerald-600 hover:bg-emerald-700 text-white cursor-pointer py-2 px-4 rounded-md"
+            className="cursor-pointer rounded-md bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700"
           >
             Submit another response
           </Button>
@@ -121,11 +109,7 @@ export function ResponseForm({ interest = "RPL" }: { interest?: string }) {
       ) : (
         // Form
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            noValidate
-            className="space-y-4"
-          >
+          <form onSubmit={form.handleSubmit(onSubmit)} noValidate className="space-y-4">
             {/*  Name */}
             <FormField
               control={form.control}
@@ -140,7 +124,7 @@ export function ResponseForm({ interest = "RPL" }: { interest?: string }) {
                       aria-required="true"
                     />
                   </FormControl>
-                  <FormMessage className="text-xs " />
+                  <FormMessage className="text-xs" />
                 </FormItem>
               )}
             />
@@ -160,7 +144,7 @@ export function ResponseForm({ interest = "RPL" }: { interest?: string }) {
                       aria-required="true"
                     />
                   </FormControl>
-                  <FormMessage className="text-xs " />
+                  <FormMessage className="text-xs" />
                 </FormItem>
               )}
             />
@@ -180,7 +164,7 @@ export function ResponseForm({ interest = "RPL" }: { interest?: string }) {
                       aria-required="true"
                     />
                   </FormControl>
-                  <FormMessage className="text-xs " />
+                  <FormMessage className="text-xs" />
                 </FormItem>
               )}
             />
@@ -194,13 +178,13 @@ export function ResponseForm({ interest = "RPL" }: { interest?: string }) {
                   <FormControl>
                     <Textarea
                       placeholder="Message (optional)"
-                      className="response-form-input w-full !h-16"
+                      className="response-form-input !h-16 w-full"
                       {...field}
                       value={field.value || ""}
                       aria-required="false"
                     />
                   </FormControl>
-                  <FormMessage className="text-xs " />
+                  <FormMessage className="text-xs" />
                 </FormItem>
               )}
             />
@@ -208,14 +192,14 @@ export function ResponseForm({ interest = "RPL" }: { interest?: string }) {
             {/* Submit Button */}
             <LoadingButton
               type="submit"
-              className="bg-emerald-600 hover:bg-emerald-700 text-white w-full mt-6"
+              className="mt-6 w-full bg-emerald-600 text-white hover:bg-emerald-700"
               loading={form.formState.isSubmitting}
             >
               Here We Go
             </LoadingButton>
 
             {formState?.message && !formState.success && (
-              <p className="text-red-500 text-sm" role="alert">
+              <p className="text-sm text-red-500" role="alert">
                 {formState.message}
               </p>
             )}

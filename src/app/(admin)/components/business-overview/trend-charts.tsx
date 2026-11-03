@@ -1,21 +1,6 @@
 "use client";
 
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
-  ChartTooltip,
-} from "@/components/ui/chart";
-import { Skeleton } from "@/components/ui/skeleton";
-import type { AnalyticsData } from "@/types/shared";
-import {
   Area,
   AreaChart,
   CartesianGrid,
@@ -25,6 +10,16 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
+  ChartTooltip,
+} from "@/components/ui/chart";
+import { Skeleton } from "@/components/ui/skeleton";
+import type { AnalyticsData } from "@/types/shared";
 
 const COLORS = {
   primary: "hsl(0, 0%, 15%)", // Very dark gray
@@ -46,9 +41,7 @@ export function TrendCharts({ analytics, loading }: TrendChartsProps) {
       <Card>
         <CardHeader>
           <CardTitle className="text-lg">Revenue & Profit Trends</CardTitle>
-          <CardDescription>
-            Combined revenue and profit analysis over time
-          </CardDescription>
+          <CardDescription>Combined revenue and profit analysis over time</CardDescription>
         </CardHeader>
         <CardContent>
           <ChartContainer
@@ -69,21 +62,16 @@ export function TrendCharts({ analytics, loading }: TrendChartsProps) {
                 <ChartTooltip
                   content={({ active, payload, label }) =>
                     active && payload?.length ? (
-                      <div className="bg-background border rounded-md shadow-md p-3">
-                        <p className="font-medium text-sm">{label}</p>
+                      <div className="rounded-md border bg-background p-3 shadow-md">
+                        <p className="text-sm font-medium">{label}</p>
                         <div className="mt-1 space-y-1">
                           {payload.map((entry, index) => (
-                            <div
-                              key={`tooltip-${index}`}
-                              className="flex items-center gap-2"
-                            >
+                            <div key={`tooltip-${index}`} className="flex items-center gap-2">
                               <div
-                                className="w-3 h-3 rounded-full"
+                                className="h-3 w-3 rounded-full"
                                 style={{ backgroundColor: entry.color }}
                               />
-                              <span className="text-sm font-medium">
-                                {entry.name}:
-                              </span>
+                              <span className="text-sm font-medium">{entry.name}:</span>
                               <span className="text-sm">
                                 ${Number(entry.value).toLocaleString()}
                               </span>
@@ -143,21 +131,16 @@ export function TrendCharts({ analytics, loading }: TrendChartsProps) {
                 <ChartTooltip
                   content={({ active, payload, label }) =>
                     active && payload?.length ? (
-                      <div className="bg-background border rounded-md shadow-md p-3">
-                        <p className="font-medium text-sm">{label}</p>
+                      <div className="rounded-md border bg-background p-3 shadow-md">
+                        <p className="text-sm font-medium">{label}</p>
                         <div className="mt-1 space-y-1">
                           {payload.map((entry, index) => (
-                            <div
-                              key={`tooltip-${index}`}
-                              className="flex items-center gap-2"
-                            >
+                            <div key={`tooltip-${index}`} className="flex items-center gap-2">
                               <div
-                                className="w-3 h-3 rounded-full"
+                                className="h-3 w-3 rounded-full"
                                 style={{ backgroundColor: entry.color }}
                               />
-                              <span className="text-sm font-medium">
-                                {entry.name}:
-                              </span>
+                              <span className="text-sm font-medium">{entry.name}:</span>
                               <span className="text-sm">
                                 {Number(entry.value).toLocaleString()} students
                               </span>
@@ -192,12 +175,11 @@ function TrendChartsSkeleton() {
       {[...Array(2)].map((_, index) => (
         <Card key={index}>
           <CardHeader>
-            <Skeleton className="h-5 w-40 mb-2" /> {/* Title */}
+            <Skeleton className="mb-2 h-5 w-40" /> {/* Title */}
             <Skeleton className="h-4 w-64" /> {/* Description */}
           </CardHeader>
           <CardContent>
-            <Skeleton className="h-[300px] w-full rounded-md" />{" "}
-            {/* Chart area */}
+            <Skeleton className="h-[300px] w-full rounded-md" /> {/* Chart area */}
           </CardContent>
         </Card>
       ))}

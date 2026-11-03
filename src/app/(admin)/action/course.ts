@@ -1,11 +1,12 @@
 "use server";
 
-import { requireAdmin } from "@/app/(admin)/action/helper";
-import { recordRedirect } from "@/app/(admin)/lib/record-redirect";
-import { prisma } from "@/server/db";
-import { CACHE_TAGS } from "@/config/cache-tags";
 import { revalidatePath, updateTag } from "next/cache";
 import { z } from "zod";
+
+import { requireAdmin } from "@/app/(admin)/action/helper";
+import { recordRedirect } from "@/app/(admin)/lib/record-redirect";
+import { CACHE_TAGS } from "@/config/cache-tags";
+import { prisma } from "@/server/db";
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
   metaTitle: z.string().min(1, "Meta Title is required"),
@@ -190,11 +191,7 @@ export async function updateCourse(
       });
 
       if (newData.link !== existing.link) {
-        await recordRedirect(
-          tx,
-          `/courses/${existing.link}`,
-          `/courses/${newData.link}`,
-        );
+        await recordRedirect(tx, `/courses/${existing.link}`, `/courses/${newData.link}`);
       }
     });
     updateTag(CACHE_TAGS.sections);

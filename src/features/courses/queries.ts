@@ -1,10 +1,11 @@
 import "server-only";
 
+import { unstable_cache } from "next/cache";
+import { cache } from "react";
+
 import { CACHE_TAGS } from "@/config/cache-tags";
 import { prisma } from "@/server/db";
 import { Section } from "@/types/shared";
-import { unstable_cache } from "next/cache";
-import { cache } from "react";
 
 // Cached reads for the public site. Errors are not caught here: a thrown
 // query is never cached, so a DB hiccup can't store an empty result (and a

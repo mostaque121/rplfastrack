@@ -7,22 +7,16 @@ type StarRatingProps = {
   setRating: (rating: number) => void;
 };
 
-const StarRating: React.FC<StarRatingProps> = ({
-  error,
-  rating,
-  setRating,
-}) => {
+const StarRating: React.FC<StarRatingProps> = ({ error, rating, setRating }) => {
   const handleClick = (index: number) => {
     const newRating = index + 1;
     setRating(newRating);
   };
 
   return (
-    <div className="flex flex-col items-center p-6 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-lg shadow-lg">
-      <label className="block font-medium text-lg text-white mb-4">
-        Rate the Course
-      </label>
-      <div className="flex space-x-2 mb-2">
+    <div className="flex flex-col items-center rounded-lg bg-gradient-to-r from-emerald-500 to-teal-600 p-6 shadow-lg">
+      <label className="mb-4 block text-lg font-medium text-white">Rate the Course</label>
+      <div className="mb-2 flex space-x-2">
         {[...Array(5)].map((_, index) => (
           <div
             key={index}
@@ -37,12 +31,10 @@ const StarRating: React.FC<StarRatingProps> = ({
           </div>
         ))}
       </div>
-      <p className="text-white text-sm text-center">
-        {rating
-          ? `You rated this course ${rating} out of 5`
-          : "Please rate this course"}
+      <p className="text-center text-sm text-white">
+        {rating ? `You rated this course ${rating} out of 5` : "Please rate this course"}
       </p>
-      {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+      {error && <p className="mt-2 text-sm text-red-500">{error}</p>}
     </div>
   );
 };

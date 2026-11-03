@@ -2,15 +2,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { siteConfig } from "@/config/site";
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
+import "react-advanced-cropper/dist/style.css";
+
 import { ImageIcon, Loader2, Upload, X } from "lucide-react";
 import Image from "next/image";
 import { useCallback, useRef, useState } from "react";
 import { Cropper, CropperRef } from "react-advanced-cropper";
-import "react-advanced-cropper/dist/style.css";
 import { useDropzone } from "react-dropzone";
+
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
+import { siteConfig } from "@/config/site";
 
 interface ImageUploaderProps {
   onImageUploaded: (imageUrl: string, publicId: string) => void;
@@ -28,9 +30,7 @@ export function ImageUploaderClient({
   uploadPreset,
 }: ImageUploaderProps) {
   const [image, setImage] = useState<string | null>(initialImage || null);
-  const [publicId, setPublicId] = useState<string | null>(
-    initialPublicId || null
-  );
+  const [publicId, setPublicId] = useState<string | null>(initialPublicId || null);
   const [cropperImage, setCropperImage] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -95,7 +95,7 @@ export function ImageUploaderClient({
             {
               method: "POST",
               body: formData,
-            }
+            },
           );
 
           const result = await response.json();
@@ -119,7 +119,7 @@ export function ImageUploaderClient({
         }
       }
     },
-    [onImageUploaded, uploadPreset]
+    [onImageUploaded, uploadPreset],
   );
 
   const handleRemoveImage = () => {
@@ -129,18 +129,16 @@ export function ImageUploaderClient({
   };
 
   return (
-    <div className="w-full max-w-md mx-auto">
+    <div className="mx-auto w-full max-w-md">
       {!image && !showCropper && (
         <div
           {...getRootProps()}
-          className={`border-2 border-dashed rounded-lg h-[250px]  p-8 text-center cursor-pointer transition-colors ${
-            isDragActive
-              ? "border-primary bg-primary/5"
-              : "border-gray-300 hover:border-primary"
+          className={`h-[250px] cursor-pointer rounded-lg border-2 border-dashed p-8 text-center transition-colors ${
+            isDragActive ? "border-primary bg-primary/5" : "border-gray-300 hover:border-primary"
           }`}
         >
           <input {...getInputProps()} />
-          <div className="flex flex-col h-full items-center justify-center gap-2">
+          <div className="flex h-full flex-col items-center justify-center gap-2">
             <ImageIcon className="h-10 w-10 text-muted-foreground" />
             <p className="text-sm text-muted-foreground">
               {isDragActive
@@ -152,8 +150,8 @@ export function ImageUploaderClient({
       )}
 
       {showCropper && cropperImage && !uploading && (
-        <div className="border rounded-lg p-4">
-          <h3 className="font-medium mb-2">Crop Image</h3>
+        <div className="rounded-lg border p-4">
+          <h3 className="mb-2 font-medium">Crop Image</h3>
           <Cropper
             src={cropperImage}
             className="h-[250px] rounded border"
@@ -161,11 +159,7 @@ export function ImageUploaderClient({
             ref={cropperRef}
           />
           <div className="mt-4 flex justify-end">
-            <Button
-              onClick={() => setShowCropper(false)}
-              variant="outline"
-              className="mr-2"
-            >
+            <Button onClick={() => setShowCropper(false)} variant="outline" className="mr-2">
               Cancel
             </Button>
             <Button
@@ -175,7 +169,7 @@ export function ImageUploaderClient({
                 }
               }}
             >
-              <Upload className="h-4 w-4 mr-2" />
+              <Upload className="mr-2 h-4 w-4" />
               Upload
             </Button>
           </div>
@@ -183,35 +177,33 @@ export function ImageUploaderClient({
       )}
 
       {uploading && (
-        <div className="h-[250px] border-2 border-dashed w-full flex-col justify-center flex items-center">
-          <p className="text-sm mb-2 flex items-center gap-2">
-            <Loader2 className="animate-spin w-7 h-7 text-blue-500" />
+        <div className="flex h-[250px] w-full flex-col items-center justify-center border-2 border-dashed">
+          <p className="mb-2 flex items-center gap-2 text-sm">
+            <Loader2 className="h-7 w-7 animate-spin text-blue-500" />
             Uploading image...
           </p>
-          <div className="px-10 w-full">
+          <div className="w-full px-10">
             <Progress value={progress} className="h-2" />
           </div>
         </div>
       )}
 
       {image && !showCropper && !uploading && (
-        <div className="border rounded-lg relative">
+        <div className="relative rounded-lg border">
           <Button
             variant="ghost"
             size="icon"
-            className="absolute top-2 right-2 h-8 w-8 rounded-full bg-background/80 z-10"
+            className="absolute top-2 right-2 z-10 h-8 w-8 rounded-full bg-background/80"
             onClick={handleRemoveImage}
           >
             <X className="h-4 w-4" />
           </Button>
-          <div className="h-[250px] relative">
+          <div className="relative h-[250px]">
             <Image
               fill
-              src={
-                image && image.startsWith("http") ? image : "/placeholder.svg"
-              }
+              src={image && image.startsWith("http") ? image : "/placeholder.svg"}
               alt="Uploaded image"
-              className="object-contain rounded"
+              className="rounded object-contain"
               sizes="(max-width: 768px) 100vw, 300px"
             />
           </div>

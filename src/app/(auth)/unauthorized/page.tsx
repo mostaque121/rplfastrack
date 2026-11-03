@@ -1,20 +1,21 @@
-import { Button } from "@/components/ui/button";
 import { ShieldAlert } from "lucide-react";
 import Link from "next/link";
 
+import { Button } from "@/components/ui/button";
+
 export default function Unauthorized() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center space-y-6 p-8">
-        <ShieldAlert className="h-24 w-24 text-destructive mx-auto" />
+    <div className="flex min-h-screen items-center justify-center bg-background">
+      <div className="space-y-6 p-8 text-center">
+        <ShieldAlert className="mx-auto h-24 w-24 text-destructive" />
         <div className="space-y-2">
           <h1 className="text-4xl font-bold">Access Denied</h1>
-          <p className="text-muted-foreground max-w-md">
-            You don&apos;t have permission to access this page. This resource
-            requires specific role privileges.
+          <p className="max-w-md text-muted-foreground">
+            You don&apos;t have permission to access this page. This resource requires specific role
+            privileges.
           </p>
         </div>
-        <div className="flex gap-4 justify-center">
+        <div className="flex justify-center gap-4">
           <Link href="/">
             <Button variant="outline">Go Home</Button>
           </Link>

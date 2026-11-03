@@ -38,9 +38,7 @@ export const InvoicePayloadSchema = z.object({
   paymentDue: z.string().min(1, "Payment due date is required"),
 
   // ── Line items ────────────────────────────────────────────────────────────
-  items: z
-    .array(InvoiceItemSchema)
-    .min(1, "At least one line item is required"),
+  items: z.array(InvoiceItemSchema).min(1, "At least one line item is required"),
 
   // ── Financials ────────────────────────────────────────────────────────────
   totalAmount: z.number().min(0),
@@ -101,6 +99,4 @@ export const NextInvoiceNumberResponseSchema = z.object({
   invoiceNumber: z.string(),
 });
 
-export type NextInvoiceNumberResponse = z.infer<
-  typeof NextInvoiceNumberResponseSchema
->;
+export type NextInvoiceNumberResponse = z.infer<typeof NextInvoiceNumberResponseSchema>;

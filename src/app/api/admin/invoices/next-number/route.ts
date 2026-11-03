@@ -5,11 +5,12 @@
  * Returns the next available invoice number by querying the database.
  */
 
-import { NextInvoiceNumberResponseSchema } from "@/app/(admin)/admin/invoice/schema";
-import { getUserOrRedirect } from "@/app/(admin)/lib/get-user";
-import { getNextInvoiceNumber } from "@/app/(admin)/lib/get-next-invoice-number";
-import { withAdminGuard } from "@/server/with-admin-guard";
 import { NextResponse } from "next/server";
+
+import { NextInvoiceNumberResponseSchema } from "@/app/(admin)/admin/invoice/schema";
+import { getNextInvoiceNumber } from "@/app/(admin)/lib/get-next-invoice-number";
+import { getUserOrRedirect } from "@/app/(admin)/lib/get-user";
+import { withAdminGuard } from "@/server/with-admin-guard";
 
 export const GET = withAdminGuard(async function GET() {
   await getUserOrRedirect();
@@ -22,9 +23,6 @@ export const GET = withAdminGuard(async function GET() {
     return NextResponse.json(body);
   } catch (err) {
     console.error("[next-number] error:", err);
-    return NextResponse.json(
-      { error: "Could not generate invoice number" },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: "Could not generate invoice number" }, { status: 500 });
   }
 });

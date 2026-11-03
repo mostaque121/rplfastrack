@@ -1,16 +1,13 @@
 "use client";
 
-import { ConfirmationDialog } from "@/components/custom-ui/confirmation-dialog";
-import { Button } from "@/components/ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { authClient } from "@/lib/auth-client";
 import { MoreHorizontal, Trash } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+
+import { ConfirmationDialog } from "@/components/custom-ui/confirmation-dialog";
+import { Button } from "@/components/ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { authClient } from "@/lib/auth-client";
 
 interface UserActionsProps {
   userId: string;
@@ -73,14 +70,11 @@ export default function UserActions({
         ? await authClient.admin.unbanUser({ userId })
         : await authClient.admin.banUser({ userId });
 
-      if (error)
-        throw new Error((error as any)?.message || "Failed to perform action");
+      if (error) throw new Error((error as any)?.message || "Failed to perform action");
 
       if (data?.user) {
         toast.success(`User ${isBanned ? "unbanned" : "banned"}`, {
-          description: `The user has been successfully ${
-            isBanned ? "unbanned" : "banned"
-          }.`,
+          description: `The user has been successfully ${isBanned ? "unbanned" : "banned"}.`,
         });
         revalidate();
       } else {
@@ -90,8 +84,7 @@ export default function UserActions({
       }
     } catch (err) {
       toast.error("Error", {
-        description:
-          err instanceof Error ? err.message : "Failed to update user",
+        description: err instanceof Error ? err.message : "Failed to update user",
       });
     } finally {
       setIsPending(false);
@@ -108,8 +101,7 @@ export default function UserActions({
       setIsPending(true);
       const { data, error } = await authClient.admin.removeUser({ userId });
 
-      if (error)
-        throw new Error((error as any)?.message || "Failed to delete user");
+      if (error) throw new Error((error as any)?.message || "Failed to delete user");
 
       if (data?.success) {
         toast.success("User deleted", {
@@ -123,8 +115,7 @@ export default function UserActions({
       }
     } catch (err) {
       toast.error("Error", {
-        description:
-          err instanceof Error ? err.message : "Failed to delete user",
+        description: err instanceof Error ? err.message : "Failed to delete user",
       });
     } finally {
       setIsPending(false);
@@ -142,7 +133,7 @@ export default function UserActions({
             <span className="sr-only">Open menu</span>
           </Button>
         </PopoverTrigger>
-        <PopoverContent align="start" className="p-2 mx-6 w-48 space-y-1">
+        <PopoverContent align="start" className="mx-6 w-48 space-y-1 p-2">
           {isAdmin && (
             <>
               <Button
@@ -178,7 +169,7 @@ export default function UserActions({
                 onClick={() => setDeleteDialogOpen(true)}
                 disabled={isPending}
               >
-                <Trash className="mr-2 h-4 w-4 inline" />
+                <Trash className="mr-2 inline h-4 w-4" />
                 Delete User
               </Button>
             </>

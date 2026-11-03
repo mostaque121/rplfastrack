@@ -1,5 +1,6 @@
-import type { NextConfig } from "next";
 import { LEGACY_REDIRECTS } from "./src/config/redirects";
+
+import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {

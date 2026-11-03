@@ -1,5 +1,11 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { CalendarIcon } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import * as z from "zod";
+
 import { saveReview, updateReview } from "@/app/(admin)/action/review";
 import { reviewFormSchema } from "@/app/(admin)/lib/zod";
 import { LoadingButton } from "@/components/custom-ui/loading-button";
@@ -16,13 +22,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ImageUploaderServer } from "@/components/uploader/image-uploader-server";
 import { useRPL } from "@/contexts/rpl-context";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { CalendarIcon } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import * as z from "zod";
-import { DatePicker } from "../../../../../../components/custom-ui/date-picker";
+
 import StarRating from "./star-rating";
+import { DatePicker } from "../../../../../../components/custom-ui/date-picker";
 
 type FormValues = z.infer<typeof reviewFormSchema>;
 
@@ -50,11 +52,7 @@ interface SectionFormProps {
   item?: UserReview;
 }
 
-export default function ReviewForm({
-  item,
-  onCloseForm,
-  onSuccess,
-}: SectionFormProps) {
+export default function ReviewForm({ item, onCloseForm, onSuccess }: SectionFormProps) {
   const { sections } = useRPL();
   const allCourses = sections.flatMap((section) => section.courses ?? []);
 
@@ -94,9 +92,7 @@ export default function ReviewForm({
       }
 
       if (response.success) {
-        toast.success(
-          item ? "Review updated successfully." : "Review saved successfully."
-        );
+        toast.success(item ? "Review updated successfully." : "Review saved successfully.");
         resetForm();
         if (onSuccess) {
           onSuccess();
@@ -106,16 +102,14 @@ export default function ReviewForm({
         toast.error(
           item
             ? "Error editing review. Please try again."
-            : "Error saving review. Please try again."
+            : "Error saving review. Please try again.",
         );
       }
     } catch (error: unknown) {
       console.error("Error submitting review:", error);
 
       const errorMessage =
-        error instanceof Error
-          ? error.message
-          : "Something went wrong. Please try again.";
+        error instanceof Error ? error.message : "Something went wrong. Please try again.";
 
       toast.error(errorMessage);
     }
@@ -124,7 +118,7 @@ export default function ReviewForm({
   return (
     <div className="w-full">
       <div>
-        <h3 className="text-2xl font-semibold text-center pb-4">
+        <h3 className="pb-4 text-center text-2xl font-semibold">
           {item ? "Edit Review" : "Add Review"}
         </h3>
       </div>
@@ -195,7 +189,7 @@ export default function ReviewForm({
                 <FormControl>
                   <Textarea
                     placeholder="Share your experience with this course..."
-                    className="min-h-[120px] "
+                    className="min-h-[120px]"
                     {...field}
                   />
                 </FormControl>
@@ -244,15 +238,11 @@ export default function ReviewForm({
             name="reviewDate"
             render={({ field }) => (
               <FormItem className="space-y-2">
-                <FormLabel className="text-sm font-medium flex items-center gap-2">
-                  <CalendarIcon className="w-4 h-4" />
+                <FormLabel className="flex items-center gap-2 text-sm font-medium">
+                  <CalendarIcon className="h-4 w-4" />
                   Review Date
                 </FormLabel>
-                <DatePicker
-                  className="w-full"
-                  selected={field.value}
-                  onSelect={field.onChange}
-                />
+                <DatePicker className="w-full" selected={field.value} onSelect={field.onChange} />
                 <FormMessage />
               </FormItem>
             )}
@@ -261,7 +251,7 @@ export default function ReviewForm({
           {/* Submit Button */}
           <LoadingButton
             loading={form.formState.isSubmitting}
-            className="bg-emerald-900 w-full hover:bg-emerald-950 text-white"
+            className="w-full bg-emerald-900 text-white hover:bg-emerald-950"
           >
             {item ? "Update" : "Add"} Review
           </LoadingButton>

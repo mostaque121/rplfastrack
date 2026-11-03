@@ -1,5 +1,7 @@
 "use client";
 
+import { LogOut } from "lucide-react";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -11,7 +13,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
 import { authClient } from "@/lib/auth-client";
-import { LogOut } from "lucide-react";
 export default function HeaderUser() {
   const { data: session, isPending } = authClient.useSession();
   const user = session?.user;
@@ -23,15 +24,12 @@ export default function HeaderUser() {
     return null;
   }
   return (
-    <div className="flex items-center h-full">
+    <div className="flex h-full items-center">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <button className="relative h-8 w-8 rounded-full">
             <Avatar className="h-8 w-8 cursor-pointer">
-              <AvatarImage
-                src={user.image || ""}
-                alt={user.name || "User avatar"}
-              />
+              <AvatarImage src={user.image || ""} alt={user.name || "User avatar"} />
               <AvatarFallback>{user.name?.charAt(0) || "U"}</AvatarFallback>
             </Avatar>
           </button>
@@ -39,11 +37,9 @@ export default function HeaderUser() {
         <DropdownMenuContent align="end" className="w-56">
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <div className="p-2 space-y-1">
+          <div className="space-y-1 p-2">
             <p className="text-sm font-medium">{user.name}</p>
-            <p className="text-xs text-muted-foreground truncate">
-              {user.email}
-            </p>
+            <p className="truncate text-xs text-muted-foreground">{user.email}</p>
             <p className="text-xs text-muted-foreground">Type: {user.role}</p>
           </div>
           <DropdownMenuSeparator />

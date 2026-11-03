@@ -2,13 +2,7 @@
 import { useState } from "react";
 import { MdExpandMore } from "react-icons/md"; // Import the icons
 
-const Units = ({
-  coreUnits,
-  electiveUnits,
-}: {
-  coreUnits: string;
-  electiveUnits: string;
-}) => {
+const Units = ({ coreUnits, electiveUnits }: { coreUnits: string; electiveUnits: string }) => {
   const [isCoreUnitsOpen, setCoreUnitsOpen] = useState(false);
   const [isElectiveUnitsOpen, setElectiveUnitsOpen] = useState(false);
 
@@ -16,7 +10,7 @@ const Units = ({
     <div>
       <div className="mb-4">
         <h3
-          className="sm:text-xl text-base font-semibold cursor-pointer mb-2 flex items-center justify-between transition-colors duration-300 text-gray-800 hover:text-emerald-600"
+          className="mb-2 flex cursor-pointer items-center justify-between text-base font-semibold text-gray-800 transition-colors duration-300 hover:text-emerald-600 sm:text-xl"
           onClick={() => setCoreUnitsOpen(!isCoreUnitsOpen)}
         >
           <span className="flex items-center">
@@ -36,7 +30,7 @@ const Units = ({
           }`}
         >
           <div
-            className="text-sm ql-editor qualification text-gray-600 py-2"
+            className="ql-editor qualification py-2 text-sm text-gray-600"
             dangerouslySetInnerHTML={{ __html: coreUnits }}
           />
         </div>
@@ -44,7 +38,7 @@ const Units = ({
 
       <div>
         <h2
-          className="sm:text-xl text-base font-semibold cursor-pointer mb-2 flex items-center justify-between transition-colors duration-300 text-gray-800 hover:text-emerald-600"
+          className="mb-2 flex cursor-pointer items-center justify-between text-base font-semibold text-gray-800 transition-colors duration-300 hover:text-emerald-600 sm:text-xl"
           onClick={() => setElectiveUnitsOpen(!isElectiveUnitsOpen)}
         >
           <span className="flex items-center">
@@ -64,7 +58,7 @@ const Units = ({
           }`}
         >
           <div
-            className="text-sm ql-editor qualification h-full text-gray-600 py-2"
+            className="ql-editor qualification h-full py-2 text-sm text-gray-600"
             dangerouslySetInnerHTML={{ __html: electiveUnits }}
           />
         </div>

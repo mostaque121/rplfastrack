@@ -1,9 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
-import { requireAdmin } from "@/app/(admin)/action/helper";
-import { prisma } from "@/server/db";
-import type { AnalyticsData, FilterParams } from "@/types/shared";
 import {
   eachMonthOfInterval,
   endOfMonth,
@@ -13,6 +10,11 @@ import {
   subDays,
   subMonths,
 } from "date-fns";
+
+import { requireAdmin } from "@/app/(admin)/action/helper";
+import { prisma } from "@/server/db";
+import type { AnalyticsData, FilterParams } from "@/types/shared";
+
 import { PaymentWithParts } from "./payments";
 
 export async function getPaymentAnalytics(filters: FilterParams) {
@@ -52,18 +54,10 @@ export async function getPaymentAnalytics(filters: FilterParams) {
     });
 
     // Calculate overview metrics
-    const overview = calculateOverviewMetrics(
-      currentPeriodPayments,
-      previousPeriodPayments,
-    );
+    const overview = calculateOverviewMetrics(currentPeriodPayments, previousPeriodPayments);
 
     // Generate trend data
-    const trends = await generateTrendData(
-      currentPeriodPayments,
-      startDate,
-      endDate,
-      filters.type,
-    );
+    const trends = await generateTrendData(currentPeriodPayments, startDate, endDate, filters.type);
 
     // Get distributions
     const distributions = await getDistributions(currentPeriodPayments);
@@ -124,15 +118,11 @@ function getDateRanges(filters: FilterParams) {
   } else if (filters.type === "dateRange" && filters.dateRange) {
     startDate = filters.dateRange.from;
     endDate = filters.dateRange.to;
-    const daysDiff = Math.ceil(
-      (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24),
-    );
+    const daysDiff = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
     previousStartDate = subDays(startDate, daysDiff);
   } else if (filters.type === "monthFilter" && filters.monthFilter) {
     const [year, month] = filters.monthFilter.split("-");
-    startDate = startOfMonth(
-      new Date(Number.parseInt(year), Number.parseInt(month) - 1),
-    );
+    startDate = startOfMonth(new Date(Number.parseInt(year), Number.parseInt(month) - 1));
     endDate = endOfMonth(startDate);
     previousStartDate = startOfMonth(subMonths(startDate, 1));
   } else {
@@ -152,33 +142,19 @@ function calculateOverviewMetrics(
   const totalRevenue = currentPayments.reduce((sum, p) => sum + p.payment, 0);
   const totalProfit = currentPayments.reduce((sum, p) => sum + p.netProfit, 0);
   const totalStudents = currentPayments.length;
-  const totalEnrollments = currentPayments.filter(
-    (p) => p.enrollmentDate,
-  ).length;
+  const totalEnrollments = currentPayments.filter((p) => p.enrollmentDate).length;
   const averagePayment = totalStudents > 0 ? totalRevenue / totalStudents : 0;
   const averageProfit = totalStudents > 0 ? totalProfit / totalStudents : 0;
 
   // Previous period calculations
-  const previousRevenue = previousPayments.reduce(
-    (sum, p) => sum + p.payment,
-    0,
-  );
-  const previousProfit = previousPayments.reduce(
-    (sum, p) => sum + p.netProfit,
-    0,
-  );
+  const previousRevenue = previousPayments.reduce((sum, p) => sum + p.payment, 0);
+  const previousProfit = previousPayments.reduce((sum, p) => sum + p.netProfit, 0);
   const previousStudents = previousPayments.length;
-  const previousEnrollments = previousPayments.filter(
-    (p) => p.enrollmentDate,
-  ).length;
+  const previousEnrollments = previousPayments.filter((p) => p.enrollmentDate).length;
   const previousAvgPayment =
-    previousStudents > 0
-      ? previousRevenue / previousStudents
-      : previousRevenue / 1;
+    previousStudents > 0 ? previousRevenue / previousStudents : previousRevenue / 1;
   const previousAvgProfit =
-    previousStudents > 0
-      ? previousProfit / previousStudents
-      : previousProfit / 1;
+    previousStudents > 0 ? previousProfit / previousStudents : previousProfit / 1;
 
   // Calculate growth percentages
   const revenueGrowth =
@@ -240,15 +216,11 @@ async function generateTrendData(
     if (payments.length === 0) {
       return { revenueAndProfit, enrollments };
     }
-    startDate = new Date(
-      Math.min(...payments.map((p) => new Date(p.enrollmentDate).getTime())),
-    );
+    startDate = new Date(Math.min(...payments.map((p) => new Date(p.enrollmentDate).getTime())));
   }
 
   if (filterType === "timeRange" || filterType === "dateRange") {
-    const daysDiff = Math.ceil(
-      (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24),
-    );
+    const daysDiff = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
 
     if (daysDiff <= 31) {
       // Daily aggregation
@@ -399,10 +371,7 @@ async function getDistributions(payments: PaymentWithParts[]) {
       acc[payment.qualification].netProfit += payment.netProfit;
       return acc;
     },
-    {} as Record<
-      string,
-      { revenue: number; students: number; netProfit: number }
-    >,
+    {} as Record<string, { revenue: number; students: number; netProfit: number }>,
   );
 
   const topQualifications = Object.entries(qualificationData)
@@ -431,8 +400,7 @@ function generateInsights(payments: PaymentWithParts[], overview: any) {
     insights.push({
       type: "positive" as const,
       title: "Strong Revenue Growth",
-      description:
-        "Your revenue is growing significantly compared to the previous period.",
+      description: "Your revenue is growing significantly compared to the previous period.",
       value: `+${overview.revenueGrowth.toFixed(1)}%`,
     });
   } else if (overview.revenueGrowth < -10) {
@@ -447,24 +415,20 @@ function generateInsights(payments: PaymentWithParts[], overview: any) {
 
   // Profit margin insight
   const profitMargin =
-    overview.totalRevenue > 0
-      ? (overview.totalProfit / overview.totalRevenue) * 100
-      : 0;
+    overview.totalRevenue > 0 ? (overview.totalProfit / overview.totalRevenue) * 100 : 0;
 
   if (profitMargin > 20) {
     insights.push({
       type: "positive" as const,
       title: "Healthy Profit Margins",
-      description:
-        "Your profit margins are strong, indicating efficient operations.",
+      description: "Your profit margins are strong, indicating efficient operations.",
       value: `${profitMargin.toFixed(1)}%`,
     });
   } else if (profitMargin < 5) {
     insights.push({
       type: "negative" as const,
       title: "Low Profit Margins",
-      description:
-        "Consider optimizing costs or increasing prices to improve profitability.",
+      description: "Consider optimizing costs or increasing prices to improve profitability.",
       value: `${profitMargin.toFixed(1)}%`,
     });
   }
@@ -484,16 +448,13 @@ function generateInsights(payments: PaymentWithParts[], overview: any) {
     p.paymentStatus.toLowerCase().includes("installment"),
   );
   const installmentRate =
-    payments.length > 0
-      ? (installmentPayments.length / payments.length) * 100
-      : 0;
+    payments.length > 0 ? (installmentPayments.length / payments.length) * 100 : 0;
 
   if (installmentRate > 60) {
     insights.push({
       type: "neutral" as const,
       title: "High Installment Rate",
-      description:
-        "Many students are on installment plans. Monitor collection closely.",
+      description: "Many students are on installment plans. Monitor collection closely.",
       value: `${installmentRate.toFixed(1)}%`,
     });
   }

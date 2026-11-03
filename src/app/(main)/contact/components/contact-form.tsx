@@ -1,8 +1,9 @@
 "use client";
 
-import { useRPL } from "@/contexts/rpl-context";
 import { Send } from "lucide-react";
 import { useState } from "react";
+
+import { useRPL } from "@/contexts/rpl-context";
 import { createContact } from "@/features/leads/actions";
 import { trackLead } from "@/lib/track-lead";
 
@@ -17,14 +18,10 @@ export default function ContactForm() {
     message: "",
   });
 
-  const [formStatus, setFormStatus] = useState<
-    "idle" | "submitting" | "success" | "error"
-  >("idle");
+  const [formStatus, setFormStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
 
   const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -62,22 +59,15 @@ export default function ContactForm() {
     }
   };
 
-  const selectedIndustry = sections.find(
-    (section) => section.title === formData.industry,
-  );
+  const selectedIndustry = sections.find((section) => section.title === formData.industry);
 
   return (
-    <div className="bg-gray-50 p-4 md:p-8 rounded-lg shadow-sm">
-      <h3 className="text-2xl font-bold text-gray-900 mb-6">
-        Send Us a Message
-      </h3>
+    <div className="rounded-lg bg-gray-50 p-4 shadow-sm md:p-8">
+      <h3 className="mb-6 text-2xl font-bold text-gray-900">Send Us a Message</h3>
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Full Name */}
         <div>
-          <label
-            htmlFor="name"
-            className="block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor="name" className="block text-sm font-medium text-gray-700">
             Full Name *
           </label>
           <input
@@ -87,17 +77,14 @@ export default function ContactForm() {
             value={formData.name}
             onChange={handleChange}
             required
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 focus:outline-none sm:text-sm"
           />
         </div>
 
         {/* Email and Phone */}
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
-            >
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
               Email *
             </label>
             <input
@@ -107,15 +94,12 @@ export default function ContactForm() {
               value={formData.email}
               onChange={handleChange}
               required
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 focus:outline-none sm:text-sm"
             />
           </div>
 
           <div>
-            <label
-              htmlFor="phone"
-              className="block text-sm font-medium text-gray-700"
-            >
+            <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
               Phone Number *
             </label>
             <input
@@ -125,17 +109,14 @@ export default function ContactForm() {
               value={formData.phone}
               onChange={handleChange}
               required
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 focus:outline-none sm:text-sm"
             />
           </div>
         </div>
 
         {/* Industry */}
         <div>
-          <label
-            htmlFor="industry"
-            className="block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor="industry" className="block text-sm font-medium text-gray-700">
             Industry (optional)
           </label>
           <select
@@ -143,7 +124,7 @@ export default function ContactForm() {
             name="industry"
             value={formData.industry}
             onChange={handleChange}
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 focus:outline-none sm:text-sm"
           >
             <option value="">Select an industry</option>
             {sections.map((section) => (
@@ -157,10 +138,7 @@ export default function ContactForm() {
         {/* Qualification (based on selected industry) */}
         {selectedIndustry?.courses && selectedIndustry.courses.length > 0 && (
           <div>
-            <label
-              htmlFor="qualification"
-              className="block text-sm font-medium text-gray-700"
-            >
+            <label htmlFor="qualification" className="block text-sm font-medium text-gray-700">
               Qualification (optional)
             </label>
             <select
@@ -168,7 +146,7 @@ export default function ContactForm() {
               name="qualification"
               value={formData.qualification}
               onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 focus:outline-none sm:text-sm"
             >
               <option value="">Select a qualification</option>
               {selectedIndustry.courses.map((course) => (
@@ -182,10 +160,7 @@ export default function ContactForm() {
 
         {/* Message */}
         <div>
-          <label
-            htmlFor="message"
-            className="block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor="message" className="block text-sm font-medium text-gray-700">
             Message (optional)
           </label>
           <textarea
@@ -194,7 +169,7 @@ export default function ContactForm() {
             rows={4}
             value={formData.message}
             onChange={handleChange}
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 focus:outline-none sm:text-sm"
           ></textarea>
         </div>
 
@@ -203,13 +178,13 @@ export default function ContactForm() {
           <button
             type="submit"
             disabled={formStatus === "submitting"}
-            className="w-full inline-flex cursor-pointer items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50"
+            className="inline-flex w-full cursor-pointer items-center justify-center rounded-md border border-transparent bg-emerald-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-emerald-700 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:outline-none disabled:opacity-50"
           >
             {formStatus === "submitting" ? (
               "Sending..."
             ) : (
               <>
-                <Send className="h-5 w-5 mr-2" />
+                <Send className="mr-2 h-5 w-5" />
                 Send Message
               </>
             )}
@@ -235,26 +210,14 @@ export default function ContactForm() {
 }
 
 // Alert component
-function AlertBox({
-  type,
-  message,
-}: {
-  type: "success" | "error";
-  message: string;
-}) {
+function AlertBox({ type, message }: { type: "success" | "error"; message: string }) {
   const Icon = type === "success" ? CheckCircleIcon : XCircleIcon;
 
   return (
-    <div
-      className={`rounded-md ${
-        type === "success" ? "bg-green-50" : "bg-red-50"
-      } p-4 mt-4`}
-    >
+    <div className={`rounded-md ${type === "success" ? "bg-green-50" : "bg-red-50"} mt-4 p-4`}>
       <div className="flex">
         <Icon
-          className={`h-5 w-5  ${
-            type === "success" ? "bg-green-400" : "bg-red-400"
-          }`}
+          className={`h-5 w-5 ${type === "success" ? "bg-green-400" : "bg-red-400"}`}
           aria-hidden="true"
         />
         <div className="ml-3">

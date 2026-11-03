@@ -7,10 +7,7 @@ interface SectionProps {
   content: string;
   onContentChange: (content: string) => void;
 }
-export default function RichTextEditor({
-  content,
-  onContentChange,
-}: SectionProps) {
+export default function RichTextEditor({ content, onContentChange }: SectionProps) {
   const modules = {
     table: false,
     toolbar: [
@@ -19,12 +16,7 @@ export default function RichTextEditor({
       [{ color: [] }, { background: [] }],
       [{ script: "sub" }, { script: "super" }],
       [{ header: 1 }, { header: 2 }, "blockquote", "code-block"],
-      [
-        { list: "ordered" },
-        { list: "bullet" },
-        { indent: "-1" },
-        { indent: "+1" },
-      ],
+      [{ list: "ordered" }, { list: "bullet" }, { indent: "-1" }, { indent: "+1" }],
       ["table"],
     ],
   };

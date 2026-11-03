@@ -1,4 +1,7 @@
 "use client";
+import Image from "next/image";
+import Link from "next/link";
+
 import {
   Sidebar,
   SidebarContent,
@@ -9,8 +12,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import Image from "next/image";
-import Link from "next/link";
+
 import { DashboardNav } from "./dashboard-nav";
 import { NavUser } from "./nav-user";
 export function DashboardSidebar() {
@@ -30,7 +32,7 @@ export function DashboardSidebar() {
                   alt="logo-admin"
                   width={50}
                   height={50}
-                  className="w-5 h-5 !size-5"
+                  className="!size-5 h-5 w-5"
                 />
                 <span className="text-base font-semibold">RPLFASTRACK</span>
               </Link>

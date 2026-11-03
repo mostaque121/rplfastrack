@@ -1,6 +1,7 @@
-import { absoluteUrl } from "@/lib/url";
-import type { MetadataRoute } from "next";
 import { listSections } from "@/features/courses/queries";
+import { absoluteUrl } from "@/lib/url";
+
+import type { MetadataRoute } from "next";
 
 // Static pages get no lastModified: a made-up date is worse than none.
 // /write-review is left out on purpose (noindex, no search value).
@@ -22,13 +23,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // The home page and /courses list every section and course, so they
   // change whenever any of them does.
-  const latestUpdate = [...sections, ...courses].reduce<Date | undefined>(
-    (latest, item) => {
-      const date = new Date(item.updatedAt);
-      return !latest || date > latest ? date : latest;
-    },
-    undefined,
-  );
+  const latestUpdate = [...sections, ...courses].reduce<Date | undefined>((latest, item) => {
+    const date = new Date(item.updatedAt);
+    return !latest || date > latest ? date : latest;
+  }, undefined);
 
   return [
     { url: absoluteUrl("/"), lastModified: latestUpdate, priority: 1.0 },

@@ -1,13 +1,7 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { AnalyticsData } from "@/types/shared";
 
@@ -25,37 +19,28 @@ export function InsightsSection({ analytics, loading }: InsightsSectionProps) {
       <Card>
         <CardHeader>
           <CardTitle className="text-lg">Top Performing Colleges</CardTitle>
-          <CardDescription>
-            Colleges ranked by revenue generation
-          </CardDescription>
+          <CardDescription>Colleges ranked by revenue generation</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             {analytics.distributions.topColleges.map((college, index) => (
               <div
                 key={college.college}
-                className="flex items-center justify-between p-3 rounded-lg border"
+                className="flex items-center justify-between rounded-lg border p-3"
               >
-                <div className="flex items-center gap-3 min-w-0 flex-1">
-                  <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center shrink-0">
+                <div className="flex min-w-0 flex-1 items-center gap-3">
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10">
                     <span className="text-sm font-medium">{index + 1}</span>
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="font-medium truncate">{college.college}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {college.students} students
-                    </p>
+                    <p className="truncate font-medium">{college.college}</p>
+                    <p className="text-sm text-muted-foreground">{college.students} students</p>
                   </div>
                 </div>
-                <div className="text-right shrink-0">
-                  <p className="font-medium">
-                    ${college.revenue.toLocaleString()}
-                  </p>
+                <div className="shrink-0 text-right">
+                  <p className="font-medium">${college.revenue.toLocaleString()}</p>
                   <p className="text-sm text-muted-foreground">
-                    $
-                    {Math.round(
-                      college.revenue / college.students
-                    ).toLocaleString()}
+                    ${Math.round(college.revenue / college.students).toLocaleString()}
                     /student
                   </p>
                 </div>
@@ -69,22 +54,20 @@ export function InsightsSection({ analytics, loading }: InsightsSectionProps) {
       <Card>
         <CardHeader>
           <CardTitle className="text-lg">Key Insights</CardTitle>
-          <CardDescription>
-            AI-powered insights from your business data
-          </CardDescription>
+          <CardDescription>AI-powered insights from your business data</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             {analytics.insights.map((insight, index) => (
-              <div key={index} className="p-4 border rounded-lg">
+              <div key={index} className="rounded-lg border p-4">
                 <div className="flex items-start gap-3">
                   <Badge
                     variant={
                       insight.type === "positive"
                         ? "default"
                         : insight.type === "negative"
-                        ? "destructive"
-                        : "secondary"
+                          ? "destructive"
+                          : "secondary"
                     }
                     className="shrink-0"
                   >
@@ -92,14 +75,8 @@ export function InsightsSection({ analytics, loading }: InsightsSectionProps) {
                   </Badge>
                   <div className="min-w-0 flex-1">
                     <h4 className="font-medium">{insight.title}</h4>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      {insight.description}
-                    </p>
-                    {insight.value && (
-                      <p className="text-lg font-semibold mt-2">
-                        {insight.value}
-                      </p>
-                    )}
+                    <p className="mt-1 text-sm text-muted-foreground">{insight.description}</p>
+                    {insight.value && <p className="mt-2 text-lg font-semibold">{insight.value}</p>}
                   </div>
                 </div>
               </div>
@@ -118,25 +95,22 @@ function InsightsSectionSkeleton() {
       {/* Top Colleges Skeleton */}
       <Card>
         <CardHeader>
-          <Skeleton className="h-5 w-56 mb-2" />
+          <Skeleton className="mb-2 h-5 w-56" />
           <Skeleton className="h-4 w-72" />
         </CardHeader>
         <CardContent className="space-y-4">
           {Array.from({ length: 5 }).map((_, i) => (
-            <div
-              key={i}
-              className="flex items-center justify-between p-3 rounded-lg border"
-            >
-              <div className="flex items-center gap-3 min-w-0 flex-1">
-                <Skeleton className="w-8 h-8 rounded-full shrink-0" />
+            <div key={i} className="flex items-center justify-between rounded-lg border p-3">
+              <div className="flex min-w-0 flex-1 items-center gap-3">
+                <Skeleton className="h-8 w-8 shrink-0 rounded-full" />
                 <div className="min-w-0 flex-1 space-y-1">
                   <Skeleton className="h-4 w-40" />
                   <Skeleton className="h-3 w-24" />
                 </div>
               </div>
-              <div className="text-right shrink-0 space-y-1">
-                <Skeleton className="h-4 w-20 ml-auto" />
-                <Skeleton className="h-3 w-24 ml-auto" />
+              <div className="shrink-0 space-y-1 text-right">
+                <Skeleton className="ml-auto h-4 w-20" />
+                <Skeleton className="ml-auto h-3 w-24" />
               </div>
             </div>
           ))}
@@ -146,13 +120,13 @@ function InsightsSectionSkeleton() {
       {/* Key Insights Skeleton */}
       <Card>
         <CardHeader>
-          <Skeleton className="h-5 w-44 mb-2" />
+          <Skeleton className="mb-2 h-5 w-44" />
           <Skeleton className="h-4 w-64" />
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="p-4 border rounded-lg space-y-2">
+              <div key={i} className="space-y-2 rounded-lg border p-4">
                 <div className="flex gap-3">
                   <Skeleton className="h-6 w-20 rounded-full" />
                   <div className="flex-1 space-y-2">

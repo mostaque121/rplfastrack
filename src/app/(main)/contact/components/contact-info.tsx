@@ -1,33 +1,28 @@
-import { contactInfo } from "@/config/contact";
 import { FaEnvelope, FaPhoneAlt, FaWhatsapp } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
+
+import { contactInfo } from "@/config/contact";
 
 export default function ContactInfo() {
   return (
     <div>
       <h2 className="text-3xl font-extrabold text-gray-900">Get in Touch</h2>
       <p className="mt-4 text-lg text-gray-500">
-        Have questions about RPL or ready to start your assessment? Our team is
-        here to help you every step of the way.
+        Have questions about RPL or ready to start your assessment? Our team is here to help you
+        every step of the way.
       </p>
       <div className="mt-8 grid grid-cols-1 gap-8">
         {/* Phone */}
-        <div className="bg-white overflow-hidden hover:bg-emerald-100 transition-all duration-200 hover:scale-[1.02] cursor-pointer  shadow-md rounded-lg">
-          <a
-            href={contactInfo.phoneHref}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <div className="px-4 py-5 sm:p-6 flex items-center">
-              <div className="bg-indigo-500 rounded-md p-3">
+        <div className="cursor-pointer overflow-hidden rounded-lg bg-white shadow-md transition-all duration-200 hover:scale-[1.02] hover:bg-emerald-100">
+          <a href={contactInfo.phoneHref} target="_blank" rel="noopener noreferrer">
+            <div className="flex items-center px-4 py-5 sm:p-6">
+              <div className="rounded-md bg-indigo-500 p-3">
                 <FaPhoneAlt className="h-6 w-6 text-white" />
               </div>
               <div className="ml-5 w-0 flex-1">
                 <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">
-                    Phone
-                  </dt>
-                  <dd className="text-lg font-medium  text-blue-600 hover:text-blue-800">
+                  <dt className="truncate text-sm font-medium text-gray-500">Phone</dt>
+                  <dd className="text-lg font-medium text-blue-600 hover:text-blue-800">
                     {contactInfo.phone}
                   </dd>
                 </dl>
@@ -37,18 +32,16 @@ export default function ContactInfo() {
         </div>
 
         {/* Email */}
-        <div className="bg-white overflow-hidden hover:bg-emerald-100 transition-all duration-200 hover:scale-[1.02] cursor-pointer  shadow-md rounded-lg">
+        <div className="cursor-pointer overflow-hidden rounded-lg bg-white shadow-md transition-all duration-200 hover:scale-[1.02] hover:bg-emerald-100">
           <a href={contactInfo.emailHref} target="_blank" rel="noopener noreferrer">
-            <div className="px-4 py-5 sm:p-6 flex items-center">
-              <div className="bg-green-500 rounded-md p-3">
+            <div className="flex items-center px-4 py-5 sm:p-6">
+              <div className="rounded-md bg-green-500 p-3">
                 <FaEnvelope className="h-6 w-6 text-white" />
               </div>
               <div className="ml-5 w-0 flex-1">
                 <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">
-                    Email
-                  </dt>
-                  <dd className="text-lg font-medium  text-blue-600 hover:text-blue-800">
+                  <dt className="truncate text-sm font-medium text-gray-500">Email</dt>
+                  <dd className="text-lg font-medium text-blue-600 hover:text-blue-800">
                     {contactInfo.email}
                   </dd>
                 </dl>
@@ -58,22 +51,16 @@ export default function ContactInfo() {
         </div>
 
         {/* WhatsApp */}
-        <div className="bg-white overflow-hidden hover:bg-emerald-100 transition-all duration-200 hover:scale-[1.02] cursor-pointer  shadow-md rounded-lg">
-          <a
-            href={contactInfo.whatsappHref}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <div className="px-4 py-5 sm:p-6 flex items-center">
-              <div className="bg-green-400 rounded-md p-3">
+        <div className="cursor-pointer overflow-hidden rounded-lg bg-white shadow-md transition-all duration-200 hover:scale-[1.02] hover:bg-emerald-100">
+          <a href={contactInfo.whatsappHref} target="_blank" rel="noopener noreferrer">
+            <div className="flex items-center px-4 py-5 sm:p-6">
+              <div className="rounded-md bg-green-400 p-3">
                 <FaWhatsapp className="h-6 w-6 text-white" />
               </div>
               <div className="ml-5 w-0 flex-1">
                 <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">
-                    WhatsApp
-                  </dt>
-                  <dd className="text-lg font-medium  text-blue-600 hover:text-blue-800">
+                  <dt className="truncate text-sm font-medium text-gray-500">WhatsApp</dt>
+                  <dd className="text-lg font-medium text-blue-600 hover:text-blue-800">
                     {contactInfo.whatsapp}
                   </dd>
                 </dl>
@@ -82,16 +69,14 @@ export default function ContactInfo() {
           </a>
         </div>
         {/* Address (No link) */}
-        <div className="bg-white overflow-hidden hover:bg-emerald-100 transition-all duration-200 hover:scale-[1.02] cursor-pointer  shadow-md rounded-lg">
-          <div className="px-4 py-5 sm:p-6 flex items-center">
-            <div className="bg-red-600 rounded-md p-3">
+        <div className="cursor-pointer overflow-hidden rounded-lg bg-white shadow-md transition-all duration-200 hover:scale-[1.02] hover:bg-emerald-100">
+          <div className="flex items-center px-4 py-5 sm:p-6">
+            <div className="rounded-md bg-red-600 p-3">
               <FaLocationDot className="h-6 w-6 text-white" />
             </div>
             <div className="ml-5 w-0 flex-1">
               <dl>
-                <dt className="text-sm font-medium text-gray-500 truncate">
-                  Address
-                </dt>
+                <dt className="truncate text-sm font-medium text-gray-500">Address</dt>
                 <dd className="text-lg font-medium text-gray-900">{contactInfo.address}</dd>
               </dl>
             </div>

@@ -1,5 +1,10 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import * as z from "zod";
+
 import { LoadingButton } from "@/components/custom-ui/loading-button";
 import SelectCourse from "@/components/custom-ui/select-course";
 import {
@@ -13,12 +18,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useRPL } from "@/contexts/rpl-context";
-import { reviewFormSchema } from "@/lib/zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import * as z from "zod";
 import { saveReview } from "@/features/reviews/actions";
+import { reviewFormSchema } from "@/lib/zod";
+
 import ProfileImageUpload from "./profile-image-upload";
 import ReviewImageUpload from "./review-image-upload";
 import StarRating from "./star-rating";
@@ -56,8 +58,7 @@ const ReviewForm = () => {
     try {
       const data = await saveReview(values);
 
-      if (data.success)
-        toast.success("Review posted! It will be visible after approval.");
+      if (data.success) toast.success("Review posted! It will be visible after approval.");
       resetForm();
     } catch (error) {
       console.error("Error submitting review:", error);
@@ -66,8 +67,8 @@ const ReviewForm = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto bg-white pb-10 py-8 sm:px-8 px-4 rounded-lg">
-      <h2 className="text-2xl font-bold mb-6 text-center">Post a Review</h2>
+    <div className="mx-auto max-w-3xl rounded-lg bg-white px-4 py-8 pb-10 sm:px-8">
+      <h2 className="mb-6 text-center text-2xl font-bold">Post a Review</h2>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -133,7 +134,7 @@ const ReviewForm = () => {
                 <FormControl>
                   <Textarea
                     placeholder="Share your experience with this course..."
-                    className="min-h-[120px] "
+                    className="min-h-[120px]"
                     {...field}
                   />
                 </FormControl>
@@ -179,7 +180,7 @@ const ReviewForm = () => {
           <LoadingButton
             loading={form.formState.isSubmitting}
             type="submit"
-            className="w-full bg-emerald-900 hover:bg-emerald-950 text-white"
+            className="w-full bg-emerald-900 text-white hover:bg-emerald-950"
             loadingText="Submitting"
           >
             Submit Review

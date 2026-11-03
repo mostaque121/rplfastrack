@@ -1,22 +1,6 @@
 "use client";
 
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
-  ChartTooltip,
-} from "@/components/ui/chart";
-import { Skeleton } from "@/components/ui/skeleton";
-import type { AnalyticsData } from "@/types/shared";
-
-import {
   Bar,
   BarChart,
   CartesianGrid,
@@ -25,6 +9,16 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
+  ChartTooltip,
+} from "@/components/ui/chart";
+import { Skeleton } from "@/components/ui/skeleton";
+import type { AnalyticsData } from "@/types/shared";
 
 interface QualificationChartProps {
   loading: boolean;
@@ -37,10 +31,7 @@ const COLORS = {
   students: "hsl(0, 0%, 35%)", // Light gray
 };
 
-export default function TopQualifications({
-  loading,
-  analytics,
-}: QualificationChartProps) {
+export default function TopQualifications({ loading, analytics }: QualificationChartProps) {
   if (loading || !analytics) return <QualificationSkeleton />;
 
   const data = analytics.distributions.topQualifications.map((item) => ({
@@ -54,9 +45,7 @@ export default function TopQualifications({
     <Card>
       <CardHeader>
         <CardTitle className="text-lg">Top Qualifications by Revenue</CardTitle>
-        <CardDescription>
-          Performance across key qualification programs
-        </CardDescription>
+        <CardDescription>Performance across key qualification programs</CardDescription>
       </CardHeader>
       <CardContent className="h-[360px]">
         <ChartContainer
@@ -80,33 +69,22 @@ export default function TopQualifications({
                 type="category"
                 fontSize={12}
                 width={200}
-                tickFormatter={(tick) =>
-                  tick.length > 30 ? tick.slice(0, 30) + "..." : tick
-                }
+                tickFormatter={(tick) => (tick.length > 30 ? tick.slice(0, 30) + "..." : tick)}
               />
               <ChartTooltip
-                content={({
-                  active,
-                  payload,
-                  label,
-                }: TooltipProps<number, string>) => {
+                content={({ active, payload, label }: TooltipProps<number, string>) => {
                   if (active && payload && payload.length) {
                     return (
-                      <div className="bg-background border rounded-md shadow-md p-3">
-                        <p className="font-medium text-sm">{label}</p>
+                      <div className="rounded-md border bg-background p-3 shadow-md">
+                        <p className="text-sm font-medium">{label}</p>
                         <div className="mt-1 space-y-1">
                           {payload.map((entry, index) => (
-                            <div
-                              key={`tooltip-${index}`}
-                              className="flex items-center gap-2"
-                            >
+                            <div key={`tooltip-${index}`} className="flex items-center gap-2">
                               <div
-                                className="w-3 h-3 rounded-full"
+                                className="h-3 w-3 rounded-full"
                                 style={{ backgroundColor: entry.color }}
                               />
-                              <span className="text-sm font-medium">
-                                {entry.name}:
-                              </span>
+                              <span className="text-sm font-medium">{entry.name}:</span>
                               <span className="text-sm">
                                 {entry.name === "Students"
                                   ? `${entry.value ?? 0} students`
@@ -123,11 +101,7 @@ export default function TopQualifications({
               />
               <ChartLegend content={<ChartLegendContent />} />
               <Bar dataKey="revenue" fill={COLORS.revenue} name="Revenue" />
-              <Bar
-                dataKey="netProfit"
-                fill={COLORS.netProfit}
-                name="Net Profit"
-              />
+              <Bar dataKey="netProfit" fill={COLORS.netProfit} name="Net Profit" />
             </BarChart>
           </ResponsiveContainer>
         </ChartContainer>

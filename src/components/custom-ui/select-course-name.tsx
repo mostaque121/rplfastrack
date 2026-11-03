@@ -31,10 +31,7 @@ const SelectCourseName: React.FC<SelectCourseProps> = ({
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(event.target as Node)
-      ) {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     };
@@ -43,7 +40,7 @@ const SelectCourseName: React.FC<SelectCourseProps> = ({
   }, []);
 
   return (
-    <div ref={containerRef} className="relative w-full mx-auto">
+    <div ref={containerRef} className="relative mx-auto w-full">
       <div className="relative flex items-center">
         <input
           type="text"
@@ -54,7 +51,7 @@ const SelectCourseName: React.FC<SelectCourseProps> = ({
           }}
           onFocus={() => setIsOpen(true)}
           placeholder="Select or type a course..."
-          className={`w-full px-3 py-2 text-sm text-gray-900 bg-white border rounded-md outline-none transition-all ${
+          className={`w-full rounded-md border bg-white px-3 py-2 text-sm text-gray-900 transition-all outline-none ${
             isOpen
               ? "border-[#10b981] ring-1 ring-[#10b981]"
               : "border-gray-200 hover:border-gray-300"
@@ -65,7 +62,7 @@ const SelectCourseName: React.FC<SelectCourseProps> = ({
           <button
             type="button"
             onClick={() => onChange(null)}
-            className="absolute right-2 text-gray-400 hover:text-gray-600 text-xs px-1 font-bold"
+            className="absolute right-2 px-1 text-xs font-bold text-gray-400 hover:text-gray-600"
           >
             ✕
           </button>
@@ -74,7 +71,7 @@ const SelectCourseName: React.FC<SelectCourseProps> = ({
 
       {/* Helper Suggestion Dropdown */}
       {isOpen && filteredCourses.length > 0 && (
-        <ul className="absolute z-50 w-full mt-1 max-h-56 overflow-auto bg-white border border-gray-200 rounded-md shadow-lg p-1 text-sm">
+        <ul className="absolute z-50 mt-1 max-h-56 w-full overflow-auto rounded-md border border-gray-200 bg-white p-1 text-sm shadow-lg">
           {filteredCourses.map((course) => (
             <li
               key={course.id}
@@ -82,7 +79,7 @@ const SelectCourseName: React.FC<SelectCourseProps> = ({
                 onChange(course.title);
                 setIsOpen(false);
               }}
-              className="px-3 py-2 cursor-pointer rounded text-gray-900 hover:bg-[#d1fae5] transition-colors"
+              className="cursor-pointer rounded px-3 py-2 text-gray-900 transition-colors hover:bg-[#d1fae5]"
             >
               {course.title}
             </li>
@@ -90,7 +87,7 @@ const SelectCourseName: React.FC<SelectCourseProps> = ({
         </ul>
       )}
 
-      {error && <div className="mt-2 text-red-600 text-sm">{error}</div>}
+      {error && <div className="mt-2 text-sm text-red-600">{error}</div>}
     </div>
   );
 };

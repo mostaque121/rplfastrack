@@ -1,17 +1,14 @@
+import { aboutRplBreadcrumb, aboutRplPageSchema, rplConceptSchema } from "@/lib/seo";
 import { absoluteUrl } from "@/lib/url";
+
 import DocumentsNeed from "../components/documents-need";
 import FaqCommon from "../components/faq-common";
-import EligibilityForRPL from "../courses/components/eligibility";
-import {
-  aboutRplBreadcrumb,
-  aboutRplPageSchema,
-  rplConceptSchema,
-} from "@/lib/seo";
 import BenefitsOfRPL from "./components/benefits-of-rpl";
 import Cta from "./components/cta";
 import AboutRplHero from "./components/hero";
 import RplProcessTimeline from "./components/rpl-process-timeline";
 import WhatIsRPL from "./components/what-is-rpl";
+import EligibilityForRPL from "../courses/components/eligibility";
 
 export const metadata = {
   title: "About RPL - Learn Recognition of Prior Learning",

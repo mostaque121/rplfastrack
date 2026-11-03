@@ -1,13 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
+import { useQueryClient } from "@tanstack/react-query";
+import { Plus } from "lucide-react";
+import { useState } from "react";
+
 import { EditDialog } from "@/components/custom-ui/edit-dialog";
 import { FormDialog } from "@/components/custom-ui/form-dialog";
 import { Button } from "@/components/ui/button";
 import type { PaymentWithParts } from "@/types/payment";
-import { useQueryClient } from "@tanstack/react-query";
-import { Plus } from "lucide-react";
-import { useState } from "react";
+
 import PaymentManagement from "./payment-management/payment-management";
 import PaymentForm from "./payments-form";
 
@@ -32,10 +34,7 @@ export default function PaymentDashboard() {
       source: payment.source,
       collegeName: payment.collegeName,
       courseFee: payment.courseFee,
-      paymentStatus: payment.paymentStatus as
-        | "paid"
-        | "installment"
-        | "refunded",
+      paymentStatus: payment.paymentStatus as "paid" | "installment" | "refunded",
       collegePayment: payment.collegePayment,
       agentCommission: payment.agentCommission,
       bankCommission: payment.bankCommission,
@@ -52,16 +51,14 @@ export default function PaymentDashboard() {
 
   return (
     <div className="bg-background py-6">
-      <div className="flex mx-auto container px-4 items-center justify-between">
+      <div className="container mx-auto flex items-center justify-between px-4">
         <div>
           <h1 className="text-3xl font-bold">Manage Payment</h1>
-          <p className="text-muted-foreground">
-            Manage and track all payment records
-          </p>
+          <p className="text-muted-foreground">Manage and track all payment records</p>
         </div>
         <FormDialog Form={PaymentForm}>
           <Button>
-            <Plus className="h-4 w-4 mr-2" />
+            <Plus className="mr-2 h-4 w-4" />
             Add Payment
           </Button>
         </FormDialog>

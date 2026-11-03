@@ -1,21 +1,19 @@
-import { SITE_URL } from "@/config/site";
-import { absoluteUrl } from "@/lib/url";
 import { BreadcrumbList, CollectionPage, WithContext } from "schema-dts";
+
+import { SITE_URL } from "@/config/site";
 import { listSections, getSectionByLink } from "@/features/courses/queries";
 import { redirectOrNotFound } from "@/features/courses/redirects";
+import { absoluteUrl } from "@/lib/url";
+
+import CaregoryQualifications from "./components/category-qualifications";
+import HeroSection from "./components/hero";
+import RelatedIndustry from "./components/related-industry";
 import ContactSection from "../../components/contact-common";
 import DocumentsNeed from "../../components/documents-need";
 import EligibilityForRPL from "../../courses/components/eligibility";
 import RPLTimeline from "../../courses/components/process-of-rpl";
-import CaregoryQualifications from "./components/category-qualifications";
-import HeroSection from "./components/hero";
-import RelatedIndustry from "./components/related-industry";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ link: string }>;
-}) {
+export async function generateMetadata({ params }: { params: Promise<{ link: string }> }) {
   const { link } = await params;
 
   try {
@@ -65,11 +63,7 @@ export async function generateStaticParams() {
   }
 }
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ link: string }>;
-}) {
+export default async function Page({ params }: { params: Promise<{ link: string }> }) {
   const { link } = await params;
   const allSections = await listSections();
   const section = await getSectionByLink(link);

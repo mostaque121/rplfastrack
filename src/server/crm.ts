@@ -22,11 +22,7 @@ const RETRY_DELAYS_MS = [1000, 2000, 4000];
 
 /* ---------------- NETWORK HELPERS ---------------- */
 
-async function fetchWithTimeout(
-  url: string,
-  options: RequestInit,
-  timeout = TIMEOUT_MS,
-) {
+async function fetchWithTimeout(url: string, options: RequestInit, timeout = TIMEOUT_MS) {
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), timeout);
 
@@ -49,17 +45,13 @@ export async function sendLeadToCrm(lead: CrmLead) {
   const key = env.CRM_INTAKE_KEY;
 
   if (!url || !key) {
-    console.warn(
-      "[CRM] CRM_INTAKE_URL or CRM_INTAKE_KEY is not set; skipping lead sync",
-    );
+    console.warn("[CRM] CRM_INTAKE_URL or CRM_INTAKE_KEY is not set; skipping lead sync");
     return;
   }
 
   // Drop empty optional fields so the CRM doesn't receive blank strings
   const body = JSON.stringify(
-    Object.fromEntries(
-      Object.entries(lead).filter(([, v]) => v !== undefined && v !== ""),
-    ),
+    Object.fromEntries(Object.entries(lead).filter(([, v]) => v !== undefined && v !== "")),
   );
 
   // 1 initial attempt + up to 3 retries (1s, 2s, 4s)
@@ -108,11 +100,7 @@ export async function sendLeadToCrm(lead: CrmLead) {
       return;
     }
 
-    console.error(
-      `[CRM] Server error (attempt ${attempt + 1})`,
-      response.status,
-      text,
-    );
+    console.error(`[CRM] Server error (attempt ${attempt + 1})`, response.status, text);
   }
 
   console.error(

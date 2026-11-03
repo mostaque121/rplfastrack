@@ -1,7 +1,8 @@
 "use server";
 
-import { prisma } from "@/server/db";
 import { z } from "zod";
+
+import { prisma } from "@/server/db";
 
 // Define the schema to validate the incoming review data
 const ReviewSchema = z.object({

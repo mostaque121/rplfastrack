@@ -1,7 +1,9 @@
 "use server";
+import { revalidatePath } from "next/cache";
+
 import { Role } from "@/generated/prisma";
 import { prisma } from "@/server/db";
-import { revalidatePath } from "next/cache";
+
 import { requireAdmin } from "./helper";
 
 export const getAllUsers = async () => {
@@ -15,11 +17,7 @@ export const getAllUsers = async () => {
   }
 };
 
-export const getAllUsersBySearch = async (
-  search: string,
-  page: number,
-  pageSize: number,
-) => {
+export const getAllUsersBySearch = async (search: string, page: number, pageSize: number) => {
   await requireAdmin();
   type SearchCondition = {
     OR: {

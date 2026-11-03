@@ -1,3 +1,6 @@
+import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
+
 import PaginationControl from "@/app/(admin)/components/common/pagination";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -11,8 +14,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { auth } from "@/server/auth";
-import { revalidatePath } from "next/cache";
-import { headers } from "next/headers";
+
 import UserActions from "./user-action";
 
 export default async function UserTable({
@@ -57,11 +59,10 @@ export default async function UserTable({
 
   if (users.length === 0) {
     return (
-      <div className="text-center py-10">
-        <h2 className="text-xl font-semibold mb-2">No users found</h2>
+      <div className="py-10 text-center">
+        <h2 className="mb-2 text-xl font-semibold">No users found</h2>
         <p className="text-muted-foreground">
-          Try adjusting your search or filter to find what you&apos;re looking
-          for.
+          Try adjusting your search or filter to find what you&apos;re looking for.
         </p>
       </div>
     );
@@ -84,32 +85,22 @@ export default async function UserTable({
           {users.map((user) => (
             <TableRow
               key={user.id}
-              className={` rounded-md overflow-hidden ${
+              className={`overflow-hidden rounded-md ${
                 user.banned
                   ? "bg-destructive/20 hover:bg-destructive/30"
-                  : loggedInUser.id === user.id &&
-                    "bg-green-300 hover:bg-green-400"
+                  : loggedInUser.id === user.id && "bg-green-300 hover:bg-green-400"
               }`}
             >
               <TableCell>
                 <Avatar>
-                  <AvatarImage
-                    src={user.image || "/placeholder.svg"}
-                    alt={user.name}
-                  />
-                  <AvatarFallback>
-                    {user.name.substring(0, 2).toUpperCase()}
-                  </AvatarFallback>
+                  <AvatarImage src={user.image || "/placeholder.svg"} alt={user.name} />
+                  <AvatarFallback>{user.name.substring(0, 2).toUpperCase()}</AvatarFallback>
                 </Avatar>
               </TableCell>
-              <TableCell className="hidden md:table-cell font-medium">
-                {user.name}
-              </TableCell>
+              <TableCell className="hidden font-medium md:table-cell">{user.name}</TableCell>
               <TableCell>{user.email}</TableCell>
               <TableCell>
-                <Badge variant={getRoleBadgeVariant(user.role)}>
-                  {user.role}
-                </Badge>
+                <Badge variant={getRoleBadgeVariant(user.role)}>{user.role}</Badge>
               </TableCell>
               {isAdmin && (
                 <TableCell className="text-right">

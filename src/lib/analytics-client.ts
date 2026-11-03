@@ -1,6 +1,7 @@
-import { env } from "@/env";
 import { BetaAnalyticsDataClient } from "@google-analytics/data";
 import { format, subDays } from "date-fns";
+
+import { env } from "@/env";
 
 export const analyticsDataClient = new BetaAnalyticsDataClient({
   credentials: {

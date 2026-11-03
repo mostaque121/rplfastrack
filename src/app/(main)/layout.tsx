@@ -1,14 +1,16 @@
-import { SITE_URL, siteConfig } from "@/config/site";
-import WhatsAppButton1 from "@/components/custom-ui/whatsapp-button";
-import { RPLProvider } from "@/contexts/rpl-context";
-import { Toaster } from "@/components/ui/sonner";
 import { GoogleAnalytics } from "@next/third-parties/google";
-import { env } from "@/env";
 import { Metadata } from "next/types";
+
+import WhatsAppButton1 from "@/components/custom-ui/whatsapp-button";
+import { Toaster } from "@/components/ui/sonner";
+import { SITE_URL, siteConfig } from "@/config/site";
+import { RPLProvider } from "@/contexts/rpl-context";
+import { env } from "@/env";
 import { listSections } from "@/features/courses/queries";
+import { organization } from "@/lib/seo";
+
 import Footer from "./components/footer/footer";
 import Navbar from "./components/navbar/navbar";
-import { organization } from "@/lib/seo";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -83,9 +85,7 @@ export default async function MainLayout({
         <WhatsAppButton1 />
         <Footer />
         <Toaster />
-        {env.VERCEL_ENV === "production" && (
-          <GoogleAnalytics gaId={siteConfig.gaMeasurementId} />
-        )}
+        {env.VERCEL_ENV === "production" && <GoogleAnalytics gaId={siteConfig.gaMeasurementId} />}
       </main>
     </RPLProvider>
   );

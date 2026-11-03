@@ -16,14 +16,14 @@ export function Stats({ data, days }: StatsProps) {
       acc.pageviews += Number.parseInt(row.metricValues[2].value);
       return acc;
     },
-    { sessions: 0, users: 0, pageviews: 0 }
+    { sessions: 0, users: 0, pageviews: 0 },
   ) || { sessions: 0, users: 0, pageviews: 0 };
 
   const avgBounceRate =
     (data?.rows?.reduce(
       (sum: number, row: { metricValues: { value: string }[] }) =>
         sum + parseFloat(row.metricValues[3].value),
-      0
+      0,
     ) || 0) / (data?.rows?.length || 1);
 
   const formattedBounceRate = `${(avgBounceRate * 100).toFixed(2)}%`;
@@ -36,9 +36,7 @@ export function Stats({ data, days }: StatsProps) {
           <BarChart3 className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">
-            {totals.sessions.toLocaleString()}
-          </div>
+          <div className="text-2xl font-bold">{totals.sessions.toLocaleString()}</div>
           <p className="text-xs text-muted-foreground">Last {days} days</p>
         </CardContent>
       </Card>
@@ -48,9 +46,7 @@ export function Stats({ data, days }: StatsProps) {
           <Users className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">
-            {totals.users.toLocaleString()}
-          </div>
+          <div className="text-2xl font-bold">{totals.users.toLocaleString()}</div>
           <p className="text-xs text-muted-foreground">Last {days} days</p>
         </CardContent>
       </Card>
@@ -60,9 +56,7 @@ export function Stats({ data, days }: StatsProps) {
           <Eye className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">
-            {totals.pageviews.toLocaleString()}
-          </div>
+          <div className="text-2xl font-bold">{totals.pageviews.toLocaleString()}</div>
           <p className="text-xs text-muted-foreground">Last {days} days</p>
         </CardContent>
       </Card>
@@ -84,9 +78,7 @@ export function Stats({ data, days }: StatsProps) {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{formattedBounceRate}</div>
-          <p className="text-xs text-muted-foreground">
-            Average over {days} days
-          </p>
+          <p className="text-xs text-muted-foreground">Average over {days} days</p>
         </CardContent>
       </Card>
     </div>

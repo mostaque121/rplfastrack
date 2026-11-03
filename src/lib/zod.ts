@@ -20,9 +20,7 @@ export const contactSchema = z.object({
 export const reviewFormSchema = z.object({
   userName: z.string().min(1, { message: "Name is required." }),
   userImage: z.string().min(1, { message: "Profile image is required." }),
-  purchasedCourse: z
-    .string()
-    .min(1, { message: "Please select a valid course." }),
+  purchasedCourse: z.string().min(1, { message: "Please select a valid course." }),
   reviewText: z.string().min(1, { message: "Review text is required." }),
   reviewImage: z.string().optional(),
   givenStar: z.number().min(1, { message: "Rating is required." }),

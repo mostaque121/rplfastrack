@@ -1,14 +1,10 @@
 "use client";
 
+import { format } from "date-fns";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { DatePicker } from "@/components/ui/date-picker";
 import {
   Select,
@@ -18,7 +14,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { FilterType } from "@/types/shared";
-import { format } from "date-fns";
 
 interface FilterControlsProps {
   activeFilter: FilterType;
@@ -86,10 +81,7 @@ export function FilterControls({
         return timeRangeLabels[timeRange];
       case "dateRange":
         if (startDate && endDate) {
-          return `${format(startDate, "MMM dd, yyyy")} - ${format(
-            endDate,
-            "MMM dd, yyyy"
-          )}`;
+          return `${format(startDate, "MMM dd, yyyy")} - ${format(endDate, "MMM dd, yyyy")}`;
         }
         return "Custom date range";
       case "monthFilter":
@@ -106,9 +98,7 @@ export function FilterControls({
       <Card className="border-2">
         <CardHeader className="pb-4">
           <CardTitle className="text-lg">Data Filters</CardTitle>
-          <CardDescription>
-            Select one filter type to analyze your data
-          </CardDescription>
+          <CardDescription>Select one filter type to analyze your data</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex flex-wrap gap-2">
@@ -138,8 +128,8 @@ export function FilterControls({
             </Button>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-            <div className="flex flex-wrap gap-2 items-center">
+          <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+            <div className="flex flex-wrap items-center gap-2">
               {activeFilter === "timeRange" && (
                 <Select value={timeRange} onValueChange={onTimeRangeChange}>
                   <SelectTrigger className="w-[200px]">
@@ -158,16 +148,8 @@ export function FilterControls({
 
               {activeFilter === "dateRange" && (
                 <div className="flex gap-2">
-                  <DatePicker
-                    value={startDate}
-                    onChange={onStartDateChange}
-                    label="Start Date"
-                  />
-                  <DatePicker
-                    value={endDate}
-                    onChange={onEndDateChange}
-                    label="End Date"
-                  />
+                  <DatePicker value={startDate} onChange={onStartDateChange} label="Start Date" />
+                  <DatePicker value={endDate} onChange={onEndDateChange} label="End Date" />
                 </div>
               )}
 
@@ -189,11 +171,7 @@ export function FilterControls({
             </div>
 
             {hasFilterChanged && (
-              <Button
-                onClick={onFetchData}
-                disabled={loading}
-                className="shrink-0"
-              >
+              <Button onClick={onFetchData} disabled={loading} className="shrink-0">
                 {loading ? "Loading..." : "Fetch Data"}
               </Button>
             )}
@@ -201,7 +179,7 @@ export function FilterControls({
         </CardContent>
       </Card>
 
-      <div className="flex items-center gap-3 p-4 bg-muted/50 rounded-lg border">
+      <div className="flex items-center gap-3 rounded-lg border bg-muted/50 p-4">
         <div className="flex items-center gap-2">
           <Badge variant="secondary" className="font-medium">
             Active Filter
@@ -211,9 +189,7 @@ export function FilterControls({
             {activeFilter === "dateRange" && "Date Range:"}
             {activeFilter === "monthFilter" && "Month:"}
           </span>
-          <span className="text-sm font-semibold">
-            {getActiveFilterDisplay()}
-          </span>
+          <span className="text-sm font-semibold">{getActiveFilterDisplay()}</span>
         </div>
         {!hasFilterChanged && (
           <Badge variant="outline" className="text-xs">

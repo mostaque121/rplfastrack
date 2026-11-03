@@ -1,22 +1,23 @@
-import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+
+import { Button } from "@/components/ui/button";
 import { listSections } from "@/features/courses/queries";
+
 import SectionCard from "./card/section-card";
 
 export default async function ClientsFavourite() {
   const sections = await listSections();
 
   return (
-    <section className="py-16 bg-[#F5F7FA] md:py-24 overflow-hidden">
-      <div className="flex flex-col items-center justify-center space-y-4 text-center mb-10">
+    <section className="overflow-hidden bg-[#F5F7FA] py-16 md:py-24">
+      <div className="mb-10 flex flex-col items-center justify-center space-y-4 text-center">
         <div className="space-y-2">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
             Clients&apos; <span className="text-emerald-600">Favourite</span>
           </h2>
           <p className="max-w-[700px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
-            The most in-demand qualifications our clients choose for recognition
-            through RPL.
+            The most in-demand qualifications our clients choose for recognition through RPL.
           </p>
         </div>
       </div>
@@ -29,10 +30,7 @@ export default async function ClientsFavourite() {
 
       <div className="pt-4 text-center">
         <Link prefetch={false} href={"/courses"}>
-          <Button
-            size="lg"
-            className="group bg-gradient-to-r from-emerald-600 to-teal-600"
-          >
+          <Button size="lg" className="group bg-gradient-to-r from-emerald-600 to-teal-600">
             Explore All Industry
             <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
           </Button>

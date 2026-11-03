@@ -1,13 +1,15 @@
 import "server-only";
 
-import { env } from "@/env";
-import { ac, adminRole, user } from "@/lib/permissions";
 import { Redis } from "@upstash/redis";
 import { betterAuth } from "better-auth";
-import { APIError } from "better-auth/api";
 import { prismaAdapter } from "better-auth/adapters/prisma";
+import { APIError } from "better-auth/api";
 import { nextCookies } from "better-auth/next-js";
 import { admin } from "better-auth/plugins";
+
+import { env } from "@/env";
+import { ac, adminRole, user } from "@/lib/permissions";
+
 import { prisma } from "./db";
 
 const redis = new Redis({
@@ -54,9 +56,7 @@ export const auth = betterAuth({
         // Only admins may hold a session. (Bans are checked by the admin plugin.)
         async before(session, ctx) {
           if (!ctx) return;
-          const user = await ctx.context.internalAdapter.findUserById(
-            session.userId,
-          );
+          const user = await ctx.context.internalAdapter.findUserById(session.userId);
           if ((user as { role?: string } | null)?.role !== "admin") {
             throw APIError.from("FORBIDDEN", {
               message: "This account isn't authorised.",

@@ -1,8 +1,9 @@
-import { Button } from "@/components/ui/button";
-import { Section } from "@/types/shared";
 import { ArrowRight, GraduationCapIcon as Graduation } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+
+import { Button } from "@/components/ui/button";
+import { Section } from "@/types/shared";
 
 interface SectionCardProps {
   section: Section;
@@ -11,54 +12,42 @@ interface SectionCardProps {
 export default function SectionCard({ section }: SectionCardProps) {
   return (
     section.courses && (
-      <div className="bg-white group mb-8 flex flex-col md:flex-row shadow-md rounded-2xl overflow-hidden hover:shadow-lg transition-shadow duration-300">
-        <Link
-          prefetch={false}
-          href={`section/${section.link}`}
-          className="group"
-        >
-          <div className="relative overflow-hidden w-full md:w-64 h-64 md:h-auto">
+      <div className="group mb-8 flex flex-col overflow-hidden rounded-2xl bg-white shadow-md transition-shadow duration-300 hover:shadow-lg md:flex-row">
+        <Link prefetch={false} href={`section/${section.link}`} className="group">
+          <div className="relative h-64 w-full overflow-hidden md:h-auto md:w-64">
             <Image
               src={section.imageSquareLink}
               sizes="(min-width: 768px) 256px, 100vw"
               alt="Section Image"
               width={720}
               height={720}
-              className="object-cover transition-all duration-500 group-hover:scale-110 w-full h-full"
+              className="h-full w-full object-cover transition-all duration-500 group-hover:scale-110"
             />
           </div>
         </Link>
 
-        <div className="px-6 py-4 flex flex-col justify-between">
+        <div className="flex flex-col justify-between px-6 py-4">
           <Link prefetch={false} href={`section/${section.link}`}>
-            <h3 className="text-2xl font-bold text-gray-800 hover:text-emerald-600 transition-colors duration-300">
+            <h3 className="text-2xl font-bold text-gray-800 transition-colors duration-300 hover:text-emerald-600">
               {section.title}
             </h3>
           </Link>
 
           <div className="mt-3 space-y-2">
             {section.courses.slice(0, 4).map((course) => (
-              <Link
-                prefetch={false}
-                key={course.id}
-                href={`/courses/${course.link}`}
-              >
-                <p className="text-base  mt-1 flex md:items-center items-start  gap-2 text-gray-600 hover:text-emerald-500 transition-colors">
-                  <Graduation className="text-emerald-500 w-5 h-5" />
+              <Link prefetch={false} key={course.id} href={`/courses/${course.link}`}>
+                <p className="mt-1 flex items-start gap-2 text-base text-gray-600 transition-colors hover:text-emerald-500 md:items-center">
+                  <Graduation className="h-5 w-5 text-emerald-500" />
                   <span>{course.title}</span>
                 </p>
               </Link>
             ))}
           </div>
 
-          <Link
-            prefetch={false}
-            href={`section/${section.link}`}
-            className="mt-4"
-          >
+          <Link prefetch={false} href={`section/${section.link}`} className="mt-4">
             <Button
               size="lg"
-              className="group bg-gradient-to-r text-white from-emerald-600 to-teal-600"
+              className="group bg-gradient-to-r from-emerald-600 to-teal-600 text-white"
             >
               More Courses
               <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />

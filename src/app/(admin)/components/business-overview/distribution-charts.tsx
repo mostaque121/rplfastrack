@@ -1,21 +1,6 @@
 "use client";
 
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
-  ChartTooltip,
-} from "@/components/ui/chart";
-import { Skeleton } from "@/components/ui/skeleton";
-import type { AnalyticsData } from "@/types/shared";
-import {
   Bar,
   BarChart,
   CartesianGrid,
@@ -26,6 +11,16 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
+  ChartTooltip,
+} from "@/components/ui/chart";
+import { Skeleton } from "@/components/ui/skeleton";
+import type { AnalyticsData } from "@/types/shared";
 
 const COLORS = {
   primary: "hsl(0, 0%, 15%)", // Very dark gray
@@ -45,10 +40,7 @@ interface DistributionChartsProps {
   loading: boolean;
 }
 
-export function DistributionCharts({
-  analytics,
-  loading,
-}: DistributionChartsProps) {
+export function DistributionCharts({ analytics, loading }: DistributionChartsProps) {
   if (loading || !analytics) return <DistributionChartsSkeleton />;
 
   return (
@@ -78,19 +70,14 @@ export function DistributionCharts({
                   cx="50%"
                   cy="50%"
                   labelLine={false}
-                  label={({ name, percent }) =>
-                    `${name} ${(percent * 100).toFixed(0)}%`
-                  }
+                  label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                   outerRadius={80}
                   fill="#8884d8"
                   dataKey="value"
                   nameKey="name"
                 >
                   {analytics.distributions.paymentStatus.map((entry, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={PIE_COLORS[index % PIE_COLORS.length]}
-                    />
+                    <Cell key={`cell-${index}`} fill={PIE_COLORS[index % PIE_COLORS.length]} />
                   ))}
                 </Pie>
                 <ChartTooltip
@@ -98,31 +85,27 @@ export function DistributionCharts({
                     if (active && payload && payload.length) {
                       const data = payload[0];
                       return (
-                        <div className="bg-background border rounded-md shadow-md p-3">
-                          <p className="font-medium text-sm">{data.name}</p>
+                        <div className="rounded-md border bg-background p-3 shadow-md">
+                          <p className="text-sm font-medium">{data.name}</p>
                           <div className="mt-1 space-y-1">
                             <div className="flex items-center gap-2">
                               <div
-                                className="w-3 h-3 rounded-full"
+                                className="h-3 w-3 rounded-full"
                                 style={{ backgroundColor: data.color }}
                               />
-                              <span className="text-sm font-medium">
-                                Count:{" "}
-                              </span>
+                              <span className="text-sm font-medium">Count: </span>
                               <span className="text-sm">
                                 {(data.value as number)?.toLocaleString()}
                               </span>
                             </div>
                             <div className="flex items-center gap-2">
-                              <span className="text-sm font-medium">
-                                Percentage:{" "}
-                              </span>
+                              <span className="text-sm font-medium">Percentage: </span>
                               <span className="text-sm">
                                 {(
                                   ((data.value as number) /
                                     analytics.distributions.paymentStatus.reduce(
                                       (sum, item) => sum + item.value,
-                                      0
+                                      0,
                                     )) *
                                   100
                                 ).toFixed(1)}
@@ -162,32 +145,21 @@ export function DistributionCharts({
                 margin={{ top: 10, right: 10, left: 10, bottom: 10 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis
-                  dataKey="source"
-                  fontSize={12}
-                  angle={-45}
-                  textAnchor="end"
-                  height={80}
-                />
+                <XAxis dataKey="source" fontSize={12} angle={-45} textAnchor="end" height={80} />
                 <YAxis fontSize={12} />
                 <ChartTooltip
                   content={({ active, payload, label }) =>
                     active && payload?.length ? (
-                      <div className="bg-background border rounded-md shadow-md p-3">
-                        <p className="font-medium text-sm">{label}</p>
+                      <div className="rounded-md border bg-background p-3 shadow-md">
+                        <p className="text-sm font-medium">{label}</p>
                         <div className="mt-1 space-y-1">
                           {payload.map((entry, index) => (
-                            <div
-                              key={`tooltip-${index}`}
-                              className="flex items-center gap-2"
-                            >
+                            <div key={`tooltip-${index}`} className="flex items-center gap-2">
                               <div
-                                className="w-3 h-3 rounded-full"
+                                className="h-3 w-3 rounded-full"
                                 style={{ backgroundColor: entry.color }}
                               />
-                              <span className="text-sm font-medium">
-                                {entry.name}:
-                              </span>
+                              <span className="text-sm font-medium">{entry.name}:</span>
                               <span className="text-sm">
                                 ${Number(entry.value).toLocaleString()}
                               </span>
@@ -217,7 +189,7 @@ function DistributionChartsSkeleton() {
       {[...Array(2)].map((_, index) => (
         <Card key={index}>
           <CardHeader>
-            <Skeleton className="h-5 w-40 mb-2" />
+            <Skeleton className="mb-2 h-5 w-40" />
             <Skeleton className="h-4 w-64" />
           </CardHeader>
           <CardContent>

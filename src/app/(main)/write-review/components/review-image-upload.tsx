@@ -1,9 +1,10 @@
 "use client";
 
-import { siteConfig } from "@/config/site";
 import Image from "next/image";
 import { ChangeEvent, useState } from "react";
 import { FaTimes, FaUpload } from "react-icons/fa";
+
+import { siteConfig } from "@/config/site";
 
 type ReviewImageUploadProps = {
   reviewImageUrl?: string;
@@ -52,7 +53,7 @@ const ReviewImageUpload: React.FC<ReviewImageUploadProps> = ({
   };
 
   return (
-    <div className="flex flex-col items-center justify-center p-6 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-lg shadow-lg">
+    <div className="flex flex-col items-center justify-center rounded-lg bg-gradient-to-r from-emerald-500 to-teal-500 p-6 shadow-lg">
       {!reviewImageUrl ? (
         <>
           <input
@@ -65,15 +66,13 @@ const ReviewImageUpload: React.FC<ReviewImageUploadProps> = ({
 
           <label
             htmlFor="reviewImage"
-            className="flex items-center justify-center cursor-pointer px-8 py-4 bg-white text-gray-800 rounded-lg shadow-lg hover:bg-gray-100 transition duration-300 transform hover:scale-105"
+            className="flex transform cursor-pointer items-center justify-center rounded-lg bg-white px-8 py-4 text-gray-800 shadow-lg transition duration-300 hover:scale-105 hover:bg-gray-100"
           >
             <FaUpload className="mr-2 text-purple-600" />
             <span className="font-semibold">Add an image to review</span>
           </label>
 
-          <p className="mt-2 text-white text-sm">
-            Click above to upload an image (JPG, PNG, GIF)
-          </p>
+          <p className="mt-2 text-sm text-white">Click above to upload an image (JPG, PNG, GIF)</p>
         </>
       ) : (
         <div className="relative">
@@ -82,11 +81,11 @@ const ReviewImageUpload: React.FC<ReviewImageUploadProps> = ({
             alt="Preview"
             width={720}
             height={720}
-            className="mt-4 w-auto h-32 object-contain border-4 border-purple-500 shadow-lg"
+            className="mt-4 h-32 w-auto border-4 border-purple-500 object-contain shadow-lg"
           />
           <button
             onClick={handleImageRemove}
-            className="absolute top-0 right-0 bg-red-600 text-white rounded-full p-1 hover:bg-red-700 transition duration-300"
+            className="absolute top-0 right-0 rounded-full bg-red-600 p-1 text-white transition duration-300 hover:bg-red-700"
             title="Remove Image"
           >
             <FaTimes />
@@ -94,7 +93,7 @@ const ReviewImageUpload: React.FC<ReviewImageUploadProps> = ({
         </div>
       )}
 
-      {uploading && <p className="text-white mt-2">Uploading...</p>}
+      {uploading && <p className="mt-2 text-white">Uploading...</p>}
     </div>
   );
 };

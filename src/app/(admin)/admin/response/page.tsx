@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+
 import SearchForm from "../../components/common/search-form";
 import { ExcelExportButton } from "../../components/response/excel-export-button";
 import ResponseControl from "../../components/response/response-control";
@@ -17,20 +18,17 @@ export default async function Page({
   const search = params.q || "";
 
   return (
-    <div className=" w-full mx-auto max-w-7xl px-5 py-10">
+    <div className="mx-auto w-full max-w-7xl px-5 py-10">
       <div className="flex flex-col gap-8">
         <div className="flex flex-col gap-4">
           <h1 className="text-3xl font-bold">Responses</h1>
-          <div className="flex w-full flex-wrap justify-between gap-4 items-center space-x-2">
+          <div className="flex w-full flex-wrap items-center justify-between gap-4 space-x-2">
             <SearchForm initialValue={search} />
             <ExcelExportButton />
           </div>
         </div>
 
-        <Suspense
-          fallback={<ResponseTableSkeleton />}
-          key={`${search}-${currentPage}`}
-        >
+        <Suspense fallback={<ResponseTableSkeleton />} key={`${search}-${currentPage}`}>
           <ResponseControl search={search} page={currentPage} />
         </Suspense>
       </div>

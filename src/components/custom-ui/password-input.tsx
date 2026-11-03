@@ -2,6 +2,7 @@
 
 import { Eye, EyeOff } from "lucide-react";
 import * as React from "react";
+
 import { Input } from "../ui/input";
 
 function PasswordInput(props: React.InputHTMLAttributes<HTMLInputElement>) {
@@ -24,7 +25,7 @@ function PasswordInput(props: React.InputHTMLAttributes<HTMLInputElement>) {
       <button
         type="button"
         onClick={togglePassword}
-        className="absolute inset-y-0 cursor-pointer right-0 pr-3 flex items-center"
+        className="absolute inset-y-0 right-0 flex cursor-pointer items-center pr-3"
         tabIndex={-1}
       >
         {!showPassword ? (

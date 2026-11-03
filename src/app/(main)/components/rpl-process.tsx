@@ -1,6 +1,7 @@
+import { ArrowRight } from "lucide-react";
+
 import { EligibilityForm } from "@/app/(main)/components/form/eligibility-form";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
 
 export default function RplProcess() {
   const steps = [
@@ -31,34 +32,29 @@ export default function RplProcess() {
   ];
 
   return (
-    <section className="py-16 md:py-24 bg-[#F5F7FA]  overflow-hidden">
+    <section className="overflow-hidden bg-[#F5F7FA] py-16 md:py-24">
       <div className="container mx-auto px-4 md:px-8">
-        <div className="flex flex-col items-center justify-center space-y-4 text-center mb-10">
+        <div className="mb-10 flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
               RPL <span className="text-emerald-600">Process</span>
             </h2>
             <p className="max-w-[700px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
-              Get recognition for your skills and experience with our simple
-              four-step process
+              Get recognition for your skills and experience with our simple four-step process
             </p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
           {steps.map((step, index) => (
             <div
               key={index}
-              className="group relative overflow-hidden rounded-lg border border-emerald-100 bg-white p-6 shadow-md transition-all hover:shadow-xl hover:-translate-y-1"
+              className="group relative overflow-hidden rounded-lg border border-emerald-100 bg-white p-6 shadow-md transition-all hover:-translate-y-1 hover:shadow-xl"
             >
-              <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-emerald-50 group-hover:bg-emerald-100 transition-colors" />
+              <div className="absolute -top-4 -right-4 h-24 w-24 rounded-full bg-emerald-50 transition-colors group-hover:bg-emerald-100" />
               <div className="relative space-y-4">
-                <span className="block text-4xl font-bold text-emerald-300">
-                  {step.number}
-                </span>
-                <h3 className="text-xl font-bold text-slate-700">
-                  {step.title}
-                </h3>
+                <span className="block text-4xl font-bold text-emerald-300">{step.number}</span>
+                <h3 className="text-xl font-bold text-slate-700">{step.title}</h3>
                 <p className="text-slate-600">{step.description}</p>
               </div>
               <div className="absolute bottom-0 left-0 h-1 w-full bg-gradient-to-r from-emerald-300 to-emerald-600" />
@@ -70,7 +66,7 @@ export default function RplProcess() {
             trigger={
               <Button
                 size="lg"
-                className=" group bg-gradient-to-r from-emerald-600 to-teal-600 text-white"
+                className="group bg-gradient-to-r from-emerald-600 to-teal-600 text-white"
               >
                 Check Your Eligibility
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />

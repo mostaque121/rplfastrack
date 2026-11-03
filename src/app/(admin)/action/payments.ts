@@ -2,21 +2,11 @@
 "use server";
 
 import { requireAdmin } from "@/app/(admin)/action/helper";
-import type {
-  CreatePaymentData,
-  UpdatePaymentData,
-} from "@/app/(admin)/lib/zod";
-import {
-  createPaymentSchema,
-  updatePaymentSchema,
-} from "@/app/(admin)/lib/zod";
+import type { CreatePaymentData, UpdatePaymentData } from "@/app/(admin)/lib/zod";
+import { createPaymentSchema, updatePaymentSchema } from "@/app/(admin)/lib/zod";
 import { Payment } from "@/generated/prisma";
 import { prisma } from "@/server/db";
-import type {
-  PaymentFilters,
-  PaymentResponse,
-  StatsResponse,
-} from "@/types/payment";
+import type { PaymentFilters, PaymentResponse, StatsResponse } from "@/types/payment";
 
 export type PaymentWithParts = {
   id: string;
@@ -52,8 +42,7 @@ const calculateTotals = (data: {
   bankCommission: number;
 }) => {
   const payment = data.parts.reduce((sum, part) => sum + part.amount, 0);
-  const netProfit =
-    payment - data.collegePayment - data.agentCommission - data.bankCommission;
+  const netProfit = payment - data.collegePayment - data.agentCommission - data.bankCommission;
   return { payment, netProfit };
 };
 
@@ -108,13 +97,9 @@ export async function updatePayment(data: UpdatePaymentData) {
       const operations = [];
 
       // Delete parts that are no longer present
-      const idsToDelete = [...existingPartIds].filter(
-        (partId) => !incomingParts.has(partId),
-      );
+      const idsToDelete = [...existingPartIds].filter((partId) => !incomingParts.has(partId));
       if (idsToDelete.length > 0) {
-        operations.push(
-          tx.paymentPart.deleteMany({ where: { id: { in: idsToDelete } } }),
-        );
+        operations.push(tx.paymentPart.deleteMany({ where: { id: { in: idsToDelete } } }));
       }
 
       // Update or create parts
@@ -129,9 +114,7 @@ export async function updatePayment(data: UpdatePaymentData) {
           );
         } else {
           // Create new
-          operations.push(
-            tx.paymentPart.create({ data: { ...part, paymentId: id } }),
-          );
+          operations.push(tx.paymentPart.create({ data: { ...part, paymentId: id } }));
         }
       }
 
@@ -155,9 +138,7 @@ export async function updatePayment(data: UpdatePaymentData) {
   }
 }
 
-export async function getPaymentsWithFilter(
-  filters: PaymentFilters,
-): Promise<PaymentResponse> {
+export async function getPaymentsWithFilter(filters: PaymentFilters): Promise<PaymentResponse> {
   await requireAdmin();
   try {
     const { search, status, dateFrom, dateTo, page, limit } = filters;
@@ -272,8 +253,7 @@ export async function getPaymentStats(): Promise<StatsResponse> {
     const totalPayments = aggregates._count;
     const totalRevenue = Number(aggregates._sum.payment || 0);
     const totalCourseFee = Number(aggregates._sum.courseFee || 0);
-    const averagePayment =
-      totalPayments > 0 ? Math.round(totalRevenue / totalPayments) : 0;
+    const averagePayment = totalPayments > 0 ? Math.round(totalRevenue / totalPayments) : 0;
 
     return {
       success: true,
@@ -295,9 +275,7 @@ export async function getPaymentStats(): Promise<StatsResponse> {
   }
 }
 
-export async function deletePayment(
-  id: string,
-): Promise<{ success: boolean; error?: string }> {
+export async function deletePayment(id: string): Promise<{ success: boolean; error?: string }> {
   await requireAdmin();
   try {
     await prisma.paymentPart.deleteMany({

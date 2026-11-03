@@ -1,5 +1,8 @@
 "use client";
 
+import { useRouter, useSearchParams } from "next/navigation";
+import { useCallback } from "react";
+
 import {
   Select,
   SelectContent,
@@ -7,8 +10,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback } from "react";
 
 export function DateRangeSelector() {
   const router = useRouter();

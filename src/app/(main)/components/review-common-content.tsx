@@ -1,9 +1,10 @@
 "use client";
-import ReviewCard from "@/app/(main)/components/card/review-card";
-import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { MdStar, MdStarHalf, MdStarOutline } from "react-icons/md";
+
+import ReviewCard from "@/app/(main)/components/card/review-card";
+import { Button } from "@/components/ui/button";
 
 interface Course {
   id: string;
@@ -32,10 +33,7 @@ interface ReviewCommonProps {
   stats: ReviewStats;
 }
 
-export default function ReviewCommonContent({
-  reviews,
-  stats,
-}: ReviewCommonProps) {
+export default function ReviewCommonContent({ reviews, stats }: ReviewCommonProps) {
   const totalReviews = stats.totalReviews;
   const avgStar = stats.averageRating;
   // Calculate stars to display
@@ -44,25 +42,22 @@ export default function ReviewCommonContent({
   const emptyStars = 5 - (wholeStars + (decimalPart >= 0.5 ? 1 : 0));
   return (
     <div className="flex flex-col md:flex-row">
-      <div className="md:w-96 w-full mb-6 md:mb-0">
+      <div className="mb-6 w-full md:mb-0 md:w-96">
         {/* Star Rating Summary Section */}
-        <div className="flex flex-col items-center mb-6">
-          <div className="bg-light-gray py-4 px-4 sm:px-6 items-center flex flex-col rounded-lg shadow-sm w-full max-w-md text-center">
-            <div className="flex items-center mb-2">
+        <div className="mb-6 flex flex-col items-center">
+          <div className="bg-light-gray flex w-full max-w-md flex-col items-center rounded-lg px-4 py-4 text-center shadow-sm sm:px-6">
+            <div className="mb-2 flex items-center">
               {/* Render whole stars */}
               {[...Array(wholeStars)].map((_, index) => (
-                <MdStar
-                  key={index}
-                  className="text-emerald-600 h-5 w-5 sm:h-6 sm:w-6"
-                />
+                <MdStar key={index} className="h-5 w-5 text-emerald-600 sm:h-6 sm:w-6" />
               ))}
 
               {/* Render fractional star based on updated logic */}
               {decimalPart >= 0.75 ? (
-                <MdStar className="text-emerald-600 h-5 w-5 sm:h-6 sm:w-6" />
+                <MdStar className="h-5 w-5 text-emerald-600 sm:h-6 sm:w-6" />
               ) : (
                 decimalPart >= 0.25 && (
-                  <MdStarHalf className="text-emerald-600 h-5 w-5 sm:h-6 sm:w-6" />
+                  <MdStarHalf className="h-5 w-5 text-emerald-600 sm:h-6 sm:w-6" />
                 )
               )}
 
@@ -70,19 +65,17 @@ export default function ReviewCommonContent({
               {[...Array(emptyStars)].map((_, index) => (
                 <MdStarOutline
                   key={index + wholeStars + 1}
-                  className="text-gray-300 h-5 w-5 sm:h-6 sm:w-6"
+                  className="h-5 w-5 text-gray-300 sm:h-6 sm:w-6"
                 />
               ))}
             </div>
-            <div className="flex items-center justify-center mt-2 space-x-1 text-gray-700">
-              <span className="text-emerald-600 text-xl sm:text-2xl font-bold">
+            <div className="mt-2 flex items-center justify-center space-x-1 text-gray-700">
+              <span className="text-xl font-bold text-emerald-600 sm:text-2xl">
                 {parseFloat(avgStar.toFixed(1))}
               </span>
-              <span className="text-gray-500 font-medium text-sm sm:text-base">
-                out of 5
-              </span>
+              <span className="text-sm font-medium text-gray-500 sm:text-base">out of 5</span>
             </div>
-            <p className="text-gray-600 mt-2 text-sm sm:text-base">
+            <p className="mt-2 text-sm text-gray-600 sm:text-base">
               Based on {totalReviews} reviews
             </p>
           </div>
@@ -91,20 +84,18 @@ export default function ReviewCommonContent({
           {([5, 4, 3, 2, 1] as const).map((starValue) => {
             const count = stats.starCounts[starValue];
             const percentage =
-              stats.totalReviews > 0
-                ? ((count / stats.totalReviews) * 100).toFixed(1)
-                : 0;
+              stats.totalReviews > 0 ? ((count / stats.totalReviews) * 100).toFixed(1) : 0;
 
             return (
-              <div key={starValue} className="flex items-center mb-2">
+              <div key={starValue} className="mb-2 flex items-center">
                 <span className="flex items-center gap-1 font-semibold">
                   {starValue} <MdStar />
                 </span>
                 <span className="ml-2 w-12">( {count} )</span>
-                <div className="flex-1 flex items-center bg-light-gray-hover h-2 rounded mr-4">
-                  <div className="w-full bg-gray-200 rounded">
+                <div className="bg-light-gray-hover mr-4 flex h-2 flex-1 items-center rounded">
+                  <div className="w-full rounded bg-gray-200">
                     <div
-                      className="bg-emerald-500 h-2 rounded"
+                      className="h-2 rounded bg-emerald-500"
                       style={{ width: `${percentage}%` }}
                     />
                   </div>
@@ -115,14 +106,14 @@ export default function ReviewCommonContent({
           })}
         </div>
         <Link prefetch={false} href={"/write-review"}>
-          <button className="py-1 px-3 font-semibold mt-4 border-emerald-500 hover:border-emerald-500 cursor-pointer rounded-full border-2 hover:bg-emerald-500 hover:text-white transition-all duration-200 ease-in-out">
+          <button className="mt-4 cursor-pointer rounded-full border-2 border-emerald-500 px-3 py-1 font-semibold transition-all duration-200 ease-in-out hover:border-emerald-500 hover:bg-emerald-500 hover:text-white">
             Write a review
           </button>
         </Link>
       </div>
 
       {/* Right Side: User Reviews */}
-      <div className="md:flex-1 md:ml-10">
+      <div className="md:ml-10 md:flex-1">
         {reviews.map((review, index) => (
           <ReviewCard review={review} key={index} />
         ))}

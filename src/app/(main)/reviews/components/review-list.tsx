@@ -21,10 +21,10 @@ interface ReviewListProps {
 }
 export default function ReviewList({ reviews }: ReviewListProps) {
   return (
-    <section className=" bg-white pb-16  overflow-hidden">
+    <section className="overflow-hidden bg-white pb-16">
       <div className="container mx-auto px-4 md:px-8">
-        <h2 className="text-2xl mb-4 font-semibold">Clients Feedback</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <h2 className="mb-4 text-2xl font-semibold">Clients Feedback</h2>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {reviews.map((review, index) => (
             <ReviewCard review={review} key={index} />
           ))}

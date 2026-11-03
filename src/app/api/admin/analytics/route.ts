@@ -1,10 +1,7 @@
-import {
-  analyticsDataClient,
-  getDateRange,
-  property,
-} from "@/lib/analytics-client";
-import { withAdminGuard } from "@/server/with-admin-guard";
 import { NextRequest, NextResponse } from "next/server";
+
+import { analyticsDataClient, getDateRange, property } from "@/lib/analytics-client";
+import { withAdminGuard } from "@/server/with-admin-guard";
 
 export const GET = withAdminGuard(async function GET(request: NextRequest) {
   try {
@@ -29,10 +26,7 @@ export const GET = withAdminGuard(async function GET(request: NextRequest) {
       {
         dateRanges: standardDateRanges,
         dimensions: [{ name: "pagePath" }],
-        metrics: [
-          { name: "screenPageViews" },
-          { name: "userEngagementDuration" },
-        ],
+        metrics: [{ name: "screenPageViews" }, { name: "userEngagementDuration" }],
         orderBys: [{ metric: { metricName: "screenPageViews" }, desc: true }],
       },
       {

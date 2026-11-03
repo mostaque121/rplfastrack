@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { saveEligibilityData } from "@/features/leads/actions";
-import { trackLead } from "@/lib/track-lead";
+import { CheckCircle2 } from "lucide-react";
+import { useRef, useState } from "react";
+
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,9 +25,9 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useRPL } from "@/contexts/rpl-context";
+import { saveEligibilityData } from "@/features/leads/actions";
 import { experienceYears } from "@/lib/experience-years";
-import { CheckCircle2 } from "lucide-react";
-import { useRef, useState } from "react";
+import { trackLead } from "@/lib/track-lead";
 
 const australianStates = [
   { id: "nsw", name: "New South Wales" },
@@ -220,7 +221,7 @@ export function EligibilityForm({
       <DialogTrigger asChild>{trigger || defaultTrigger}</DialogTrigger>
       <DialogContent
         ref={scrollSectionRef}
-        className={`sm:max-w-[500px] ${className} h-[100dvh] md:max-h-[90vh] pb-48 md:pb-6 overflow-y-auto`}
+        className={`sm:max-w-[500px] ${className} h-[100dvh] overflow-y-auto pb-48 md:max-h-[90vh] md:pb-6`}
       >
         {!isSubmitted ? (
           <>
@@ -230,13 +231,13 @@ export function EligibilityForm({
             </DialogHeader>
 
             {/* Progress indicator */}
-            <div className="w-full bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700">
+            <div className="mb-4 h-2.5 w-full rounded-full bg-gray-200 dark:bg-gray-700">
               <div
-                className="bg-green-600 h-2.5 rounded-full transition-all duration-300"
+                className="h-2.5 rounded-full bg-green-600 transition-all duration-300"
                 style={{ width: step === 1 ? "50%" : "100%" }}
               ></div>
             </div>
-            <div className="text-sm text-muted-foreground mb-4">
+            <div className="mb-4 text-sm text-muted-foreground">
               Step {step} of 2 • {step === 1 ? "50%" : "100%"} Complete
             </div>
 
@@ -245,7 +246,7 @@ export function EligibilityForm({
             <form onSubmit={handleSubmit} className="space-y-4">
               {step === 1 ? (
                 <>
-                  <div className="space-y-2 w-full">
+                  <div className="w-full space-y-2">
                     <Label htmlFor="industry" className="text-sm font-medium">
                       Industry <span className="text-red-500">*</span>
                     </Label>
@@ -258,11 +259,11 @@ export function EligibilityForm({
                     >
                       <SelectTrigger
                         id="industry"
-                        className="w-full min-h-[40px] h-auto py-2 text-sm focus:ring-2 ring-ring"
+                        className="h-auto min-h-[40px] w-full py-2 text-sm ring-ring focus:ring-2"
                       >
                         <SelectValue
                           placeholder="Select your industry"
-                          className="whitespace-normal break-words text-left"
+                          className="text-left break-words whitespace-normal"
                         />
                       </SelectTrigger>
                       <SelectContent
@@ -274,9 +275,9 @@ export function EligibilityForm({
                           <SelectItem
                             key={industry.id}
                             value={industry.title}
-                            className="text-sm py-2 px-3 cursor-pointer whitespace-normal"
+                            className="cursor-pointer px-3 py-2 text-sm whitespace-normal"
                           >
-                            <span className="block whitespace-normal break-words">
+                            <span className="block break-words whitespace-normal">
                               {industry.title}
                             </span>
                           </SelectItem>
@@ -286,24 +287,18 @@ export function EligibilityForm({
                   </div>
 
                   {/* Qualification Select - With text wrapping */}
-                  <div className="space-y-2 w-full">
-                    <Label
-                      htmlFor="qualification"
-                      className="text-sm font-medium"
-                    >
-                      Desired Qualification{" "}
-                      <span className="text-red-500">*</span>
+                  <div className="w-full space-y-2">
+                    <Label htmlFor="qualification" className="text-sm font-medium">
+                      Desired Qualification <span className="text-red-500">*</span>
                     </Label>
                     <Select
                       value={formData.qualification}
-                      onValueChange={(value) =>
-                        handleChange("qualification", value)
-                      }
+                      onValueChange={(value) => handleChange("qualification", value)}
                       disabled={!formData.industry}
                     >
                       <SelectTrigger
                         id="qualification"
-                        className="w-full min-h-[40px] h-auto py-2 text-sm focus:ring-2 ring-ring disabled:opacity-50"
+                        className="h-auto min-h-[40px] w-full py-2 text-sm ring-ring focus:ring-2 disabled:opacity-50"
                       >
                         <SelectValue
                           placeholder={
@@ -311,7 +306,7 @@ export function EligibilityForm({
                               ? "Select desired qualification"
                               : "Select industry first"
                           }
-                          className="whitespace-normal break-words text-left"
+                          className="text-left break-words whitespace-normal"
                         />
                       </SelectTrigger>
                       <SelectContent
@@ -321,16 +316,14 @@ export function EligibilityForm({
                       >
                         {formData.industry &&
                           sections
-                            .find(
-                              (section) => section.title === formData.industry,
-                            )
+                            .find((section) => section.title === formData.industry)
                             ?.courses?.map((course) => (
                               <SelectItem
                                 key={course.id}
                                 value={course.title}
-                                className="text-sm py-2 px-3 cursor-pointer whitespace-normal"
+                                className="cursor-pointer px-3 py-2 text-sm whitespace-normal"
                               >
-                                <span className="block whitespace-normal break-words">
+                                <span className="block break-words whitespace-normal">
                                   {course.title}
                                 </span>
                               </SelectItem>
@@ -341,19 +334,13 @@ export function EligibilityForm({
 
                   <div className="space-y-2">
                     <Label htmlFor="experience">
-                      Years of Experience{" "}
-                      <span className="text-red-500">*</span>
+                      Years of Experience <span className="text-red-500">*</span>
                     </Label>
                     <Select
                       value={formData.yearsOfExperience}
-                      onValueChange={(value) =>
-                        handleChange("yearsOfExperience", value)
-                      }
+                      onValueChange={(value) => handleChange("yearsOfExperience", value)}
                     >
-                      <SelectTrigger
-                        id="experience"
-                        className="w-full focus:ring-2 ring-ring"
-                      >
+                      <SelectTrigger id="experience" className="w-full ring-ring focus:ring-2">
                         <SelectValue placeholder="Select years of experience" />
                       </SelectTrigger>
                       <SelectContent>
@@ -372,14 +359,9 @@ export function EligibilityForm({
                     </Label>
                     <Select
                       value={formData.stateLivedIn}
-                      onValueChange={(value) =>
-                        handleChange("stateLivedIn", value)
-                      }
+                      onValueChange={(value) => handleChange("stateLivedIn", value)}
                     >
-                      <SelectTrigger
-                        id="state"
-                        className="w-full focus:ring-2 ring-ring"
-                      >
+                      <SelectTrigger id="state" className="w-full ring-ring focus:ring-2">
                         <SelectValue placeholder="Select your state" />
                       </SelectTrigger>
                       <SelectContent>
@@ -441,9 +423,7 @@ export function EligibilityForm({
                     <Input
                       id="phoneNumber"
                       value={formData.phoneNumber}
-                      onChange={(e) =>
-                        handleChange("phoneNumber", e.target.value)
-                      }
+                      onChange={(e) => handleChange("phoneNumber", e.target.value)}
                       placeholder="Enter your phone number"
                     />
                   </div>
@@ -465,11 +445,7 @@ export function EligibilityForm({
                   )}
 
                   <div className="flex justify-between pt-4">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={handleBack}
-                    >
+                    <Button type="button" variant="outline" onClick={handleBack}>
                       Back
                     </Button>
                     <Button
@@ -486,11 +462,11 @@ export function EligibilityForm({
           </>
         ) : (
           <div className="flex flex-col items-center justify-center py-8">
-            <CheckCircle2 className="h-16 w-16 text-green-500 mb-4" />
-            <h2 className="text-2xl font-bold text-center">Thank You!</h2>
-            <p className="text-center text-muted-foreground mt-2">
-              Your eligibility check has been submitted successfully. We&apos;ll
-              review your information and get back to you shortly.
+            <CheckCircle2 className="mb-4 h-16 w-16 text-green-500" />
+            <h2 className="text-center text-2xl font-bold">Thank You!</h2>
+            <p className="mt-2 text-center text-muted-foreground">
+              Your eligibility check has been submitted successfully. We&apos;ll review your
+              information and get back to you shortly.
             </p>
           </div>
         )}

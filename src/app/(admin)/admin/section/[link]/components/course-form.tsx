@@ -1,4 +1,9 @@
 "use client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import dynamic from "next/dynamic";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+
 import { createCourse, updateCourse } from "@/app/(admin)/action/course";
 import { CourseFormData, CourseSchema } from "@/app/(admin)/lib/zod";
 import { IndexSelector } from "@/components/custom-ui/index-selector";
@@ -14,17 +19,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { ImageUploaderServer } from "@/components/uploader/image-uploader-server";
-import { zodResolver } from "@hookform/resolvers/zod";
-import dynamic from "next/dynamic";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 
-const RichTextEditor = dynamic(
-  () => import("@/components/custom-ui/rich-text-editor"),
-  {
-    ssr: false,
-  },
-);
+const RichTextEditor = dynamic(() => import("@/components/custom-ui/rich-text-editor"), {
+  ssr: false,
+});
 
 interface Course {
   id: string;
@@ -89,10 +87,7 @@ export default function CourseForm({ onCloseForm, item }: SectionFormProps) {
     return null;
   }
 
-  const handleSquareImageUpload = (
-    imageLink: string,
-    imagePublicId: string,
-  ) => {
+  const handleSquareImageUpload = (imageLink: string, imagePublicId: string) => {
     form.setValue("imageSquareLink", imageLink);
     form.setValue("imageSquarePublicId", imagePublicId);
   };
@@ -118,9 +113,7 @@ export default function CourseForm({ onCloseForm, item }: SectionFormProps) {
         }
       }
       if (result?.success) {
-        toast.success(
-          `Course ${isEditMode ? "updated" : "created"} successfully!`,
-        );
+        toast.success(`Course ${isEditMode ? "updated" : "created"} successfully!`);
         onCloseForm();
       } else {
         toast.error("Error", {
@@ -136,15 +129,12 @@ export default function CourseForm({ onCloseForm, item }: SectionFormProps) {
   }
 
   return (
-    <div className=" qualification">
-      <h3 className="text-2xl font-semibold text-center pb-4">
+    <div className="qualification">
+      <h3 className="pb-4 text-center text-2xl font-semibold">
         {item.course ? "Edit Course" : "Add Course"}
       </h3>
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-6 relative"
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)} className="relative space-y-6">
           {/* Title */}
           <FormField
             control={form.control}
@@ -166,14 +156,9 @@ export default function CourseForm({ onCloseForm, item }: SectionFormProps) {
             name="metaTitle"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>
-                  Meta Title(Should be unique and 50-60 character)
-                </FormLabel>
+                <FormLabel>Meta Title(Should be unique and 50-60 character)</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="Meta title (generate from chatgpt)"
-                    {...field}
-                  />
+                  <Input placeholder="Meta title (generate from chatgpt)" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -186,14 +171,9 @@ export default function CourseForm({ onCloseForm, item }: SectionFormProps) {
             name="metaDescription"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>
-                  Meta Description(Should be 120-160 character)
-                </FormLabel>
+                <FormLabel>Meta Description(Should be 120-160 character)</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="Meta Description (generate from chatgpt)"
-                    {...field}
-                  />
+                  <Input placeholder="Meta Description (generate from chatgpt)" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

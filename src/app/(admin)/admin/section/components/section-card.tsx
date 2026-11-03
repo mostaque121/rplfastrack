@@ -1,21 +1,17 @@
 "use client";
-import { deleteSection } from "@/app/(admin)/action/section";
-import { DeleteDialog } from "@/components/custom-ui/delete-dialog";
-import { FormDialog } from "@/components/custom-ui/form-dialog";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { formatDistanceToNow } from "date-fns";
 import { Pencil, Trash2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
+
+import { deleteSection } from "@/app/(admin)/action/section";
+import { DeleteDialog } from "@/components/custom-ui/delete-dialog";
+import { FormDialog } from "@/components/custom-ui/form-dialog";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+
 import SectionForm from "./section-form";
 
 interface Section {
@@ -62,7 +58,7 @@ export default function AdminSectionCard({ section }: SectionContentProps) {
 
   return (
     <>
-      <Card className="gap-3  py-0 pb-4 overflow-hidden">
+      <Card className="gap-3 overflow-hidden py-0 pb-4">
         <div className="relative w-full">
           <Image
             src={section.imageCoverLink}
@@ -71,12 +67,12 @@ export default function AdminSectionCard({ section }: SectionContentProps) {
             width={720}
             height={720}
             priority
-            className="object-cover w-full aspect-[150/72]"
+            className="aspect-[150/72] w-full object-cover"
           />
         </div>
         <CardHeader className="px-3">
           <CardTitle className="flex items-center">
-            <span className="bg-blue-600 text-white w-6 h-6 rounded-full flex items-center justify-center mr-3 text-sm">
+            <span className="mr-3 flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-sm text-white">
               {section.index}
             </span>
             {section.title}
@@ -84,16 +80,16 @@ export default function AdminSectionCard({ section }: SectionContentProps) {
         </CardHeader>
         <CardContent className="px-3">
           <Link href={`/admin/section/${section.link}`}>
-            <div className="bg-gray-200 rounded-md text-blue-600 hover:scale-95 active:scale-90 duration-200 ease-in-out transition-all py-1 px-2">
+            <div className="rounded-md bg-gray-200 px-2 py-1 text-blue-600 transition-all duration-200 ease-in-out hover:scale-95 active:scale-90">
               <h1>Total Courses: {section.courses.length}</h1>
             </div>
           </Link>
         </CardContent>
-        <CardFooter className="flex-col px-3 pt-0 items-start border-t">
-          <div className="flex justify-between w-full gap-2">
+        <CardFooter className="flex-col items-start border-t px-3 pt-0">
+          <div className="flex w-full justify-between gap-2">
             <FormDialog Form={SectionForm} item={section}>
               <Button variant="outline" size="sm">
-                <Pencil className="h-4 w-4 mr-1" />
+                <Pencil className="mr-1 h-4 w-4" />
                 Edit
               </Button>
             </FormDialog>
@@ -111,7 +107,7 @@ export default function AdminSectionCard({ section }: SectionContentProps) {
               </Button>
             </DeleteDialog>
           </div>
-          <div className="text-xs mt-3 text-muted-foreground">
+          <div className="mt-3 text-xs text-muted-foreground">
             Updated{" "}
             {formatDistanceToNow(new Date(section.updatedAt), {
               addSuffix: true,

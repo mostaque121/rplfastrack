@@ -1,9 +1,11 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Download, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner"; // keeping sonner for consistency
+
+import { Button } from "@/components/ui/button";
+
 import { exportEligibilityToExcel } from "../../action/export-responses";
 
 export function EligibilityExcelExportButton() {
@@ -56,11 +58,7 @@ export function EligibilityExcelExportButton() {
   };
 
   return (
-    <Button
-      onClick={handleDownload}
-      disabled={isGenerating}
-      className="w-full sm:w-auto"
-    >
+    <Button onClick={handleDownload} disabled={isGenerating} className="w-full sm:w-auto">
       {isGenerating ? (
         <>
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />

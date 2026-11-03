@@ -1,5 +1,7 @@
 "use client";
 
+import { AlertTriangle } from "lucide-react";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,7 +12,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { AlertTriangle } from "lucide-react";
 
 interface DeleteWarningDialogProps {
   open: boolean;
@@ -32,14 +33,14 @@ export function DeleteWarningDialog({
       <AlertDialogContent>
         <AlertDialogHeader>
           <div className="flex items-center gap-3">
-            <div className="h-12 w-12 bg-red-100 rounded-full flex items-center justify-center">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-red-100">
               <AlertTriangle className="h-6 w-6 text-red-600" />
             </div>
             <div>
               <AlertDialogTitle className="text-lg font-semibold">
                 Delete Payment Record
               </AlertDialogTitle>
-              <AlertDialogDescription className="text-sm text-gray-600 mt-1">
+              <AlertDialogDescription className="mt-1 text-sm text-gray-600">
                 This action cannot be undone.
               </AlertDialogDescription>
             </div>
@@ -50,9 +51,9 @@ export function DeleteWarningDialog({
             Are you sure you want to delete the payment record for{" "}
             <span className="font-semibold text-gray-900">{studentName}</span>?
           </p>
-          <p className="text-sm text-gray-600 mt-2">
-            This will permanently remove all payment information and installment
-            history for this student.
+          <p className="mt-2 text-sm text-gray-600">
+            This will permanently remove all payment information and installment history for this
+            student.
           </p>
         </div>
         <AlertDialogFooter>

@@ -1,5 +1,8 @@
 "use client";
 
+import { useRouter, useSearchParams } from "next/navigation";
+import { useCallback } from "react";
+
 import {
   Select,
   SelectContent,
@@ -7,8 +10,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback } from "react";
 
 export function ApprovedSelector() {
   const router = useRouter();
@@ -23,7 +24,7 @@ export function ApprovedSelector() {
       params.set("approved", value);
       router.push(`?${params.toString()}`);
     },
-    [router, searchParams]
+    [router, searchParams],
   );
 
   return (

@@ -1,5 +1,6 @@
-import { Card } from "@/components/ui/card";
 import { MdStar, MdStarHalf, MdStarOutline } from "react-icons/md";
+
+import { Card } from "@/components/ui/card";
 
 interface Course {
   id: string;
@@ -33,34 +34,30 @@ export default function ReviewStats({ reviews }: ReviewStatsProps) {
     }
   });
 
-  const avgStar =
-    totalReviews > 0 ? Number((totalStars / totalReviews).toFixed(1)) : 0;
+  const avgStar = totalReviews > 0 ? Number((totalStars / totalReviews).toFixed(1)) : 0;
 
   const wholeStars = Math.floor(avgStar);
   const decimalPart = avgStar - wholeStars;
   const emptyStars = 5 - (wholeStars + (decimalPart >= 0.5 ? 1 : 0));
 
   return (
-    <div className="py-12 container mx-auto px-4 md:px-8">
-      <Card className="p-6 mb-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div className="container mx-auto px-4 py-12 md:px-8">
+      <Card className="mb-8 p-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           <div className="flex flex-col items-center justify-center">
             <div className="text-5xl font-bold text-primary">{avgStar}</div>
-            <div className="flex mt-2">
+            <div className="mt-2 flex">
               {/* Render whole stars */}
               {[...Array(wholeStars)].map((_, index) => (
-                <MdStar
-                  key={index}
-                  className="text-emerald-600 h-5 w-5 sm:h-6 sm:w-6"
-                />
+                <MdStar key={index} className="h-5 w-5 text-emerald-600 sm:h-6 sm:w-6" />
               ))}
 
               {/* Render fractional star based on updated logic */}
               {decimalPart >= 0.75 ? (
-                <MdStar className="text-emerald-600 h-5 w-5 sm:h-6 sm:w-6" />
+                <MdStar className="h-5 w-5 text-emerald-600 sm:h-6 sm:w-6" />
               ) : (
                 decimalPart >= 0.25 && (
-                  <MdStarHalf className="text-emerald-600 h-5 w-5 sm:h-6 sm:w-6" />
+                  <MdStarHalf className="h-5 w-5 text-emerald-600 sm:h-6 sm:w-6" />
                 )
               )}
 
@@ -68,39 +65,34 @@ export default function ReviewStats({ reviews }: ReviewStatsProps) {
               {[...Array(emptyStars)].map((_, index) => (
                 <MdStarOutline
                   key={index + wholeStars + 1}
-                  className="text-gray-300 h-5 w-5 sm:h-6 sm:w-6"
+                  className="h-5 w-5 text-gray-300 sm:h-6 sm:w-6"
                 />
               ))}
             </div>
-            <div className="mt-2 text-muted-foreground">
-              Based on {totalReviews} reviews
-            </div>
+            <div className="mt-2 text-muted-foreground">Based on {totalReviews} reviews</div>
           </div>
 
           <div className="col-span-2">
             <div className="space-y-2">
               {starCounts.map((count, index) => {
                 const starValue = 5 - index;
-                const percentage =
-                  totalReviews > 0
-                    ? ((count / totalReviews) * 100).toFixed(1)
-                    : 0;
+                const percentage = totalReviews > 0 ? ((count / totalReviews) * 100).toFixed(1) : 0;
 
                 return (
                   <div key={index} className="flex items-center gap-4">
-                    <div className="flex items-center w-20">
+                    <div className="flex w-20 items-center">
                       <span className="mr-2">{starValue}</span>
-                      <MdStar className="w-4 h-4 fill-emerald-600 text-primary" />
+                      <MdStar className="h-4 w-4 fill-emerald-600 text-primary" />
                     </div>
-                    <div className="w-full bg-muted rounded-full h-2.5">
+                    <div className="h-2.5 w-full rounded-full bg-muted">
                       <div
-                        className="bg-emerald-600 h-2.5 rounded-full"
+                        className="h-2.5 rounded-full bg-emerald-600"
                         style={{
                           width: `${percentage}%`,
                         }}
                       ></div>
                     </div>
-                    <div className="w-24 text-right text-muted-foreground text-sm">
+                    <div className="w-24 text-right text-sm text-muted-foreground">
                       {count} reviews
                     </div>
                   </div>

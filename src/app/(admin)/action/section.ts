@@ -1,11 +1,12 @@
 "use server";
 
-import { requireAdmin } from "@/app/(admin)/action/helper";
-import { recordRedirect } from "@/app/(admin)/lib/record-redirect";
-import { prisma } from "@/server/db";
-import { CACHE_TAGS } from "@/config/cache-tags";
 import { revalidatePath, updateTag } from "next/cache";
 import { z } from "zod";
+
+import { requireAdmin } from "@/app/(admin)/action/helper";
+import { recordRedirect } from "@/app/(admin)/lib/record-redirect";
+import { CACHE_TAGS } from "@/config/cache-tags";
+import { prisma } from "@/server/db";
 
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -177,11 +178,7 @@ export async function updateSection(
       });
 
       if (newData.link !== existing.link) {
-        await recordRedirect(
-          tx,
-          `/section/${existing.link}`,
-          `/section/${newData.link}`,
-        );
+        await recordRedirect(tx, `/section/${existing.link}`, `/section/${newData.link}`);
       }
     });
     revalidatePath("/admin/section");
@@ -218,9 +215,7 @@ export async function deleteSection(id: string, link: string) {
     if (sectionToDelete.courses.length > 0) {
       return {
         error: {
-          _form: [
-            "Can not delete while there have courses under this section.",
-          ],
+          _form: ["Can not delete while there have courses under this section."],
         },
       };
     }

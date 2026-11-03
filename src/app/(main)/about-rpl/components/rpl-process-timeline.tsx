@@ -1,10 +1,4 @@
-import {
-  ArrowRight,
-  Award,
-  ClipboardCheck,
-  FileText,
-  MessageSquare,
-} from "lucide-react";
+import { ArrowRight, Award, ClipboardCheck, FileText, MessageSquare } from "lucide-react";
 
 export default function RplProcessTimeline() {
   const steps = [
@@ -38,9 +32,9 @@ export default function RplProcessTimeline() {
     },
   ];
   return (
-    <section className="w-full bg-[#F5F7FA] py-12 md:py-24  ">
+    <section className="w-full bg-[#F5F7FA] py-12 md:py-24">
       <div className="container mx-auto px-4 md:px-8">
-        <div className="flex flex-col items-center justify-center space-y-4 text-center mb-10">
+        <div className="mb-10 flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
               RPL <span className="text-emerald-600">Process</span>
@@ -51,30 +45,28 @@ export default function RplProcessTimeline() {
           </div>
         </div>
 
-        <div className="mx-auto max-w-3xl space-y-8 relative">
+        <div className="relative mx-auto max-w-3xl space-y-8">
           {/* Vertical line */}
-          <div className="absolute left-16 top-0 bottom-0 w-1 bg-emerald-200 hidden md:block" />
+          <div className="absolute top-0 bottom-0 left-16 hidden w-1 bg-emerald-200 md:block" />
 
           {steps.map((step, index) => (
             <div
               key={index}
-              className="relative grid grid-cols-1 gap-4 md:grid-cols-[80px_1fr] items-start"
+              className="relative grid grid-cols-1 items-start gap-4 md:grid-cols-[80px_1fr]"
             >
               <div className="flex justify-center md:justify-start">
                 <div
-                  className={`z-10 flex h-16 w-16 bg-emerald-500 items-center justify-center rounded-full `}
+                  className={`z-10 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500`}
                 >
                   {step.icon}
                 </div>
               </div>
               <div className="rounded-lg border border-emerald-100 bg-white p-6 shadow-lg">
-                <div className="flex items-center space-x-2 mb-2">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-100 text-emerald-800 font-bold">
+                <div className="mb-2 flex items-center space-x-2">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-100 font-bold text-emerald-800">
                     {index + 1}
                   </div>
-                  <h3 className="text-xl font-bold text-emerald-800">
-                    {step.title}
-                  </h3>
+                  <h3 className="text-xl font-bold text-emerald-800">{step.title}</h3>
                 </div>
                 <p className="text-emerald-600">{step.description}</p>
                 {index < steps.length - 1 && (

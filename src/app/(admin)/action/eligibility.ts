@@ -1,14 +1,11 @@
 "use server";
 
-import { requireAdmin } from "@/app/(admin)/action/helper";
-import { prisma } from "@/server/db";
 import { revalidatePath } from "next/cache";
 
-export const getAllEligibility = async (
-  search: string,
-  page: number,
-  pageSize: number,
-) => {
+import { requireAdmin } from "@/app/(admin)/action/helper";
+import { prisma } from "@/server/db";
+
+export const getAllEligibility = async (search: string, page: number, pageSize: number) => {
   await requireAdmin();
   type SearchCondition = {
     OR: {
@@ -90,10 +87,7 @@ export const getAllEligibility = async (
     };
   }
 };
-export async function addNote(
-  eligibilitySubmissionId: string,
-  content: string,
-) {
+export async function addNote(eligibilitySubmissionId: string, content: string) {
   await requireAdmin();
   if (!content.trim()) {
     return { success: false, error: "Note content is required" };
@@ -115,10 +109,7 @@ export async function addNote(
     return { success: false, error: "Failed to add note" };
   }
 }
-export async function deleteNote(
-  eligibilitySubmissionId: string,
-  noteId: string,
-) {
+export async function deleteNote(eligibilitySubmissionId: string, noteId: string) {
   await requireAdmin();
   try {
     await prisma.note.delete({

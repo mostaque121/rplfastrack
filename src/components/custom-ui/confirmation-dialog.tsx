@@ -42,9 +42,7 @@ export function ConfirmationDialog({
           <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel className={cancelClassName}>
-            {cancelText}
-          </AlertDialogCancel>
+          <AlertDialogCancel className={cancelClassName}>{cancelText}</AlertDialogCancel>
           <AlertDialogAction onClick={onConfirm} className={confirmClassName}>
             {confirmText}
           </AlertDialogAction>

@@ -1,8 +1,9 @@
+import { NextResponse } from "next/server";
+
 import { env } from "@/env";
 import { analyticsDataClient, getDateRange } from "@/lib/analytics-client";
 import { prisma } from "@/server/db";
 import { withAdminGuard } from "@/server/with-admin-guard";
-import { NextResponse } from "next/server";
 
 const property = `properties/${env.GA4_PROPERTY_ID}`;
 

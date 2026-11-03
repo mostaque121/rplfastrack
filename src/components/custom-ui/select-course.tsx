@@ -43,8 +43,8 @@ const customStyles: StylesConfig<SelectOption, false> = {
     backgroundColor: state.isSelected
       ? emeraldColor
       : state.isFocused
-      ? emeraldHoverColor
-      : "white",
+        ? emeraldHoverColor
+        : "white",
     color: state.isSelected ? "white" : "#111827",
     "&:active": {
       backgroundColor: emeraldColor,
@@ -66,12 +66,7 @@ const customStyles: StylesConfig<SelectOption, false> = {
 };
 // --- End of custom styles ---
 
-const SelectCourse: React.FC<SelectCourseProps> = ({
-  courses,
-  value,
-  onChange,
-  error,
-}) => {
+const SelectCourse: React.FC<SelectCourseProps> = ({ courses, value, onChange, error }) => {
   const formattedOptions: SelectOption[] = courses.map((o) => ({
     value: o.id,
     label: o.title,
@@ -79,7 +74,7 @@ const SelectCourse: React.FC<SelectCourseProps> = ({
   const selected = formattedOptions.find((o) => o.value === value) || null;
 
   return (
-    <div className="relative w-full mx-auto">
+    <div className="relative mx-auto w-full">
       <Select
         value={selected}
         onChange={(newValue) => onChange?.(newValue ? newValue.value : null)}

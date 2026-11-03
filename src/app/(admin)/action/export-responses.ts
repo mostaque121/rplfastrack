@@ -1,9 +1,10 @@
 "use server";
 
-import { requireAdmin } from "@/app/(admin)/action/helper";
-import { prisma } from "@/server/db";
 import { format } from "date-fns";
 import ExcelJS from "exceljs";
+
+import { requireAdmin } from "@/app/(admin)/action/helper";
+import { prisma } from "@/server/db";
 
 export async function exportResponsesToExcel() {
   await requireAdmin();
@@ -38,9 +39,7 @@ export async function exportResponsesToExcel() {
     responses.forEach((response, index) => {
       worksheet.addRow({
         no: index + 1,
-        date: response.createdAt
-          ? format(response.createdAt, "yyyy-MM-dd HH:mm:ss")
-          : "",
+        date: response.createdAt ? format(response.createdAt, "yyyy-MM-dd HH:mm:ss") : "",
         name: response.name || "",
         phone: response.phone || "",
         email: response.email || "",
@@ -101,9 +100,7 @@ export async function exportEligibilityToExcel() {
     submissions.forEach((submission, index) => {
       worksheet.addRow({
         no: index + 1,
-        date: submission.createdAt
-          ? format(submission.createdAt, "yyyy-MM-dd HH:mm:ss")
-          : "",
+        date: submission.createdAt ? format(submission.createdAt, "yyyy-MM-dd HH:mm:ss") : "",
         name: submission.fullName || "",
         email: submission.email || "",
         phone: submission.phoneNumber || "",
@@ -112,8 +109,7 @@ export async function exportEligibilityToExcel() {
         experience: submission.yearsOfExperience ?? "",
         state: submission.stateLivedIn || "",
         message: submission.message || "",
-        latestNote:
-          submission.notes.length > 0 ? submission.notes[0].content : "",
+        latestNote: submission.notes.length > 0 ? submission.notes[0].content : "",
       });
     });
 

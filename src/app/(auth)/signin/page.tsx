@@ -1,9 +1,10 @@
-import { auth } from "@/server/auth";
 import { MoveRight } from "lucide-react";
 import { headers } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+
+import { auth } from "@/server/auth";
 const SIGN_IN_ERRORS: Record<string, string> = {
   signup_disabled: "This Google account isn't authorised.",
   NOT_AUTHORISED: "This Google account isn't authorised.",
@@ -24,7 +25,7 @@ export default async function page({
   });
   if (session?.user)
     return (
-      <section className="bg-[#16152f] h-screen flex justify-center items-center">
+      <section className="flex h-screen items-center justify-center bg-[#16152f]">
         <div className="flex flex-col items-center gap-4">
           {session.user.image && (
             <div className="mb-6 flex justify-center">
@@ -38,19 +39,14 @@ export default async function page({
             </div>
           )}
 
-          <h1 className="text-3xl font-bold mb-2 text-white">
-            Welcome, {session.user.name}!
-          </h1>
-          <h2 className="text-muted text-lg">
-            User Role : {session.user.role}
-          </h2>
+          <h1 className="mb-2 text-3xl font-bold text-white">Welcome, {session.user.name}!</h1>
+          <h2 className="text-lg text-muted">User Role : {session.user.role}</h2>
 
           {session.user.role !== "user" && (
             <Link href={"/admin"}>
               <button
                 type="submit"
-                className="flex  justify-center z-10 gap-5 cursor-pointer overflow-hidden border-2 group-hover:shadow-lg group-hover:shadow-[#32306d] border-gray-400 p-4 relative rounded-full text-white font-bold before:content-[''] before:absolute before:top-0 before:right-0 before:bottom-0 before:left-0 before:bg-linear-115 before:from-[#4f4cad] before:to-[#64E9FF] before:transition-all before:duration-500 before:-z-1 clip-path-custom
-    "
+                className="clip-path-custom relative z-10 flex cursor-pointer justify-center gap-5 overflow-hidden rounded-full border-2 border-gray-400 p-4 font-bold text-white group-hover:shadow-lg group-hover:shadow-[#32306d] before:absolute before:top-0 before:right-0 before:bottom-0 before:left-0 before:-z-1 before:bg-linear-115 before:from-[#4f4cad] before:to-[#64E9FF] before:transition-all before:duration-500 before:content-['']"
                 title="Google"
               >
                 <span>Dashboard</span>
@@ -69,8 +65,7 @@ export default async function page({
           >
             <button
               type="submit"
-              className="flex justify-center z-10 gap-5 cursor-pointer overflow-hidden border-2 group-hover:shadow-lg group-hover:shadow-[#32306d] border-gray-400 p-4 relative rounded-full text-white font-bold before:content-[''] before:absolute before:top-0 before:right-0 before:bottom-0 before:left-0 before:bg-linear-115 before:from-[#4f4cad] before:to-[#64E9FF] before:transition-all before:duration-500 before:-z-1 clip-path-custom
-    "
+              className="clip-path-custom relative z-10 flex cursor-pointer justify-center gap-5 overflow-hidden rounded-full border-2 border-gray-400 p-4 font-bold text-white group-hover:shadow-lg group-hover:shadow-[#32306d] before:absolute before:top-0 before:right-0 before:bottom-0 before:left-0 before:-z-1 before:bg-linear-115 before:from-[#4f4cad] before:to-[#64E9FF] before:transition-all before:duration-500 before:content-['']"
               title="Google"
             >
               <span>Sign Out</span>
@@ -82,11 +77,11 @@ export default async function page({
 
   return (
     <div className="flex h-screen w-full">
-      <div className="md:w-96 w-full h-screen md:px-8 px-5 pt-8 pb-10">
+      <div className="h-screen w-full px-5 pt-8 pb-10 md:w-96 md:px-8">
         <div className="flex items-center">
           <Link
             href="/"
-            className="font-semibold gap-1 flex items-center text-base md:text-lg mr-8"
+            className="mr-8 flex items-center gap-1 text-base font-semibold md:text-lg"
           >
             <Image
               src={"/fav.png"}
@@ -94,16 +89,14 @@ export default async function page({
               alt="logo"
               width={512}
               height={512}
-              className="md:h-7 h-6 object-contain w-auto"
+              className="h-6 w-auto object-contain md:h-7"
             />
-            <span className="text-emerald-600 tracking-tight">
-              RPL FAST TRACK
-            </span>
+            <span className="tracking-tight text-emerald-600">RPL FAST TRACK</span>
           </Link>
         </div>
-        <h1 className="text-3xl mt-12 md:mt-8">Sign in to your account</h1>
+        <h1 className="mt-12 text-3xl md:mt-8">Sign in to your account</h1>
 
-        <div className=" w-full mt-6 ">
+        <div className="mt-6 w-full">
           {errorMessage && (
             <p
               role="alert"
@@ -124,7 +117,7 @@ export default async function page({
             }}
           >
             <button
-              className="flex items-center shadow-md justify-center w-full h-14 md:h-12 bg-emerald-100 active:bg-emerald-300 cursor-pointer rounded-lg hover:bg-emerald-200 transition duration-300"
+              className="flex h-14 w-full cursor-pointer items-center justify-center rounded-lg bg-emerald-100 shadow-md transition duration-300 hover:bg-emerald-200 active:bg-emerald-300 md:h-12"
               type="submit"
             >
               Signin with Google
@@ -132,22 +125,22 @@ export default async function page({
           </form>
         </div>
       </div>
-      <div className="flex-1 hidden md:block relative">
+      <div className="relative hidden flex-1 md:block">
         <div className="auth-bg hero" />
         <div className="relative z-10">
-          <div className="ml-20 max-w-96 h-screen flex flex-col items-start justify-center">
-            <h1 className="text-4xl text-white font-bold">
+          <div className="ml-20 flex h-screen max-w-96 flex-col items-start justify-center">
+            <h1 className="text-4xl font-bold text-white">
               Recognize Your Skills and Experience Through RPL
             </h1>
-            <p className="text-gray-100 text-lg mt-7">
-              Unlock new opportunities by showcasing your existing knowledge and
-              competencies, allowing you to gain recognition for what you’ve
-              learned outside traditional education.
+            <p className="mt-7 text-lg text-gray-100">
+              Unlock new opportunities by showcasing your existing knowledge and competencies,
+              allowing you to gain recognition for what you’ve learned outside traditional
+              education.
             </p>
             <Link href={"/"}>
-              <div className="flex items-center gap-2 cursor-pointer text-blue-300  hover:text-blue-200 duration-200 ease-in transition-all mt-12">
-                <p className="text-xl underline text font-semibold">Home</p>
-                <MoveRight className="w-8 h-8" />
+              <div className="mt-12 flex cursor-pointer items-center gap-2 text-blue-300 transition-all duration-200 ease-in hover:text-blue-200">
+                <p className="text text-xl font-semibold underline">Home</p>
+                <MoveRight className="h-8 w-8" />
               </div>
             </Link>
           </div>

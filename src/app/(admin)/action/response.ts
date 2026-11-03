@@ -1,15 +1,12 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+
 import { requireAdmin } from "@/app/(admin)/action/helper";
 import { ResponseStage } from "@/generated/prisma";
 import { prisma } from "@/server/db";
-import { revalidatePath } from "next/cache";
 
-export const getAllResponses = async (
-  search: string,
-  page: number,
-  pageSize: number,
-) => {
+export const getAllResponses = async (search: string, page: number, pageSize: number) => {
   await requireAdmin();
   type SearchCondition = {
     OR: {

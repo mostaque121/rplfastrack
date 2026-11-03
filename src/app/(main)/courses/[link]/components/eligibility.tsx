@@ -1,12 +1,6 @@
+import { Award, Briefcase, Globe, GraduationCap, Lightbulb, Users } from "lucide-react";
+
 import { EligibilityForm } from "@/app/(main)/components/form/eligibility-form";
-import {
-  Award,
-  Briefcase,
-  Globe,
-  GraduationCap,
-  Lightbulb,
-  Users,
-} from "lucide-react";
 
 export default function EligibilityForRPLSimple() {
   const eligibilityCriteria = [
@@ -49,9 +43,9 @@ export default function EligibilityForRPLSimple() {
   ];
 
   return (
-    <section className="w-full py-16 bg-[#F5F7FA] md:py-24">
-      <div className="container px-4 md:px-8 mx-auto">
-        <div className="flex flex-col items-center justify-center space-y-4 text-center mb-10">
+    <section className="w-full bg-[#F5F7FA] py-16 md:py-24">
+      <div className="container mx-auto px-4 md:px-8">
+        <div className="mb-10 flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
               Who Can <span className="text-emerald-600">Apply</span>
@@ -62,21 +56,19 @@ export default function EligibilityForRPLSimple() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {eligibilityCriteria.map((criteria, index) => (
             <div
               key={index}
-              className="flex items-start relative overflow-hidden gap-4 p-5 rounded-lg bg-white hover:shadow-md hover:-translate-y-1 transition-all duration-300"
+              className="relative flex items-start gap-4 overflow-hidden rounded-lg bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
             >
               <div className="flex-shrink-0">
-                <div className="h-12 w-12 rounded-full bg-emerald-500 text-white flex items-center justify-center">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500 text-white">
                   {criteria.icon}
                 </div>
               </div>
               <div>
-                <h3 className="font-semibold text-slate-800 text-lg">
-                  {criteria.title}
-                </h3>
+                <h3 className="text-lg font-semibold text-slate-800">{criteria.title}</h3>
                 <p className="text-emerald-600">{criteria.description}</p>
               </div>
               <div className="absolute bottom-0 left-0 h-1 w-full bg-emerald-500" />
@@ -85,14 +77,14 @@ export default function EligibilityForRPLSimple() {
         </div>
 
         <div className="mt-10 text-center">
-          <p className="text-emerald-700 mb-6 max-w-2xl mx-auto">
-            Not sure if your experience qualifies? Our RPL specialists can help
-            assess your individual situation and guide you through the process.
+          <p className="mx-auto mb-6 max-w-2xl text-emerald-700">
+            Not sure if your experience qualifies? Our RPL specialists can help assess your
+            individual situation and guide you through the process.
           </p>
 
           <EligibilityForm
             trigger={
-              <button className="bg-emerald-600 cursor-pointer hover:bg-emerald-700 text-white font-medium py-3 px-8 rounded-lg transition-colors text-lg">
+              <button className="cursor-pointer rounded-lg bg-emerald-600 px-8 py-3 text-lg font-medium text-white transition-colors hover:bg-emerald-700">
                 Check Your Eligibility
               </button>
             }

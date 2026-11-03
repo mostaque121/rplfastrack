@@ -1,22 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import {
-  Cell,
-  Legend,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip,
-} from "recharts";
+import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface DeviceCategoriesProps {
   data: any;
@@ -70,18 +57,13 @@ export function DeviceCategories({ data, days }: DeviceCategoriesProps) {
                   outerRadius={100}
                   fill="#8884d8"
                   dataKey="value"
-                  label={({ name, percent }: any) =>
-                    `${name}: ${(percent * 100).toFixed(0)}%`
-                  }
+                  label={({ name, percent }: any) => `${name}: ${(percent * 100).toFixed(0)}%`}
                   animationBegin={0}
                   animationDuration={800}
                   animationEasing="ease-out"
                 >
                   {devices.map((_: any, index: number) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={COLORS[index % COLORS.length]}
-                    />
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
                 <Tooltip
@@ -95,9 +77,7 @@ export function DeviceCategories({ data, days }: DeviceCategoriesProps) {
             </ResponsiveContainer>
           </div>
         ) : (
-          <p className="text-center text-sm text-muted-foreground">
-            No device data available.
-          </p>
+          <p className="text-center text-sm text-muted-foreground">No device data available.</p>
         )}
       </CardContent>
     </Card>

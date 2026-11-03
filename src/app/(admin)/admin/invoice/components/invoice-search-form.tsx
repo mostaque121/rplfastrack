@@ -1,18 +1,15 @@
 "use client";
 
-import type React from "react";
-
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
-export default function InvoiceSearchForm({
-  initialValue = "",
-}: {
-  initialValue?: string;
-}) {
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
+import type React from "react";
+
+export default function InvoiceSearchForm({ initialValue = "" }: { initialValue?: string }) {
   const [searchQuery, setSearchQuery] = useState(initialValue);
   const router = useRouter();
   const searchParams = useSearchParams();

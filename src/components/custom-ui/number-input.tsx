@@ -1,8 +1,9 @@
 "use client";
 
+import * as React from "react";
+
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import * as React from "react";
 
 export interface NumberInputProps extends Omit<
   React.InputHTMLAttributes<HTMLInputElement>,

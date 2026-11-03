@@ -1,25 +1,22 @@
-import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
+import { Button } from "@/components/ui/button";
+
 export default function Cta() {
   return (
-    <section className="w-full py-12 md:py-24 bg-white">
-      <div className="container px-4 mx-auto md:px-8">
-        <div className="flex flex-col items-center text-center space-y-4">
-          <h2 className="text-3xl text-emerald-600 font-bold tracking-tighter sm:text-4xl">
+    <section className="w-full bg-white py-12 md:py-24">
+      <div className="container mx-auto px-4 md:px-8">
+        <div className="flex flex-col items-center space-y-4 text-center">
+          <h2 className="text-3xl font-bold tracking-tighter text-emerald-600 sm:text-4xl">
             Ready to Start Your RPL Journey?
           </h2>
           <p className="max-w-[800px] text-muted-foreground md:text-xl">
-            Contact us today for a free initial consultation. Our RPL experts
-            will guide you through the entire process.
+            Contact us today for a free initial consultation. Our RPL experts will guide you through
+            the entire process.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Button
-              className="bg-emerald-600 hover:bg-emerald-700"
-              size="lg"
-              asChild
-            >
+          <div className="flex flex-col gap-4 sm:flex-row">
+            <Button className="bg-emerald-600 hover:bg-emerald-700" size="lg" asChild>
               <Link prefetch={false} href="/contact">
                 Get Started Now <ArrowRight className="ml-2 h-4 w-4" />
               </Link>

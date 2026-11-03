@@ -29,8 +29,7 @@ export function NavigationProgressBar() {
 
           if (
             url.origin === currentUrl.origin &&
-            (url.pathname !== currentUrl.pathname ||
-              url.search !== currentUrl.search) &&
+            (url.pathname !== currentUrl.pathname || url.search !== currentUrl.search) &&
             !url.hash
           ) {
             // A new navigation is starting.
@@ -82,7 +81,7 @@ export function NavigationProgressBar() {
 
   return (
     <div
-      className="fixed top-0 left-0 right-0 h-1 z-[100] transition-all duration-300 ease-out"
+      className="fixed top-0 right-0 left-0 z-[100] h-1 transition-all duration-300 ease-out"
       style={{
         width: `${progress}%`,
         opacity: isVisible ? 1 : 0, // Control visibility smoothly
@@ -91,7 +90,7 @@ export function NavigationProgressBar() {
         boxShadow: "0 0 10px rgba(16, 185, 129, 0.5)",
       }}
     >
-      <div className="absolute right-0 top-0 h-full w-32 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse" />
+      <div className="absolute top-0 right-0 h-full w-32 animate-pulse bg-gradient-to-r from-transparent via-white/30 to-transparent" />
     </div>
   );
 }

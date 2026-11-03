@@ -1,5 +1,9 @@
 "use client";
 
+import { Building, FileText, GraduationCapIcon as Graduation } from "lucide-react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+
 import {
   Command,
   CommandEmpty,
@@ -8,20 +12,8 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { useRPL } from "@/contexts/rpl-context";
-import {
-  Building,
-  FileText,
-  GraduationCapIcon as Graduation,
-} from "lucide-react";
-import Link from "next/link";
-import { useEffect, useState } from "react";
 
 // Types
 type Courses = {
@@ -43,9 +35,7 @@ type SearchModalProps = {
 export default function SearchModal({ open, onOpenChange }: SearchModalProps) {
   const { sections } = useRPL();
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState(() =>
-    buildSearchData(sections)
-  );
+  const [searchResults, setSearchResults] = useState(() => buildSearchData(sections));
 
   // Function to dynamically build search data
   function buildSearchData(sections?: Sections[]) {
@@ -55,7 +45,7 @@ export default function SearchModal({ open, onOpenChange }: SearchModalProps) {
           section.courses?.map((course) => ({
             title: course.title,
             url: `/courses/${course.link}`,
-          })) ?? []
+          })) ?? [],
       ) ?? [];
 
     const industries =
@@ -108,7 +98,7 @@ export default function SearchModal({ open, onOpenChange }: SearchModalProps) {
     const filtered = buildSearchData(sections)
       .map((category) => {
         const filteredItems = category.items.filter((item) =>
-          item.title.toLowerCase().includes(query)
+          item.title.toLowerCase().includes(query),
         );
         return {
           ...category,
@@ -149,7 +139,7 @@ export default function SearchModal({ open, onOpenChange }: SearchModalProps) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[550px] p-0">
+      <DialogContent className="p-0 sm:max-w-[550px]">
         <DialogTitle className="hidden">Search Modal</DialogTitle>
         <DialogDescription className="hidden">Search Modal</DialogDescription>
         <Command className="rounded-lg border !py-2 shadow-md">
@@ -159,7 +149,7 @@ export default function SearchModal({ open, onOpenChange }: SearchModalProps) {
             onValueChange={setSearchQuery}
             className="h-12 !py-5"
           />
-          <CommandList className="md:h-[300px] h-screen overflow-y-auto">
+          <CommandList className="h-screen overflow-y-auto md:h-[300px]">
             <CommandEmpty>No results found.</CommandEmpty>
 
             {searchResults.map((category) => (
@@ -189,16 +179,13 @@ export default function SearchModal({ open, onOpenChange }: SearchModalProps) {
             <div className="flex items-center justify-between">
               <div>
                 Press <kbd className="rounded border bg-muted px-1">↑</kbd>{" "}
-                <kbd className="rounded border bg-muted px-1">↓</kbd> to
-                navigate
+                <kbd className="rounded border bg-muted px-1">↓</kbd> to navigate
               </div>
               <div>
-                Press <kbd className="rounded border bg-muted px-1">Enter</kbd>{" "}
-                to select
+                Press <kbd className="rounded border bg-muted px-1">Enter</kbd> to select
               </div>
               <div>
-                Press <kbd className="rounded border bg-muted px-1">Esc</kbd> to
-                close
+                Press <kbd className="rounded border bg-muted px-1">Esc</kbd> to close
               </div>
             </div>
           </div>

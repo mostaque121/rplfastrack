@@ -1,31 +1,27 @@
-import { SITE_URL, siteConfig } from "@/config/site";
-import { absoluteUrl } from "@/lib/url";
 // Styles the Quill-authored course HTML (ql-editor, ql-align-*, ql-indent-*).
 import "react-quill-new/dist/quill.core.css";
-import type { BreadcrumbList } from "schema-dts";
+
 import { Course, WithContext } from "schema-dts";
 import striptags from "striptags";
-import {
-  listSections,
-  getCourseByLink,
-  getSectionByLink,
-} from "@/features/courses/queries";
+
+import { SITE_URL, siteConfig } from "@/config/site";
+import { listSections, getCourseByLink, getSectionByLink } from "@/features/courses/queries";
 import { redirectOrNotFound } from "@/features/courses/redirects";
-import ContactSection from "../../components/contact-common";
-import DocumentsNeed from "../../components/documents-need";
-import ReviewCommon from "../../components/review-common";
-import RplProcess from "../../components/rpl-process";
 import { organization, serviceSchema } from "@/lib/seo";
+import { absoluteUrl } from "@/lib/url";
+
 import QualificationContent from "./components/content";
 import EligibilityForRPLSimple from "./components/eligibility";
 import QualificationHeroSection from "./components/hero";
 import RelatedCourses from "./components/related-courses";
+import ContactSection from "../../components/contact-common";
+import DocumentsNeed from "../../components/documents-need";
+import ReviewCommon from "../../components/review-common";
+import RplProcess from "../../components/rpl-process";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ link: string }>;
-}) {
+import type { BreadcrumbList } from "schema-dts";
+
+export async function generateMetadata({ params }: { params: Promise<{ link: string }> }) {
   const { link } = await params;
 
   try {
@@ -87,11 +83,7 @@ export async function generateStaticParams() {
   }
 }
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ link: string }>;
-}) {
+export default async function Page({ params }: { params: Promise<{ link: string }> }) {
   const { link } = await params;
   const course = await getCourseByLink(link);
   if (!course) {
@@ -125,8 +117,7 @@ export default async function Page({
           "@type": "Place",
           name: "Online",
         },
-        description:
-          "This course is available year-round and can be started anytime.",
+        description: "This course is available year-round and can be started anytime.",
       },
     ],
   };
@@ -179,10 +170,7 @@ export default async function Page({
       />
       <QualificationHeroSection data={course} section={course.section} />
       <QualificationContent data={course} />
-      <RelatedCourses
-        qualifications={section?.courses}
-        industryLink={course.section.link}
-      />
+      <RelatedCourses qualifications={section?.courses} industryLink={course.section.link} />
       <EligibilityForRPLSimple />
       <DocumentsNeed />
       <RplProcess />

@@ -34,14 +34,14 @@ const features = [
   },
   {
     id: 5,
-    icon: <FaHandsHelping className="w-6 h-6" />,
+    icon: <FaHandsHelping className="h-6 w-6" />,
     title: "Comprehensive Support",
     description:
       "From consultation to certification, we are with you every step of the way. Our dedicated team is available to answer any questions.",
   },
   {
     id: 6,
-    icon: <GiBullseye className="w-6 h-6" />,
+    icon: <GiBullseye className="h-6 w-6" />,
     title: "Proven Success",
     description:
       "We have a track record of successfully helping individuals gain RPL certification, enabling them to achieve their career goals faster.",
@@ -50,9 +50,9 @@ const features = [
 
 export default function WhyChooseUs() {
   return (
-    <section className="py-16 md:py-24 bg-white overflow-hidden">
+    <section className="overflow-hidden bg-white py-16 md:py-24">
       <div className="container mx-auto px-4 md:px-8">
-        <div className="flex flex-col items-center justify-center space-y-4 text-center mb-10">
+        <div className="mb-10 flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
               Why Choose <span className="text-emerald-600">Us</span>
@@ -62,22 +62,20 @@ export default function WhyChooseUs() {
             </p>
           </div>
         </div>
-        <div className="rounded-md grid md:grid-cols-3 sm:grid-cols-2 gap-3 sm:gap-5">
+        <div className="grid gap-3 rounded-md sm:grid-cols-2 sm:gap-5 md:grid-cols-3">
           {features.map((feature) => (
             <div
               key={feature.id}
-              className="flex flex-col items-center p-6 rounded-md shadow-md bg-[#F5F7FA] "
+              className="flex flex-col items-center rounded-md bg-[#F5F7FA] p-6 shadow-md"
             >
-              <div className="flex  items-center justify-center h-12 w-12 rounded-md bg-emerald-600 text-white mx-auto">
+              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-md bg-emerald-600 text-white">
                 {feature.icon}
               </div>
 
-              <h3 className="text-lg mt-5 text-center font-medium text-gray-900">
+              <h3 className="mt-5 text-center text-lg font-medium text-gray-900">
                 {feature.title}
               </h3>
-              <p className="mt-2 text-base text-center text-gray-500">
-                {feature.description}
-              </p>
+              <p className="mt-2 text-center text-base text-gray-500">{feature.description}</p>
             </div>
           ))}
         </div>

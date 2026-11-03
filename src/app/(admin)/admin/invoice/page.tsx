@@ -1,3 +1,6 @@
+import { Plus, Search } from "lucide-react";
+import Link from "next/link";
+
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -8,13 +11,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { prisma } from "@/server/db";
-import { Plus, Search } from "lucide-react";
-import Link from "next/link";
 
-import PaginationControl from "../../components/common/pagination";
-import { getUserOrRedirect } from "../../lib/get-user";
 import InvoiceDeleteButton from "./components/invoice-delete-button";
 import InvoiceSearchForm from "./components/invoice-search-form";
+import PaginationControl from "../../components/common/pagination";
+import { getUserOrRedirect } from "../../lib/get-user";
 
 const PAGE_SIZE = 20;
 
@@ -81,15 +82,12 @@ export default async function Page({
           <div className="space-y-2">
             <h1 className="text-3xl font-bold tracking-tight">Invoices</h1>
             <p className="text-sm text-muted-foreground">
-              Search by name, email, or invoice number, preview the PDF, or
-              download, edit, and delete records from one place.
+              Search by name, email, or invoice number, preview the PDF, or download, edit, and
+              delete records from one place.
             </p>
           </div>
 
-          <Button
-            asChild
-            className="w-full lg:w-auto bg-[#2e7d32] hover:bg-[#1b5e20] text-white"
-          >
+          <Button asChild className="w-full bg-[#2e7d32] text-white hover:bg-[#1b5e20] lg:w-auto">
             <Link href="/admin/invoice/create">
               <Plus className="h-4 w-4" />
               Create Invoice
@@ -107,7 +105,7 @@ export default async function Page({
           </div>
         </div>
 
-        <div className="rounded-xl border bg-background shadow-sm overflow-hidden">
+        <div className="overflow-hidden rounded-xl border bg-background shadow-sm">
           {invoices.length === 0 ? (
             <div className="flex flex-col items-center justify-center gap-2 px-6 py-16 text-center">
               <h2 className="text-lg font-semibold">No invoices found</h2>
@@ -131,19 +129,13 @@ export default async function Page({
                 <TableBody>
                   {invoices.map((invoice) => (
                     <TableRow key={invoice.id}>
-                      <TableCell className="font-medium">
-                        {invoice.billToName}
-                      </TableCell>
+                      <TableCell className="font-medium">{invoice.billToName}</TableCell>
                       <TableCell>{invoice.billToEmail}</TableCell>
                       <TableCell>{invoice.invoiceNumber}</TableCell>
 
                       <TableCell className="text-center">
                         <Button asChild variant="outline" size="sm">
-                          <a
-                            href={invoice.pdfLink}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
+                          <a href={invoice.pdfLink} target="_blank" rel="noreferrer">
                             Preview
                           </a>
                         </Button>
@@ -151,9 +143,7 @@ export default async function Page({
 
                       <TableCell className="text-center">
                         <Button asChild variant="outline" size="sm">
-                          <Link href={`/admin/invoice/${invoice.id}/edit`}>
-                            Edit
-                          </Link>
+                          <Link href={`/admin/invoice/${invoice.id}/edit`}>Edit</Link>
                         </Button>
                       </TableCell>
 

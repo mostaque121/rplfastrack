@@ -1,9 +1,11 @@
-import { getUserOrRedirect } from "@/app/(admin)/lib/get-user";
-import { FormDialog } from "@/components/custom-ui/form-dialog";
-import { Button } from "@/components/ui/button";
 import { ChevronRight, Plus } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
+
+import { getUserOrRedirect } from "@/app/(admin)/lib/get-user";
+import { FormDialog } from "@/components/custom-ui/form-dialog";
+import { Button } from "@/components/ui/button";
+
 import { AdminCourseCard } from "./components/course-card";
 import CourseForm from "./components/course-form";
 import { CourseCardSkeleton } from "./components/skeleton";
@@ -18,8 +20,8 @@ async function SectionContent({ link }: { link: string }) {
   if (!section) {
     // Use a client component for notFound or handle differently
     return (
-      <div className="text-center py-10">
-        <h2 className="text-xl font-semibold mb-2">Section not found</h2>
+      <div className="py-10 text-center">
+        <h2 className="mb-2 text-xl font-semibold">Section not found</h2>
       </div>
     );
   }
@@ -33,12 +35,10 @@ async function SectionContent({ link }: { link: string }) {
       <div className="flex w-full justify-between gap-4">
         <div className="flex flex-wrap items-center gap-1">
           <Link href={"/admin/section"}>
-            <h3 className="text-xl hover:underline text-blue-500 font-bold">
-              Manage Course
-            </h3>
+            <h3 className="text-xl font-bold text-blue-500 hover:underline">Manage Course</h3>
           </Link>
 
-          <ChevronRight className="w-5 text-blue-500 h-5" />
+          <ChevronRight className="h-5 w-5 text-blue-500" />
           <h4 className="text-xl font-bold">{section.title}</h4>
         </div>
 
@@ -51,37 +51,25 @@ async function SectionContent({ link }: { link: string }) {
       </div>
 
       {section.courses.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {section.courses.map((course) => (
-            <AdminCourseCard
-              course={course}
-              section={section}
-              key={course.id}
-            />
+            <AdminCourseCard course={course} section={section} key={course.id} />
           ))}
         </div>
       ) : (
-        <div className="text-center py-10">
-          <h2 className="text-xl font-semibold mb-2">
-            No Courses Available under {section.title}
-          </h2>
-          <p className="text-muted-foreground">
-            Please add a course to this section.
-          </p>
+        <div className="py-10 text-center">
+          <h2 className="mb-2 text-xl font-semibold">No Courses Available under {section.title}</h2>
+          <p className="text-muted-foreground">Please add a course to this section.</p>
         </div>
       )}
     </>
   );
 }
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ link: string }>;
-}) {
+export default async function Page({ params }: { params: Promise<{ link: string }> }) {
   const { link } = await params;
 
   return (
-    <div className="max-w-7xl w-full mx-auto px-5 py-10">
+    <div className="mx-auto w-full max-w-7xl px-5 py-10">
       <div className="flex flex-col gap-8">
         <Suspense
           fallback={
@@ -90,18 +78,18 @@ export default async function Page({
               <div className="flex w-full justify-between gap-4">
                 <div className="flex flex-wrap items-center gap-1">
                   <Link href={"/admin/section"}>
-                    <h3 className="text-xl hover:underline text-blue-500 font-bold">
+                    <h3 className="text-xl font-bold text-blue-500 hover:underline">
                       Manage Course
                     </h3>
                   </Link>
-                  <ChevronRight className="w-5 text-blue-500 h-5" />
-                  <div className="h-7 w-32 bg-gray-200 rounded animate-pulse"></div>
+                  <ChevronRight className="h-5 w-5 text-blue-500" />
+                  <div className="h-7 w-32 animate-pulse rounded bg-gray-200"></div>
                 </div>
-                <div className="h-9 w-32 bg-gray-200 rounded animate-pulse"></div>
+                <div className="h-9 w-32 animate-pulse rounded bg-gray-200"></div>
               </div>
 
               {/* Skeleton grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {Array.from({ length: 12 }).map((_, index) => (
                   <CourseCardSkeleton key={index} />
                 ))}

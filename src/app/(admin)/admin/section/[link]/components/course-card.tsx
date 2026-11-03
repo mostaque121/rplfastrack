@@ -1,14 +1,16 @@
 "use client";
-import { deleteCourse } from "@/app/(admin)/action/course";
-import { DeleteDialog } from "@/components/custom-ui/delete-dialog";
-import { FormDialog } from "@/components/custom-ui/form-dialog";
-import { Button } from "@/components/ui/button";
-import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatDistanceToNow } from "date-fns";
 import { Pencil, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { toast } from "sonner";
+
+import { deleteCourse } from "@/app/(admin)/action/course";
+import { DeleteDialog } from "@/components/custom-ui/delete-dialog";
+import { FormDialog } from "@/components/custom-ui/form-dialog";
+import { Button } from "@/components/ui/button";
+import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+
 import CourseForm from "./course-form";
 
 interface Course {
@@ -50,12 +52,7 @@ export function AdminCourseCard({ course, section }: CourseContentProps) {
   const handleDeleteConfirm = async () => {
     setDeleting(true);
 
-    const result = await deleteCourse(
-      course.id,
-      course.link,
-      course.sectionId,
-      section.link
-    );
+    const result = await deleteCourse(course.id, course.link, course.sectionId, section.link);
 
     if (result.success) {
       toast.success("Course Deleted", {
@@ -76,7 +73,7 @@ export function AdminCourseCard({ course, section }: CourseContentProps) {
 
   return (
     <>
-      <Card className="gap-3  py-0 pb-4 overflow-hidden">
+      <Card className="gap-3 overflow-hidden py-0 pb-4">
         <div className="relative w-full">
           <Image
             src={course.imageCoverLink}
@@ -85,23 +82,23 @@ export function AdminCourseCard({ course, section }: CourseContentProps) {
             width={720}
             height={720}
             priority
-            className="object-cover w-full aspect-[150/72]"
+            className="aspect-[150/72] w-full object-cover"
           />
         </div>
         <CardHeader className="px-3">
           <CardTitle className="flex items-center">
-            <span className="bg-blue-600 text-white w-6 h-6 rounded-full flex items-center justify-center mr-3 text-sm">
+            <span className="mr-3 flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-sm text-white">
               {course.index}
             </span>
             {course.title}
           </CardTitle>
         </CardHeader>
 
-        <CardFooter className="flex-col px-3 pt-0 items-start border-t">
-          <div className="flex justify-between w-full gap-2">
+        <CardFooter className="flex-col items-start border-t px-3 pt-0">
+          <div className="flex w-full justify-between gap-2">
             <FormDialog Form={CourseForm} item={item}>
               <Button variant="outline" size="sm">
-                <Pencil className="h-4 w-4 mr-1" />
+                <Pencil className="mr-1 h-4 w-4" />
                 Edit
               </Button>
             </FormDialog>
@@ -119,7 +116,7 @@ export function AdminCourseCard({ course, section }: CourseContentProps) {
               </Button>
             </DeleteDialog>
           </div>
-          <div className="text-xs mt-3 text-muted-foreground">
+          <div className="mt-3 text-xs text-muted-foreground">
             Updated{" "}
             {formatDistanceToNow(new Date(course.updatedAt), {
               addSuffix: true,

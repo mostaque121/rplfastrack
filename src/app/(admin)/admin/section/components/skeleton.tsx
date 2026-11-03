@@ -1,24 +1,18 @@
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export function SectionCardSkeleton() {
   return (
-    <Card className="gap-3 py-0 pb-4 overflow-hidden">
+    <Card className="gap-3 overflow-hidden py-0 pb-4">
       {/* Image placeholder */}
       <div className="relative w-full">
-        <Skeleton className="w-full aspect-[150/72]" />
+        <Skeleton className="aspect-[150/72] w-full" />
       </div>
 
       {/* Header placeholder */}
       <CardHeader className="px-3">
         <CardTitle className="flex items-center">
-          <Skeleton className="w-6 h-6 rounded-full mr-3" />
+          <Skeleton className="mr-3 h-6 w-6 rounded-full" />
           <Skeleton className="h-6 w-[180px]" />
         </CardTitle>
       </CardHeader>
@@ -28,8 +22,8 @@ export function SectionCardSkeleton() {
       </CardContent>
 
       {/* Footer placeholder */}
-      <CardFooter className="flex-col px-3 pt-0 items-start border-t">
-        <div className="flex justify-between w-full gap-2">
+      <CardFooter className="flex-col items-start border-t px-3 pt-0">
+        <div className="flex w-full justify-between gap-2">
           {/* Edit button placeholder */}
           <Skeleton className="h-9 w-[80px]" />
 
@@ -38,7 +32,7 @@ export function SectionCardSkeleton() {
         </div>
 
         {/* Updated timestamp placeholder */}
-        <Skeleton className="h-4 w-[120px] mt-3" />
+        <Skeleton className="mt-3 h-4 w-[120px]" />
       </CardFooter>
     </Card>
   );

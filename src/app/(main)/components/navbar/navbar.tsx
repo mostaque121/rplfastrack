@@ -1,16 +1,18 @@
 "use client";
 
-import { contactInfo } from "@/config/contact";
-import { EligibilityForm } from "@/app/(main)/components/form/eligibility-form";
-import { Button } from "@/components/ui/button";
-import { useRPL } from "@/contexts/rpl-context";
-import { cn } from "@/lib/utils";
 import { ChevronDown, ChevronRight, Mail, Phone, Search } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { FaWhatsapp } from "react-icons/fa";
+
+import { EligibilityForm } from "@/app/(main)/components/form/eligibility-form";
+import { Button } from "@/components/ui/button";
+import { contactInfo } from "@/config/contact";
+import { useRPL } from "@/contexts/rpl-context";
+import { cn } from "@/lib/utils";
+
 import AdminSection from "./admin-section";
 import MobileMenu from "./mobile-menu";
 import SearchModal from "./search-modal";
@@ -47,32 +49,24 @@ export default function Navbar() {
   return (
     <header className="w-full">
       {/* Top bar with contact info */}
-      <div className="w-full bg-slate-800 text-white ">
-        <div className="container mx-auto  py-2 px-4 md:px-8 flex justify-between items-center">
-          <div className="text-xs justify-between md:justify-center max-md:w-full  md:text-sm flex flex-wrap gap-2 md:gap-4">
+      <div className="w-full bg-slate-800 text-white">
+        <div className="container mx-auto flex items-center justify-between px-4 py-2 md:px-8">
+          <div className="flex flex-wrap justify-between gap-2 text-xs max-md:w-full md:justify-center md:gap-4 md:text-sm">
             <div className="flex items-center gap-1">
               <Mail className="h-4 w-4" />
-              <Link
-                prefetch={false}
-                href={contactInfo.emailHref}
-                className="hover:underline"
-              >
+              <Link prefetch={false} href={contactInfo.emailHref} className="hover:underline">
                 {contactInfo.email}
               </Link>
             </div>
 
             <div className="flex items-center gap-1">
               <Phone className="h-4 w-4" />
-              <Link
-                prefetch={false}
-                href={contactInfo.phoneHref}
-                className="hover:underline"
-              >
+              <Link prefetch={false} href={contactInfo.phoneHref} className="hover:underline">
                 {contactInfo.phone}
               </Link>
             </div>
           </div>
-          <div className="md:flex hidden items-center gap-3">
+          <div className="hidden items-center gap-3 md:flex">
             <div className="flex items-center gap-2">
               <Link
                 prefetch={false}
@@ -80,15 +74,12 @@ export default function Navbar() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <FaWhatsapp className="w-5 h-5 text-white" />
+                <FaWhatsapp className="h-5 w-5 text-white" />
               </Link>
             </div>
             <EligibilityForm
               trigger={
-                <Button
-                  size="sm"
-                  className="bg-white hover:bg-gray-100 text-slate-800"
-                >
+                <Button size="sm" className="bg-white text-slate-800 hover:bg-gray-100">
                   Get Started
                 </Button>
               }
@@ -100,13 +91,13 @@ export default function Navbar() {
       </div>
 
       {/* Main navigation */}
-      <div className="container mx-auto py-4 px-4 md:px-8">
-        <div className="flex justify-between items-center">
+      <div className="container mx-auto px-4 py-4 md:px-8">
+        <div className="flex items-center justify-between">
           <div className="flex items-center">
             <Link
               prefetch={false}
               href="/"
-              className="font-bold gap-1 flex items-center text-lg md:text-xl mr-8"
+              className="mr-8 flex items-center gap-1 text-lg font-bold md:text-xl"
             >
               <Image
                 src={"/fav.png"}
@@ -114,37 +105,37 @@ export default function Navbar() {
                 alt="logo"
                 width={512}
                 height={512}
-                className="md:h-10 h-7 object-contain w-auto"
+                className="h-7 w-auto object-contain md:h-10"
               />
-              <span className="text-emerald-600 text-nowrap whitespace-nowrap tracking-tight">
+              <span className="tracking-tight text-nowrap whitespace-nowrap text-emerald-600">
                 RPL FAST TRACK
               </span>
             </Link>
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-6" ref={menuRef}>
+          <nav className="hidden items-center space-x-6 lg:flex" ref={menuRef}>
             <Link
               prefetch={false}
               href="/"
               className={cn(
-                "text-slate-700 hover:text-emerald-600 font-medium px-2",
-                pathname === "/" && "text-emerald-600"
+                "px-2 font-medium text-slate-700 hover:text-emerald-600",
+                pathname === "/" && "text-emerald-600",
               )}
             >
               Home
             </Link>
 
             <div
-              className="relative group"
+              className="group relative"
               onMouseEnter={() => setActiveMenu("qualifications")}
               onMouseLeave={() => setActiveMenu(null)}
             >
               <Link prefetch={false} href={"/courses"}>
                 <button
                   className={cn(
-                    "text-slate-700 hover:text-emerald-600 flex items-center cursor-pointer gap-1 font-medium px-2",
-                    pathname === "/courses" && "text-emerald-600"
+                    "flex cursor-pointer items-center gap-1 px-2 font-medium text-slate-700 hover:text-emerald-600",
+                    pathname === "/courses" && "text-emerald-600",
                   )}
                 >
                   Courses
@@ -155,16 +146,14 @@ export default function Navbar() {
               {/* First level dropdown */}
               <div
                 className={cn(
-                  "absolute left-0 top-full min-w-[200px] bg-white shadow-md border border-gray-200  z-50 transition-all duration-200",
-                  activeMenu === "qualifications"
-                    ? "opacity-100 visible"
-                    : "opacity-0 invisible"
+                  "absolute top-full left-0 z-50 min-w-[200px] border border-gray-200 bg-white shadow-md transition-all duration-200",
+                  activeMenu === "qualifications" ? "visible opacity-100" : "invisible opacity-0",
                 )}
               >
                 {sections?.map((subItem) => (
                   <div
                     key={subItem.title}
-                    className="relative group/sub"
+                    className="group/sub relative"
                     onMouseEnter={() => setActiveSubMenu(subItem.title)}
                     onMouseLeave={() => setActiveSubMenu(null)}
                   >
@@ -172,15 +161,14 @@ export default function Navbar() {
                       prefetch={false}
                       href={`/section/${subItem.link}`}
                       className={cn(
-                        "text-slate-700 flex items-center justify-between font-medium text-sm hover:bg-slate-50 hover:text-emerald-600 px-2 py-2 border-b border-gray-200 last:border-b-0",
-                        pathname === `/section/${subItem.link}` &&
-                          "text-emerald-600"
+                        "flex items-center justify-between border-b border-gray-200 px-2 py-2 text-sm font-medium text-slate-700 last:border-b-0 hover:bg-slate-50 hover:text-emerald-600",
+                        pathname === `/section/${subItem.link}` && "text-emerald-600",
                       )}
                       onClick={handleMenuItemClick}
                     >
                       {subItem.title}
                       {subItem.courses && subItem.courses.length > 0 && (
-                        <ChevronRight className="h-4 ml-4 w-4" />
+                        <ChevronRight className="ml-4 h-4 w-4" />
                       )}
                     </Link>
 
@@ -188,10 +176,10 @@ export default function Navbar() {
                     {subItem.courses && subItem.courses.length > 0 && (
                       <div
                         className={cn(
-                          "absolute left-full top-0 min-w-[250px] bg-white shadow-md border border-gray-200  z-50 transition-all duration-200",
+                          "absolute top-0 left-full z-50 min-w-[250px] border border-gray-200 bg-white shadow-md transition-all duration-200",
                           activeSubMenu === subItem.title
-                            ? "opacity-100 visible"
-                            : "opacity-0 invisible"
+                            ? "visible opacity-100"
+                            : "invisible opacity-0",
                         )}
                       >
                         {subItem.courses.map((subSubItem) => (
@@ -200,9 +188,8 @@ export default function Navbar() {
                             key={subSubItem.title}
                             href={`/courses/${subSubItem.link}`}
                             className={cn(
-                              "text-slate-700 block text-xs hover:bg-slate-50 hover:text-emerald-600 font-medium px-2 py-2 border-b border-gray-200 last:border-b-0",
-                              pathname === `/courses/${subSubItem.link}` &&
-                                "text-emerald-600"
+                              "block border-b border-gray-200 px-2 py-2 text-xs font-medium text-slate-700 last:border-b-0 hover:bg-slate-50 hover:text-emerald-600",
+                              pathname === `/courses/${subSubItem.link}` && "text-emerald-600",
                             )}
                             onClick={handleMenuItemClick}
                           >
@@ -217,13 +204,13 @@ export default function Navbar() {
             </div>
 
             <div
-              className="relative group"
+              className="group relative"
               onMouseEnter={() => setActiveMenu("about")}
               onMouseLeave={() => setActiveMenu(null)}
             >
               <button
                 className={cn(
-                  "text-slate-700 hover:text-emerald-600 flex items-center gap-1 font-medium px-2"
+                  "flex items-center gap-1 px-2 font-medium text-slate-700 hover:text-emerald-600",
                 )}
               >
                 About
@@ -233,18 +220,16 @@ export default function Navbar() {
               {/* First level dropdown */}
               <div
                 className={cn(
-                  "absolute left-0 top-full min-w-[200px] bg-white shadow-md border border-gray-200  z-50 transition-all duration-200",
-                  activeMenu === "about"
-                    ? "opacity-100 visible"
-                    : "opacity-0 invisible"
+                  "absolute top-full left-0 z-50 min-w-[200px] border border-gray-200 bg-white shadow-md transition-all duration-200",
+                  activeMenu === "about" ? "visible opacity-100" : "invisible opacity-0",
                 )}
               >
                 <Link
                   prefetch={false}
                   href={`/about-us`}
                   className={cn(
-                    "text-slate-700 flex items-center justify-between font-medium text-sm hover:bg-slate-50 hover:text-emerald-600 px-4 py-2 border-b border-gray-200 last:border-b-0",
-                    pathname === "/about-us" && "text-emerald-600"
+                    "flex items-center justify-between border-b border-gray-200 px-4 py-2 text-sm font-medium text-slate-700 last:border-b-0 hover:bg-slate-50 hover:text-emerald-600",
+                    pathname === "/about-us" && "text-emerald-600",
                   )}
                   onClick={handleMenuItemClick}
                 >
@@ -254,8 +239,8 @@ export default function Navbar() {
                   prefetch={false}
                   href={`/about-rpl`}
                   className={cn(
-                    "text-slate-700 flex items-center justify-between font-medium text-sm hover:bg-slate-50 hover:text-emerald-600 px-4 py-2 border-b border-gray-200 last:border-b-0",
-                    pathname === "/about-rpl" && "text-emerald-600"
+                    "flex items-center justify-between border-b border-gray-200 px-4 py-2 text-sm font-medium text-slate-700 last:border-b-0 hover:bg-slate-50 hover:text-emerald-600",
+                    pathname === "/about-rpl" && "text-emerald-600",
                   )}
                   onClick={handleMenuItemClick}
                 >
@@ -265,8 +250,8 @@ export default function Navbar() {
                   prefetch={false}
                   href={`/faq`}
                   className={cn(
-                    "text-slate-700 flex items-center justify-between font-medium text-sm hover:bg-slate-50 hover:text-emerald-600 px-4 py-2 border-b border-gray-200 last:border-b-0",
-                    pathname === "/faq" && "text-emerald-600"
+                    "flex items-center justify-between border-b border-gray-200 px-4 py-2 text-sm font-medium text-slate-700 last:border-b-0 hover:bg-slate-50 hover:text-emerald-600",
+                    pathname === "/faq" && "text-emerald-600",
                   )}
                   onClick={handleMenuItemClick}
                 >
@@ -279,8 +264,8 @@ export default function Navbar() {
               prefetch={false}
               href="/contact"
               className={cn(
-                "text-slate-700 hover:text-emerald-600 font-medium px-2",
-                pathname === "/contact" && "text-emerald-600"
+                "px-2 font-medium text-slate-700 hover:text-emerald-600",
+                pathname === "/contact" && "text-emerald-600",
               )}
               onClick={handleMenuItemClick}
             >
@@ -292,10 +277,10 @@ export default function Navbar() {
           <div className="flex items-center gap-2">
             {/* Search Icon */}
             <button
-              className="flex-1 flex items-center border rounded-full px-2  md:px-3 cursor-pointer max-w-md mx-auto h-8 justify-start text-muted-foreground hover:bg-muted/50 border-input"
+              className="mx-auto flex h-8 max-w-md flex-1 cursor-pointer items-center justify-start rounded-full border border-input px-2 text-muted-foreground hover:bg-muted/50 md:px-3"
               onClick={() => setSearchOpen(true)}
             >
-              <Search className="h-4 w-4 md:mr-2 flex-shrink-0" />
+              <Search className="h-4 w-4 flex-shrink-0 md:mr-2" />
               <span className="hidden w-32 md:inline">Search here</span>
             </button>
 

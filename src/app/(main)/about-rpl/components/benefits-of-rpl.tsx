@@ -1,11 +1,4 @@
-import {
-  Award,
-  Briefcase,
-  Clock,
-  DollarSign,
-  GraduationCap,
-  Smile,
-} from "lucide-react";
+import { Award, Briefcase, Clock, DollarSign, GraduationCap, Smile } from "lucide-react";
 
 export default function BenefitsOfRPL() {
   const benefits = [
@@ -48,9 +41,9 @@ export default function BenefitsOfRPL() {
   ];
 
   return (
-    <section className="w-full py-12 md:py-24 bg-[#F5F7FA]">
-      <div className="container px-4 md:px-8 mx-auto">
-        <div className="flex flex-col items-center justify-center space-y-4 text-center mb-10">
+    <section className="w-full bg-[#F5F7FA] py-12 md:py-24">
+      <div className="container mx-auto px-4 md:px-8">
+        <div className="mb-10 flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
               Why Choose <span className="text-emerald-600">RPL</span>
@@ -61,18 +54,16 @@ export default function BenefitsOfRPL() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {benefits.map((benefit, index) => (
             <div
               key={index}
-              className="bg-white rounded-xl p-6 shadow-md border border-emerald-100 hover:shadow-lg transition-shadow"
+              className="rounded-xl border border-emerald-100 bg-white p-6 shadow-md transition-shadow hover:shadow-lg"
             >
-              <div className="h-14 w-14 rounded-lg bg-emerald-50 flex items-center justify-center mb-4">
+              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-lg bg-emerald-50">
                 {benefit.icon}
               </div>
-              <h3 className="text-xl font-bold text-emerald-800 mb-2">
-                {benefit.title}
-              </h3>
+              <h3 className="mb-2 text-xl font-bold text-emerald-800">{benefit.title}</h3>
               <p className="text-emerald-600">{benefit.description}</p>
             </div>
           ))}

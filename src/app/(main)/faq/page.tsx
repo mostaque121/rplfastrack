@@ -1,14 +1,17 @@
-import { absoluteUrl } from "@/lib/url";
+import Link from "next/link";
+
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import type { Metadata } from "next";
-import Link from "next/link";
-import type { FAQPage, WithContext } from "schema-dts";
+import { absoluteUrl } from "@/lib/url";
+
 import FaqHero from "./faq-hero";
+
+import type { Metadata } from "next";
+import type { FAQPage, WithContext } from "schema-dts";
 
 export const metadata: Metadata = {
   title: "Frequently Asked Questions",
@@ -52,7 +55,7 @@ const faqs = [
     value: "benefits",
     question: "What are the benefits of RPL?",
     answer: (
-      <ul className="list-disc pl-6 space-y-2">
+      <ul className="list-disc space-y-2 pl-6">
         <li>Save time and money</li>
         <li>Get certified faster</li>
         <li>Boost career and salary potential</li>
@@ -66,7 +69,7 @@ const faqs = [
     answer: (
       <>
         You may be eligible if you have:
-        <ul className="list-disc pl-6 mt-2 space-y-2">
+        <ul className="mt-2 list-disc space-y-2 pl-6">
           <li>Relevant work experience</li>
           <li>Informal or formal learning/training</li>
           <li>Volunteer or community experience</li>
@@ -79,7 +82,7 @@ const faqs = [
     value: "process",
     question: "What is the RPL process?",
     answer: (
-      <ol className="list-decimal pl-6 space-y-2">
+      <ol className="list-decimal space-y-2 pl-6">
         <li>Initial consultation</li>
         <li>Submit application</li>
         <li>Gather supporting evidence</li>
@@ -93,7 +96,7 @@ const faqs = [
     value: "evidence",
     question: "What type of evidence do I need?",
     answer: (
-      <ul className="list-disc pl-6 space-y-2">
+      <ul className="list-disc space-y-2 pl-6">
         <li>Resume or CV</li>
         <li>References or letters</li>
         <li>Work samples, videos, or projects</li>
@@ -107,7 +110,7 @@ const faqs = [
     answer: (
       <>
         We offer qualifications in:
-        <ul className="list-disc pl-6 space-y-2 mt-2">
+        <ul className="mt-2 list-disc space-y-2 pl-6">
           <li>Business & Management</li>
           <li>IT & Digital</li>
           <li>Healthcare & Aged Care</li>
@@ -156,7 +159,7 @@ const faqs = [
     value: "get-started",
     question: "How do I get started?",
     answer: (
-      <ol className="list-decimal pl-6 space-y-2">
+      <ol className="list-decimal space-y-2 pl-6">
         <li>Contact us via website or phone</li>
         <li>Book a free consultation</li>
         <li>Talk with an RPL specialist</li>
@@ -294,11 +297,11 @@ export default function FAQPage() {
       />
 
       <FaqHero />
-      <div className="container max-w-4xl mx-auto py-12 px-4 md:py-24 md:px-8">
+      <div className="container mx-auto max-w-4xl px-4 py-12 md:px-8 md:py-24">
         <Accordion type="single" collapsible className="w-full">
           {faqs.map(({ value, question, answer }) => (
             <AccordionItem key={value} value={value}>
-              <AccordionTrigger className="text-left hover:text-emerald-600 text-lg font-medium">
+              <AccordionTrigger className="text-left text-lg font-medium hover:text-emerald-600">
                 {question}
               </AccordionTrigger>
               <AccordionContent>{answer}</AccordionContent>
@@ -307,10 +310,9 @@ export default function FAQPage() {
         </Accordion>
 
         <div className="mt-12 text-center">
-          <h2 className="text-2xl font-bold mb-4">Still have questions?</h2>
+          <h2 className="mb-4 text-2xl font-bold">Still have questions?</h2>
           <p className="mb-6">
-            Our RPL specialists are here to help you with any additional
-            questions you may have.
+            Our RPL specialists are here to help you with any additional questions you may have.
           </p>
           <div className="flex justify-center gap-4">
             <Link

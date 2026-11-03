@@ -1,8 +1,9 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { BsWhatsapp } from "react-icons/bs";
+
+import { cn } from "@/lib/utils";
 
 interface WhatsAppChatButtonProps {
   phoneNumber: string;
@@ -73,14 +74,14 @@ export function WhatsAppChatButton({
           <div
             className={cn(
               "absolute min-w-max rounded bg-white px-3 py-1.5 text-sm font-medium text-gray-900 shadow-lg dark:bg-gray-800 dark:text-gray-100",
-              tooltipPositionClasses[position]
+              tooltipPositionClasses[position],
             )}
           >
             {tooltipText}
             <div
               className={cn(
                 "absolute h-2 w-2 bg-white dark:bg-gray-800",
-                arrowPositionClasses[position]
+                arrowPositionClasses[position],
               )}
             ></div>
           </div>
@@ -91,8 +92,8 @@ export function WhatsAppChatButton({
           target="_blank"
           rel="noopener noreferrer"
           className={cn(
-            "flex items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-[#25D366] focus:ring-offset-2",
-            sizeClasses[size]
+            "flex items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl focus:ring-2 focus:ring-[#25D366] focus:ring-offset-2 focus:outline-none",
+            sizeClasses[size],
           )}
           aria-label="Chat on WhatsApp"
         >

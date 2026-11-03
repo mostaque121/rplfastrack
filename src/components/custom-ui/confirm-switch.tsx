@@ -1,5 +1,8 @@
 "use client";
 
+import { Loader2 } from "lucide-react";
+import * as React from "react";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -11,8 +14,6 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Switch } from "@/components/ui/switch";
-import { Loader2 } from "lucide-react";
-import * as React from "react";
 
 interface ConfirmSwitchProps {
   /** The text label displayed next to the switch. */
@@ -51,9 +52,9 @@ export function ConfirmSwitch({
 }: ConfirmSwitchProps) {
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
   // Stores the intended new state of the switch before it's confirmed.
-  const [pendingCheckedState, setPendingCheckedState] = React.useState<
-    boolean | undefined
-  >(undefined);
+  const [pendingCheckedState, setPendingCheckedState] = React.useState<boolean | undefined>(
+    undefined,
+  );
 
   const handleCheckedChange = (newCheckedValue: boolean) => {
     // When the user clicks the switch, store the new value and open the dialog.

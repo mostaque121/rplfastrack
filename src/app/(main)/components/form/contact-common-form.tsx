@@ -1,6 +1,11 @@
 "use client";
-import { createResponse } from "@/features/leads/actions";
-import { trackLead } from "@/lib/track-lead";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -12,21 +17,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { createResponse } from "@/features/leads/actions";
+import { trackLead } from "@/lib/track-lead";
 import { responseFormSchema } from "@/lib/zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
 
 type FormData = z.infer<typeof responseFormSchema>;
 
-export default function ContactCommonForm({
-  interest = "RPL",
-}: {
-  interest?: string;
-}) {
+export default function ContactCommonForm({ interest = "RPL" }: { interest?: string }) {
   const [formState, setFormState] = useState<{
     success: boolean;
     message: string;
@@ -63,8 +60,7 @@ export default function ContactCommonForm({
         setFormState({ success: true, message: result.message });
       } else {
         toast.error("Error", {
-          description:
-            result.message || "Something went wrong. Please try again.",
+          description: result.message || "Something went wrong. Please try again.",
         });
         setFormState({ success: false, message: result.message });
       }
@@ -79,33 +75,23 @@ export default function ContactCommonForm({
     }
   }
   return (
-    <div className="bg-white dark:bg-gray-950 rounded-xl p-6 lg:p-8 shadow-lg border border-gray-200 dark:border-gray-800">
+    <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-lg lg:p-8 dark:border-gray-800 dark:bg-gray-950">
       <div className="mb-6">
-        <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
-          Contact Us
-        </h3>
-        <p className="text-gray-600 dark:text-gray-400 mt-1">
-          Reach out for any inquiries
-        </p>
+        <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Contact Us</h3>
+        <p className="mt-1 text-gray-600 dark:text-gray-400">Reach out for any inquiries</p>
       </div>
 
       {formState?.success ? (
-        <div className="text-emerald-600 text-center p-4">
-          <div className="animate-bounce mb-2">
+        <div className="p-4 text-center text-emerald-600">
+          <div className="mb-2 animate-bounce">
             <svg
-              className="w-20 h-20 text-green-600 mx-auto"
+              className="mx-auto h-20 w-20 text-green-600"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
-              <circle
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="2"
-              />
+              <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -118,18 +104,14 @@ export default function ContactCommonForm({
           <p className="mb-4 text-xl">We will contact you soon.</p>
           <Button
             onClick={() => setFormState(null)}
-            className="bg-emerald-500 hover:bg-emerald-600 text-white cursor-pointer py-2 px-4 rounded-md"
+            className="cursor-pointer rounded-md bg-emerald-500 px-4 py-2 text-white hover:bg-emerald-600"
           >
             Send another message
           </Button>
         </div>
       ) : (
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            noValidate
-            className="space-y-4"
-          >
+          <form onSubmit={form.handleSubmit(onSubmit)} noValidate className="space-y-4">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <FormField
                 control={form.control}
@@ -145,7 +127,7 @@ export default function ContactCommonForm({
                         aria-required="true"
                       />
                     </FormControl>
-                    <FormMessage className="text-xs " />
+                    <FormMessage className="text-xs" />
                   </FormItem>
                 )}
               />
@@ -165,7 +147,7 @@ export default function ContactCommonForm({
                         aria-required="true"
                       />
                     </FormControl>
-                    <FormMessage className="text-xs " />
+                    <FormMessage className="text-xs" />
                   </FormItem>
                 )}
               />
@@ -186,7 +168,7 @@ export default function ContactCommonForm({
                       aria-required="true"
                     />
                   </FormControl>
-                  <FormMessage className="text-xs " />
+                  <FormMessage className="text-xs" />
                 </FormItem>
               )}
             />
@@ -200,25 +182,23 @@ export default function ContactCommonForm({
                   <FormControl>
                     <Textarea
                       placeholder="Message (optional)"
-                      className="response-form-input w-full !h-16"
+                      className="response-form-input !h-16 w-full"
                       {...field}
                       value={field.value || ""}
                       aria-required="false"
                     />
                   </FormControl>
-                  <FormMessage className="text-xs " />
+                  <FormMessage className="text-xs" />
                 </FormItem>
               )}
             />
-            <div className="text-center mt-6">
+            <div className="mt-6 text-center">
               <Button
-                className="bg-emerald-600 hover:bg-emerald-700 text-white transition-all duration-300  active:scale-95 cursor-pointer w-full"
+                className="w-full cursor-pointer bg-emerald-600 text-white transition-all duration-300 hover:bg-emerald-700 active:scale-95"
                 type="submit"
                 disabled={form.formState.isSubmitting}
               >
-                {form.formState.isSubmitting && (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                )}
+                {form.formState.isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Send Message
               </Button>
             </div>

@@ -1,13 +1,12 @@
 import "server-only";
 
-import { auth } from "@/server/auth"; // Adjust this to point to your Better Auth instance
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
+import { auth } from "@/server/auth"; // Adjust this to point to your Better Auth instance
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function withAdminGuard(
-  handler: (req: NextRequest, context: any) => Promise<NextResponse>,
-) {
+export function withAdminGuard(handler: (req: NextRequest, context: any) => Promise<NextResponse>) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return async (req: NextRequest, context: any) => {
     try {
@@ -24,20 +23,14 @@ export function withAdminGuard(
       // 3. 403 Forbidden: User is logged in, but not an admin
       // Note: Make sure 'role' is included in your Better Auth user schema!
       if (session.user.role !== "admin") {
-        return NextResponse.json(
-          { error: "Forbidden: Admin access required" },
-          { status: 403 },
-        );
+        return NextResponse.json({ error: "Forbidden: Admin access required" }, { status: 403 });
       }
 
       // 4. If checks pass, execute the actual route handler
       return await handler(req, context);
     } catch (error) {
       console.error("Auth Guard Error:", error);
-      return NextResponse.json(
-        { error: "Internal Server Error" },
-        { status: 500 },
-      );
+      return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
     }
   };
 }

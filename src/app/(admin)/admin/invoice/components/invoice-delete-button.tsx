@@ -1,11 +1,12 @@
 "use client";
 
-import { ConfirmationDialog } from "@/components/custom-ui/confirmation-dialog";
-import { Button } from "@/components/ui/button";
 import { Loader2, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
+
+import { ConfirmationDialog } from "@/components/custom-ui/confirmation-dialog";
+import { Button } from "@/components/ui/button";
 
 export default function InvoiceDeleteButton({
   invoiceId,
@@ -39,8 +40,7 @@ export default function InvoiceDeleteButton({
       router.refresh();
     } catch (error) {
       toast.error("Delete failed", {
-        description:
-          error instanceof Error ? error.message : "Please try again.",
+        description: error instanceof Error ? error.message : "Please try again.",
       });
     } finally {
       setIsDeleting(false);
@@ -50,17 +50,8 @@ export default function InvoiceDeleteButton({
 
   return (
     <>
-      <Button
-        type="button"
-        variant="destructive"
-        size="sm"
-        onClick={() => setOpen(true)}
-      >
-        {isDeleting ? (
-          <Loader2 className="h-4 w-4 animate-spin" />
-        ) : (
-          <Trash2 className="h-4 w-4" />
-        )}
+      <Button type="button" variant="destructive" size="sm" onClick={() => setOpen(true)}>
+        {isDeleting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
         {isDeleting ? "Deleting..." : "Delete"}
       </Button>
 

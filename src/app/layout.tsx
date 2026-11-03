@@ -1,7 +1,8 @@
-import { siteConfig } from "@/config/site";
-import { NavigationProgressBar } from "@/components/navigation/navigation-progress-provider";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Suspense } from "react";
+
+import { NavigationProgressBar } from "@/components/navigation/navigation-progress-provider";
+import { siteConfig } from "@/config/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -23,9 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang={siteConfig.language}>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {/* Only the progress bar needs Suspense (useSearchParams). Wrapping
             children would start streaming before the page runs, so notFound()
             and redirects would be sent as 200 (soft 404). */}

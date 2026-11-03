@@ -1,4 +1,8 @@
 "use client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+
 import { createSection, updateSection } from "@/app/(admin)/action/section";
 import { SectionFormData, sectionSchema } from "@/app/(admin)/lib/zod";
 import { IndexSelector } from "@/components/custom-ui/index-selector";
@@ -15,9 +19,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { ImageUploaderServer } from "@/components/uploader/image-uploader-server";
 import { useRPL } from "@/contexts/rpl-context";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 
 interface Section {
   id: string;
@@ -55,10 +56,7 @@ export default function SectionForm({ onCloseForm, item }: SectionFormProps) {
     defaultValues,
   });
 
-  const handleSquareImageUpload = (
-    imageLink: string,
-    imagePublicId: string
-  ) => {
+  const handleSquareImageUpload = (imageLink: string, imagePublicId: string) => {
     form.setValue("imageSquareLink", imageLink);
     form.setValue("imageSquarePublicId", imagePublicId);
   };
@@ -76,9 +74,7 @@ export default function SectionForm({ onCloseForm, item }: SectionFormProps) {
         result = await createSection(data);
       }
       if (result.success) {
-        toast.success(
-          `Section ${isEditMode ? "updated" : "created"} successfully!`
-        );
+        toast.success(`Section ${isEditMode ? "updated" : "created"} successfully!`);
         onCloseForm();
       }
     } catch (error) {
@@ -91,15 +87,12 @@ export default function SectionForm({ onCloseForm, item }: SectionFormProps) {
 
   return (
     <div>
-      <h3 className="text-2xl font-semibold text-center pb-4">
+      <h3 className="pb-4 text-center text-2xl font-semibold">
         {item ? "Edit Section" : "Add Section"}
       </h3>
 
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-6 relative"
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)} className="relative space-y-6">
           {/* Title */}
           <FormField
             control={form.control}
@@ -121,9 +114,7 @@ export default function SectionForm({ onCloseForm, item }: SectionFormProps) {
             name="metaDescription"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>
-                  Meta Description (Should be 120-160 character)
-                </FormLabel>
+                <FormLabel>Meta Description (Should be 120-160 character)</FormLabel>
                 <FormControl>
                   <Input placeholder="Enter Meta Description" {...field} />
                 </FormControl>

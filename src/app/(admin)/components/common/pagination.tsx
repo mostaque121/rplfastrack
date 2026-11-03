@@ -1,5 +1,7 @@
 "use client";
 
+import { useRouter, useSearchParams } from "next/navigation";
+
 import {
   Pagination,
   PaginationContent,
@@ -9,7 +11,6 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { useRouter, useSearchParams } from "next/navigation";
 
 export default function PaginationControl({
   currentPage,
@@ -106,11 +107,7 @@ export default function PaginationControl({
         <PaginationItem>
           <PaginationPrevious
             onClick={() => handleNavigation(currentPage - 1)}
-            className={
-              currentPage <= 1
-                ? "pointer-events-none opacity-50"
-                : "cursor-pointer"
-            }
+            className={currentPage <= 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
             aria-disabled={currentPage <= 1}
           />
         </PaginationItem>
@@ -141,9 +138,7 @@ export default function PaginationControl({
           <PaginationNext
             onClick={() => handleNavigation(currentPage + 1)}
             className={
-              currentPage >= totalPages
-                ? "pointer-events-none opacity-50"
-                : "cursor-pointer"
+              currentPage >= totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"
             }
             aria-disabled={currentPage >= totalPages}
           />

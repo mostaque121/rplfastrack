@@ -2,6 +2,7 @@ import { contactInfo } from "@/config/contact";
 import { SITE_URL } from "@/config/site";
 import { socialLinks } from "@/config/social";
 import { absoluteUrl } from "@/lib/url";
+
 import type {
   BreadcrumbList,
   CollectionPage,
@@ -58,8 +59,7 @@ const allCoursesSchema: WithContext<CollectionPage> = {
   "@type": "CollectionPage",
   name: "Courses | RPL Fast Track",
   url: absoluteUrl("/courses"),
-  description:
-    "Explore all RPL-recognized qualifications across various industries in Australia.",
+  description: "Explore all RPL-recognized qualifications across various industries in Australia.",
 };
 
 const coursesBreadcrumb: WithContext<BreadcrumbList> = {

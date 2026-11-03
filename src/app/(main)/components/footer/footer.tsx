@@ -1,19 +1,20 @@
-import { contactInfo } from "@/config/contact";
 import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+
+import { contactInfo } from "@/config/contact";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-slate-900 pb-10 text-white text">
+    <footer className="text bg-slate-900 pb-10 text-white">
       {/* Main footer content */}
-      <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
           {/* About Section */}
           <div>
-            <h3 className="text-base font-semibold mb-2 text-white border-b border-slate-700 pb-1">
+            <h3 className="mb-2 border-b border-slate-700 pb-1 text-base font-semibold text-white">
               About Us
             </h3>
             <Image
@@ -24,14 +25,14 @@ export default function Footer() {
               height={100}
               className="h-10 w-auto"
             />
-            <p className="text-slate-300 mb-2 text-sm">
-              We help professionals get recognized for their skills through the
-              RPL process, empowering career advancement.
+            <p className="mb-2 text-sm text-slate-300">
+              We help professionals get recognized for their skills through the RPL process,
+              empowering career advancement.
             </p>
             <Link
               prefetch={false}
               href="/about-us"
-              className="text-emerald-400 hover:text-emerald-300 transition-colors text-sm inline-flex items-center"
+              className="inline-flex items-center text-sm text-emerald-400 transition-colors hover:text-emerald-300"
             >
               Learn More <span className="ml-1">→</span>
             </Link>
@@ -39,15 +40,15 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-base font-semibold mb-2 text-white border-b border-slate-700 pb-1">
+            <h3 className="mb-2 border-b border-slate-700 pb-1 text-base font-semibold text-white">
               Quick Links
             </h3>
-            <ul className="text-slate-300 space-y-1 text-sm">
+            <ul className="space-y-1 text-sm text-slate-300">
               <li>
                 <Link
                   prefetch={false}
                   href="/"
-                  className="hover:text-emerald-400 transition-colors"
+                  className="transition-colors hover:text-emerald-400"
                 >
                   Home
                 </Link>
@@ -56,7 +57,7 @@ export default function Footer() {
                 <Link
                   prefetch={false}
                   href="/courses"
-                  className="hover:text-emerald-400 transition-colors"
+                  className="transition-colors hover:text-emerald-400"
                 >
                   Courses
                 </Link>
@@ -65,7 +66,7 @@ export default function Footer() {
                 <Link
                   prefetch={false}
                   href="/about-us"
-                  className="hover:text-emerald-400 transition-colors"
+                  className="transition-colors hover:text-emerald-400"
                 >
                   About Us
                 </Link>
@@ -74,7 +75,7 @@ export default function Footer() {
                 <Link
                   prefetch={false}
                   href="/faq"
-                  className="hover:text-emerald-400 transition-colors"
+                  className="transition-colors hover:text-emerald-400"
                 >
                   FAQs
                 </Link>
@@ -83,7 +84,7 @@ export default function Footer() {
                 <Link
                   prefetch={false}
                   href="/contact"
-                  className="hover:text-emerald-400 transition-colors"
+                  className="transition-colors hover:text-emerald-400"
                 >
                   Contact Us
                 </Link>
@@ -93,15 +94,15 @@ export default function Footer() {
 
           {/* Legal Links */}
           <div>
-            <h3 className="text-base font-semibold mb-2 text-white border-b border-slate-700 pb-1">
+            <h3 className="mb-2 border-b border-slate-700 pb-1 text-base font-semibold text-white">
               Legal
             </h3>
-            <ul className="text-slate-300 space-y-1 text-sm">
+            <ul className="space-y-1 text-sm text-slate-300">
               <li>
                 <Link
                   prefetch={false}
                   href="/terms-of-service"
-                  className="hover:text-emerald-400 transition-colors"
+                  className="transition-colors hover:text-emerald-400"
                 >
                   Terms of Service
                 </Link>
@@ -110,7 +111,7 @@ export default function Footer() {
                 <Link
                   prefetch={false}
                   href="/privacy-policy"
-                  className="hover:text-emerald-400 transition-colors"
+                  className="transition-colors hover:text-emerald-400"
                 >
                   Privacy Policy
                 </Link>
@@ -119,7 +120,7 @@ export default function Footer() {
                 <Link
                   prefetch={false}
                   href="/refund-policy"
-                  className="hover:text-emerald-400 transition-colors"
+                  className="transition-colors hover:text-emerald-400"
                 >
                   Refund Policy
                 </Link>
@@ -128,7 +129,7 @@ export default function Footer() {
                 <Link
                   prefetch={false}
                   href="/cookie-policy"
-                  className="hover:text-emerald-400 transition-colors"
+                  className="transition-colors hover:text-emerald-400"
                 >
                   Cookie Policy
                 </Link>
@@ -138,36 +139,36 @@ export default function Footer() {
 
           {/* Contact Section */}
           <div>
-            <h3 className="text-base font-semibold mb-2 text-white border-b border-slate-700 pb-1">
+            <h3 className="mb-2 border-b border-slate-700 pb-1 text-base font-semibold text-white">
               Contact Us
             </h3>
-            <ul className="text-slate-300 space-y-1 text-sm">
+            <ul className="space-y-1 text-sm text-slate-300">
               <li className="flex items-center">
-                <Phone className="w-3 h-3 mr-1 text-emerald-400 flex-shrink-0 mt-0.5" />
+                <Phone className="mt-0.5 mr-1 h-3 w-3 flex-shrink-0 text-emerald-400" />
                 <Link
                   prefetch={false}
                   href={contactInfo.phoneHref}
-                  className="hover:text-emerald-400 transition-colors"
+                  className="transition-colors hover:text-emerald-400"
                 >
                   {contactInfo.phone}
                 </Link>
               </li>
               <li className="flex items-center">
-                <Mail className="w-3 h-3 mr-1 text-emerald-400 flex-shrink-0 mt-0.5" />
+                <Mail className="mt-0.5 mr-1 h-3 w-3 flex-shrink-0 text-emerald-400" />
                 <Link
                   prefetch={false}
                   href={contactInfo.emailHref}
-                  className="hover:text-emerald-400 transition-colors"
+                  className="transition-colors hover:text-emerald-400"
                 >
                   {contactInfo.email}
                 </Link>
               </li>
               <li className="flex items-center">
-                <MapPin className="w-3 h-3 mr-1 text-emerald-400 flex-shrink-0 mt-0.5" />
+                <MapPin className="mt-0.5 mr-1 h-3 w-3 flex-shrink-0 text-emerald-400" />
                 <span>{contactInfo.address}</span>
               </li>
               <li className="flex items-center">
-                <Clock className="w-3 h-3 mr-1 text-emerald-400 flex-shrink-0 mt-0.5" />
+                <Clock className="mt-0.5 mr-1 h-3 w-3 flex-shrink-0 text-emerald-400" />
                 <span>Mon-Fri: 9AM-5PM</span>
               </li>
             </ul>
@@ -176,7 +177,7 @@ export default function Footer() {
 
         {/* Bottom Section */}
 
-        <div className="text-center mt-8 sm:text-center text-xs text-slate-400">
+        <div className="mt-8 text-center text-xs text-slate-400 sm:text-center">
           <p>&copy; {currentYear} RPL Fast Track. All Rights Reserved.</p>
         </div>
       </div>
@@ -185,7 +186,7 @@ export default function Footer() {
         <Link
           prefetch={false}
           href="https://www.webngraphic.com"
-          className="text-emerald-400 hover:text-blue-500 font-semibold transition-colors"
+          className="font-semibold text-emerald-400 transition-colors hover:text-blue-500"
           target="_blank"
           rel="noopener noreferrer"
         >

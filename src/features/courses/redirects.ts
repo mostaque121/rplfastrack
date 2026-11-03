@@ -1,8 +1,9 @@
 import "server-only";
-import { CACHE_TAGS } from "@/config/cache-tags";
-import { prisma } from "@/server/db";
 import { unstable_cache } from "next/cache";
 import { notFound, permanentRedirect } from "next/navigation";
+
+import { CACHE_TAGS } from "@/config/cache-tags";
+import { prisma } from "@/server/db";
 
 // The whole table in one cached entry, so a 404 never costs a DB query
 // until an admin changes a link (which invalidates the tag). Errors are not

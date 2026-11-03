@@ -1,12 +1,9 @@
-import { absoluteUrl } from "@/lib/url";
 import { listSections } from "@/features/courses/queries";
+import { aboutPageBreadcrumb, aboutWebPageSchema, serviceSchema } from "@/lib/seo";
+import { absoluteUrl } from "@/lib/url";
+
 import ContactSection from "../components/contact-common";
 import ReviewCommon from "../components/review-common";
-import {
-  aboutPageBreadcrumb,
-  aboutWebPageSchema,
-  serviceSchema,
-} from "@/lib/seo";
 import HeroAboutUs from "./components/hero";
 import IntroductionAboutUs from "./components/introduction";
 import OurIndustry from "./components/our-industry";

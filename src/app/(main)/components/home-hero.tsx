@@ -1,7 +1,9 @@
-import { EligibilityForm } from "@/app/(main)/components/form/eligibility-form";
-import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
+
+import { EligibilityForm } from "@/app/(main)/components/form/eligibility-form";
+import { Button } from "@/components/ui/button";
+
 import { ResponseForm } from "./form/response-form";
 
 export default function HomeHero() {
@@ -15,39 +17,33 @@ export default function HomeHero() {
         fill
         quality={75}
         priority
-        className="z-[-1] object-left object-cover "
+        className="z-[-1] object-cover object-left"
       />
 
       {/* Overlay */}
       <div className="absolute inset-0 bg-slate-900 opacity-70"></div>
 
-      <div className="relative container mx-auto flex-col md:flex-row md:items-center flex gap-10 w-full justify-between h-full px-4 md:px-8 py-5">
-        <div className="max-w-4xl ">
-          <span className="text-emerald-400 text-2xl md:text-3xl font-semibold mb-4">
+      <div className="relative container mx-auto flex h-full w-full flex-col justify-between gap-10 px-4 py-5 md:flex-row md:items-center md:px-8">
+        <div className="max-w-4xl">
+          <span className="mb-4 text-2xl font-semibold text-emerald-400 md:text-3xl">
             Welcome to RPL Fast Track
           </span>
-          <h1 className="md:text-6xl text-4xl font-bold text-primary-foreground mb-6">
+          <h1 className="mb-6 text-4xl font-bold text-primary-foreground md:text-6xl">
             Accelerate your skills recognition
           </h1>
-          <p className="text-muted text-base md:text-xl mb-2">
-            Unlock the value of your real-world experience and earn a nationally
-            recognised qualification —
-            <span className="font-medium">
-              no classrooms, no exams, no extra study required
-            </span>
-            .
+          <p className="mb-2 text-base text-muted md:text-xl">
+            Unlock the value of your real-world experience and earn a nationally recognised
+            qualification —
+            <span className="font-medium">no classrooms, no exams, no extra study required</span>.
           </p>
-          <p className="text-muted text-xl mb-6">
-            Our simple and proven process helps you get certified quickly and
-            confidently — saving you time, money, and effort.
+          <p className="mb-6 text-xl text-muted">
+            Our simple and proven process helps you get certified quickly and confidently — saving
+            you time, money, and effort.
           </p>
 
           <EligibilityForm
             trigger={
-              <Button
-                size="lg"
-                className="group bg-emerald-600 hover:bg-emerald-700 text-white "
-              >
+              <Button size="lg" className="group bg-emerald-600 text-white hover:bg-emerald-700">
                 Check Your Eligibility
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Button>

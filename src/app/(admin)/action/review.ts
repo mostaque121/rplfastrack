@@ -1,10 +1,12 @@
 "use server";
 
-import { requireAdmin } from "@/app/(admin)/action/helper";
-import { prisma } from "@/server/db";
-import { CACHE_TAGS } from "@/config/cache-tags";
 import { revalidatePath, updateTag } from "next/cache";
 import { z } from "zod";
+
+import { requireAdmin } from "@/app/(admin)/action/helper";
+import { CACHE_TAGS } from "@/config/cache-tags";
+import { prisma } from "@/server/db";
+
 import { reviewFormSchema } from "../lib/zod";
 
 export default async function getAllReview(
@@ -91,9 +93,7 @@ export async function toggleUserReviewPublish(id: string, approved: boolean) {
   }
 }
 
-export async function deleteReview(
-  id: string,
-): Promise<{ success: boolean; error?: string }> {
+export async function deleteReview(id: string): Promise<{ success: boolean; error?: string }> {
   await requireAdmin();
   try {
     // Delete the blog post in the database using Prisma

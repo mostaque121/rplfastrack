@@ -2,15 +2,15 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export function ReviewCardSkeleton() {
   return (
-    <div className="border rounded-md overflow-hidden shadow-sm bg-white dark:bg-zinc-900 animate-pulse">
+    <div className="animate-pulse overflow-hidden rounded-md border bg-white shadow-sm dark:bg-zinc-900">
       {/* Image placeholder */}
-      <div className="w-full max-h-60 bg-gray-200 dark:bg-zinc-700" />
+      <div className="max-h-60 w-full bg-gray-200 dark:bg-zinc-700" />
 
-      <div className="p-4 space-y-3">
+      <div className="space-y-3 p-4">
         {/* User info */}
         <div className="flex items-center gap-3">
-          <Skeleton className="w-10 h-10 rounded-full" />
-          <div className="flex flex-col gap-1 flex-1">
+          <Skeleton className="h-10 w-10 rounded-full" />
+          <div className="flex flex-1 flex-col gap-1">
             <Skeleton className="h-4 w-32 rounded-md" />
             <Skeleton className="h-3 w-20 rounded-md" />
           </div>
@@ -19,7 +19,7 @@ export function ReviewCardSkeleton() {
         {/* Stars */}
         <div className="flex gap-1">
           {Array.from({ length: 5 }).map((_, i) => (
-            <Skeleton key={i} className="w-4 h-4 rounded" />
+            <Skeleton key={i} className="h-4 w-4 rounded" />
           ))}
         </div>
 
@@ -29,7 +29,7 @@ export function ReviewCardSkeleton() {
         <Skeleton className="h-4 w-3/4 rounded-md" />
 
         {/* Approved switch */}
-        <div className="flex items-center justify-between pt-2 border-t">
+        <div className="flex items-center justify-between border-t pt-2">
           <Skeleton className="h-5 w-16 rounded-md" />
           <Skeleton className="h-6 w-12 rounded-full" />
         </div>

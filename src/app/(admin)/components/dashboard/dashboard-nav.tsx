@@ -1,12 +1,6 @@
 "use client";
 
 import {
-  SidebarGroup,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from "@/components/ui/sidebar";
-import {
   BadgeCheck,
   BadgeDollarSign,
   ChartColumnStacked,
@@ -21,6 +15,13 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+
+import {
+  SidebarGroup,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from "@/components/ui/sidebar";
 
 const items = [
   {
@@ -92,11 +93,7 @@ export function DashboardNav() {
           const isActive = pathname === item.href;
           return (
             <SidebarMenuItem key={item.href}>
-              <SidebarMenuButton
-                asChild
-                isActive={isActive}
-                tooltip={item.title}
-              >
+              <SidebarMenuButton asChild isActive={isActive} tooltip={item.title}>
                 <Link prefetch={false} href={item.href}>
                   <item.icon className="h-4 w-4" />
                   <span>{item.title}</span>

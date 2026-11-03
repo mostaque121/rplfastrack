@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon, Plus, Trash2 } from "lucide-react";
 import { useFieldArray, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 import { createPayment, updatePayment } from "@/app/(admin)/action/payments";
 import { paymentSchema, type PaymentFormData } from "@/app/(admin)/lib/zod";
@@ -22,11 +23,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
@@ -38,7 +35,6 @@ import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { useRPL } from "@/contexts/rpl-context";
 import { cn } from "@/lib/utils";
-import { toast } from "sonner";
 
 interface PaymentFormProps {
   onSuccess?: () => void;
@@ -46,11 +42,7 @@ interface PaymentFormProps {
   item?: Partial<PaymentFormData>;
 }
 
-export default function PaymentForm({
-  item,
-  onSuccess,
-  onCloseForm,
-}: PaymentFormProps) {
+export default function PaymentForm({ item, onSuccess, onCloseForm }: PaymentFormProps) {
   const { sections } = useRPL();
   const allCourses = sections.flatMap((section) => section.courses ?? []);
   const mode = item?.id ? "edit" : "create";
@@ -82,18 +74,14 @@ export default function PaymentForm({
 
   // Calculate total payment from parts
   const watchedParts = form.watch("parts");
-  const totalPayment = watchedParts.reduce(
-    (sum, part) => sum + (part.amount || 0),
-    0
-  );
+  const totalPayment = watchedParts.reduce((sum, part) => sum + (part.amount || 0), 0);
 
   // Calculate net profit
   const courseFee = form.watch("courseFee") || 0;
   const collegePayment = form.watch("collegePayment") || 0;
   const agentCommission = form.watch("agentCommission") || 0;
   const bankCommission = form.watch("bankCommission") || 0;
-  const netProfit =
-    totalPayment - collegePayment - agentCommission - bankCommission;
+  const netProfit = totalPayment - collegePayment - agentCommission - bankCommission;
 
   const addPaymentPart = () => {
     append({ amount: 0, paidAt: new Date() });
@@ -101,9 +89,7 @@ export default function PaymentForm({
 
   const removePaymentPart = (index: number) => {
     if (fields.length > 1) {
-      if (
-        confirm("Are you sure you want to remove this payment installment?")
-      ) {
+      if (confirm("Are you sure you want to remove this payment installment?")) {
         remove(index);
       }
     }
@@ -116,9 +102,7 @@ export default function PaymentForm({
         : await updatePayment(data as Required<PaymentFormData>);
 
     if (result.success) {
-      toast.success(
-        `Payment ${mode === "create" ? "created" : "updated"} successfully!`
-      );
+      toast.success(`Payment ${mode === "create" ? "created" : "updated"} successfully!`);
       onSuccess?.();
       onCloseForm();
     } else {
@@ -129,7 +113,7 @@ export default function PaymentForm({
   return (
     <div className="w-full">
       <div>
-        <h3 className="text-2xl font-semibold text-center pb-4">
+        <h3 className="pb-4 text-center text-2xl font-semibold">
           {item ? "Edit Payment" : "Add Payment"}
         </h3>
       </div>
@@ -137,7 +121,7 @@ export default function PaymentForm({
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
           {/* Personal Information */}
-          <div className="grid grid-cols-1 items-start md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 items-start gap-4 md:grid-cols-2">
             {/* Name */}
             <FormField
               control={form.control}
@@ -176,11 +160,7 @@ export default function PaymentForm({
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input
-                      type="email"
-                      placeholder="Enter email address"
-                      {...field}
-                    />
+                    <Input type="email" placeholder="Enter email address" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -195,10 +175,7 @@ export default function PaymentForm({
                 <FormItem>
                   <FormLabel>Source</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="e.g., Website, Referral, Advertisement"
-                      {...field}
-                    />
+                    <Input placeholder="e.g., Website, Referral, Advertisement" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -208,7 +185,7 @@ export default function PaymentForm({
 
           {/* Education Information */}
           <Separator />
-          <div className="grid grid-cols-1 items-start md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 items-start gap-4 md:grid-cols-2">
             {/* College Name */}
             <FormField
               control={form.control}
@@ -238,7 +215,7 @@ export default function PaymentForm({
                           variant="outline"
                           className={cn(
                             "w-full pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
+                            !field.value && "text-muted-foreground",
                           )}
                         >
                           {field.value ? (
@@ -255,9 +232,7 @@ export default function PaymentForm({
                         mode="single"
                         selected={field.value}
                         onSelect={field.onChange}
-                        disabled={(date) =>
-                          date > new Date() || date < new Date("1900-01-01")
-                        }
+                        disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
                         initialFocus
                       />
                     </PopoverContent>
@@ -290,7 +265,7 @@ export default function PaymentForm({
           </div>
 
           <Separator />
-          <div className="grid grid-cols-1 items-start md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 items-start gap-4 md:grid-cols-2">
             {/* Course Fee */}
             <FormField
               control={form.control}
@@ -395,12 +370,10 @@ export default function PaymentForm({
           {/* Payment Summary */}
           <Card className="bg-muted/50">
             <CardContent className="pt-6">
-              <div className="grid  md:grid-cols-3 gap-4 text-sm">
+              <div className="grid gap-4 text-sm md:grid-cols-3">
                 <div>
                   <p className="text-muted-foreground">Total Payment</p>
-                  <p className="font-semibold text-lg">
-                    ${totalPayment.toFixed(2)}
-                  </p>
+                  <p className="text-lg font-semibold">${totalPayment.toFixed(2)}</p>
                 </div>
                 <div>
                   <p className="text-muted-foreground">Course Fee</p>
@@ -412,7 +385,7 @@ export default function PaymentForm({
                   <p
                     className={cn(
                       "font-medium",
-                      netProfit >= 0 ? "text-green-600" : "text-red-600"
+                      netProfit >= 0 ? "text-green-600" : "text-red-600",
                     )}
                   >
                     ${netProfit.toFixed(2)}
@@ -428,7 +401,7 @@ export default function PaymentForm({
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold">Payment Installments</h3>
               <Button type="button" onClick={addPaymentPart} size="sm">
-                <Plus className="h-4 w-4 mr-2" />
+                <Plus className="mr-2 h-4 w-4" />
                 Add Installment
               </Button>
             </div>
@@ -436,7 +409,7 @@ export default function PaymentForm({
             <div className="space-y-3">
               {fields.map((field, index) => (
                 <Card key={field.id} className="p-4">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-start">
+                  <div className="grid grid-cols-1 items-start gap-4 md:grid-cols-3">
                     {/* Amount */}
                     <FormField
                       control={form.control}
@@ -470,7 +443,7 @@ export default function PaymentForm({
                                   variant="outline"
                                   className={cn(
                                     "w-full pl-3 text-left font-normal",
-                                    !field.value && "text-muted-foreground"
+                                    !field.value && "text-muted-foreground",
                                   )}
                                 >
                                   {field.value ? (
@@ -482,17 +455,13 @@ export default function PaymentForm({
                                 </Button>
                               </FormControl>
                             </PopoverTrigger>
-                            <PopoverContent
-                              className="w-auto p-0"
-                              align="start"
-                            >
+                            <PopoverContent className="w-auto p-0" align="start">
                               <Calendar
                                 mode="single"
                                 selected={field.value}
                                 onSelect={field.onChange}
                                 disabled={(date) =>
-                                  date > new Date() ||
-                                  date < new Date("1900-01-01")
+                                  date > new Date() || date < new Date("1900-01-01")
                                 }
                                 initialFocus
                               />
@@ -509,7 +478,7 @@ export default function PaymentForm({
                       size="sm"
                       onClick={() => removePaymentPart(index)}
                       disabled={fields.length === 1}
-                      className="h-10 mt-5"
+                      className="mt-5 h-10"
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>

@@ -1,28 +1,5 @@
 "use client";
 
-import {
-  getNotifications,
-  markAllNotificationsAsRead,
-} from "@/app/(admin)/action/notification";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import { authClient } from "@/lib/auth-client";
 import { formatDistanceToNow } from "date-fns";
 import {
   AlertTriangle,
@@ -36,6 +13,21 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+
+import { getNotifications, markAllNotificationsAsRead } from "@/app/(admin)/action/notification";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { authClient } from "@/lib/auth-client";
 
 const iconMap = {
   response: MessageSquare,
@@ -87,9 +79,7 @@ export default function AdminSection() {
     return null;
   }
 
-  const unreadCount = notifications.filter(
-    (n) => !n.readBy.includes(user.id)
-  ).length;
+  const unreadCount = notifications.filter((n) => !n.readBy.includes(user.id)).length;
 
   const handleMarkAllAsRead = async () => {
     setReading(true);
@@ -99,7 +89,7 @@ export default function AdminSection() {
         prev.map((notification) => ({
           ...notification,
           readBy: [...notification.readBy, user.id],
-        }))
+        })),
       );
     }
     setReading(false);
@@ -123,7 +113,7 @@ export default function AdminSection() {
             {unreadCount > 0 && (
               <Badge
                 variant="destructive"
-                className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 text-xs flex items-center justify-center"
+                className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full p-0 text-xs"
               >
                 {unreadCount > 9 ? "9+" : unreadCount}
               </Badge>
@@ -133,10 +123,8 @@ export default function AdminSection() {
         <DropdownMenuContent className="w-64" align="end" forceMount>
           <DropdownMenuLabel className="font-normal">
             <div className="flex flex-col space-y-1">
-              <p className="text-sm font-medium leading-none">{user.name}</p>
-              <p className="text-xs leading-none text-muted-foreground">
-                {user.email}
-              </p>
+              <p className="text-sm leading-none font-medium">{user.name}</p>
+              <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
@@ -150,10 +138,7 @@ export default function AdminSection() {
           )}
 
           <DropdownMenuSeparator />
-          <Sheet
-            open={isNotificationSheetOpen}
-            onOpenChange={setIsNotificationSheetOpen}
-          >
+          <Sheet open={isNotificationSheetOpen} onOpenChange={setIsNotificationSheetOpen}>
             <SheetTrigger asChild>
               <DropdownMenuItem
                 className="cursor-pointer"
@@ -165,16 +150,13 @@ export default function AdminSection() {
                 <Bell className="mr-2 h-4 w-4" />
                 <span>Notifications</span>
                 {unreadCount > 0 && (
-                  <Badge
-                    variant="secondary"
-                    className="ml-auto h-5 px-1.5 text-xs"
-                  >
+                  <Badge variant="secondary" className="ml-auto h-5 px-1.5 text-xs">
                     {unreadCount}
                   </Badge>
                 )}
               </DropdownMenuItem>
             </SheetTrigger>
-            <SheetContent className="w-full gap-0 h-screen overflow-y-scroll px-4 sm:w-[540px]">
+            <SheetContent className="h-screen w-full gap-0 overflow-y-scroll px-4 sm:w-[540px]">
               {loading ? (
                 <div>
                   <SheetTitle>Notifications</SheetTitle>
@@ -182,43 +164,38 @@ export default function AdminSection() {
                 </div>
               ) : (
                 <div>
-                  <SheetHeader className="px-4 p-0 py-4 gap-1">
+                  <SheetHeader className="gap-1 p-0 px-4 py-4">
                     <SheetTitle>Notifications</SheetTitle>
                     {unreadCount > 0 && (
                       <div>
                         <button
                           onClick={handleMarkAllAsRead}
-                          className="text-xs cursor-pointer flex items-center gap-2 text-emerald-600 duration-300 transition-all hover:text-emerald-700 text-left"
+                          className="flex cursor-pointer items-center gap-2 text-left text-xs text-emerald-600 transition-all duration-300 hover:text-emerald-700"
                         >
                           Mark all as read{" "}
-                          {reading && (
-                            <Loader2 className="mr-2 h-3 w-3 animate-spin" />
-                          )}
+                          {reading && <Loader2 className="mr-2 h-3 w-3 animate-spin" />}
                         </button>
                       </div>
                     )}
                   </SheetHeader>
                   <div className="space-y-2">
                     {notifications.map((notification) => {
-                      const IconComponent =
-                        iconMap[notification.type] || iconMap.default;
+                      const IconComponent = iconMap[notification.type] || iconMap.default;
                       const read = notification.readBy.includes(user.id);
                       const link =
                         notification.type === "eligibility"
                           ? "/admin/eligibility"
                           : notification.type === "response"
-                          ? "/admin/response"
-                          : "/admin"; // default path or handle other types
+                            ? "/admin/response"
+                            : "/admin"; // default path or handle other types
 
                       return (
                         <div key={notification.id}>
                           <Link
                             prefetch={false}
                             href={link}
-                            className={`flex items-start space-x-3 p-3 rounded-lg border cursor-pointer transition-colors hover:bg-gray-100 ${
-                              !read
-                                ? "bg-emerald-100 border-primary/20"
-                                : "border-border bg-white"
+                            className={`flex cursor-pointer items-start space-x-3 rounded-lg border p-3 transition-colors hover:bg-gray-100 ${
+                              !read ? "border-primary/20 bg-emerald-100" : "border-border bg-white"
                             }`}
                           >
                             <div
@@ -236,25 +213,20 @@ export default function AdminSection() {
                               <div className="flex items-center justify-between">
                                 <p
                                   className={`text-sm font-medium ${
-                                    !read
-                                      ? "text-foreground"
-                                      : "text-muted-foreground"
+                                    !read ? "text-foreground" : "text-muted-foreground"
                                   }`}
                                 >
                                   {notification.title}
                                 </p>
-                                {!read && (
-                                  <div className="h-2 w-2 rounded-full bg-emerald-500" />
-                                )}
+                                {!read && <div className="h-2 w-2 rounded-full bg-emerald-500" />}
                               </div>
                               <p className="text-xs text-muted-foreground">
                                 {notification.description}
                               </p>
                               <p className="text-xs text-muted-foreground">
-                                {formatDistanceToNow(
-                                  new Date(notification.createdAt),
-                                  { addSuffix: true }
-                                )}
+                                {formatDistanceToNow(new Date(notification.createdAt), {
+                                  addSuffix: true,
+                                })}
                               </p>
                             </div>
                           </Link>

@@ -2,22 +2,9 @@
 
 "use client";
 
-import {
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
+import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface OverviewProps {
   data: any;
@@ -41,9 +28,7 @@ export function Overview({ data, days }: OverviewProps) {
     <Card className="py-6">
       <CardHeader>
         <CardTitle>Website Traffic</CardTitle>
-        <CardDescription>
-          User visits and page views over the last {days} days
-        </CardDescription>
+        <CardDescription>User visits and page views over the last {days} days</CardDescription>
       </CardHeader>
       <CardContent className="pt-6">
         <div className="h-75">

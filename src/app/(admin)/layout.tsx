@@ -1,8 +1,10 @@
-import { listSections } from "@/features/courses/queries";
-import { RPLProvider } from "@/contexts/rpl-context";
+import { Metadata } from "next/types";
+
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/sonner";
-import { Metadata } from "next/types";
+import { RPLProvider } from "@/contexts/rpl-context";
+import { listSections } from "@/features/courses/queries";
+
 import { QueryProvider } from "./components/common/query-provider";
 import { DashboardSidebar } from "./components/dashboard/dashboard-sidebar";
 import { SiteHeader } from "./components/dashboard/site-header";
@@ -35,11 +37,9 @@ export default async function AdminLayout({
           <SidebarProvider>
             <DashboardSidebar />
             <SidebarInset>
-              <div className="flex relative  flex-col">
+              <div className="relative flex flex-col">
                 <SiteHeader />
-                <div className="flex flex-1 overflow-y-auto flex-col">
-                  {children}
-                </div>
+                <div className="flex flex-1 flex-col overflow-y-auto">{children}</div>
               </div>
             </SidebarInset>
           </SidebarProvider>

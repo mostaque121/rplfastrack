@@ -5,16 +5,10 @@
  * Types come exclusively from lib/invoice.schema — never redefined here.
  */
 
-import {
-  Document,
-  Image,
-  Page,
-  StyleSheet,
-  Text,
-  View,
-} from "@react-pdf/renderer";
+import { Document, Image, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 
 import { formatInvoiceDate } from "@/lib/format-invoice-date";
+
 import type { InvoicePayload } from "../schema";
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
@@ -302,14 +296,7 @@ export function InvoicePDF({ invoice }: Props) {
             ).map(({ k, v, bold }) => (
               <View key={k} style={s.metaLine}>
                 <Text style={s.metaKey}>{k}</Text>
-                <Text
-                  style={[
-                    s.metaVal,
-                    bold ? { fontFamily: "Helvetica-Bold" } : {},
-                  ]}
-                >
-                  {v}
-                </Text>
+                <Text style={[s.metaVal, bold ? { fontFamily: "Helvetica-Bold" } : {}]}>{v}</Text>
               </View>
             ))}
             <View style={s.amountDueBanner}>
@@ -328,15 +315,9 @@ export function InvoicePDF({ invoice }: Props) {
         </View>
         {invoice.items.map((item, i) => (
           <View key={i} style={[s.tableRow, i % 2 === 1 ? s.tableRowAlt : {}]}>
-            <Text style={[s.colItem, { fontSize: 9, color: DARK }]}>
-              {item.description}
-            </Text>
-            <Text style={[s.colQty, { fontSize: 9, color: GREY }]}>
-              {item.quantity}
-            </Text>
-            <Text style={[s.colPrice, { fontSize: 9, color: GREY }]}>
-              {fmt(item.price)}
-            </Text>
+            <Text style={[s.colItem, { fontSize: 9, color: DARK }]}>{item.description}</Text>
+            <Text style={[s.colQty, { fontSize: 9, color: GREY }]}>{item.quantity}</Text>
+            <Text style={[s.colPrice, { fontSize: 9, color: GREY }]}>{fmt(item.price)}</Text>
             <Text style={[s.colAmount, { fontSize: 9, color: DARK }]}>
               {fmt(item.price * item.quantity)}
             </Text>
@@ -350,27 +331,21 @@ export function InvoicePDF({ invoice }: Props) {
             {/* Total Row: gets border ONLY if no amount was paid */}
             <View style={[s.totalRow, !hasAmountPaid ? s.totalRowBorder : {}]}>
               <Text style={[s.colPrice, s.totalLabel]}>Total:</Text>
-              <Text style={[s.colAmount, s.totalVal]}>
-                {fmt(invoice.totalAmount)}
-              </Text>
+              <Text style={[s.colAmount, s.totalVal]}>{fmt(invoice.totalAmount)}</Text>
             </View>
 
             {/* Amount Paid Row: gets border permanently when rendered */}
             {hasAmountPaid && (
               <View style={[s.totalRow, s.totalRowBorder]}>
                 <Text style={[s.colPrice, s.totalLabel]}>Amount Paid:</Text>
-                <Text style={[s.colAmount, s.totalVal]}>
-                  -{fmt(invoice.amountPaid)}
-                </Text>
+                <Text style={[s.colAmount, s.totalVal]}>-{fmt(invoice.amountPaid)}</Text>
               </View>
             )}
 
             {/* Grand Total Banner */}
             <View style={s.totalRow}>
               <Text style={[s.colPrice, s.totalLabel]}>Amount Due (AUD):</Text>
-              <Text style={[s.colAmount, s.totalLabel]}>
-                {fmt(invoice.amountDue)}
-              </Text>
+              <Text style={[s.colAmount, s.totalLabel]}>{fmt(invoice.amountDue)}</Text>
             </View>
           </View>
         </View>
@@ -379,19 +354,12 @@ export function InvoicePDF({ invoice }: Props) {
         <View style={s.notesBox}>
           <Text style={s.notesTitle}>Notes / Terms</Text>
           <Text style={s.notesText}>Banking Details:</Text>
-          <Text style={s.notesText}>
-            Account Name: {invoice.bankAccountName}
-          </Text>
+          <Text style={s.notesText}>Account Name: {invoice.bankAccountName}</Text>
           <Text style={s.notesText}>BSB: {invoice.bankBSB}</Text>
-          <Text style={s.notesText}>
-            Account number: {invoice.bankAccountNumber}
-          </Text>
-          {invoice.extraNotes && (
-            <Text style={s.notesBold}>{invoice.extraNotes}</Text>
-          )}
+          <Text style={s.notesText}>Account number: {invoice.bankAccountNumber}</Text>
+          {invoice.extraNotes && <Text style={s.notesBold}>{invoice.extraNotes}</Text>}
           <Text style={[s.policyText, { marginTop: 7, fontStyle: "italic" }]}>
-            Upon payment, customer agrees to {invoice.companyName} terms and
-            conditions
+            Upon payment, customer agrees to {invoice.companyName} terms and conditions
           </Text>
         </View>
 

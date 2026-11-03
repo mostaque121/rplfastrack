@@ -1,12 +1,12 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 import * as React from "react";
 
-interface LoadingButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+
+interface LoadingButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   loading?: boolean;
   loadingText?: string;
 }
@@ -18,10 +18,7 @@ interface LoadingButtonProps
  * - Shows loader icon and optional loadingText
  */
 const LoadingButton = React.forwardRef<HTMLButtonElement, LoadingButtonProps>(
-  (
-    { className, children, loading = false, loadingText, disabled, ...props },
-    ref
-  ) => {
+  ({ className, children, loading = false, loadingText, disabled, ...props }, ref) => {
     return (
       <Button
         className={cn("flex items-center justify-center gap-2", className)}
@@ -33,7 +30,7 @@ const LoadingButton = React.forwardRef<HTMLButtonElement, LoadingButtonProps>(
         <span>{loading ? loadingText || children : children}</span>
       </Button>
     );
-  }
+  },
 );
 
 LoadingButton.displayName = "LoadingButton";
