@@ -1,6 +1,7 @@
 import { ac, adminRole, user } from "@/lib/permisssion";
 import { Redis } from "@upstash/redis";
 import { betterAuth } from "better-auth";
+import { APIError } from "better-auth/api";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { nextCookies } from "better-auth/next-js";
 import { admin } from "better-auth/plugins";
@@ -28,12 +29,51 @@ export const auth = betterAuth({
   socialProviders: {
     google: {
       prompt: "select_account",
+      // Invite-only: a Google account that isn't already a user is rejected.
+      // New team members are created by an admin first (admin plugin).
+      disableSignUp: true,
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     },
   },
   emailAndPassword: {
+    enabled: false,
+  },
+  account: {
+    accountLinking: {
+      // Link Google to a user an admin created, on their first sign-in.
+      trustedProviders: ["google"],
+    },
+  },
+  databaseHooks: {
+    session: {
+      create: {
+        // Only admins may hold a session. (Bans are checked by the admin plugin.)
+        async before(session, ctx) {
+          if (!ctx) return;
+          const user = await ctx.context.internalAdapter.findUserById(
+            session.userId,
+          );
+          if ((user as { role?: string } | null)?.role !== "admin") {
+            throw APIError.from("FORBIDDEN", {
+              message: "This account isn't authorised.",
+              code: "NOT_AUTHORISED",
+            });
+          }
+        },
+      },
+    },
+  },
+  rateLimit: {
     enabled: true,
+    // Shared across serverless instances (in-memory would be per instance).
+    storage: "secondary-storage",
+    window: 60,
+    max: 100,
+    customRules: {
+      "/sign-in/*": { window: 60, max: 5 },
+      "/callback/*": { window: 60, max: 10 },
+    },
   },
 
   secondaryStorage: {

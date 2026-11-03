@@ -4,7 +4,21 @@ import { headers } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-export default async function page() {
+const SIGN_IN_ERRORS: Record<string, string> = {
+  signup_disabled: "This Google account isn't authorised.",
+  NOT_AUTHORISED: "This Google account isn't authorised.",
+  BANNED_USER: "This account has been suspended.",
+};
+
+export default async function page({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string }>;
+}) {
+  const { error } = await searchParams;
+  const errorMessage = error
+    ? (SIGN_IN_ERRORS[error] ?? "Sign-in failed. Please try again.")
+    : null;
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -89,11 +103,19 @@ export default async function page() {
         <h1 className="text-3xl mt-12 md:mt-8">Sign in to your account</h1>
 
         <div className=" w-full mt-6 ">
+          {errorMessage && (
+            <p
+              role="alert"
+              className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+            >
+              {errorMessage}
+            </p>
+          )}
           <form
             action={async () => {
               "use server";
               const res = await auth.api.signInSocial({
-                body: { provider: "google" },
+                body: { provider: "google", errorCallbackURL: "/signin" },
               });
               if (res.url) {
                 redirect(res.url);
