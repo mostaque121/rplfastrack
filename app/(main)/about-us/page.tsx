@@ -18,17 +18,6 @@ export const metadata = {
   title: "About Us",
   description:
     "RPL Fast Track is committed to helping skilled individuals gain recognition through RPL in Australia. Learn about our mission, team, and values.",
-  keywords: [
-    "About RPL Fast Track",
-    "RPL experts Australia",
-    "RPL support",
-    "Skills recognition services",
-    "Trusted RPL provider",
-    "Get RPL certified",
-    "Fast track qualifications",
-    "Work experience validation",
-    "Recognition of Prior Learning experts",
-  ],
   alternates: {
     canonical: absoluteUrl("/about-us"),
   },

@@ -1,4 +1,4 @@
-import { SITE_URL } from "@/config/site";
+import { SITE_URL, siteConfig } from "@/config/site";
 import WhatsAppButton1 from "@/components/custom-ui/whatsapp-button";
 import { Toaster } from "@/components/ui/sonner";
 import { GoogleAnalytics } from "@next/third-parties/google";
@@ -14,32 +14,6 @@ export const metadata: Metadata = {
   },
   description:
     "Get nationally recognized qualifications in Australia through our RPL Fast Track process. Convert your skills, experience, and prior learning into formal certification quickly and affordably.",
-  keywords: [
-    "RPL Australia",
-    "Recognition of Prior Learning",
-    "RPL certificate",
-    "Fast track RPL",
-    "RPL qualifications",
-    "Skills assessment Australia",
-    "Trade recognition Australia",
-    "RPL courses",
-    "RPL providers",
-    "Get RPL certified",
-    "Career recognition Australia",
-    "RPL for migration",
-    "RPL for electricians",
-    "RPL for chefs",
-    "RPL for carpenters",
-    "Diploma through RPL",
-    "Australian RPL process",
-    "RPL skill assessment",
-    "RPL application",
-    "Recognition of work experience",
-    "plumbing rpl",
-    "rpl carpentry",
-    "rpl certificates",
-    "fast rpl",
-  ],
   authors: [
     { name: "RPL Fast Track Australia", url: SITE_URL },
   ],
@@ -68,7 +42,7 @@ export const metadata: Metadata = {
     description:
       "Get nationally recognized qualifications in Australia through our RPL Fast Track process. Convert your experience into certification quickly and affordably.",
     url: SITE_URL,
-    locale: "en_US",
+    locale: siteConfig.locale,
     siteName: "RPL Fast Track",
     type: "website",
     images: [

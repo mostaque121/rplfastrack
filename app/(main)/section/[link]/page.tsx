@@ -24,11 +24,9 @@ export async function generateMetadata({
       return {};
     }
 
-    const keywords = data.courses.map((course) => course.title).join(", ");
     return {
       title: `${data.title}`,
       description: `${data.metaDescription}`,
-      keywords: `RPL, Fast Track, Australia, courses, ${data.title}, ${keywords}, ${data.title} courses, ${data.title} training`,
       alternates: {
         canonical: absoluteUrl(`/section/${link}`),
       },

@@ -1,4 +1,4 @@
-import { SITE_URL } from "@/config/site";
+import { SITE_URL, siteConfig } from "@/config/site";
 import { absoluteUrl } from "@/lib/url";
 import { notFound } from "next/navigation";
 import type { BreadcrumbList } from "schema-dts";
@@ -35,24 +35,10 @@ export async function generateMetadata({
     const pageTitle = `${data.metaTitle}`;
     const pageDescription = `${data.metaDescription}`;
 
-    const bestKeywords = [
-      "Recognition of Prior Learning",
-      "RPL Australia",
-      "RPL qualifications",
-      "RPL course",
-      "certification Australia",
-      "vocational training",
-      "career advancement",
-      "nationally recognized qualification",
-      "skills recognition",
-      "RPL Fast Track",
-      data.title,
-    ].join(", ");
 
     return {
       title: pageTitle,
       description: pageDescription,
-      keywords: bestKeywords,
       alternates: {
         canonical: absoluteUrl(`/courses/${data.link}`),
       },
@@ -116,7 +102,7 @@ export default async function Page({
     name: course.title,
     url: absoluteUrl(`/courses/${course.link}`),
     description: striptags(course.description),
-    inLanguage: "en",
+    inLanguage: siteConfig.language,
     image: [course.imageCoverLink, course.imageSquareLink],
     provider: organization,
     offers: [

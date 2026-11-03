@@ -1,3 +1,4 @@
+import { siteConfig } from "@/config/site";
 import { NavigationProgressBar } from "@/components/navigation/navigation-progress-provider";
 import { RPLProvider } from "@/contexts/rpl-context";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -24,7 +25,7 @@ export default async function RootLayout({
 }>) {
   const sections = await getAllSections();
   return (
-    <html lang="en">
+    <html lang={siteConfig.language}>
       <head>
         <script
           type="application/ld+json"

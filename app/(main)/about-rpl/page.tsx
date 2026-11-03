@@ -17,18 +17,6 @@ export const metadata = {
   title: "About RPL - Learn Recognition of Prior Learning",
   description:
     "Learn how Recognition of Prior Learning (RPL) helps you convert skills and experience into nationally recognized qualifications in Australia.",
-  keywords: [
-    "What is RPL",
-    "Recognition of Prior Learning Australia",
-    "RPL process explained",
-    "Skills assessment",
-    "Australian qualifications",
-    "Work experience recognition",
-    "How RPL works",
-    "Fast track certification",
-    "Career pathway RPL",
-    "RPL benefits",
-  ],
   alternates: {
     canonical: absoluteUrl("/about-rpl"),
   },
