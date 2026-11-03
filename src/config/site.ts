@@ -6,4 +6,5 @@ export const siteConfig = {
   locale: "en_AU",
   language: "en-AU",
   cloudinaryCloudName: "dbneycd8g",
+  gaMeasurementId: "G-C5F83DW248",
 } as const;

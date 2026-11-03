@@ -3,6 +3,7 @@ import WhatsAppButton1 from "@/components/custom-ui/whatsapp-button";
 import { RPLProvider } from "@/contexts/rpl-context";
 import { Toaster } from "@/components/ui/sonner";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { env } from "@/env";
 import { Metadata } from "next/types";
 import { getAllSections } from "./action/courses";
 import Footer from "./components/footer/footer";
@@ -69,7 +70,6 @@ export default async function MainLayout({
   children: React.ReactNode;
 }>) {
   const sections = await getAllSections();
-  const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
   return (
     <RPLProvider initialQualifications={sections}>
@@ -83,7 +83,9 @@ export default async function MainLayout({
         <WhatsAppButton1 />
         <Footer />
         <Toaster />
-        {GA_MEASUREMENT_ID && <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />}
+        {env.VERCEL_ENV === "production" && (
+          <GoogleAnalytics gaId={siteConfig.gaMeasurementId} />
+        )}
       </main>
     </RPLProvider>
   );

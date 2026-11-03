@@ -30,6 +30,9 @@ export const env = z
     GOOGLE_PRIVATE_KEY: required.transform((key) => key.replace(/\\n/g, "\n")),
     GOOGLE_PROJECT_ID: required,
 
+    // Set by Vercel; GA only loads on "production"
+    VERCEL_ENV: z.enum(["production", "preview", "development"]).optional(),
+
     // Optional: lead sync is skipped when unset
     CRM_INTAKE_URL: z.preprocess(blankAsUnset, z.url().optional()),
     CRM_INTAKE_KEY: z.preprocess(blankAsUnset, z.string().optional()),
