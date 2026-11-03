@@ -5,7 +5,7 @@
 import { getUserOrRedirect } from "@/app/(admin)/lib/get-user";
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
-import InvoicePreview from "../../components/InvoicePreview";
+import InvoicePreview from "../../components/invoice-preview";
 import type { InvoiceFormValues } from "../../schema";
 
 /** Map the persisted invoice shape into the form's default values. */

@@ -14,7 +14,7 @@ import {
   ChartTooltip,
 } from "@/components/ui/chart";
 import { Skeleton } from "@/components/ui/skeleton";
-import type { AnalyticsData } from "@/type/type";
+import type { AnalyticsData } from "@/types/shared";
 import {
   Bar,
   BarChart,

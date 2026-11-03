@@ -1,7 +1,7 @@
 "use server";
 import { CACHE_TAGS } from "@/config/cache-tags";
 import { prisma } from "@/lib/prisma";
-import { Section } from "@/type/type";
+import { Section } from "@/types/shared";
 import { unstable_cache } from "next/cache";
 
 /* export async function getCourses() {

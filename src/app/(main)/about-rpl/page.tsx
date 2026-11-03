@@ -6,7 +6,7 @@ import {
   aboutRplBreadcrumb,
   aboutRplPageSchema,
   rplConceptSchema,
-} from "../scheema/scheema";
+} from "@/lib/seo";
 import BenefitsOfRPL from "./components/benefits-of-rpl";
 import Cta from "./components/cta";
 import AboutRplHero from "./components/hero";

@@ -16,7 +16,7 @@ import type {
   PaymentFilters,
   PaymentResponse,
   StatsResponse,
-} from "@/type/payment";
+} from "@/types/payment";
 
 export type PaymentWithParts = {
   id: string;

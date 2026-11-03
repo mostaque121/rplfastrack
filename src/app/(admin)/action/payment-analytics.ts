@@ -3,7 +3,7 @@
 
 import { requireAdmin } from "@/app/(admin)/action/helper";
 import { prisma } from "@/lib/prisma";
-import type { AnalyticsData, FilterParams } from "@/type/type";
+import type { AnalyticsData, FilterParams } from "@/types/shared";
 import {
   eachMonthOfInterval,
   endOfMonth,

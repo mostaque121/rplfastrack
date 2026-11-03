@@ -1,4 +1,4 @@
-import { ac, adminRole, user } from "@/lib/permisssion";
+import { ac, adminRole, user } from "@/lib/permissions";
 import { adminClient } from "better-auth/client/plugins";
 import { createAuthClient } from "better-auth/react";
 

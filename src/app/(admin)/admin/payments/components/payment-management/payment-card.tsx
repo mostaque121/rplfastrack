@@ -3,7 +3,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import type { PaymentWithParts } from "@/type/payment";
+import type { PaymentWithParts } from "@/types/payment";
 import { format } from "date-fns";
 import {
   Building,

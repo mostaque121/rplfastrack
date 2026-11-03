@@ -15,7 +15,7 @@ import ContactSection from "../../components/contact-common";
 import DocumentsNeed from "../../components/documents-need";
 import ReviewCommon from "../../components/review-common";
 import RplProcess from "../../components/rpl-process";
-import { organization, serviceSchema } from "../../scheema/scheema";
+import { organization, serviceSchema } from "@/lib/seo";
 import QualificationContent from "./components/content";
 import EligibilityForRPLSimple from "./components/eligibility";
 import QualificationHeroSection from "./components/hero";

@@ -6,10 +6,10 @@ import {
   aboutPageBreadcrumb,
   aboutWebPageSchema,
   serviceSchema,
-} from "../scheema/scheema";
+} from "@/lib/seo";
 import HeroAboutUs from "./components/hero";
 import IntroductionAboutUs from "./components/introduction";
-import OurIndustry from "./components/our-Industry";
+import OurIndustry from "./components/our-industry";
 import OurMission from "./components/our-mission";
 import OurStory from "./components/our-story";
 import WhyChooseUs from "./components/why-choose-us";

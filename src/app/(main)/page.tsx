@@ -8,7 +8,7 @@ import HomeHero from "./components/home-hero";
 
 import ReviewCommon from "./components/review-common";
 import RplProcess from "./components/rpl-process";
-import { homePageSchema, serviceSchema } from "./scheema/scheema";
+import { homePageSchema, serviceSchema } from "@/lib/seo";
 export const metadata = {
   title: "RPL Fast Track - Accelerate Your Skills Recognition",
   description:

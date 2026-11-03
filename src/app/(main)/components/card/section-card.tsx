@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Section } from "@/type/type";
+import { Section } from "@/types/shared";
 import { ArrowRight, GraduationCapIcon as Graduation } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";

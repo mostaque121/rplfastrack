@@ -3,13 +3,13 @@ import { NextRequest, NextResponse } from "next/server";
 import React from "react";
 import { ZodError } from "zod";
 
-import { InvoicePDF } from "@/app/(admin)/admin/invoice/components/InvoicePDF";
+import { InvoicePDF } from "@/app/(admin)/admin/invoice/components/invoice-pdf";
 import { InvoicePayloadSchema } from "@/app/(admin)/admin/invoice/schema";
 import { cloudinary } from "@/lib/cloudinary-client";
 import { absoluteUrl } from "@/lib/url";
 import { sendInvoiceEmail } from "@/lib/mail";
 import { prisma } from "@/lib/prisma";
-import { withAdminGuard } from "@/lib/withAdminGuard";
+import { withAdminGuard } from "@/lib/with-admin-guard";
 
 // Reuse the same date parser as the create route.
 const MONTHS: Record<string, number> = {

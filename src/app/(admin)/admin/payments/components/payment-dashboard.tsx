@@ -4,7 +4,7 @@
 import { EditDialog } from "@/components/custom-ui/edit-dialog";
 import { FormDialog } from "@/components/custom-ui/form-dialog";
 import { Button } from "@/components/ui/button";
-import type { PaymentWithParts } from "@/type/payment";
+import type { PaymentWithParts } from "@/types/payment";
 import { useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import { useState } from "react";

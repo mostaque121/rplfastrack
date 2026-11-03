@@ -8,7 +8,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import type { PaymentWithParts } from "@/type/payment";
+import type { PaymentWithParts } from "@/types/payment";
 import {
   keepPreviousData,
   useQuery,

@@ -1,5 +1,5 @@
 import { env } from "@/env";
-import { ac, adminRole, user } from "@/lib/permisssion";
+import { ac, adminRole, user } from "@/lib/permissions";
 import { Redis } from "@upstash/redis";
 import { betterAuth } from "better-auth";
 import { APIError } from "better-auth/api";

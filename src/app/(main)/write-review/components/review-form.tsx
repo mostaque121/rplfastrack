@@ -19,9 +19,9 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
 import { saveReview } from "../../action/review";
-import ProfileImageUpload from "./ProfileImageUpload";
-import ReviewImageUpload from "./ReviewImageUpload";
-import StarRating from "./StarRating";
+import ProfileImageUpload from "./profile-image-upload";
+import ReviewImageUpload from "./review-image-upload";
+import StarRating from "./star-rating";
 
 type FormValues = z.infer<typeof reviewFormSchema>;
 

@@ -3,7 +3,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
-import type { AnalyticsData } from "@/type/type";
+import type { AnalyticsData } from "@/types/shared";
 import {
   Calendar,
   DollarSign,

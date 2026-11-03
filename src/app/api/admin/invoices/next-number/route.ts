@@ -7,8 +7,8 @@
 
 import { NextInvoiceNumberResponseSchema } from "@/app/(admin)/admin/invoice/schema";
 import { getUserOrRedirect } from "@/app/(admin)/lib/get-user";
-import { getNextInvoiceNumber } from "@/app/(admin)/lib/getNextInvoiceNumber";
-import { withAdminGuard } from "@/lib/withAdminGuard";
+import { getNextInvoiceNumber } from "@/app/(admin)/lib/get-next-invoice-number";
+import { withAdminGuard } from "@/lib/with-admin-guard";
 import { NextResponse } from "next/server";
 
 export const GET = withAdminGuard(async function GET() {

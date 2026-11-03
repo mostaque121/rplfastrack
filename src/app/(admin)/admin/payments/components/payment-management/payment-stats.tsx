@@ -2,7 +2,7 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import type { PaymentStats } from "@/type/payment";
+import type { PaymentStats } from "@/types/payment";
 import { AlertCircle, Building, CreditCard, DollarSign } from "lucide-react";
 
 interface PaymentStatsProps {

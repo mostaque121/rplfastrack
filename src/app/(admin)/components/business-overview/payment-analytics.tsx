@@ -6,7 +6,7 @@ import { useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import type { FilterType } from "@/type/type";
+import type { FilterType } from "@/types/shared";
 import { getPaymentAnalytics } from "../../action/payment-analytics";
 import { DistributionCharts } from "../business-overview/distribution-charts";
 import { FilterControls } from "../business-overview/filter-control";

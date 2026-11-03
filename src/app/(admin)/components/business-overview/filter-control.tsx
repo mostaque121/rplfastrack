@@ -17,7 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { FilterType } from "@/type/type";
+import type { FilterType } from "@/types/shared";
 import { format } from "date-fns";
 
 interface FilterControlsProps {

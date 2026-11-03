@@ -1,6 +1,6 @@
 "use client";
 
-import { Section } from "@/type/type";
+import { Section } from "@/types/shared";
 import { createContext, useContext, type ReactNode } from "react";
 
 // Define the context type

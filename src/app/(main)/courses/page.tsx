@@ -5,7 +5,7 @@ import {
   allCoursesSchema,
   coursesBreadcrumb,
   serviceSchema,
-} from "../scheema/scheema";
+} from "@/lib/seo";
 import CourseCategories from "./components/course-categories";
 import EligibilityForRPL from "./components/eligibility";
 import HeroSection from "./components/hero";

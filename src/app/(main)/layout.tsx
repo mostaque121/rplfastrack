@@ -7,7 +7,7 @@ import { Metadata } from "next/types";
 import { getAllSections } from "./action/courses";
 import Footer from "./components/footer/footer";
 import Navbar from "./components/navbar/navbar";
-import { organization } from "./scheema/scheema";
+import { organization } from "@/lib/seo";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

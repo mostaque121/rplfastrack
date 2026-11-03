@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import type { AnalyticsData } from "@/type/type";
+import type { AnalyticsData } from "@/types/shared";
 
 interface InsightsSectionProps {
   analytics: AnalyticsData | null;
