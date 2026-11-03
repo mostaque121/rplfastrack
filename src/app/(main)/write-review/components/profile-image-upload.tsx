@@ -1,6 +1,6 @@
 "use client";
 
-import axios from "axios";
+import { siteConfig } from "@/config/site";
 import Image from "next/image";
 import { ChangeEvent, useState } from "react";
 import { FaTimes, FaUpload } from "react-icons/fa";
@@ -14,7 +14,6 @@ const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
   profileImageUrl,
   setProfileImageUrl,
 }) => {
-  const [uploadProgress, setUploadProgress] = useState<number>(0);
   const [uploading, setUploading] = useState<boolean>(false);
 
   const handleProfileImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -31,26 +30,18 @@ const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
 
     try {
       setUploading(true);
-      const response = await axios.post(
-        "https://api.cloudinary.com/v1_1/dbneycd8g/image/upload",
-        formData,
-        {
-          onUploadProgress: (progressEvent) => {
-            if (progressEvent.total) {
-              const percent =
-                (progressEvent.loaded / progressEvent.total) * 100;
-              setUploadProgress(percent);
-            }
-          },
-        }
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/${siteConfig.cloudinaryCloudName}/image/upload`,
+        { method: "POST", body: formData },
       );
+      if (!response.ok) throw new Error(`Upload failed: ${response.status}`);
 
-      const imageUrl = response.data.secure_url as string;
+      const { secure_url: imageUrl } = (await response.json()) as {
+        secure_url: string;
+      };
       setProfileImageUrl(imageUrl);
-      setUploadProgress(0);
     } catch (error) {
       console.error("Error uploading the image:", error);
-      setUploadProgress(0);
     } finally {
       setUploading(false);
     }
@@ -58,7 +49,6 @@ const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
 
   const handleImageRemove = () => {
     setProfileImageUrl("");
-    setUploadProgress(0);
   };
 
   return (
@@ -101,15 +91,6 @@ const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
           >
             <FaTimes />
           </button>
-        </div>
-      )}
-
-      {uploadProgress > 0 && (
-        <div className="mt-2 w-full bg-gray-200 rounded-full">
-          <div
-            className="bg-white h-2 rounded-full"
-            style={{ width: `${uploadProgress}%` }}
-          />
         </div>
       )}
 

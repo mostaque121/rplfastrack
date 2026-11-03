@@ -92,6 +92,17 @@ export const auth = betterAuth({
     delete: async (key) => {
       await redis.del(key);
     },
+    getAndDelete: async (key) => {
+      return redis.getdel<string>(key);
+    },
+    // INCR, and set the TTL only when the key is created (one atomic call).
+    increment: async (key, ttl) => {
+      return redis.eval<[number], number>(
+        "local n = redis.call('INCR', KEYS[1]) if n == 1 then redis.call('EXPIRE', KEYS[1], ARGV[1]) end return n",
+        [key],
+        [ttl],
+      );
+    },
   },
   session: {
     cookieCache: {
