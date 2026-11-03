@@ -53,9 +53,27 @@ export async function getSectionByLink(link: string) {
 
 export async function _getAllSections(): Promise<Section[]> {
   try {
+    // Only the fields in the `Section` type: this list is sent to the client
+    // on every page (navbar, search, forms), so never include course content.
     const sections = await prisma.section.findMany({
-      include: {
+      select: {
+        id: true,
+        title: true,
+        link: true,
+        index: true,
+        imageSquareLink: true,
+        imageCoverLink: true,
+        updatedAt: true,
         courses: {
+          select: {
+            id: true,
+            title: true,
+            link: true,
+            index: true,
+            imageSquareLink: true,
+            imageCoverLink: true,
+            updatedAt: true,
+          },
           orderBy: {
             index: "asc",
           },
