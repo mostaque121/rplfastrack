@@ -1,8 +1,8 @@
 import { SITE_URL } from "@/config/site";
 import { absoluteUrl } from "@/lib/url";
 import { BreadcrumbList, CollectionPage, WithContext } from "schema-dts";
-import { getAllSections, getSectionByLink } from "../../action/courses";
-import { redirectOrNotFound } from "../../action/redirects";
+import { listSections, getSectionByLink } from "@/features/courses/queries";
+import { redirectOrNotFound } from "@/features/courses/redirects";
 import ContactSection from "../../components/contact-common";
 import DocumentsNeed from "../../components/documents-need";
 import EligibilityForRPL from "../../courses/components/eligibility";
@@ -52,7 +52,7 @@ export async function generateMetadata({
 
 export async function generateStaticParams() {
   try {
-    const sections = await getAllSections();
+    const sections = await listSections();
     if (!sections || sections.length === 0) {
       return [];
     }
@@ -71,7 +71,7 @@ export default async function Page({
   params: Promise<{ link: string }>;
 }) {
   const { link } = await params;
-  const allSections = await getAllSections();
+  const allSections = await listSections();
   const section = await getSectionByLink(link);
   if (!section) {
     return redirectOrNotFound(`/section/${link}`);

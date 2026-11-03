@@ -6,11 +6,11 @@ import type { BreadcrumbList } from "schema-dts";
 import { Course, WithContext } from "schema-dts";
 import striptags from "striptags";
 import {
-  getAllSections,
+  listSections,
   getCourseByLink,
   getSectionByLink,
-} from "../../action/courses";
-import { redirectOrNotFound } from "../../action/redirects";
+} from "@/features/courses/queries";
+import { redirectOrNotFound } from "@/features/courses/redirects";
 import ContactSection from "../../components/contact-common";
 import DocumentsNeed from "../../components/documents-need";
 import ReviewCommon from "../../components/review-common";
@@ -72,7 +72,7 @@ export async function generateMetadata({
 
 export async function generateStaticParams() {
   try {
-    const sections = await getAllSections();
+    const sections = await listSections();
 
     if (!sections || sections.length === 0) return [];
 

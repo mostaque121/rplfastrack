@@ -3,7 +3,7 @@
 import { useRPL } from "@/contexts/rpl-context";
 import { Send } from "lucide-react";
 import { useState } from "react";
-import { createContact } from "../../action/response";
+import { createContact } from "@/features/leads/actions";
 import { trackLead } from "@/lib/track-lead";
 
 export default function ContactForm() {

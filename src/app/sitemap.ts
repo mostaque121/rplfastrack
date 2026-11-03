@@ -1,6 +1,6 @@
 import { absoluteUrl } from "@/lib/url";
 import type { MetadataRoute } from "next";
-import { getAllSections } from "./(main)/action/courses";
+import { listSections } from "@/features/courses/queries";
 
 // Static pages get no lastModified: a made-up date is worse than none.
 // /write-review is left out on purpose (noindex, no search value).
@@ -17,7 +17,7 @@ const STATIC_PAGES: { path: string; priority: number }[] = [
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const sections = await getAllSections();
+  const sections = await listSections();
   const courses = sections.flatMap((section) => section.courses ?? []);
 
   // The home page and /courses list every section and course, so they

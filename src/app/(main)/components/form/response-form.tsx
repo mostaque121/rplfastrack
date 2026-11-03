@@ -16,7 +16,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { createResponse } from "../../action/response";
+import { createResponse } from "@/features/leads/actions";
 import { trackLead } from "@/lib/track-lead";
 
 type FormData = z.infer<typeof responseFormSchema>;

@@ -1,5 +1,5 @@
 import { absoluteUrl } from "@/lib/url";
-import { getAllReviews } from "../action/review";
+import { listReviews } from "@/features/reviews/queries";
 import ReviewHero from "./components/review-hero";
 import ReviewList from "./components/review-list";
 import ReviewStats from "./components/review-stats";
@@ -37,7 +37,7 @@ export const metadata = {
 };
 
 export default async function Page() {
-  const reviews = await getAllReviews();
+  const reviews = await listReviews();
   return (
     reviews && (
       <div>

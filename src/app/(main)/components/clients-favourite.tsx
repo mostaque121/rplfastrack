@@ -1,11 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { getAllSections } from "../action/courses";
+import { listSections } from "@/features/courses/queries";
 import SectionCard from "./card/section-card";
 
 export default async function ClientsFavourite() {
-  const sections = await getAllSections();
+  const sections = await listSections();
 
   return (
     <section className="py-16 bg-[#F5F7FA] md:py-24 overflow-hidden">

@@ -5,7 +5,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { env } from "@/env";
 import { Metadata } from "next/types";
-import { getAllSections } from "./action/courses";
+import { listSections } from "@/features/courses/queries";
 import Footer from "./components/footer/footer";
 import Navbar from "./components/navbar/navbar";
 import { organization } from "@/lib/seo";
@@ -69,7 +69,7 @@ export default async function MainLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const sections = await getAllSections();
+  const sections = await listSections();
 
   return (
     <RPLProvider initialQualifications={sections}>

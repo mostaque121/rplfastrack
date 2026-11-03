@@ -1,7 +1,7 @@
-import { getCommonReviews } from "../action/review";
+import { getReviewSummary } from "@/features/reviews/queries";
 import ReviewCommonContent from "./review-common-content";
 export default async function ReviewCommon() {
-  const { latestReviews, stats } = await getCommonReviews();
+  const { latestReviews, stats } = await getReviewSummary();
   return (
     latestReviews && (
       <section className="py-16 md:py-24 bg-white overflow-hidden">

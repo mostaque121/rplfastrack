@@ -18,7 +18,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
-import { saveReview } from "../../action/review";
+import { saveReview } from "@/features/reviews/actions";
 import ProfileImageUpload from "./profile-image-upload";
 import ReviewImageUpload from "./review-image-upload";
 import StarRating from "./star-rating";

@@ -1,5 +1,5 @@
 import { absoluteUrl } from "@/lib/url";
-import { getAllSections } from "../action/courses";
+import { listSections } from "@/features/courses/queries";
 import ContactSection from "../components/contact-common";
 import ReviewCommon from "../components/review-common";
 import {
@@ -46,7 +46,7 @@ export const metadata = {
 };
 
 export default async function AboutUs() {
-  const industries = await getAllSections();
+  const industries = await listSections();
   return (
     <div>
       <script

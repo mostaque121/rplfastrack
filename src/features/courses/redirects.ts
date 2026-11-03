@@ -5,18 +5,13 @@ import { unstable_cache } from "next/cache";
 import { notFound, permanentRedirect } from "next/navigation";
 
 // The whole table in one cached entry, so a 404 never costs a DB query
-// until an admin changes a link (which invalidates the tag).
+// until an admin changes a link (which invalidates the tag). Errors are not
+// caught, so a failed query is retried instead of caching an empty table.
 const getRedirects = unstable_cache(
-  async () => {
-    try {
-      return await prisma.redirect.findMany({
-        select: { fromPath: true, toPath: true },
-      });
-    } catch (error) {
-      console.error("Error fetching redirects:", error);
-      return [];
-    }
-  },
+  () =>
+    prisma.redirect.findMany({
+      select: { fromPath: true, toPath: true },
+    }),
   ["redirects"],
   { tags: [CACHE_TAGS.redirects] },
 );

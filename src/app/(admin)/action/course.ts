@@ -106,8 +106,10 @@ export async function createCourse(
       });
     });
     revalidatePath(`/admin/section/${sectionLink}`);
-    revalidatePath(`/section/${sectionLink}`);
     updateTag(CACHE_TAGS.sections);
+    updateTag(CACHE_TAGS.section(sectionLink));
+    // A visit before creation may have cached "not found" for this link.
+    updateTag(CACHE_TAGS.course(data.link));
     return { success: true };
   } catch (err) {
     console.error("Create course error:", err);
@@ -196,11 +198,13 @@ export async function updateCourse(
       }
     });
     updateTag(CACHE_TAGS.sections);
-    if (newData.link !== existing.link) updateTag(CACHE_TAGS.redirects);
+    updateTag(CACHE_TAGS.section(sectionLink));
+    updateTag(CACHE_TAGS.course(existing.link));
+    if (newData.link !== existing.link) {
+      updateTag(CACHE_TAGS.course(newData.link));
+      updateTag(CACHE_TAGS.redirects);
+    }
     revalidatePath(`/admin/section/${sectionLink}`);
-    revalidatePath(`/section/${sectionLink}`);
-    revalidatePath(`/courses/${courseLink}`);
-    if (newData.link !== courseLink) revalidatePath(`/courses/${newData.link}`);
 
     return { success: true };
   } catch (error) {
@@ -247,9 +251,9 @@ export async function deleteCourse(
     });
 
     revalidatePath(`/admin/section/${sectionLink}`);
-    revalidatePath(`/section/${sectionLink}`);
-    revalidatePath(`/courses/${courseLink}`);
     updateTag(CACHE_TAGS.sections);
+    updateTag(CACHE_TAGS.section(sectionLink));
+    updateTag(CACHE_TAGS.course(sectionToDelete.link));
 
     return { success: true };
   } catch (error) {

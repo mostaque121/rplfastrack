@@ -1,7 +1,7 @@
 // Old URLs still in Google (Search Console, Nov 2026) that 404 today.
 // Applied in next.config.ts (matching there is case-insensitive, and
 // uppercase slugs are lowercased by the pages themselves). Future slug changes are stored in the
-// `Redirect` table instead (see app/(main)/action/redirects.ts).
+// `Redirect` table instead (see features/courses/redirects.ts).
 export const LEGACY_REDIRECTS: { from: string; to: string }[] = [
   // Courses
   {

@@ -1,5 +1,5 @@
 "use client";
-import { createResponse } from "@/app/(main)/action/response";
+import { createResponse } from "@/features/leads/actions";
 import { trackLead } from "@/lib/track-lead";
 import { Button } from "@/components/ui/button";
 import {

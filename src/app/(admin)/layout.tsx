@@ -1,4 +1,4 @@
-import { getAllSections } from "@/app/(main)/action/courses";
+import { listSections } from "@/features/courses/queries";
 import { RPLProvider } from "@/contexts/rpl-context";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/sonner";
@@ -27,7 +27,7 @@ export default async function AdminLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const sections = await getAllSections();
+  const sections = await listSections();
   return (
     <main>
       <RPLProvider initialQualifications={sections}>

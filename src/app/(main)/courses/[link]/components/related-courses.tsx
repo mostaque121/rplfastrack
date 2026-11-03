@@ -24,7 +24,7 @@ export default function RelatedCourses({
           </h2>
 
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6">
-            {qualifications.splice(0, 4).map((qualification) => (
+            {qualifications.slice(0, 4).map((qualification) => (
               <RelatedQualificationCard
                 qualification={qualification}
                 key={qualification.id}

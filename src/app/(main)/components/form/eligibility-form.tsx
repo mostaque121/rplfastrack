@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { saveEligibilityData } from "@/app/(main)/action/eligibility";
+import { saveEligibilityData } from "@/features/leads/actions";
 import { trackLead } from "@/lib/track-lead";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";

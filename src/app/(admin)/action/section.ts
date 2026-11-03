@@ -98,6 +98,8 @@ export async function createSection(input: Omit<FormData, "link">) {
     });
     revalidatePath("/admin/section");
     updateTag(CACHE_TAGS.sections);
+    // A visit before creation may have cached "not found" for this link.
+    updateTag(CACHE_TAGS.section(data.link));
     return { success: true };
   } catch (err) {
     console.error("Create section error:", err);
@@ -183,11 +185,14 @@ export async function updateSection(
       }
     });
     revalidatePath("/admin/section");
-    revalidatePath(`/section/${sectionLink}`);
-    if (newData.link !== sectionLink)
-      revalidatePath(`/section/${newData.link}`);
     updateTag(CACHE_TAGS.sections);
-    if (newData.link !== existing.link) updateTag(CACHE_TAGS.redirects);
+    updateTag(CACHE_TAGS.section(existing.link));
+    // Course pages show their section's title and link.
+    updateTag(CACHE_TAGS.courses);
+    if (newData.link !== existing.link) {
+      updateTag(CACHE_TAGS.section(newData.link));
+      updateTag(CACHE_TAGS.redirects);
+    }
     return { success: true };
   } catch (error) {
     console.error("Update section failed:", error);
@@ -237,8 +242,8 @@ export async function deleteSection(id: string, link: string) {
       });
     });
     revalidatePath("/admin/section");
-    revalidatePath(`/section/${link}`);
     updateTag(CACHE_TAGS.sections);
+    updateTag(CACHE_TAGS.section(link));
     return { success: true };
   } catch (error) {
     console.error("Delete section failed:", error);

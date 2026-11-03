@@ -1,7 +1,7 @@
-import { getAllSections } from "../../action/courses";
+import { listSections } from "@/features/courses/queries";
 import SectionCard from "../../components/card/section-card";
 export default async function CourseCategories() {
-  const sections = await getAllSections();
+  const sections = await listSections();
   return (
     <section className="py-16 bg-[#F5F7FA] md:py-24 overflow-hidden">
       <div className="container mx-auto px-4 md:px-8">
