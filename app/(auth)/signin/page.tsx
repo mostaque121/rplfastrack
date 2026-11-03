@@ -90,6 +90,7 @@ export default async function page({
           >
             <Image
               src={"/fav.png"}
+              sizes="28px"
               alt="logo"
               width={512}
               height={512}

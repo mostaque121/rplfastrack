@@ -94,6 +94,7 @@ export function ReviewCard({ review }: { review: UserReview }) {
       {review.reviewImage && (
         <Image
           src={review.reviewImage}
+          sizes="(min-width: 768px) 50vw, 100vw"
           alt={review.userName}
           width={1280}
           height={720}

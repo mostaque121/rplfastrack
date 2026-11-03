@@ -69,6 +69,7 @@ export default function AboutRpl() {
               <div className="col-span-4 row-span-4 relative rounded-xl overflow-hidden shadow-lg">
                 <Image
                   src="/recognition.jpg"
+                  sizes="(min-width: 768px) 33vw, 67vw"
                   width={500}
                   height={400}
                   alt="Professional receiving qualification"
@@ -88,6 +89,7 @@ export default function AboutRpl() {
               <div className="col-span-2 row-span-2 relative rounded-xl overflow-hidden shadow-lg">
                 <Image
                   src="/success.jpg"
+                  sizes="(min-width: 768px) 17vw, 33vw"
                   width={200}
                   height={200}
                   alt="Career advancement"
@@ -104,6 +106,7 @@ export default function AboutRpl() {
               <div className="col-span-2 row-span-2 relative rounded-xl overflow-hidden shadow-lg">
                 <Image
                   src="/time.jpg"
+                  sizes="(min-width: 768px) 17vw, 33vw"
                   width={200}
                   height={200}
                   alt="Time saving"
@@ -120,6 +123,7 @@ export default function AboutRpl() {
               <div className="col-span-3 row-span-2 relative rounded-xl overflow-hidden shadow-lg">
                 <Image
                   src="/industry.jpg"
+                  sizes="(min-width: 768px) 25vw, 50vw"
                   width={300}
                   height={200}
                   alt="Industry recognition"

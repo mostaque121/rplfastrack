@@ -80,6 +80,7 @@ export function AdminCourseCard({ course, section }: CourseContentProps) {
         <div className="relative w-full">
           <Image
             src={course.imageCoverLink}
+            sizes="(min-width: 768px) 33vw, 100vw"
             alt={course.imageCoverPublicId}
             width={720}
             height={720}

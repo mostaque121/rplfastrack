@@ -52,6 +52,7 @@ export default function HeroSection({ data }: HeroSectionProps) {
             <div className="relative w-full mb-8 md:mb-0 rounded-md overflow-hidden shadow-md h-auto">
               <Image
                 src={data.imageCoverLink}
+                sizes="(min-width: 768px) 50vw, 100vw"
                 alt={data.title}
                 width={1500}
                 height={720}

@@ -68,6 +68,7 @@ export default function QualificationHeroSection({
             <div className="relative mb-8 md:mb-0 w-full rounded-md overflow-hidden shadow-md h-auto">
               <Image
                 src={data.imageCoverLink}
+                sizes="(min-width: 768px) 50vw, 100vw"
                 alt={data.title}
                 width={1500}
                 height={720}

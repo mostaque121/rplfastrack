@@ -12,6 +12,7 @@ export default function IntroductionAboutUs() {
             <div className="relative z-10">
               <Image
                 src="/introduction-bg.jpg"
+                sizes="(min-width: 640px) 600px, 100vw"
                 alt="Company office"
                 width={600}
                 height={500}

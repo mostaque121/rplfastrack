@@ -9,6 +9,7 @@ export default function EligibilityForRPL() {
           <div className="relative h-[350px] w-full rounded-lg overflow-hidden">
             <Image
               src="/eligibility.jpg"
+              sizes="(min-width: 1024px) 50vw, 100vw"
               alt="RPL eligibility"
               fill
               className="object-cover"

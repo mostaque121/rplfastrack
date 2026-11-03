@@ -66,6 +66,7 @@ export default function AdminSectionCard({ section }: SectionContentProps) {
         <div className="relative w-full">
           <Image
             src={section.imageCoverLink}
+            sizes="(min-width: 768px) 33vw, 100vw"
             alt={section.imageCoverPublicId}
             width={720}
             height={720}

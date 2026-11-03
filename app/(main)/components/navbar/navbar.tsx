@@ -113,6 +113,7 @@ export default function Navbar() {
             >
               <Image
                 src={"/fav.png"}
+                sizes="40px"
                 alt="logo"
                 width={512}
                 height={512}

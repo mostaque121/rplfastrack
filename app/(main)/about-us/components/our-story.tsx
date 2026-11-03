@@ -69,6 +69,7 @@ export default function OurStory() {
             <div className="aspect-w-5 aspect-h-3 rounded-lg overflow-hidden shadow-lg">
               <Image
                 src="/meeting.jpg"
+                sizes="(min-width: 1024px) 50vw, 100vw"
                 alt="Team meeting"
                 width={800}
                 height={600}

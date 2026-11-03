@@ -20,6 +20,7 @@ export default function SectionCard({ section }: SectionCardProps) {
           <div className="relative overflow-hidden w-full md:w-64 h-64 md:h-auto">
             <Image
               src={section.imageSquareLink}
+              sizes="(min-width: 768px) 256px, 100vw"
               alt="Section Image"
               width={720}
               height={720}

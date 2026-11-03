@@ -10,6 +10,7 @@ export default function HomeHero() {
       {/* Background Image */}
       <Image
         src="/home-hero.jpg"
+        sizes="100vw"
         alt="Background Image"
         fill
         quality={75}

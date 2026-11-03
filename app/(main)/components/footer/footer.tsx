@@ -23,6 +23,7 @@ export default function Footer() {
             </h3>
             <Image
               src="/fav.png"
+              sizes="40px"
               alt="RPL Fast Track Logo"
               width={100}
               height={100}
