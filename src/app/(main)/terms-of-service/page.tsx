@@ -1,3 +1,4 @@
+import { contactInfo } from "@/config/contact";
 import { absoluteUrl } from "@/lib/url";
 import Link from "next/link";
 
@@ -11,11 +12,6 @@ export const metadata = {
 };
 
 export default function TermsOfService() {
-  const email = process.env.NEXT_PUBLIC_EMAIL || "info@rplfasttrack.com";
-
-  const phoneNumber = process.env.NEXT_PUBLIC_PHONE_NUMBER || "+61 123 456 789";
-  const address =
-    process.env.NEXT_PUBLIC_ADDRESS || "123 Education Street, Sydney NSW 2000";
   return (
     <div className="bg-white">
       <div className="max-w-4xl mx-auto px-4 py-12 sm:px-6 lg:py-16">
@@ -322,23 +318,23 @@ export default function TermsOfService() {
                 Email:{" "}
                 <Link
                   prefetch={false}
-                  href={`mailto:${email}`}
+                  href={contactInfo.emailHref}
                   className="text-emerald-600 hover:text-emerald-800"
                 >
-                  {email}
+                  {contactInfo.email}
                 </Link>
               </p>
               <p>
                 Phone:{" "}
                 <Link
                   prefetch={false}
-                  href={`tel:${phoneNumber}`}
+                  href={contactInfo.phoneHref}
                   className="text-emerald-600 hover:text-emerald-800"
                 >
-                  {phoneNumber}
+                  {contactInfo.phone}
                 </Link>
               </p>
-              <p>Address: {address}</p>
+              <p>Address: {contactInfo.address}</p>
             </div>
           </section>
         </div>

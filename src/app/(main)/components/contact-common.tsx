@@ -1,11 +1,9 @@
+import { contactInfo } from "@/config/contact";
 import { Mail, MapPin, Phone } from "lucide-react";
 
 import ContactCommonForm from "./form/contact-common-form";
 
 export default function ContactSection() {
-  const email = process.env.NEXT_PUBLIC_EMAIL;
-  const phoneNumber = process.env.NEXT_PUBLIC_PHONE_NUMBER;
-  const address = process.env.NEXT_PUBLIC_ADDRESS;
   return (
     <section className="w-full py-16 md:py-24 bg-[#F5F7FA] dark:bg-gray-950">
       <div className="container px-4 md:px-8 mx-auto">
@@ -34,10 +32,10 @@ export default function ContactSection() {
                     Email Us
                   </h3>
                   <a
-                    href={`mailto:${email}`}
+                    href={contactInfo.emailHref}
                     className="text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300 transition-colors"
                   >
-                    {email}
+                    {contactInfo.email}
                   </a>
                 </div>
               </div>
@@ -51,10 +49,10 @@ export default function ContactSection() {
                     Call Us
                   </h3>
                   <a
-                    href={`tel:${phoneNumber}`}
+                    href={contactInfo.phoneHref}
                     className="text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300 transition-colors"
                   >
-                    {phoneNumber}
+                    {contactInfo.phone}
                   </a>
                 </div>
               </div>
@@ -67,7 +65,7 @@ export default function ContactSection() {
                   <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
                     Visit Us
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-400">{address}</p>
+                  <p className="text-gray-600 dark:text-gray-400">{contactInfo.address}</p>
                 </div>
               </div>
             </div>

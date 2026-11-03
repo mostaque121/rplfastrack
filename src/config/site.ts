@@ -5,4 +5,5 @@ export const siteConfig = {
   url: SITE_URL,
   locale: "en_AU",
   language: "en-AU",
+  cloudinaryCloudName: "dbneycd8g",
 } as const;

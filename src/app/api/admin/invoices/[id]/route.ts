@@ -6,6 +6,7 @@ import { ZodError } from "zod";
 import { InvoicePDF } from "@/app/(admin)/admin/invoice/components/InvoicePDF";
 import { InvoicePayloadSchema } from "@/app/(admin)/admin/invoice/schema";
 import { cloudinary } from "@/lib/cloudinary-client";
+import { absoluteUrl } from "@/lib/url";
 import { sendInvoiceEmail } from "@/lib/mail";
 import { prisma } from "@/lib/prisma";
 import { withAdminGuard } from "@/lib/withAdminGuard";
@@ -155,7 +156,7 @@ export const PUT = withAdminGuard(async function PUT(
       ...invoice,
       logoUrl:
         invoice.logoUrl ||
-        `${process.env.NEXT_PUBLIC_BASE_URL}/invoice-logo.png`,
+        absoluteUrl("/invoice-logo.png"),
     };
 
     // Re-render the PDF with the updated data

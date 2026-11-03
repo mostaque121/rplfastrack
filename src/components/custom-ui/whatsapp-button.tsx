@@ -1,20 +1,19 @@
 "use client";
 
 import Image from "next/image";
+import { contactInfo } from "@/config/contact";
 import { useState } from "react";
 
 export default function WhatsAppButton1({
-  phoneNumber = "1234567890",
   position = "fixed",
 }: {
-  phoneNumber?: string;
   position?: "fixed" | "static";
 }) {
   const [active, setActive] = useState(false);
 
   const handleClick = () => {
     window.open(
-      `https://wa.me/${phoneNumber}`,
+      contactInfo.whatsappHref,
       "_blank",
       "noopener,noreferrer"
     );

@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
+import { siteConfig } from "@/config/site";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { ImageIcon, Loader2, Upload, X } from "lucide-react";
@@ -88,10 +89,9 @@ export function ImageUploaderClient({
           const formData = new FormData();
           formData.append("file", file);
           formData.append("upload_preset", uploadPreset);
-          const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
           // Upload directly to Cloudinary
           const response = await fetch(
-            `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+            `https://api.cloudinary.com/v1_1/${siteConfig.cloudinaryCloudName}/image/upload`,
             {
               method: "POST",
               body: formData,

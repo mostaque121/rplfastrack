@@ -8,6 +8,7 @@
  */
 
 import { cloudinary } from "@/lib/cloudinary-client";
+import { absoluteUrl } from "@/lib/url";
 import { withAdminGuard } from "@/lib/withAdminGuard";
 import { renderToBuffer } from "@react-pdf/renderer";
 import { NextRequest, NextResponse } from "next/server";
@@ -112,7 +113,7 @@ export const POST = withAdminGuard(async function POST(req: NextRequest) {
       ...invoice,
       logoUrl:
         invoice.logoUrl ||
-        `${process.env.NEXT_PUBLIC_BASE_URL}/invoice-logo.png`,
+        absoluteUrl("/invoice-logo.png"),
     };
     // ── Render PDF ────────────────────────────────────────────────────────────────
     const buffer = await renderToBuffer(

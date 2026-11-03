@@ -69,7 +69,6 @@ export default async function MainLayout({
   children: React.ReactNode;
 }>) {
   const sections = await getAllSections();
-  const whatsAppNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
   const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
   return (
@@ -81,7 +80,7 @@ export default async function MainLayout({
       <main>
         <Navbar />
         {children}
-        {whatsAppNumber && <WhatsAppButton1 phoneNumber={whatsAppNumber} />}
+        <WhatsAppButton1 />
         <Footer />
         <Toaster />
         {GA_MEASUREMENT_ID && <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />}

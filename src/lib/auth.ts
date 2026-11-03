@@ -1,3 +1,4 @@
+import { env } from "@/env";
 import { ac, adminRole, user } from "@/lib/permisssion";
 import { Redis } from "@upstash/redis";
 import { betterAuth } from "better-auth";
@@ -8,8 +9,8 @@ import { admin } from "better-auth/plugins";
 import { prisma } from "./prisma";
 
 const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL!,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
+  url: env.UPSTASH_REDIS_REST_URL,
+  token: env.UPSTASH_REDIS_REST_TOKEN,
 });
 
 export const auth = betterAuth({
@@ -32,8 +33,8 @@ export const auth = betterAuth({
       // Invite-only: a Google account that isn't already a user is rejected.
       // New team members are created by an admin first (admin plugin).
       disableSignUp: true,
-      clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
     },
   },
   emailAndPassword: {

@@ -1,9 +1,10 @@
+import { env } from "@/env";
 import nodemailer from "nodemailer";
 import brevoTransport from "nodemailer-brevo-transport";
 
 const transporter = nodemailer.createTransport(
   new brevoTransport({
-    apiKey: process.env.SENDINBLUE_API_KEY!,
+    apiKey: env.SENDINBLUE_API_KEY,
   }),
 );
 
@@ -37,7 +38,7 @@ export async function sendInvoiceEmail(input: {
 </html>`;
 
   await transporter.sendMail({
-    from: process.env.ADMIN_SENDER_EMAIL,
+    from: env.ADMIN_SENDER_EMAIL,
     to: input.to,
     subject: `Invoice for ${input.qualification}`,
     html,

@@ -5,6 +5,7 @@
  * Change your details here once; every form and PDF picks them up.
  */
 
+import { absoluteUrl } from "@/lib/url";
 import type { InvoiceFormValues } from "./schema";
 
 export const COMPANY_DEFAULTS: Pick<
@@ -35,5 +36,5 @@ export const COMPANY_DEFAULTS: Pick<
   bankAccountNumber: "754088",
   extraNotes: "Please write your full name in the payment description.",
   gstIncluded: true,
-  logoUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/invoice-logo.png`,
+  logoUrl: absoluteUrl("/invoice-logo.png"),
 };

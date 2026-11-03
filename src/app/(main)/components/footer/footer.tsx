@@ -1,14 +1,9 @@
+import { contactInfo } from "@/config/contact";
 import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function Footer() {
-  const email = process.env.NEXT_PUBLIC_EMAIL || "info@rplfasttrack.com";
-
-  const phoneNumber = process.env.NEXT_PUBLIC_PHONE_NUMBER || "+61 123 456 789";
-  const address =
-    process.env.NEXT_PUBLIC_ADDRESS || "123 Education Street, Sydney NSW 2000";
-
   const currentYear = new Date().getFullYear();
 
   return (
@@ -151,25 +146,25 @@ export default function Footer() {
                 <Phone className="w-3 h-3 mr-1 text-emerald-400 flex-shrink-0 mt-0.5" />
                 <Link
                   prefetch={false}
-                  href={`tel:${phoneNumber}`}
+                  href={contactInfo.phoneHref}
                   className="hover:text-emerald-400 transition-colors"
                 >
-                  {phoneNumber}
+                  {contactInfo.phone}
                 </Link>
               </li>
               <li className="flex items-center">
                 <Mail className="w-3 h-3 mr-1 text-emerald-400 flex-shrink-0 mt-0.5" />
                 <Link
                   prefetch={false}
-                  href={`mailto:${email}`}
+                  href={contactInfo.emailHref}
                   className="hover:text-emerald-400 transition-colors"
                 >
-                  {email}
+                  {contactInfo.email}
                 </Link>
               </li>
               <li className="flex items-center">
                 <MapPin className="w-3 h-3 mr-1 text-emerald-400 flex-shrink-0 mt-0.5" />
-                <span>{address}</span>
+                <span>{contactInfo.address}</span>
               </li>
               <li className="flex items-center">
                 <Clock className="w-3 h-3 mr-1 text-emerald-400 flex-shrink-0 mt-0.5" />

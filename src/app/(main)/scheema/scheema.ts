@@ -1,4 +1,6 @@
+import { contactInfo } from "@/config/contact";
 import { SITE_URL } from "@/config/site";
+import { socialLinks } from "@/config/social";
 import { absoluteUrl } from "@/lib/url";
 import type {
   BreadcrumbList,
@@ -19,13 +21,13 @@ const organization: WithContext<Organization> = {
   logo: absoluteUrl("/fav.png"),
   contactPoint: {
     "@type": "ContactPoint",
-    telephone: process.env.NEXT_PUBLIC_PHONE_NUMBER,
+    telephone: contactInfo.phone,
     contactType: "Customer Service",
-    email: process.env.NEXT_PUBLIC_EMAIL,
+    email: contactInfo.email,
     availableLanguage: "English",
     contactOption: "TollFree",
   },
-  sameAs: process.env.NEXT_PUBLIC_FACEBOOK_PAGE,
+  sameAs: [socialLinks.facebook],
 };
 
 const serviceSchema: WithContext<Service> = {

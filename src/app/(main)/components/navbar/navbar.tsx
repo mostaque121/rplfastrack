@@ -1,5 +1,6 @@
 "use client";
 
+import { contactInfo } from "@/config/contact";
 import { EligibilityForm } from "@/app/(main)/components/form/eligibility-form";
 import { Button } from "@/components/ui/button";
 import { useRPL } from "@/contexts/rpl-context";
@@ -21,10 +22,6 @@ export default function Navbar() {
   const [activeSubMenu, setActiveSubMenu] = useState<string | null>(null);
   const [searchOpen, setSearchOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-
-  const whatsAppNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
-  const phoneNumber = process.env.NEXT_PUBLIC_PHONE_NUMBER;
-  const email = process.env.NEXT_PUBLIC_EMAIL;
 
   // Close menus when clicking outside
   useEffect(() => {
@@ -57,10 +54,10 @@ export default function Navbar() {
               <Mail className="h-4 w-4" />
               <Link
                 prefetch={false}
-                href={`mailto:${email}`}
+                href={contactInfo.emailHref}
                 className="hover:underline"
               >
-                {email}
+                {contactInfo.email}
               </Link>
             </div>
 
@@ -68,10 +65,10 @@ export default function Navbar() {
               <Phone className="h-4 w-4" />
               <Link
                 prefetch={false}
-                href={`tel:${phoneNumber}`}
+                href={contactInfo.phoneHref}
                 className="hover:underline"
               >
-                {phoneNumber}
+                {contactInfo.phone}
               </Link>
             </div>
           </div>
@@ -79,7 +76,7 @@ export default function Navbar() {
             <div className="flex items-center gap-2">
               <Link
                 prefetch={false}
-                href={`https://wa.me/${whatsAppNumber}`}
+                href={contactInfo.whatsappHref}
                 target="_blank"
                 rel="noopener noreferrer"
               >

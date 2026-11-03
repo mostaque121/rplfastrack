@@ -1,12 +1,8 @@
+import { contactInfo } from "@/config/contact";
 import { FaEnvelope, FaPhoneAlt, FaWhatsapp } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 
 export default function ContactInfo() {
-  const email = process.env.NEXT_PUBLIC_EMAIL;
-  const phoneNumber = process.env.NEXT_PUBLIC_PHONE_NUMBER;
-  const address = process.env.NEXT_PUBLIC_ADDRESS;
-  const whatsAppNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
-
   return (
     <div>
       <h2 className="text-3xl font-extrabold text-gray-900">Get in Touch</h2>
@@ -18,7 +14,7 @@ export default function ContactInfo() {
         {/* Phone */}
         <div className="bg-white overflow-hidden hover:bg-emerald-100 transition-all duration-200 hover:scale-[1.02] cursor-pointer  shadow-md rounded-lg">
           <a
-            href={`tel:${phoneNumber}`}
+            href={contactInfo.phoneHref}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -32,7 +28,7 @@ export default function ContactInfo() {
                     Phone
                   </dt>
                   <dd className="text-lg font-medium  text-blue-600 hover:text-blue-800">
-                    {phoneNumber}
+                    {contactInfo.phone}
                   </dd>
                 </dl>
               </div>
@@ -42,7 +38,7 @@ export default function ContactInfo() {
 
         {/* Email */}
         <div className="bg-white overflow-hidden hover:bg-emerald-100 transition-all duration-200 hover:scale-[1.02] cursor-pointer  shadow-md rounded-lg">
-          <a href={`mailto:${email}`} target="_blank" rel="noopener noreferrer">
+          <a href={contactInfo.emailHref} target="_blank" rel="noopener noreferrer">
             <div className="px-4 py-5 sm:p-6 flex items-center">
               <div className="bg-green-500 rounded-md p-3">
                 <FaEnvelope className="h-6 w-6 text-white" />
@@ -53,7 +49,7 @@ export default function ContactInfo() {
                     Email
                   </dt>
                   <dd className="text-lg font-medium  text-blue-600 hover:text-blue-800">
-                    {email}
+                    {contactInfo.email}
                   </dd>
                 </dl>
               </div>
@@ -64,7 +60,7 @@ export default function ContactInfo() {
         {/* WhatsApp */}
         <div className="bg-white overflow-hidden hover:bg-emerald-100 transition-all duration-200 hover:scale-[1.02] cursor-pointer  shadow-md rounded-lg">
           <a
-            href={`https://wa.me/${whatsAppNumber}`}
+            href={contactInfo.whatsappHref}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -78,7 +74,7 @@ export default function ContactInfo() {
                     WhatsApp
                   </dt>
                   <dd className="text-lg font-medium  text-blue-600 hover:text-blue-800">
-                    {whatsAppNumber}
+                    {contactInfo.whatsapp}
                   </dd>
                 </dl>
               </div>
@@ -96,7 +92,7 @@ export default function ContactInfo() {
                 <dt className="text-sm font-medium text-gray-500 truncate">
                   Address
                 </dt>
-                <dd className="text-lg font-medium text-gray-900">{address}</dd>
+                <dd className="text-lg font-medium text-gray-900">{contactInfo.address}</dd>
               </dl>
             </div>
           </div>

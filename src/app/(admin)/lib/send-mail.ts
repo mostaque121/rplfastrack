@@ -1,9 +1,10 @@
+import { env } from "@/env";
 import nodemailer from "nodemailer";
 import brevoTransport from "nodemailer-brevo-transport";
 
 const transporter = nodemailer.createTransport(
   new brevoTransport({
-    apiKey: process.env.SENDINBLUE_API_KEY!,
+    apiKey: env.SENDINBLUE_API_KEY,
   }),
 );
 
@@ -67,8 +68,8 @@ export async function sendContactNotificationEmail(data: {
   interest?: string;
 }) {
   const mailOptions = {
-    from: process.env.SENDER_EMAIL!,
-    to: process.env.RECEIVER_EMAIL!,
+    from: env.SENDER_EMAIL,
+    to: env.RECEIVER_EMAIL,
     subject: "New Response Submitted",
     text: `
 ------------------------------------------------------------
@@ -104,8 +105,8 @@ export async function sendEligibilityNotificationEmail(data: {
   yearsOfExperience: string;
 }) {
   const mailOptions = {
-    from: process.env.SENDER_EMAIL!,
-    to: process.env.RECEIVER_EMAIL!,
+    from: env.SENDER_EMAIL,
+    to: env.RECEIVER_EMAIL,
     subject: "New Eligibility Submission",
     text: `
 New Eligibility Submission

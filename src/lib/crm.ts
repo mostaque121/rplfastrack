@@ -1,5 +1,7 @@
 import "server-only";
 
+import { env } from "@/env";
+
 export type CrmLead = {
   submissionId: string;
   form: "contact" | "eligibility";
@@ -43,8 +45,8 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 /* ---------------- CRM ---------------- */
 
 export async function sendLeadToCrm(lead: CrmLead) {
-  const url = process.env.CRM_INTAKE_URL;
-  const key = process.env.CRM_INTAKE_KEY;
+  const url = env.CRM_INTAKE_URL;
+  const key = env.CRM_INTAKE_KEY;
 
   if (!url || !key) {
     console.warn(

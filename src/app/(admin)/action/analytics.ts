@@ -1,15 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
+import { env } from "@/env";
 import { requireAdmin } from "@/app/(admin)/action/helper";
 import { BetaAnalyticsDataClient } from "@google-analytics/data";
 import { format, subDays } from "date-fns";
 
 const analyticsDataClient = new BetaAnalyticsDataClient({
   credentials: {
-    client_email: process.env.GOOGLE_CLIENT_EMAIL,
-    private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
-    project_id: process.env.GOOGLE_PROJECT_ID,
+    client_email: env.GOOGLE_CLIENT_EMAIL,
+    private_key: env.GOOGLE_PRIVATE_KEY,
+    project_id: env.GOOGLE_PROJECT_ID,
   },
 });
 
@@ -34,7 +35,7 @@ async function runReport(
     const { startDate, endDate } = getDateRange(days);
 
     const [response] = await analyticsDataClient.runReport({
-      property: `properties/${process.env.GA4_PROPERTY_ID}`,
+      property: `properties/${env.GA4_PROPERTY_ID}`,
       dateRanges: [{ startDate, endDate }],
       dimensions: dimensions.map((name) => ({ name })),
       metrics: metrics.map((name) => ({ name })),
