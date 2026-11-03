@@ -2,6 +2,7 @@
 "use client";
 
 import { saveEligibilityData } from "@/app/(main)/action/eligibility";
+import { trackLead } from "@/lib/track-lead";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
@@ -154,6 +155,8 @@ export function EligibilityForm({
         setIsSubmitting(false);
         return;
       }
+
+      trackLead("eligibility", formData.qualification);
 
       if (onSubmitSuccess) {
         onSubmitSuccess(formData);
@@ -319,7 +322,7 @@ export function EligibilityForm({
                         {formData.industry &&
                           sections
                             .find(
-                              (section) => section.title === formData.industry
+                              (section) => section.title === formData.industry,
                             )
                             ?.courses?.map((course) => (
                               <SelectItem

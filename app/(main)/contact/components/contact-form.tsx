@@ -4,6 +4,7 @@ import { useRPL } from "@/contexts/rpl-context";
 import { Send } from "lucide-react";
 import { useState } from "react";
 import { createContact } from "../../action/response";
+import { trackLead } from "@/lib/track-lead";
 
 export default function ContactForm() {
   const { sections } = useRPL();
@@ -23,7 +24,7 @@ export default function ContactForm() {
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    >,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -41,6 +42,7 @@ export default function ContactForm() {
       const result = await createContact(formData);
 
       if (result.success) {
+        trackLead("contact", formData.qualification || formData.industry);
         setFormStatus("success");
         setFormData({
           name: "",
@@ -61,7 +63,7 @@ export default function ContactForm() {
   };
 
   const selectedIndustry = sections.find(
-    (section) => section.title === formData.industry
+    (section) => section.title === formData.industry,
   );
 
   return (

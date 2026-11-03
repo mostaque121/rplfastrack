@@ -17,6 +17,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { createResponse } from "../../action/response";
+import { trackLead } from "@/lib/track-lead";
 
 type FormData = z.infer<typeof responseFormSchema>;
 
@@ -42,6 +43,7 @@ export function ResponseForm({ interest = "RPL" }: { interest?: string }) {
       const result = await createResponse(data);
 
       if (result.success) {
+        trackLead("response", data.interest);
         toast.success("Success!", {
           description: "Your form has been submitted successfully.",
         });

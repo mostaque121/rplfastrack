@@ -1,5 +1,6 @@
 "use client";
 import { createResponse } from "@/app/(main)/action/response";
+import { trackLead } from "@/lib/track-lead";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -47,6 +48,7 @@ export default function ContactCommonForm({
       const result = await createResponse(data);
 
       if (result.success) {
+        trackLead("response", data.interest);
         toast.success("Success!", {
           description: "Your form has been submitted successfully.",
         });
