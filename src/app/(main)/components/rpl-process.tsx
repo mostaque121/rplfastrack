@@ -32,14 +32,14 @@ export default function RplProcess() {
   ];
 
   return (
-    <section className="overflow-hidden bg-[#F5F7FA] py-16 md:py-24">
+    <section className="overflow-hidden bg-surface py-16 md:py-24">
       <div className="container mx-auto px-4 md:px-8">
         <div className="mb-10 flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-              RPL <span className="text-emerald-600">Process</span>
+              RPL <span className="text-brand">Process</span>
             </h2>
-            <p className="max-w-[700px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
+            <p className="max-w-[700px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
               Get recognition for your skills and experience with our simple four-step process
             </p>
           </div>
@@ -49,15 +49,15 @@ export default function RplProcess() {
           {steps.map((step, index) => (
             <div
               key={index}
-              className="group relative overflow-hidden rounded-lg border border-emerald-100 bg-white p-6 shadow-md transition-all hover:-translate-y-1 hover:shadow-xl"
+              className="group relative overflow-hidden rounded-lg border border-brand-subtle bg-white p-6 shadow-md transition-all hover:-translate-y-1 hover:shadow-xl"
             >
-              <div className="absolute -top-4 -right-4 h-24 w-24 rounded-full bg-emerald-50 transition-colors group-hover:bg-emerald-100" />
+              <div className="absolute -top-4 -right-4 h-24 w-24 rounded-full bg-brand-soft transition-colors group-hover:bg-brand-subtle" />
               <div className="relative space-y-4">
-                <span className="block text-4xl font-bold text-emerald-300">{step.number}</span>
+                <span className="block text-4xl font-bold text-brand-bright">{step.number}</span>
                 <h3 className="text-xl font-bold text-slate-700">{step.title}</h3>
                 <p className="text-slate-600">{step.description}</p>
               </div>
-              <div className="absolute bottom-0 left-0 h-1 w-full bg-gradient-to-r from-emerald-300 to-emerald-600" />
+              <div className="absolute bottom-0 left-0 h-1 w-full bg-gradient-to-r from-brand-bright to-brand" />
             </div>
           ))}
         </div>
@@ -66,7 +66,7 @@ export default function RplProcess() {
             trigger={
               <Button
                 size="lg"
-                className="group bg-gradient-to-r from-emerald-600 to-teal-600 text-white"
+                className="group bg-gradient-to-r from-brand to-brand-strong text-white"
               >
                 Check Your Eligibility
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />

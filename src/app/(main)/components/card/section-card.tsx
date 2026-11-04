@@ -29,8 +29,8 @@ export default function SectionCard({ section }: SectionCardProps) {
 
         <div className="flex flex-col justify-between px-6 py-4">
           <Link prefetch={false} href={`section/${section.link}`}>
-            <h3 className="flex items-center gap-2 text-2xl font-bold text-gray-800 transition-colors duration-300 hover:text-emerald-700">
-              <LucideIcon name={section.icon} className="size-6 shrink-0 text-emerald-700" />
+            <h3 className="flex items-center gap-2 text-2xl font-bold text-ink transition-colors duration-300 hover:text-brand-strong">
+              <LucideIcon name={section.icon} className="size-6 shrink-0 text-brand" />
               {section.title}
             </h3>
           </Link>
@@ -38,8 +38,8 @@ export default function SectionCard({ section }: SectionCardProps) {
           <div className="mt-3 space-y-2">
             {section.courses.slice(0, 4).map((course) => (
               <Link prefetch={false} key={course.id} href={`/courses/${course.link}`}>
-                <p className="mt-1 flex items-start gap-2 text-base text-gray-600 transition-colors hover:text-emerald-500 md:items-center">
-                  <Graduation className="h-5 w-5 text-emerald-500" />
+                <p className="mt-1 flex items-start gap-2 text-base text-gray-600 transition-colors hover:text-brand md:items-center">
+                  <Graduation className="h-5 w-5 text-brand" />
                   <span>{course.title}</span>
                 </p>
               </Link>
@@ -49,7 +49,7 @@ export default function SectionCard({ section }: SectionCardProps) {
           <Link prefetch={false} href={`section/${section.link}`} className="mt-4">
             <Button
               size="lg"
-              className="group bg-gradient-to-r from-emerald-600 to-teal-600 text-white"
+              className="group bg-gradient-to-r from-brand to-brand-strong text-white"
             >
               More Courses
               <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />

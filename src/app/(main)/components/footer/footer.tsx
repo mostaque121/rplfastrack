@@ -8,7 +8,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="text bg-slate-900 pb-10 text-white">
+    <footer className="text bg-ink pb-10 text-white">
       {/* Main footer content */}
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
@@ -32,7 +32,7 @@ export default function Footer() {
             <Link
               prefetch={false}
               href="/about-us"
-              className="inline-flex items-center text-sm text-emerald-400 transition-colors hover:text-emerald-300"
+              className="inline-flex items-center text-sm text-brand-bright transition-colors hover:text-white"
             >
               Learn More <span className="ml-1">→</span>
             </Link>
@@ -48,7 +48,7 @@ export default function Footer() {
                 <Link
                   prefetch={false}
                   href="/"
-                  className="transition-colors hover:text-emerald-400"
+                  className="transition-colors hover:text-brand-bright"
                 >
                   Home
                 </Link>
@@ -57,7 +57,7 @@ export default function Footer() {
                 <Link
                   prefetch={false}
                   href="/courses"
-                  className="transition-colors hover:text-emerald-400"
+                  className="transition-colors hover:text-brand-bright"
                 >
                   Courses
                 </Link>
@@ -66,7 +66,7 @@ export default function Footer() {
                 <Link
                   prefetch={false}
                   href="/about-us"
-                  className="transition-colors hover:text-emerald-400"
+                  className="transition-colors hover:text-brand-bright"
                 >
                   About Us
                 </Link>
@@ -75,7 +75,7 @@ export default function Footer() {
                 <Link
                   prefetch={false}
                   href="/faq"
-                  className="transition-colors hover:text-emerald-400"
+                  className="transition-colors hover:text-brand-bright"
                 >
                   FAQs
                 </Link>
@@ -84,7 +84,7 @@ export default function Footer() {
                 <Link
                   prefetch={false}
                   href="/contact"
-                  className="transition-colors hover:text-emerald-400"
+                  className="transition-colors hover:text-brand-bright"
                 >
                   Contact Us
                 </Link>
@@ -102,7 +102,7 @@ export default function Footer() {
                 <Link
                   prefetch={false}
                   href="/terms-of-service"
-                  className="transition-colors hover:text-emerald-400"
+                  className="transition-colors hover:text-brand-bright"
                 >
                   Terms of Service
                 </Link>
@@ -111,7 +111,7 @@ export default function Footer() {
                 <Link
                   prefetch={false}
                   href="/privacy-policy"
-                  className="transition-colors hover:text-emerald-400"
+                  className="transition-colors hover:text-brand-bright"
                 >
                   Privacy Policy
                 </Link>
@@ -120,7 +120,7 @@ export default function Footer() {
                 <Link
                   prefetch={false}
                   href="/refund-policy"
-                  className="transition-colors hover:text-emerald-400"
+                  className="transition-colors hover:text-brand-bright"
                 >
                   Refund Policy
                 </Link>
@@ -129,7 +129,7 @@ export default function Footer() {
                 <Link
                   prefetch={false}
                   href="/cookie-policy"
-                  className="transition-colors hover:text-emerald-400"
+                  className="transition-colors hover:text-brand-bright"
                 >
                   Cookie Policy
                 </Link>
@@ -144,31 +144,31 @@ export default function Footer() {
             </h3>
             <ul className="space-y-1 text-sm text-slate-300">
               <li className="flex items-center">
-                <Phone className="mt-0.5 mr-1 h-3 w-3 flex-shrink-0 text-emerald-400" />
+                <Phone className="mt-0.5 mr-1 h-3 w-3 flex-shrink-0 text-brand-bright" />
                 <Link
                   prefetch={false}
                   href={contactInfo.phoneHref}
-                  className="transition-colors hover:text-emerald-400"
+                  className="transition-colors hover:text-brand-bright"
                 >
                   {contactInfo.phone}
                 </Link>
               </li>
               <li className="flex items-center">
-                <Mail className="mt-0.5 mr-1 h-3 w-3 flex-shrink-0 text-emerald-400" />
+                <Mail className="mt-0.5 mr-1 h-3 w-3 flex-shrink-0 text-brand-bright" />
                 <Link
                   prefetch={false}
                   href={contactInfo.emailHref}
-                  className="transition-colors hover:text-emerald-400"
+                  className="transition-colors hover:text-brand-bright"
                 >
                   {contactInfo.email}
                 </Link>
               </li>
               <li className="flex items-center">
-                <MapPin className="mt-0.5 mr-1 h-3 w-3 flex-shrink-0 text-emerald-400" />
+                <MapPin className="mt-0.5 mr-1 h-3 w-3 flex-shrink-0 text-brand-bright" />
                 <span>{contactInfo.address}</span>
               </li>
               <li className="flex items-center">
-                <Clock className="mt-0.5 mr-1 h-3 w-3 flex-shrink-0 text-emerald-400" />
+                <Clock className="mt-0.5 mr-1 h-3 w-3 flex-shrink-0 text-brand-bright" />
                 <span>Mon-Fri: 9AM-5PM</span>
               </li>
             </ul>
@@ -186,7 +186,7 @@ export default function Footer() {
         <Link
           prefetch={false}
           href="https://www.webngraphic.com"
-          className="font-semibold text-emerald-400 transition-colors hover:text-blue-500"
+          className="font-semibold text-brand-bright transition-colors hover:text-white"
           target="_blank"
           rel="noopener noreferrer"
         >

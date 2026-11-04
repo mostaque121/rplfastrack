@@ -51,7 +51,7 @@ const SelectCourseName: React.FC<SelectCourseProps> = ({
           }}
           onFocus={() => setIsOpen(true)}
           placeholder="Select or type a course..."
-          className={`w-full rounded-md border bg-white px-3 py-2 text-sm text-gray-900 transition-all outline-none ${
+          className={`w-full rounded-md border bg-white px-3 py-2 text-sm text-ink transition-all outline-none ${
             isOpen
               ? "border-[#10b981] ring-1 ring-[#10b981]"
               : "border-gray-200 hover:border-gray-300"
@@ -62,7 +62,7 @@ const SelectCourseName: React.FC<SelectCourseProps> = ({
           <button
             type="button"
             onClick={() => onChange(null)}
-            className="absolute right-2 px-1 text-xs font-bold text-gray-400 hover:text-gray-600"
+            className="absolute right-2 px-1 text-xs font-bold text-muted-foreground hover:text-gray-600"
           >
             ✕
           </button>
@@ -79,7 +79,7 @@ const SelectCourseName: React.FC<SelectCourseProps> = ({
                 onChange(course.title);
                 setIsOpen(false);
               }}
-              className="cursor-pointer rounded px-3 py-2 text-gray-900 transition-colors hover:bg-[#d1fae5]"
+              className="cursor-pointer rounded px-3 py-2 text-ink transition-colors hover:bg-[#d1fae5]"
             >
               {course.title}
             </li>

@@ -25,13 +25,13 @@ export function faqPageSchema(faqs: FaqItem[]): WithContext<FAQPage> {
 export function FaqSection({ title, faqs }: { title: string; faqs: FaqItem[] }) {
   if (!faqs.length) return null;
   return (
-    <section className="w-full bg-[#F5F7FA] py-12 md:py-20">
+    <section className="w-full bg-surface py-12 md:py-20">
       <div className="container mx-auto max-w-3xl px-4 md:px-8">
-        <h2 className="mb-6 text-2xl font-bold text-emerald-700 md:text-3xl">{title}</h2>
+        <h2 className="mb-6 text-2xl font-bold text-brand md:text-3xl">{title}</h2>
         <div className="divide-y divide-gray-200 overflow-hidden rounded-xl border border-gray-200 bg-white">
           {faqs.map((faq) => (
             <details key={faq.id} className="group">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 text-left text-base font-semibold text-gray-900 hover:text-emerald-700 md:text-lg [&::-webkit-details-marker]:hidden">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 text-left text-base font-semibold text-ink hover:text-brand-strong md:text-lg [&::-webkit-details-marker]:hidden">
                 {faq.question}
                 <ChevronDown
                   aria-hidden

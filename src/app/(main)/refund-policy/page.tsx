@@ -16,13 +16,13 @@ export default function RefundPolicy() {
     <div className="bg-white">
       <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:py-16">
         <div className="mb-12 text-center">
-          <h1 className="text-3xl font-bold text-gray-900 sm:text-4xl">Refund Policy</h1>
+          <h1 className="text-3xl font-bold text-ink sm:text-4xl">Refund Policy</h1>
           <p className="mt-4 text-lg text-gray-600">Last Updated: March 13, 2026</p>
         </div>
 
         <div className="prose prose-lg max-w-none text-gray-700">
           <section className="mb-8">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">1. Introduction</h2>
+            <h2 className="mb-4 text-2xl font-semibold text-ink">1. Introduction</h2>
             <p>
               This Refund Policy outlines the terms and conditions for refunds for services provided
               by RPL Fast Track. We strive to ensure complete satisfaction with our services, and
@@ -31,11 +31,9 @@ export default function RefundPolicy() {
           </section>
 
           <section className="mb-8">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">
-              2. Eligibility for Refunds
-            </h2>
+            <h2 className="mb-4 text-2xl font-semibold text-ink">2. Eligibility for Refunds</h2>
 
-            <h3 className="mb-3 text-xl font-medium text-gray-900">
+            <h3 className="mb-3 text-xl font-medium text-ink">
               2.1 Cancellation Before Assessment
             </h3>
             <p>If you cancel your RPL application before we begin the assessment process:</p>
@@ -49,7 +47,7 @@ export default function RefundPolicy() {
               <li>After 30 days of payment: No refund</li>
             </ul>
 
-            <h3 className="mb-3 text-xl font-medium text-gray-900">
+            <h3 className="mb-3 text-xl font-medium text-ink">
               2.2 Cancellation After Assessment Begins
             </h3>
             <p>
@@ -62,7 +60,7 @@ export default function RefundPolicy() {
               </li>
             </ul>
 
-            <h3 className="mb-3 text-xl font-medium text-gray-900">
+            <h3 className="mb-3 text-xl font-medium text-ink">
               2.3 ASQA Decisions &amp; Partner RTO Responsibilities
             </h3>
             <p>
@@ -90,9 +88,7 @@ export default function RefundPolicy() {
               </li>
             </ul>
 
-            <h3 className="mb-3 text-xl font-medium text-gray-900">
-              2.4 Unsuccessful Applications
-            </h3>
+            <h3 className="mb-3 text-xl font-medium text-ink">2.4 Unsuccessful Applications</h3>
             <p>If your RPL application is unsuccessful:</p>
             <ul className="mb-4 list-disc pl-6">
               <li>A 100% refund will be provided as the application was not successful</li>
@@ -103,9 +99,7 @@ export default function RefundPolicy() {
               </li>
             </ul>
 
-            <h3 className="mb-3 text-xl font-medium text-gray-900">
-              2.5 Unsuccessful Applications
-            </h3>
+            <h3 className="mb-3 text-xl font-medium text-ink">2.5 Unsuccessful Applications</h3>
             <p>If your RPL application is unsuccessful:</p>
             <ul className="mb-4 list-disc pl-6">
               <li>A 100% refund will be provided as the application was not successful</li>
@@ -118,7 +112,7 @@ export default function RefundPolicy() {
           </section>
 
           <section className="mb-8">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">3. Special Circumstances</h2>
+            <h2 className="mb-4 text-2xl font-semibold text-ink">3. Special Circumstances</h2>
             <p>We understand that exceptional circumstances may arise. In cases of:</p>
             <ul className="mb-4 list-disc pl-6">
               <li>Serious illness or injury (with medical documentation)</li>
@@ -132,17 +126,12 @@ export default function RefundPolicy() {
           </section>
 
           <section className="mb-8">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">
-              4. How to Request a Refund
-            </h2>
+            <h2 className="mb-4 text-2xl font-semibold text-ink">4. How to Request a Refund</h2>
             <p>To request a refund:</p>
             <ol className="mb-4 list-decimal pl-6">
               <li>
                 Contact our support team at{" "}
-                <Link
-                  href={contactInfo.emailHref}
-                  className="text-emerald-600 hover:text-emerald-800"
-                >
+                <Link href={contactInfo.emailHref} className="text-brand hover:text-brand-strong">
                   {contactInfo.email}
                 </Link>
               </li>
@@ -157,7 +146,7 @@ export default function RefundPolicy() {
           </section>
 
           <section className="mb-8">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">5. Refund Processing</h2>
+            <h2 className="mb-4 text-2xl font-semibold text-ink">5. Refund Processing</h2>
             <p>
               Approved refunds will be processed using the original payment method whenever
               possible:
@@ -173,7 +162,7 @@ export default function RefundPolicy() {
           </section>
 
           <section className="mb-8">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">6. Changes to This Policy</h2>
+            <h2 className="mb-4 text-2xl font-semibold text-ink">6. Changes to This Policy</h2>
             <p>
               We reserve the right to modify this Refund Policy at any time. Changes will be
               effective immediately upon posting to our website. It is your responsibility to review
@@ -182,7 +171,7 @@ export default function RefundPolicy() {
           </section>
 
           <section>
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">7. Contact Us</h2>
+            <h2 className="mb-4 text-2xl font-semibold text-ink">7. Contact Us</h2>
             <p>If you have questions about this Refund Policy, please contact us at:</p>
             <div className="mt-4">
               <p>
@@ -193,7 +182,7 @@ export default function RefundPolicy() {
                 <Link
                   prefetch={false}
                   href={contactInfo.emailHref}
-                  className="text-emerald-600 hover:text-emerald-800"
+                  className="text-brand hover:text-brand-strong"
                 >
                   {contactInfo.email}
                 </Link>
@@ -203,7 +192,7 @@ export default function RefundPolicy() {
                 <Link
                   prefetch={false}
                   href={contactInfo.phoneHref}
-                  className="text-emerald-600 hover:text-emerald-800"
+                  className="text-brand hover:text-brand-strong"
                 >
                   {contactInfo.phone}
                 </Link>

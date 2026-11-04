@@ -49,7 +49,7 @@ export default function Navbar() {
   return (
     <header className="w-full">
       {/* Top bar with contact info */}
-      <div className="w-full bg-slate-800 text-white">
+      <div className="w-full bg-ink text-white">
         <div className="container mx-auto flex items-center justify-between px-4 py-2 md:px-8">
           <div className="flex flex-wrap justify-between gap-2 text-xs max-md:w-full md:justify-center md:gap-4 md:text-sm">
             <div className="flex items-center gap-1">
@@ -79,7 +79,7 @@ export default function Navbar() {
             </div>
             <EligibilityForm
               trigger={
-                <Button size="sm" className="bg-white text-slate-800 hover:bg-gray-100">
+                <Button size="sm" className="bg-white text-ink hover:bg-gray-100">
                   Get Started
                 </Button>
               }
@@ -107,7 +107,7 @@ export default function Navbar() {
                 height={512}
                 className="h-7 w-auto object-contain md:h-10"
               />
-              <span className="tracking-tight text-nowrap whitespace-nowrap text-emerald-600">
+              <span className="tracking-tight text-nowrap whitespace-nowrap text-brand">
                 RPL FAST TRACK
               </span>
             </Link>
@@ -119,8 +119,8 @@ export default function Navbar() {
               prefetch={false}
               href="/"
               className={cn(
-                "px-2 font-medium text-slate-700 hover:text-emerald-600",
-                pathname === "/" && "text-emerald-600",
+                "px-2 font-medium text-slate-700 hover:text-brand",
+                pathname === "/" && "text-brand",
               )}
             >
               Home
@@ -134,8 +134,8 @@ export default function Navbar() {
               <Link prefetch={false} href={"/courses"}>
                 <button
                   className={cn(
-                    "flex cursor-pointer items-center gap-1 px-2 font-medium text-slate-700 hover:text-emerald-600",
-                    pathname === "/courses" && "text-emerald-600",
+                    "flex cursor-pointer items-center gap-1 px-2 font-medium text-slate-700 hover:text-brand",
+                    pathname === "/courses" && "text-brand",
                   )}
                 >
                   Courses
@@ -161,8 +161,8 @@ export default function Navbar() {
                       prefetch={false}
                       href={`/section/${subItem.link}`}
                       className={cn(
-                        "flex items-center justify-between border-b border-gray-200 px-2 py-2 text-sm font-medium text-slate-700 last:border-b-0 hover:bg-slate-50 hover:text-emerald-600",
-                        pathname === `/section/${subItem.link}` && "text-emerald-600",
+                        "flex items-center justify-between border-b border-gray-200 px-2 py-2 text-sm font-medium text-slate-700 last:border-b-0 hover:bg-slate-50 hover:text-brand",
+                        pathname === `/section/${subItem.link}` && "text-brand",
                       )}
                       onClick={handleMenuItemClick}
                     >
@@ -188,8 +188,8 @@ export default function Navbar() {
                             key={subSubItem.title}
                             href={`/courses/${subSubItem.link}`}
                             className={cn(
-                              "block border-b border-gray-200 px-2 py-2 text-xs font-medium text-slate-700 last:border-b-0 hover:bg-slate-50 hover:text-emerald-600",
-                              pathname === `/courses/${subSubItem.link}` && "text-emerald-600",
+                              "block border-b border-gray-200 px-2 py-2 text-xs font-medium text-slate-700 last:border-b-0 hover:bg-slate-50 hover:text-brand",
+                              pathname === `/courses/${subSubItem.link}` && "text-brand",
                             )}
                             onClick={handleMenuItemClick}
                           >
@@ -210,7 +210,7 @@ export default function Navbar() {
             >
               <button
                 className={cn(
-                  "flex items-center gap-1 px-2 font-medium text-slate-700 hover:text-emerald-600",
+                  "flex items-center gap-1 px-2 font-medium text-slate-700 hover:text-brand",
                 )}
               >
                 About
@@ -228,8 +228,8 @@ export default function Navbar() {
                   prefetch={false}
                   href={`/about-us`}
                   className={cn(
-                    "flex items-center justify-between border-b border-gray-200 px-4 py-2 text-sm font-medium text-slate-700 last:border-b-0 hover:bg-slate-50 hover:text-emerald-600",
-                    pathname === "/about-us" && "text-emerald-600",
+                    "flex items-center justify-between border-b border-gray-200 px-4 py-2 text-sm font-medium text-slate-700 last:border-b-0 hover:bg-slate-50 hover:text-brand",
+                    pathname === "/about-us" && "text-brand",
                   )}
                   onClick={handleMenuItemClick}
                 >
@@ -239,8 +239,8 @@ export default function Navbar() {
                   prefetch={false}
                   href={`/about-rpl`}
                   className={cn(
-                    "flex items-center justify-between border-b border-gray-200 px-4 py-2 text-sm font-medium text-slate-700 last:border-b-0 hover:bg-slate-50 hover:text-emerald-600",
-                    pathname === "/about-rpl" && "text-emerald-600",
+                    "flex items-center justify-between border-b border-gray-200 px-4 py-2 text-sm font-medium text-slate-700 last:border-b-0 hover:bg-slate-50 hover:text-brand",
+                    pathname === "/about-rpl" && "text-brand",
                   )}
                   onClick={handleMenuItemClick}
                 >
@@ -250,8 +250,8 @@ export default function Navbar() {
                   prefetch={false}
                   href={`/faq`}
                   className={cn(
-                    "flex items-center justify-between border-b border-gray-200 px-4 py-2 text-sm font-medium text-slate-700 last:border-b-0 hover:bg-slate-50 hover:text-emerald-600",
-                    pathname === "/faq" && "text-emerald-600",
+                    "flex items-center justify-between border-b border-gray-200 px-4 py-2 text-sm font-medium text-slate-700 last:border-b-0 hover:bg-slate-50 hover:text-brand",
+                    pathname === "/faq" && "text-brand",
                   )}
                   onClick={handleMenuItemClick}
                 >
@@ -264,8 +264,8 @@ export default function Navbar() {
               prefetch={false}
               href="/contact"
               className={cn(
-                "px-2 font-medium text-slate-700 hover:text-emerald-600",
-                pathname === "/contact" && "text-emerald-600",
+                "px-2 font-medium text-slate-700 hover:text-brand",
+                pathname === "/contact" && "text-brand",
               )}
               onClick={handleMenuItemClick}
             >

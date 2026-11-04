@@ -55,9 +55,9 @@ export default function WhyChooseUs() {
         <div className="mb-10 flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-              Why Choose <span className="text-emerald-600">Us</span>
+              Why Choose <span className="text-brand">Us</span>
             </h2>
-            <p className="max-w-[700px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
+            <p className="max-w-[700px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
               Empowering Through Recognition
             </p>
           </div>
@@ -66,15 +66,13 @@ export default function WhyChooseUs() {
           {features.map((feature) => (
             <div
               key={feature.id}
-              className="flex flex-col items-center rounded-md bg-[#F5F7FA] p-6 shadow-md"
+              className="flex flex-col items-center rounded-md bg-surface p-6 shadow-md"
             >
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-md bg-emerald-600 text-white">
+              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-md bg-brand text-white">
                 {feature.icon}
               </div>
 
-              <h3 className="mt-5 text-center text-lg font-medium text-gray-900">
-                {feature.title}
-              </h3>
+              <h3 className="mt-5 text-center text-lg font-medium text-ink">{feature.title}</h3>
               <p className="mt-2 text-center text-base text-gray-500">{feature.description}</p>
             </div>
           ))}

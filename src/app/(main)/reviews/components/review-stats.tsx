@@ -49,16 +49,14 @@ export default function ReviewStats({ reviews }: ReviewStatsProps) {
             <div className="mt-2 flex">
               {/* Render whole stars */}
               {[...Array(wholeStars)].map((_, index) => (
-                <MdStar key={index} className="h-5 w-5 text-emerald-600 sm:h-6 sm:w-6" />
+                <MdStar key={index} className="h-5 w-5 text-brand sm:h-6 sm:w-6" />
               ))}
 
               {/* Render fractional star based on updated logic */}
               {decimalPart >= 0.75 ? (
-                <MdStar className="h-5 w-5 text-emerald-600 sm:h-6 sm:w-6" />
+                <MdStar className="h-5 w-5 text-brand sm:h-6 sm:w-6" />
               ) : (
-                decimalPart >= 0.25 && (
-                  <MdStarHalf className="h-5 w-5 text-emerald-600 sm:h-6 sm:w-6" />
-                )
+                decimalPart >= 0.25 && <MdStarHalf className="h-5 w-5 text-brand sm:h-6 sm:w-6" />
               )}
 
               {/* Render remaining empty stars */}
@@ -82,11 +80,11 @@ export default function ReviewStats({ reviews }: ReviewStatsProps) {
                   <div key={index} className="flex items-center gap-4">
                     <div className="flex w-20 items-center">
                       <span className="mr-2">{starValue}</span>
-                      <MdStar className="h-4 w-4 fill-emerald-600 text-primary" />
+                      <MdStar className="h-4 w-4 fill-brand text-primary" />
                     </div>
                     <div className="h-2.5 w-full rounded-full bg-muted">
                       <div
-                        className="h-2.5 rounded-full bg-emerald-600"
+                        className="h-2.5 rounded-full bg-brand"
                         style={{
                           width: `${percentage}%`,
                         }}

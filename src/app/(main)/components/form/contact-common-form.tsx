@@ -76,14 +76,14 @@ export default function ContactCommonForm({ interest = "RPL" }: { interest?: str
     }
   }
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-lg lg:p-8 dark:border-gray-800 dark:bg-gray-950">
+    <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-lg lg:p-8">
       <div className="mb-6">
-        <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Contact Us</h3>
-        <p className="mt-1 text-gray-600 dark:text-gray-400">Reach out for any inquiries</p>
+        <h3 className="text-2xl font-bold text-ink">Contact Us</h3>
+        <p className="mt-1 text-gray-600">Reach out for any inquiries</p>
       </div>
 
       {formState?.success ? (
-        <div className="p-4 text-center text-emerald-600">
+        <div className="p-4 text-center text-brand">
           <div className="mb-2 animate-bounce">
             <svg
               className="mx-auto h-20 w-20 text-green-600"
@@ -105,7 +105,7 @@ export default function ContactCommonForm({ interest = "RPL" }: { interest?: str
           <p className="mb-4 text-xl">We will contact you soon.</p>
           <Button
             onClick={() => setFormState(null)}
-            className="cursor-pointer rounded-md bg-emerald-500 px-4 py-2 text-white hover:bg-emerald-600"
+            className="cursor-pointer rounded-md bg-brand px-4 py-2 text-white hover:bg-brand-strong"
           >
             Send another message
           </Button>
@@ -195,7 +195,7 @@ export default function ContactCommonForm({ interest = "RPL" }: { interest?: str
             />
             <div className="mt-6 text-center">
               <Button
-                className="w-full cursor-pointer bg-emerald-600 text-white transition-all duration-300 hover:bg-emerald-700 active:scale-95"
+                className="w-full cursor-pointer bg-cta text-white transition-all duration-300 hover:bg-cta-strong active:scale-95"
                 type="submit"
                 disabled={form.formState.isSubmitting}
               >

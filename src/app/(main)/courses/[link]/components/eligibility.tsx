@@ -43,14 +43,14 @@ export default function EligibilityForRPLSimple() {
   ];
 
   return (
-    <section className="w-full bg-[#F5F7FA] py-16 md:py-24">
+    <section className="w-full bg-surface py-16 md:py-24">
       <div className="container mx-auto px-4 md:px-8">
         <div className="mb-10 flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-              Who Can <span className="text-emerald-600">Apply</span>
+              Who Can <span className="text-brand">Apply</span>
             </h2>
-            <p className="max-w-[700px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
+            <p className="max-w-[700px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
               You&apos;re eligible for RPL if you have any of them
             </p>
           </div>
@@ -63,28 +63,28 @@ export default function EligibilityForRPLSimple() {
               className="relative flex items-start gap-4 overflow-hidden rounded-lg bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
             >
               <div className="flex-shrink-0">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500 text-white">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-brand text-white">
                   {criteria.icon}
                 </div>
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-slate-800">{criteria.title}</h3>
-                <p className="text-emerald-600">{criteria.description}</p>
+                <h3 className="text-lg font-semibold text-ink">{criteria.title}</h3>
+                <p className="text-brand">{criteria.description}</p>
               </div>
-              <div className="absolute bottom-0 left-0 h-1 w-full bg-emerald-500" />
+              <div className="absolute bottom-0 left-0 h-1 w-full bg-brand" />
             </div>
           ))}
         </div>
 
         <div className="mt-10 text-center">
-          <p className="mx-auto mb-6 max-w-2xl text-emerald-700">
+          <p className="mx-auto mb-6 max-w-2xl text-brand">
             Not sure if your experience qualifies? Our RPL specialists can help assess your
             individual situation and guide you through the process.
           </p>
 
           <EligibilityForm
             trigger={
-              <button className="cursor-pointer rounded-lg bg-emerald-600 px-8 py-3 text-lg font-medium text-white transition-colors hover:bg-emerald-700">
+              <button className="cursor-pointer rounded-lg bg-brand px-8 py-3 text-lg font-medium text-white transition-colors hover:bg-brand-strong">
                 Check Your Eligibility
               </button>
             }

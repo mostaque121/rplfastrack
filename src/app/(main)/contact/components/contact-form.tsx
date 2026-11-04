@@ -64,7 +64,7 @@ export default function ContactForm() {
 
   return (
     <div className="rounded-lg bg-gray-50 p-4 shadow-sm md:p-8">
-      <h3 className="mb-6 text-2xl font-bold text-gray-900">Send Us a Message</h3>
+      <h3 className="mb-6 text-2xl font-bold text-ink">Send Us a Message</h3>
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Full Name */}
         <div>
@@ -78,7 +78,7 @@ export default function ContactForm() {
             value={formData.name}
             onChange={handleChange}
             required
-            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 focus:outline-none sm:text-sm"
+            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-brand focus:ring-brand focus:outline-none sm:text-sm"
           />
         </div>
 
@@ -95,7 +95,7 @@ export default function ContactForm() {
               value={formData.email}
               onChange={handleChange}
               required
-              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 focus:outline-none sm:text-sm"
+              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-brand focus:ring-brand focus:outline-none sm:text-sm"
             />
           </div>
 
@@ -110,7 +110,7 @@ export default function ContactForm() {
               value={formData.phone}
               onChange={handleChange}
               required
-              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 focus:outline-none sm:text-sm"
+              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-brand focus:ring-brand focus:outline-none sm:text-sm"
             />
           </div>
         </div>
@@ -125,7 +125,7 @@ export default function ContactForm() {
             name="industry"
             value={formData.industry}
             onChange={handleChange}
-            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 focus:outline-none sm:text-sm"
+            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-brand focus:ring-brand focus:outline-none sm:text-sm"
           >
             <option value="">Select an industry</option>
             {sections.map((section) => (
@@ -147,7 +147,7 @@ export default function ContactForm() {
               name="qualification"
               value={formData.qualification}
               onChange={handleChange}
-              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 focus:outline-none sm:text-sm"
+              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-brand focus:ring-brand focus:outline-none sm:text-sm"
             >
               <option value="">Select a qualification</option>
               {selectedIndustry.courses.map((course) => (
@@ -170,7 +170,7 @@ export default function ContactForm() {
             rows={4}
             value={formData.message}
             onChange={handleChange}
-            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 focus:outline-none sm:text-sm"
+            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-brand focus:ring-brand focus:outline-none sm:text-sm"
           ></textarea>
         </div>
 
@@ -179,7 +179,7 @@ export default function ContactForm() {
           <button
             type="submit"
             disabled={formStatus === "submitting"}
-            className="inline-flex w-full cursor-pointer items-center justify-center rounded-md border border-transparent bg-emerald-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-emerald-700 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:outline-none disabled:opacity-50"
+            className="inline-flex w-full cursor-pointer items-center justify-center rounded-md border border-transparent bg-cta px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-cta-strong focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:outline-none disabled:opacity-50"
           >
             {formStatus === "submitting" ? (
               "Sending..."

@@ -84,7 +84,7 @@ export function ReviewCard({ review }: { review: UserReview }) {
   };
 
   return (
-    <div className="overflow-hidden rounded-md border bg-white shadow-sm dark:bg-zinc-900">
+    <div className="overflow-hidden rounded-md border bg-white shadow-sm">
       {/* Review image */}
       {review.reviewImage && (
         <Image
@@ -118,9 +118,7 @@ export function ReviewCard({ review }: { review: UserReview }) {
           {Array.from({ length: 5 }).map((_, i) => (
             <MdStar
               className={`h-4 w-4 ${
-                i < review.givenStar
-                  ? "fill-yellow-400 text-yellow-400"
-                  : "text-gray-300 dark:text-gray-600"
+                i < review.givenStar ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
               }`}
               key={i}
             />
@@ -128,7 +126,7 @@ export function ReviewCard({ review }: { review: UserReview }) {
         </div>
 
         {/* Review text */}
-        <p className="text-sm text-gray-600 dark:text-gray-300">{review.reviewText}</p>
+        <p className="text-sm text-gray-600">{review.reviewText}</p>
 
         {/* Approved switch and edit/delete buttons */}
         <div className="mt-auto flex items-center justify-between gap-2 border-t pt-2">

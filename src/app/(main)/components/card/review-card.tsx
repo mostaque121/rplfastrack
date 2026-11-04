@@ -54,7 +54,7 @@ export default function ReviewCard({ review }: ReviewCardProps) {
         </div>
         <div className="flex w-full flex-col">
           <div className="flex items-center justify-between">
-            <h3 className="text-base font-semibold text-gray-900 sm:text-lg">{userName}</h3>
+            <h3 className="text-base font-semibold text-ink sm:text-lg">{userName}</h3>
             <p className="text-xs text-gray-500 sm:text-sm">{formatDate(reviewDate)}</p>
           </div>
           {/* Stars */}
@@ -62,7 +62,7 @@ export default function ReviewCard({ review }: ReviewCardProps) {
             {[...Array(5)].map((_, index) => (
               <MdStar
                 key={index}
-                className={`h-4 w-4 ${index < givenStar ? "text-emerald-500" : "text-gray-300"}`}
+                className={`h-4 w-4 ${index < givenStar ? "text-brand" : "text-gray-300"}`}
               />
             ))}
           </div>
@@ -72,14 +72,14 @@ export default function ReviewCard({ review }: ReviewCardProps) {
       {/* Course Link */}
       {purchasedCourse && (
         <Link prefetch={false} href={`/courses/${purchasedCourse.link}`}>
-          <p className="mb-3 rounded bg-gray-100 px-2 py-1 text-xs font-medium text-emerald-600 transition duration-200 hover:bg-gray-200 sm:text-sm">
+          <p className="mb-3 rounded bg-gray-100 px-2 py-1 text-xs font-medium text-brand transition duration-200 hover:bg-gray-200 sm:text-sm">
             {purchasedCourse.title}
           </p>
         </Link>
       )}
 
       {/* Review Text */}
-      <p className="text-gray-800">&quot;{reviewText}&quot;</p>
+      <p className="text-ink">&quot;{reviewText}&quot;</p>
 
       {/* Review Image */}
       {reviewImage && (

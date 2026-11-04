@@ -301,7 +301,7 @@ export default function FAQPage() {
         <Accordion type="single" collapsible className="w-full">
           {faqs.map(({ value, question, answer }) => (
             <AccordionItem key={value} value={value}>
-              <AccordionTrigger className="text-left text-lg font-medium hover:text-emerald-600">
+              <AccordionTrigger className="text-left text-lg font-medium hover:text-brand">
                 {question}
               </AccordionTrigger>
               <AccordionContent>{answer}</AccordionContent>
@@ -318,7 +318,7 @@ export default function FAQPage() {
             <Link
               prefetch={false}
               href="/contact"
-              className="inline-flex h-10 items-center justify-center rounded-md bg-emerald-600 px-8 text-sm font-medium text-primary-foreground shadow hover:bg-emerald-700/90"
+              className="inline-flex h-10 items-center justify-center rounded-md bg-brand px-8 text-sm font-medium text-primary-foreground shadow hover:bg-brand-strong/90"
             >
               Contact Us
             </Link>

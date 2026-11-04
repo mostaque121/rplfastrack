@@ -74,13 +74,13 @@ export function ResponseForm({ interest = "RPL" }: { interest?: string }) {
       <p className="mb-3 text-center text-lg leading-tight font-bold text-black">
         Interested in {interest}?
       </p>
-      <h3 className="mb-10 text-center text-2xl font-semibold text-emerald-600">
+      <h3 className="mb-10 text-center text-2xl font-semibold text-brand">
         Get your free consultants!
       </h3>
 
       {/*  Success */}
       {formState?.success ? (
-        <div className="p-4 text-center text-emerald-600">
+        <div className="p-4 text-center text-brand">
           <div className="mb-2 animate-bounce">
             <svg
               className="mx-auto h-20 w-20 text-green-600"
@@ -102,7 +102,7 @@ export function ResponseForm({ interest = "RPL" }: { interest?: string }) {
           <p className="mb-4 text-xl">We will contact you soon.</p>
           <Button
             onClick={() => setFormState(null)}
-            className="cursor-pointer rounded-md bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700"
+            className="cursor-pointer rounded-md bg-brand px-4 py-2 text-white hover:bg-brand-strong"
           >
             Submit another response
           </Button>
@@ -193,7 +193,7 @@ export function ResponseForm({ interest = "RPL" }: { interest?: string }) {
             {/* Submit Button */}
             <LoadingButton
               type="submit"
-              className="mt-6 w-full bg-emerald-600 text-white hover:bg-emerald-700"
+              className="mt-6 w-full bg-cta text-white hover:bg-cta-strong"
               loading={form.formState.isSubmitting}
             >
               Here We Go

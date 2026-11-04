@@ -180,7 +180,7 @@ const ReviewForm = () => {
           <LoadingButton
             loading={form.formState.isSubmitting}
             type="submit"
-            className="w-full bg-emerald-900 text-white hover:bg-emerald-950"
+            className="w-full bg-brand text-white hover:bg-brand-strong"
             loadingText="Submitting"
           >
             Submit Review

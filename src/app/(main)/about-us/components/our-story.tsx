@@ -7,9 +7,9 @@ export default function OurStory() {
         <div className="mb-12 flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-              Our <span className="text-emerald-600">Story</span>
+              Our <span className="text-brand">Story</span>
             </h2>
-            <p className="max-w-[700px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
+            <p className="max-w-[700px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
               Turning real experience into recognised qualifications and brighter futures.
             </p>
           </div>
@@ -30,14 +30,12 @@ export default function OurStory() {
             <div className="mt-8 space-y-4">
               <div className="flex">
                 <div className="flex-shrink-0">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-md bg-emerald-600 text-white">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-md bg-brand text-white">
                     <Award className="h-6 w-6" />
                   </div>
                 </div>
                 <div className="ml-4">
-                  <h3 className="text-lg leading-6 font-medium text-gray-900">
-                    Nationally Recognized
-                  </h3>
+                  <h3 className="text-lg leading-6 font-medium text-ink">Nationally Recognized</h3>
                   <p className="mt-2 text-base text-gray-700">
                     All our qualifications are nationally recognized and comply with the Australian
                     Qualifications Framework (AQF).
@@ -46,14 +44,12 @@ export default function OurStory() {
               </div>
               <div className="flex">
                 <div className="flex-shrink-0">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-md bg-emerald-600 text-white">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-md bg-brand text-white">
                     <Clock className="h-6 w-6" />
                   </div>
                 </div>
                 <div className="ml-4">
-                  <h3 className="text-lg leading-6 font-medium text-gray-900">
-                    Fast-Track Your Career
-                  </h3>
+                  <h3 className="text-lg leading-6 font-medium text-ink">Fast-Track Your Career</h3>
                   <p className="mt-2 text-base text-gray-700">
                     Our streamlined process helps you gain qualifications in weeks, not years,
                     saving you time and money.

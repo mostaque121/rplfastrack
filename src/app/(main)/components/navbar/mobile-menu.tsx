@@ -79,8 +79,8 @@ export default function MobileMenu() {
               prefetch={false}
               href="/"
               className={cn(
-                "px-2 font-medium text-slate-700 hover:text-emerald-600",
-                pathname === "/" && "text-emerald-600",
+                "px-2 font-medium text-slate-700 hover:text-brand",
+                pathname === "/" && "text-brand",
               )}
               onClick={handleItemClick}
             >
@@ -98,8 +98,8 @@ export default function MobileMenu() {
                     prefetch={false}
                     href={"/courses"}
                     className={cn(
-                      "flex-grow text-left hover:text-emerald-600",
-                      pathname === "/courses" && "text-emerald-600",
+                      "flex-grow text-left hover:text-brand",
+                      pathname === "/courses" && "text-brand",
                     )}
                     onClick={(e) => {
                       e.stopPropagation();
@@ -129,8 +129,8 @@ export default function MobileMenu() {
                               prefetch={false}
                               href={`/section/${subItem.link}`}
                               className={cn(
-                                "flex-grow text-left hover:text-emerald-600",
-                                pathname === `/section/${subItem.link}` && "text-emerald-600",
+                                "flex-grow text-left hover:text-brand",
+                                pathname === `/section/${subItem.link}` && "text-brand",
                               )}
                               onClick={(e) => {
                                 e.stopPropagation();
@@ -153,8 +153,8 @@ export default function MobileMenu() {
                                 key={subSubItem.title}
                                 href={`/courses/${subSubItem.link}`}
                                 className={cn(
-                                  "block px-2 py-1 text-sm hover:text-emerald-600",
-                                  pathname === `/courses/${subSubItem.link}` && "text-emerald-600",
+                                  "block px-2 py-1 text-sm hover:text-brand",
+                                  pathname === `/courses/${subSubItem.link}` && "text-brand",
                                 )}
                                 onClick={handleItemClick}
                               >
@@ -168,8 +168,8 @@ export default function MobileMenu() {
                           prefetch={false}
                           href={`/section/${subItem.link}`}
                           className={cn(
-                            "block px-2 py-1 hover:text-emerald-600",
-                            pathname === `/section/${subItem.link}` && "text-emerald-600",
+                            "block px-2 py-1 hover:text-brand",
+                            pathname === `/section/${subItem.link}` && "text-brand",
                           )}
                           onClick={handleItemClick}
                         >
@@ -186,8 +186,8 @@ export default function MobileMenu() {
               prefetch={false}
               href="/about-us"
               className={cn(
-                "px-2 font-medium text-slate-700 hover:text-emerald-600",
-                pathname === "/about-us" && "text-emerald-600",
+                "px-2 font-medium text-slate-700 hover:text-brand",
+                pathname === "/about-us" && "text-brand",
               )}
               onClick={handleItemClick}
             >
@@ -198,8 +198,8 @@ export default function MobileMenu() {
               prefetch={false}
               href="/contact"
               className={cn(
-                "px-2 font-medium text-slate-700 hover:text-emerald-600",
-                pathname === "/contact" && "text-emerald-600",
+                "px-2 font-medium text-slate-700 hover:text-brand",
+                pathname === "/contact" && "text-brand",
               )}
               onClick={handleItemClick}
             >
@@ -210,8 +210,8 @@ export default function MobileMenu() {
               prefetch={false}
               href="/about-rpl"
               className={cn(
-                "px-2 font-medium text-slate-700 hover:text-emerald-600",
-                pathname === "/about-rpl" && "text-emerald-600",
+                "px-2 font-medium text-slate-700 hover:text-brand",
+                pathname === "/about-rpl" && "text-brand",
               )}
               onClick={handleItemClick}
             >
@@ -221,8 +221,8 @@ export default function MobileMenu() {
               prefetch={false}
               href="/faq"
               className={cn(
-                "px-2 font-medium text-slate-700 hover:text-emerald-600",
-                pathname === "/about-rpl" && "text-emerald-600",
+                "px-2 font-medium text-slate-700 hover:text-brand",
+                pathname === "/about-rpl" && "text-brand",
               )}
               onClick={handleItemClick}
             >
@@ -232,7 +232,7 @@ export default function MobileMenu() {
             <EligibilityForm
               trigger={
                 <div className="mt-4 border-t pt-4">
-                  <Button className="w-full bg-emerald-500 text-white hover:bg-emerald-600">
+                  <Button className="w-full bg-brand text-white hover:bg-brand-strong">
                     Get Started
                   </Button>
                 </div>

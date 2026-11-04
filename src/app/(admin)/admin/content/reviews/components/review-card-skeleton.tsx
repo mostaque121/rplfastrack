@@ -2,9 +2,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export function ReviewCardSkeleton() {
   return (
-    <div className="animate-pulse overflow-hidden rounded-md border bg-white shadow-sm dark:bg-zinc-900">
+    <div className="animate-pulse overflow-hidden rounded-md border bg-white shadow-sm">
       {/* Image placeholder */}
-      <div className="max-h-60 w-full bg-gray-200 dark:bg-zinc-700" />
+      <div className="max-h-60 w-full bg-gray-200" />
 
       <div className="space-y-3 p-4">
         {/* User info */}

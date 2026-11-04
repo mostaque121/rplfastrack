@@ -49,16 +49,14 @@ export default function ReviewCommonContent({ reviews, stats }: ReviewCommonProp
             <div className="mb-2 flex items-center">
               {/* Render whole stars */}
               {[...Array(wholeStars)].map((_, index) => (
-                <MdStar key={index} className="h-5 w-5 text-emerald-600 sm:h-6 sm:w-6" />
+                <MdStar key={index} className="h-5 w-5 text-brand sm:h-6 sm:w-6" />
               ))}
 
               {/* Render fractional star based on updated logic */}
               {decimalPart >= 0.75 ? (
-                <MdStar className="h-5 w-5 text-emerald-600 sm:h-6 sm:w-6" />
+                <MdStar className="h-5 w-5 text-brand sm:h-6 sm:w-6" />
               ) : (
-                decimalPart >= 0.25 && (
-                  <MdStarHalf className="h-5 w-5 text-emerald-600 sm:h-6 sm:w-6" />
-                )
+                decimalPart >= 0.25 && <MdStarHalf className="h-5 w-5 text-brand sm:h-6 sm:w-6" />
               )}
 
               {/* Render remaining empty stars */}
@@ -70,7 +68,7 @@ export default function ReviewCommonContent({ reviews, stats }: ReviewCommonProp
               ))}
             </div>
             <div className="mt-2 flex items-center justify-center space-x-1 text-gray-700">
-              <span className="text-xl font-bold text-emerald-600 sm:text-2xl">
+              <span className="text-xl font-bold text-brand sm:text-2xl">
                 {parseFloat(avgStar.toFixed(1))}
               </span>
               <span className="text-sm font-medium text-gray-500 sm:text-base">out of 5</span>
@@ -94,10 +92,7 @@ export default function ReviewCommonContent({ reviews, stats }: ReviewCommonProp
                 <span className="ml-2 w-12">( {count} )</span>
                 <div className="bg-light-gray-hover mr-4 flex h-2 flex-1 items-center rounded">
                   <div className="w-full rounded bg-gray-200">
-                    <div
-                      className="h-2 rounded bg-emerald-500"
-                      style={{ width: `${percentage}%` }}
-                    />
+                    <div className="h-2 rounded bg-brand" style={{ width: `${percentage}%` }} />
                   </div>
                 </div>
                 <span className="text-dark-gray w-14">{percentage}%</span>
@@ -106,7 +101,7 @@ export default function ReviewCommonContent({ reviews, stats }: ReviewCommonProp
           })}
         </div>
         <Link prefetch={false} href={"/write-review"}>
-          <button className="mt-4 cursor-pointer rounded-full border-2 border-emerald-500 px-3 py-1 font-semibold transition-all duration-200 ease-in-out hover:border-emerald-500 hover:bg-emerald-500 hover:text-white">
+          <button className="mt-4 cursor-pointer rounded-full border-2 border-brand px-3 py-1 font-semibold transition-all duration-200 ease-in-out hover:border-brand hover:bg-brand-strong hover:text-white">
             Write a review
           </button>
         </Link>
@@ -122,7 +117,7 @@ export default function ReviewCommonContent({ reviews, stats }: ReviewCommonProp
             <Link prefetch={false} href={"/reviews"}>
               <Button
                 size="lg"
-                className="group bg-gradient-to-r from-emerald-600 to-teal-600 text-white"
+                className="group bg-gradient-to-r from-brand to-brand-strong text-white"
               >
                 See all review
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />

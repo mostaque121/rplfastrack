@@ -17,13 +17,13 @@ export default function CookiePolicy() {
     <div className="bg-white">
       <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:py-16">
         <div className="mb-12 text-center">
-          <h1 className="text-3xl font-bold text-gray-900 sm:text-4xl">Cookie Policy</h1>
+          <h1 className="text-3xl font-bold text-ink sm:text-4xl">Cookie Policy</h1>
           <p className="mt-4 text-lg text-gray-600">Last Updated: May 10, 2025</p>
         </div>
 
         <div className="prose prose-lg max-w-none text-gray-700">
           <section className="mb-8">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">1. Introduction</h2>
+            <h2 className="mb-4 text-2xl font-semibold text-ink">1. Introduction</h2>
             <p>
               This Cookie Policy explains how RPL Fast Track (&quot;we,&quot; &quot;our,&quot; or
               &quot;us&quot;) uses cookies and similar technologies on our website. This policy
@@ -33,7 +33,7 @@ export default function CookiePolicy() {
           </section>
 
           <section className="mb-8">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">2. What Are Cookies?</h2>
+            <h2 className="mb-4 text-2xl font-semibold text-ink">2. What Are Cookies?</h2>
             <p>
               Cookies are small text files that are stored on your device (computer, tablet, or
               mobile) when you visit a website. They are widely used to make websites work more
@@ -49,18 +49,16 @@ export default function CookiePolicy() {
           </section>
 
           <section className="mb-8">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">
-              3. Types of Cookies We Use
-            </h2>
+            <h2 className="mb-4 text-2xl font-semibold text-ink">3. Types of Cookies We Use</h2>
 
-            <h3 className="mb-3 text-xl font-medium text-gray-900">3.1 Essential Cookies</h3>
+            <h3 className="mb-3 text-xl font-medium text-ink">3.1 Essential Cookies</h3>
             <p>
               These cookies are necessary for the website to function properly. They enable core
               functionality such as security, network management, and account access. You cannot opt
               out of these cookies.
             </p>
 
-            <h3 className="mb-3 text-xl font-medium text-gray-900">
+            <h3 className="mb-3 text-xl font-medium text-ink">
               3.2 Performance and Analytics Cookies
             </h3>
             <p>
@@ -70,7 +68,7 @@ export default function CookiePolicy() {
               aggregated and anonymous.
             </p>
 
-            <h3 className="mb-3 text-xl font-medium text-gray-900">3.3 Functional Cookies</h3>
+            <h3 className="mb-3 text-xl font-medium text-ink">3.3 Functional Cookies</h3>
             <p>
               These cookies allow the website to remember choices you make (such as your username,
               language, or region) and provide enhanced, personalized features. They may also be
@@ -78,7 +76,7 @@ export default function CookiePolicy() {
               a blog.
             </p>
 
-            <h3 className="mb-3 text-xl font-medium text-gray-900">
+            <h3 className="mb-3 text-xl font-medium text-ink">
               3.4 Targeting and Advertising Cookies
             </h3>
             <p>
@@ -91,7 +89,7 @@ export default function CookiePolicy() {
           </section>
 
           <section className="mb-8">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">4. Third-Party Cookies</h2>
+            <h2 className="mb-4 text-2xl font-semibold text-ink">4. Third-Party Cookies</h2>
             <p>
               Some cookies are placed by third parties on our website. These third parties may
               include:
@@ -111,7 +109,7 @@ export default function CookiePolicy() {
           </section>
 
           <section className="mb-8">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">5. Managing Cookies</h2>
+            <h2 className="mb-4 text-2xl font-semibold text-ink">5. Managing Cookies</h2>
             <p>Most web browsers allow you to control cookies through their settings. You can:</p>
             <ul className="mb-4 list-disc pl-6">
               <li>View the cookies stored on your device</li>
@@ -175,7 +173,7 @@ export default function CookiePolicy() {
           </section>
 
           <section className="mb-8">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">
+            <h2 className="mb-4 text-2xl font-semibold text-ink">
               6. Changes to This Cookie Policy
             </h2>
             <p>
@@ -187,7 +185,7 @@ export default function CookiePolicy() {
           </section>
 
           <section>
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">7. Contact Us</h2>
+            <h2 className="mb-4 text-2xl font-semibold text-ink">7. Contact Us</h2>
             <p>
               If you have any questions about our use of cookies or this Cookie Policy, please
               contact us at:
@@ -201,7 +199,7 @@ export default function CookiePolicy() {
                 <Link
                   prefetch={false}
                   href={contactInfo.emailHref}
-                  className="text-emerald-600 hover:text-emerald-800"
+                  className="text-brand hover:text-brand-strong"
                 >
                   {contactInfo.email}
                 </Link>
@@ -211,7 +209,7 @@ export default function CookiePolicy() {
                 <Link
                   prefetch={false}
                   href={contactInfo.phoneHref}
-                  className="text-emerald-600 hover:text-emerald-800"
+                  className="text-brand hover:text-brand-strong"
                 >
                   {contactInfo.phone}
                 </Link>

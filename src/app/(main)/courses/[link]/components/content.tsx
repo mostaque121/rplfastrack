@@ -32,7 +32,7 @@ function Block({ title, html }: { title: string; html?: string | null }) {
   if (!html?.replace(/<[^>]*>/g, "").trim()) return null;
   return (
     <div>
-      <h2 className="mb-4 text-2xl font-bold text-emerald-700 md:text-3xl">{title}</h2>
+      <h2 className="mb-4 text-2xl font-bold text-brand md:text-3xl">{title}</h2>
       <RichText html={html} />
     </div>
   );
@@ -98,17 +98,17 @@ export default function QualificationContent({ data }: QualificationProps) {
           </div>
         )}
 
-        <div className="rounded-xl border border-gray-200 bg-[#F5F7FA] p-5 md:p-6">
-          <h2 className="mb-4 text-lg font-bold text-gray-900">Quick facts</h2>
+        <div className="rounded-xl border border-gray-200 bg-surface p-5 md:p-6">
+          <h2 className="mb-4 text-lg font-bold text-ink">Quick facts</h2>
           <dl className="grid gap-4 sm:grid-cols-2">
             {facts.map((fact) => (
               <div key={fact.label} className="flex items-start gap-3">
-                <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-emerald-700 text-white [&_svg]:size-5">
+                <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-brand text-white [&_svg]:size-5">
                   {fact.icon}
                 </span>
                 <div>
                   <dt className="text-sm text-gray-600">{fact.label}</dt>
-                  <dd className="font-semibold text-gray-900">{fact.value}</dd>
+                  <dd className="font-semibold text-ink">{fact.value}</dd>
                 </div>
               </div>
             ))}
@@ -124,7 +124,7 @@ export default function QualificationContent({ data }: QualificationProps) {
         <Block title="Packaging rules" html={data.packagingRule} />
 
         <div>
-          <h2 className="mb-4 text-2xl font-bold text-emerald-700 md:text-3xl">Units</h2>
+          <h2 className="mb-4 text-2xl font-bold text-brand md:text-3xl">Units</h2>
           <Units coreUnits={data.coreUnits} electiveUnits={data.electiveUnits} />
         </div>
       </div>

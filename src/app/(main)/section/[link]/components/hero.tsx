@@ -14,14 +14,14 @@ interface HeroSectionProps {
 }
 export default function HeroSection({ data }: HeroSectionProps) {
   return (
-    <section className="overflow-hidden bg-[#F5F7FA] py-16">
+    <section className="overflow-hidden bg-surface py-16">
       <div className="container mx-auto px-4 md:px-8">
         <div className="flex w-full flex-col items-end justify-end gap-10 md:flex-row">
           <div className="flex flex-col-reverse md:flex-col">
             <div>
-              <h1 className="flex items-center gap-3 text-3xl font-semibold text-emerald-700 md:text-4xl">
+              <h1 className="flex items-center gap-3 text-3xl font-semibold text-brand md:text-4xl">
                 {data.icon && (
-                  <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-emerald-700 text-white">
+                  <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-brand text-white">
                     <LucideIcon name={data.icon} className="size-6" />
                   </span>
                 )}
@@ -29,19 +29,19 @@ export default function HeroSection({ data }: HeroSectionProps) {
               </h1>
               <div className="mt-3 flex items-center">
                 <Link prefetch={false} href="/">
-                  <span className="cursor-pointer font-medium text-emerald-600 transition duration-200 ease-in-out hover:text-emerald-700">
+                  <span className="cursor-pointer font-medium text-brand transition duration-200 ease-in-out hover:text-brand-strong">
                     Home
                   </span>
                 </Link>
-                <span className="text-emerald-600">
+                <span className="text-brand">
                   <MdOutlineNavigateNext />
                 </span>
                 <Link prefetch={false} href="/courses">
-                  <span className="cursor-pointer font-medium text-emerald-600 transition duration-200 ease-in-out hover:text-emerald-700">
+                  <span className="cursor-pointer font-medium text-brand transition duration-200 ease-in-out hover:text-brand-strong">
                     Courses
                   </span>
                 </Link>
-                <span className="text-emerald-600">
+                <span className="text-brand">
                   <MdOutlineNavigateNext />
                 </span>
                 <span className="text-dark-gray inline-block align-middle font-semibold">

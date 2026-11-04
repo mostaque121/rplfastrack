@@ -7,11 +7,9 @@ export default function WhatIsRPL() {
         <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-2">
           <div className="space-y-6">
             <p className="text-lg text-gray-700">
-              <span className="font-bold text-emerald-600">
-                Recognition of Prior Learning (RPL)
-              </span>{" "}
-              is an assessment process that evaluates your existing skills, knowledge, and
-              experience gained throughout your life, regardless of how or where they were acquired.
+              <span className="font-bold text-brand">Recognition of Prior Learning (RPL)</span> is
+              an assessment process that evaluates your existing skills, knowledge, and experience
+              gained throughout your life, regardless of how or where they were acquired.
             </p>
             <p className="text-lg text-gray-700">
               RPL acknowledges that learning doesn&apos;t only happen in formal education settings.
@@ -25,17 +23,17 @@ export default function WhatIsRPL() {
             </p>
           </div>
 
-          <div className="rounded-xl bg-[#F5F7FA] p-4 shadow-sm md:p-8">
-            <h3 className="mb-6 text-xl font-bold text-emerald-700">Key Features of RPL</h3>
+          <div className="rounded-xl bg-surface p-4 shadow-sm md:p-8">
+            <h3 className="mb-6 text-xl font-bold text-brand">Key Features of RPL</h3>
             <div className="space-y-6">
               <div className="flex gap-4">
                 <div className="flex-shrink-0">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100">
-                    <BookOpen className="h-6 w-6 text-emerald-600" />
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-subtle">
+                    <BookOpen className="h-6 w-6 text-brand" />
                   </div>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-800">Evidence-Based Assessment</h4>
+                  <h4 className="font-semibold text-ink">Evidence-Based Assessment</h4>
                   <p className="text-gray-700">
                     RPL evaluates evidence of your existing skills against industry or qualification
                     standards
@@ -45,12 +43,12 @@ export default function WhatIsRPL() {
 
               <div className="flex gap-4">
                 <div className="flex-shrink-0">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100">
-                    <Award className="h-6 w-6 text-emerald-600" />
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-subtle">
+                    <Award className="h-6 w-6 text-brand" />
                   </div>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-800">Nationally Recognized</h4>
+                  <h4 className="font-semibold text-ink">Nationally Recognized</h4>
                   <p className="text-gray-700">
                     RPL results in formal qualifications that are recognized throughout the country
                   </p>
@@ -59,12 +57,12 @@ export default function WhatIsRPL() {
 
               <div className="flex gap-4">
                 <div className="flex-shrink-0">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100">
-                    <Lightbulb className="h-6 w-6 text-emerald-600" />
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-subtle">
+                    <Lightbulb className="h-6 w-6 text-brand" />
                   </div>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-800">Flexible Pathways</h4>
+                  <h4 className="font-semibold text-ink">Flexible Pathways</h4>
                   <p className="text-gray-700">
                     RPL can provide full qualifications or credits toward further education
                   </p>

@@ -32,14 +32,14 @@ export default function RplProcessTimeline() {
     },
   ];
   return (
-    <section className="w-full bg-[#F5F7FA] py-12 md:py-24">
+    <section className="w-full bg-surface py-12 md:py-24">
       <div className="container mx-auto px-4 md:px-8">
         <div className="mb-10 flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-              RPL <span className="text-emerald-600">Process</span>
+              RPL <span className="text-brand">Process</span>
             </h2>
-            <p className="max-w-[700px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
+            <p className="max-w-[700px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
               Four Simple Steps Your Path to Recognition
             </p>
           </div>
@@ -47,7 +47,7 @@ export default function RplProcessTimeline() {
 
         <div className="relative mx-auto max-w-3xl space-y-8">
           {/* Vertical line */}
-          <div className="absolute top-0 bottom-0 left-16 hidden w-1 bg-emerald-200 md:block" />
+          <div className="absolute top-0 bottom-0 left-16 hidden w-1 bg-brand-subtle md:block" />
 
           {steps.map((step, index) => (
             <div
@@ -56,22 +56,22 @@ export default function RplProcessTimeline() {
             >
               <div className="flex justify-center md:justify-start">
                 <div
-                  className={`z-10 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500`}
+                  className={`z-10 flex h-16 w-16 items-center justify-center rounded-full bg-brand`}
                 >
                   {step.icon}
                 </div>
               </div>
-              <div className="rounded-lg border border-emerald-100 bg-white p-6 shadow-lg">
+              <div className="rounded-lg border border-brand-subtle bg-white p-6 shadow-lg">
                 <div className="mb-2 flex items-center space-x-2">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-100 font-bold text-emerald-800">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-subtle font-bold text-brand-strong">
                     {index + 1}
                   </div>
-                  <h3 className="text-xl font-bold text-emerald-800">{step.title}</h3>
+                  <h3 className="text-xl font-bold text-brand-strong">{step.title}</h3>
                 </div>
-                <p className="text-emerald-600">{step.description}</p>
+                <p className="text-brand">{step.description}</p>
                 {index < steps.length - 1 && (
                   <div className="mt-4 flex justify-end">
-                    <ArrowRight className="h-5 w-5 text-emerald-500" />
+                    <ArrowRight className="h-5 w-5 text-brand" />
                   </div>
                 )}
               </div>

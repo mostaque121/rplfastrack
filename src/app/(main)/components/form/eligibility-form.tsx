@@ -232,7 +232,7 @@ export function EligibilityForm({
             </DialogHeader>
 
             {/* Progress indicator */}
-            <div className="mb-4 h-2.5 w-full rounded-full bg-gray-200 dark:bg-gray-700">
+            <div className="mb-4 h-2.5 w-full rounded-full bg-gray-200">
               <div
                 className="h-2.5 rounded-full bg-green-600 transition-all duration-300"
                 style={{ width: step === 1 ? "50%" : "100%" }}
@@ -382,7 +382,7 @@ export function EligibilityForm({
 
                   <div className="flex justify-end pt-4">
                     <Button
-                      className="bg-emerald-600 hover:bg-emerald-700"
+                      className="bg-brand hover:bg-brand-strong"
                       type="button"
                       onClick={handleNext}
                     >
@@ -450,7 +450,7 @@ export function EligibilityForm({
                       Back
                     </Button>
                     <Button
-                      className="bg-emerald-600 hover:bg-emerald-700"
+                      className="bg-cta hover:bg-cta-strong"
                       type="submit"
                       disabled={isSubmitting}
                     >

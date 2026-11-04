@@ -131,7 +131,7 @@ export default async function Page({ params }: { params: Promise<{ link: string 
       {section.intro && (
         <section className="w-full bg-white py-12 md:py-16">
           <div className="container mx-auto max-w-3xl px-4 md:px-8">
-            <h2 className="mb-4 text-2xl font-bold text-emerald-700 md:text-3xl">
+            <h2 className="mb-4 text-2xl font-bold text-brand md:text-3xl">
               RPL for {section.title}
             </h2>
             <RichText html={section.intro} />

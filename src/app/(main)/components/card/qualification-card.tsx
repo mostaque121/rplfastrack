@@ -13,7 +13,7 @@ export default function RelatedQualificationCard({
   qualification: qualification;
 }) {
   return (
-    <div className="group flex h-full flex-col overflow-hidden rounded-xl border border-emerald-100 bg-white shadow-sm transition-all duration-300 hover:border-emerald-400 hover:shadow-md">
+    <div className="group flex h-full flex-col overflow-hidden rounded-xl border border-brand-subtle bg-white shadow-sm transition-all duration-300 hover:border-brand hover:shadow-md">
       <Link
         prefetch={false}
         href={`/courses/${qualification.link}`}
@@ -34,7 +34,7 @@ export default function RelatedQualificationCard({
 
       <div className="flex flex-1 flex-col p-4 pt-2">
         <Link prefetch={false} href={`/courses/${qualification.link}`} className="block flex-1">
-          <h3 className="text-sm font-bold text-gray-800 transition-colors group-hover:text-emerald-600">
+          <h3 className="text-sm font-bold text-ink transition-colors group-hover:text-brand">
             {qualification.title}
           </h3>
         </Link>
@@ -44,7 +44,7 @@ export default function RelatedQualificationCard({
         <Link
           prefetch={false}
           href={`/courses/${qualification.link}`}
-          className="block w-full rounded-lg bg-emerald-600 py-1.5 text-center text-sm font-medium text-white transition-colors hover:bg-emerald-700"
+          className="block w-full rounded-lg bg-brand py-1.5 text-center text-sm font-medium text-white transition-colors hover:bg-brand-strong"
         >
           View Course
         </Link>

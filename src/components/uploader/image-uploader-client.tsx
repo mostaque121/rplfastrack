@@ -179,7 +179,7 @@ export function ImageUploaderClient({
       {uploading && (
         <div className="flex h-[250px] w-full flex-col items-center justify-center border-2 border-dashed">
           <p className="mb-2 flex items-center gap-2 text-sm">
-            <Loader2 className="h-7 w-7 animate-spin text-blue-500" />
+            <Loader2 className="h-7 w-7 animate-spin text-brand" />
             Uploading image...
           </p>
           <div className="w-full px-10">

@@ -14,7 +14,7 @@ const StarRating: React.FC<StarRatingProps> = ({ error, rating, setRating }) => 
   };
 
   return (
-    <div className="flex flex-col items-center rounded-lg bg-gradient-to-r from-emerald-500 to-teal-600 p-6 shadow-lg">
+    <div className="flex flex-col items-center rounded-lg bg-gradient-to-r from-brand to-brand-strong p-6 shadow-lg">
       <label className="mb-4 block text-lg font-medium text-white">Rate the Course</label>
       <div className="mb-2 flex space-x-2">
         {[...Array(5)].map((_, index) => (

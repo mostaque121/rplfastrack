@@ -29,9 +29,9 @@ const steps = [
 
 export default function RPLTimeline() {
   return (
-    <section className="bg-[#F5F7FA] py-16 md:py-24">
+    <section className="bg-surface py-16 md:py-24">
       <div className="container mx-auto px-4 md:px-8">
-        <h2 className="mt-4 text-center text-3xl font-bold text-emerald-600">RPL Process</h2>
+        <h2 className="mt-4 text-center text-3xl font-bold text-brand">RPL Process</h2>
         <VerticalTimeline lineColor="#059669">
           {steps.map((step, index) => (
             <VerticalTimelineElement

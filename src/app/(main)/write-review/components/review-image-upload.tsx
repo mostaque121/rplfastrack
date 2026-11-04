@@ -53,7 +53,7 @@ const ReviewImageUpload: React.FC<ReviewImageUploadProps> = ({
   };
 
   return (
-    <div className="flex flex-col items-center justify-center rounded-lg bg-gradient-to-r from-emerald-500 to-teal-500 p-6 shadow-lg">
+    <div className="flex flex-col items-center justify-center rounded-lg bg-gradient-to-r from-brand to-brand-strong p-6 shadow-lg">
       {!reviewImageUrl ? (
         <>
           <input
@@ -66,7 +66,7 @@ const ReviewImageUpload: React.FC<ReviewImageUploadProps> = ({
 
           <label
             htmlFor="reviewImage"
-            className="flex transform cursor-pointer items-center justify-center rounded-lg bg-white px-8 py-4 text-gray-800 shadow-lg transition duration-300 hover:scale-105 hover:bg-gray-100"
+            className="flex transform cursor-pointer items-center justify-center rounded-lg bg-white px-8 py-4 text-ink shadow-lg transition duration-300 hover:scale-105 hover:bg-gray-100"
           >
             <FaUpload className="mr-2 text-purple-600" />
             <span className="font-semibold">Add an image to review</span>

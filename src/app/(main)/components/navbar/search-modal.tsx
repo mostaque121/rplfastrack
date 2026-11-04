@@ -165,7 +165,7 @@ export default function SearchModal({ open, onOpenChange }: SearchModalProps) {
                         }}
                         className="flex cursor-pointer items-center gap-2 py-2"
                       >
-                        <Icon className="h-4 w-4 text-emerald-500" />
+                        <Icon className="h-4 w-4 text-brand" />
                         <span>{item.title} </span>
                       </CommandItem>
                     </Link>

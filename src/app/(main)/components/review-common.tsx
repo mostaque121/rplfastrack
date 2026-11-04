@@ -10,9 +10,9 @@ export default async function ReviewCommon() {
           <div className="mb-10 flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                What Our Clients <span className="text-emerald-600">Say</span>
+                What Our Clients <span className="text-brand">Say</span>
               </h2>
-              <p className="max-w-[700px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
+              <p className="max-w-[700px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                 Hear from individuals who have successfully qualified through our RPL services.
               </p>
             </div>

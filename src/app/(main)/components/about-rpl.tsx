@@ -11,13 +11,13 @@ export default function AboutRpl() {
         <div className="grid items-center gap-8 md:grid-cols-2 lg:gap-12">
           {/* Text Content - Now on the left */}
           <div className="space-y-6">
-            <span className="text-sm font-semibold tracking-wider text-emerald-600 uppercase">
+            <span className="text-sm font-semibold tracking-wider text-brand uppercase">
               Recognition of Prior Learning
             </span>
 
             <h2 className="mb-6 text-3xl leading-tight font-bold md:text-4xl">
               Turn Your Experience Into Recognized{" "}
-              <span className="text-emerald-600">Qualifications</span>
+              <span className="text-brand">Qualifications</span>
             </h2>
 
             <div className="space-y-4 text-muted-foreground">
@@ -41,7 +41,7 @@ export default function AboutRpl() {
                   "Identify skill gaps to focus your professional development",
                 ].map((benefit, index) => (
                   <li key={index} className="flex items-start">
-                    <CheckCircle2 className="mt-0.5 mr-2 h-5 w-5 flex-shrink-0 text-emerald-600" />
+                    <CheckCircle2 className="mt-0.5 mr-2 h-5 w-5 flex-shrink-0 text-brand" />
                     <span>{benefit}</span>
                   </li>
                 ))}
@@ -51,7 +51,7 @@ export default function AboutRpl() {
                 <Link prefetch={false} href="/about-rpl">
                   <Button
                     size="lg"
-                    className="group bg-gradient-to-r from-emerald-600 to-teal-600 text-white"
+                    className="group bg-gradient-to-r from-brand to-brand-strong text-white"
                   >
                     Discover How RPL Works
                     <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -136,7 +136,7 @@ export default function AboutRpl() {
               </div>
 
               {/* Testimonial Box */}
-              <div className="b col-span-3 row-span-2 flex flex-col justify-center rounded-xl bg-gradient-to-br from-emerald-600 to-teal-700 p-4 shadow-lg">
+              <div className="b col-span-3 row-span-2 flex flex-col justify-center rounded-xl bg-gradient-to-br from-brand to-brand-strong p-4 shadow-lg">
                 <p className="text-xs text-white italic md:text-sm">
                   RPL transformed my 12 years of experience into a formal qualification, opening
                   doors I never thought possible.

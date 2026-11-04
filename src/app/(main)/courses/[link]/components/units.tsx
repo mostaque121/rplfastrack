@@ -12,7 +12,7 @@ const Units = ({ coreUnits, electiveUnits }: { coreUnits: string; electiveUnits:
     <div>
       <div className="mb-4">
         <h3
-          className="mb-2 flex cursor-pointer items-center justify-between text-base font-semibold text-gray-800 transition-colors duration-300 hover:text-emerald-600 sm:text-xl"
+          className="mb-2 flex cursor-pointer items-center justify-between text-base font-semibold text-ink transition-colors duration-300 hover:text-brand sm:text-xl"
           onClick={() => setCoreUnitsOpen(!isCoreUnitsOpen)}
         >
           <span className="flex items-center">
@@ -37,7 +37,7 @@ const Units = ({ coreUnits, electiveUnits }: { coreUnits: string; electiveUnits:
 
       <div>
         <h2
-          className="mb-2 flex cursor-pointer items-center justify-between text-base font-semibold text-gray-800 transition-colors duration-300 hover:text-emerald-600 sm:text-xl"
+          className="mb-2 flex cursor-pointer items-center justify-between text-base font-semibold text-ink transition-colors duration-300 hover:text-brand sm:text-xl"
           onClick={() => setElectiveUnitsOpen(!isElectiveUnitsOpen)}
         >
           <span className="flex items-center">

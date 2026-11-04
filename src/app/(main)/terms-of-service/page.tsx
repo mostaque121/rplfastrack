@@ -17,13 +17,13 @@ export default function TermsOfService() {
     <div className="bg-white">
       <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:py-16">
         <div className="mb-12 text-center">
-          <h1 className="text-3xl font-bold text-gray-900 sm:text-4xl">Terms of Service</h1>
+          <h1 className="text-3xl font-bold text-ink sm:text-4xl">Terms of Service</h1>
           <p className="mt-4 text-lg text-gray-600">Last Updated: March 13, 2026</p>
         </div>
 
         <div className="prose prose-lg max-w-none text-gray-700">
           <section className="mb-8">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">1. Introduction</h2>
+            <h2 className="mb-4 text-2xl font-semibold text-ink">1. Introduction</h2>
             <p>
               Welcome to RPL Fast Track. These Terms of Service (&quot;Terms&quot;) govern your use
               of our website and services. By accessing our website or using our services, you agree
@@ -33,7 +33,7 @@ export default function TermsOfService() {
           </section>
 
           <section className="mb-8">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">2. Definitions</h2>
+            <h2 className="mb-4 text-2xl font-semibold text-ink">2. Definitions</h2>
             <p>Throughout these Terms, the following definitions apply:</p>
             <ul className="mb-4 list-disc pl-6">
               <li>
@@ -58,7 +58,7 @@ export default function TermsOfService() {
           </section>
 
           <section className="mb-8">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">3. Services</h2>
+            <h2 className="mb-4 text-2xl font-semibold text-ink">3. Services</h2>
             <p>
               RPL Fast Track provides Recognition of Prior Learning assessment services to help
               individuals obtain formal qualifications based on their existing skills, knowledge,
@@ -74,7 +74,7 @@ export default function TermsOfService() {
           </section>
 
           <section className="mb-8">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">4. User Responsibilities</h2>
+            <h2 className="mb-4 text-2xl font-semibold text-ink">4. User Responsibilities</h2>
             <p>When using our services, you agree to:</p>
             <ul className="mb-4 list-disc pl-6">
               <li>Provide accurate, truthful, and complete information</li>
@@ -87,7 +87,7 @@ export default function TermsOfService() {
           </section>
 
           <section className="mb-8">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">5. Intellectual Property</h2>
+            <h2 className="mb-4 text-2xl font-semibold text-ink">5. Intellectual Property</h2>
             <p>
               All content on our website, including text, graphics, logos, images, audio clips,
               digital downloads, data compilations, and software, is the property of RPL Fast Track
@@ -102,7 +102,7 @@ export default function TermsOfService() {
           </section>
 
           <section className="mb-8">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">6. Privacy</h2>
+            <h2 className="mb-4 text-2xl font-semibold text-ink">6. Privacy</h2>
             <p>
               Your privacy is important to us. Our Privacy Policy, which is incorporated into these
               Terms by reference, explains how we collect, use, and protect your personal
@@ -112,7 +112,7 @@ export default function TermsOfService() {
           </section>
 
           <section className="mb-8">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">7. Payment Terms</h2>
+            <h2 className="mb-4 text-2xl font-semibold text-ink">7. Payment Terms</h2>
             <p>
               Payment for our services must be made according to the pricing and payment terms
               specified at the time of engagement. All fees are in Australian Dollars (AUD) unless
@@ -126,7 +126,7 @@ export default function TermsOfService() {
               Refunds are subject to our{" "}
               <Link
                 href="/refund-policy"
-                className="font-medium text-emerald-600 hover:text-emerald-800"
+                className="font-medium text-brand hover:text-brand-strong"
               >
                 Refund Policy
               </Link>
@@ -135,7 +135,7 @@ export default function TermsOfService() {
           </section>
 
           <section className="mb-8">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">8. Refund Policy</h2>
+            <h2 className="mb-4 text-2xl font-semibold text-ink">8. Refund Policy</h2>
             <p>
               RPL Fast Track maintains a clear and transparent Refund Policy that governs all refund
               requests in relation to our services. By engaging our services and making payment, you
@@ -166,7 +166,7 @@ export default function TermsOfService() {
               For full details, please review our{" "}
               <Link
                 href="/refund-policy"
-                className="font-medium text-emerald-600 hover:text-emerald-800"
+                className="font-medium text-brand hover:text-brand-strong"
               >
                 Refund Policy
               </Link>
@@ -175,9 +175,7 @@ export default function TermsOfService() {
           </section>
 
           <section className="mb-8">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">
-              9. Limitation of Liability
-            </h2>
+            <h2 className="mb-4 text-2xl font-semibold text-ink">9. Limitation of Liability</h2>
             <p>
               To the maximum extent permitted by law, RPL Fast Track shall not be liable for any
               indirect, incidental, special, consequential, or punitive damages, or any loss of
@@ -199,7 +197,7 @@ export default function TermsOfService() {
           </section>
 
           <section className="mb-8">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">10. Indemnification</h2>
+            <h2 className="mb-4 text-2xl font-semibold text-ink">10. Indemnification</h2>
             <p>
               You agree to defend, indemnify, and hold harmless RPL Fast Track, its officers,
               directors, employees, and agents, from and against any claims, liabilities, damages,
@@ -210,7 +208,7 @@ export default function TermsOfService() {
           </section>
 
           <section className="mb-8">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">11. Termination</h2>
+            <h2 className="mb-4 text-2xl font-semibold text-ink">11. Termination</h2>
             <p>
               We may terminate or suspend your access to our services immediately, without prior
               notice or liability, for any reason whatsoever, including, without limitation, if you
@@ -223,7 +221,7 @@ export default function TermsOfService() {
           </section>
 
           <section className="mb-8">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">12. Governing Law</h2>
+            <h2 className="mb-4 text-2xl font-semibold text-ink">12. Governing Law</h2>
             <p>
               These Terms shall be governed by and construed in accordance with the laws of
               Australia. Any dispute arising under these Terms shall be subject to the exclusive
@@ -232,7 +230,7 @@ export default function TermsOfService() {
           </section>
 
           <section className="mb-8">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">13. Changes to Terms</h2>
+            <h2 className="mb-4 text-2xl font-semibold text-ink">13. Changes to Terms</h2>
             <p>
               We reserve the right to modify these Terms at any time. We will provide notice of any
               significant changes by posting the new Terms on our website and updating the
@@ -242,7 +240,7 @@ export default function TermsOfService() {
           </section>
 
           <section>
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">14. Contact Us</h2>
+            <h2 className="mb-4 text-2xl font-semibold text-ink">14. Contact Us</h2>
             <p>If you have any questions about these Terms, please contact us at:</p>
             <div className="mt-4">
               <p>
@@ -253,7 +251,7 @@ export default function TermsOfService() {
                 <Link
                   prefetch={false}
                   href={contactInfo.emailHref}
-                  className="text-emerald-600 hover:text-emerald-800"
+                  className="text-brand hover:text-brand-strong"
                 >
                   {contactInfo.email}
                 </Link>
@@ -263,7 +261,7 @@ export default function TermsOfService() {
                 <Link
                   prefetch={false}
                   href={contactInfo.phoneHref}
-                  className="text-emerald-600 hover:text-emerald-800"
+                  className="text-brand hover:text-brand-strong"
                 >
                   {contactInfo.phone}
                 </Link>

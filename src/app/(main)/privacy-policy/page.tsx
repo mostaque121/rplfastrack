@@ -17,13 +17,13 @@ export default function PrivacyPolicy() {
     <div className="bg-white">
       <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:py-16">
         <div className="mb-12 text-center">
-          <h1 className="text-3xl font-bold text-gray-900 sm:text-4xl">Privacy Policy</h1>
+          <h1 className="text-3xl font-bold text-ink sm:text-4xl">Privacy Policy</h1>
           <p className="mt-4 text-lg text-gray-600">Last Updated: May 10, 2025</p>
         </div>
 
         <div className="prose prose-lg max-w-none text-gray-700">
           <section className="mb-8">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">1. Introduction</h2>
+            <h2 className="mb-4 text-2xl font-semibold text-ink">1. Introduction</h2>
             <p>
               At RPL Fast Track (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;), we respect
               your privacy and are committed to protecting your personal information. This Privacy
@@ -37,9 +37,9 @@ export default function PrivacyPolicy() {
           </section>
 
           <section className="mb-8">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">2. Information We Collect</h2>
+            <h2 className="mb-4 text-2xl font-semibold text-ink">2. Information We Collect</h2>
 
-            <h3 className="mb-3 text-xl font-medium text-gray-900">2.1 Personal Information</h3>
+            <h3 className="mb-3 text-xl font-medium text-ink">2.1 Personal Information</h3>
             <p>We may collect personal information that you voluntarily provide to us when you:</p>
             <ul className="mb-4 list-disc pl-6">
               <li>Register for an account</li>
@@ -53,7 +53,7 @@ export default function PrivacyPolicy() {
               choose to provide.
             </p>
 
-            <h3 className="mb-3 text-xl font-medium text-gray-900">
+            <h3 className="mb-3 text-xl font-medium text-ink">
               2.2 Automatically Collected Information
             </h3>
             <p>
@@ -70,9 +70,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section className="mb-8">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">
-              3. How We Use Your Information
-            </h2>
+            <h2 className="mb-4 text-2xl font-semibold text-ink">3. How We Use Your Information</h2>
             <p>We may use the information we collect for various purposes, including to:</p>
             <ul className="mb-4 list-disc pl-6">
               <li>Provide, operate, and maintain our services</li>
@@ -93,7 +91,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section className="mb-8">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">
+            <h2 className="mb-4 text-2xl font-semibold text-ink">
               4. Disclosure of Your Information
             </h2>
             <p>We may share your information in the following situations:</p>
@@ -120,7 +118,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section className="mb-8">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">5. Your Privacy Rights</h2>
+            <h2 className="mb-4 text-2xl font-semibold text-ink">5. Your Privacy Rights</h2>
             <p>
               Depending on your location, you may have certain rights regarding your personal
               information, including:
@@ -140,7 +138,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section className="mb-8">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">6. Data Security</h2>
+            <h2 className="mb-4 text-2xl font-semibold text-ink">6. Data Security</h2>
             <p>
               We implement appropriate technical and organizational measures to protect the security
               of your personal information. However, please be aware that no method of transmission
@@ -150,7 +148,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section className="mb-8">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">
+            <h2 className="mb-4 text-2xl font-semibold text-ink">
               7. Changes to This Privacy Policy
             </h2>
             <p>
@@ -162,7 +160,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">8. Contact Us</h2>
+            <h2 className="mb-4 text-2xl font-semibold text-ink">8. Contact Us</h2>
             <p>
               If you have questions or concerns about this Privacy Policy or our practices, please
               contact us at:
@@ -176,7 +174,7 @@ export default function PrivacyPolicy() {
                 <Link
                   prefetch={false}
                   href={contactInfo.emailHref}
-                  className="text-emerald-600 hover:text-emerald-800"
+                  className="text-brand hover:text-brand-strong"
                 >
                   {contactInfo.email}
                 </Link>
@@ -186,7 +184,7 @@ export default function PrivacyPolicy() {
                 <Link
                   prefetch={false}
                   href={contactInfo.phoneHref}
-                  className="text-emerald-600 hover:text-emerald-800"
+                  className="text-brand hover:text-brand-strong"
                 >
                   {contactInfo.phone}
                 </Link>
