@@ -345,12 +345,13 @@ export async function saveSection(
     ...values,
     intro: sanitizeRichText(values.intro) || null,
     imageAlt: values.imageAlt || null,
+    icon: values.icon || null,
   };
 
   const existing = id
     ? await prisma.section.findUnique({
         where: { id },
-        select: { id: true, link: true, title: true },
+        select: { id: true, link: true, title: true, icon: true },
       })
     : null;
   if (id && !existing) return { success: false, message: "Section not found" };
@@ -395,8 +396,12 @@ export async function saveSection(
   updateTag(CACHE_TAGS.section(data.link));
   if (existing) {
     updateTag(CACHE_TAGS.section(existing.link));
-    // Course pages show their section's title and link
-    if (existing.link !== data.link || existing.title !== data.title) {
+    // Course pages show their section's title, link and icon
+    if (
+      existing.link !== data.link ||
+      existing.title !== data.title ||
+      existing.icon !== data.icon
+    ) {
       updateTag(CACHE_TAGS.courses);
     }
     if (existing.link !== data.link) updateTag(CACHE_TAGS.redirects);

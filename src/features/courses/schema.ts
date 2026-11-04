@@ -91,6 +91,7 @@ export const sectionEditorSchema = z.object({
   link: slugSchema,
   index: z.number().int().min(1),
   ...imageFields,
+  icon: z.string().trim().max(60),
   intro: richText,
   ...seoFields,
   faqs: z.array(faqSchema).max(30),

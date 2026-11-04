@@ -2,6 +2,7 @@ import { Course, WithContext } from "schema-dts";
 import striptags from "striptags";
 
 import { DraftPreviewBanner } from "@/components/admin/draft-preview-banner";
+import { FaqSection, faqPageSchema } from "@/components/faq/faq-section";
 import { SITE_URL, siteConfig } from "@/config/site";
 import { listSections, getCourseForPage, getSectionByLink } from "@/features/courses/queries";
 import { redirectOrNotFound } from "@/features/courses/redirects";
@@ -47,7 +48,7 @@ export async function generateMetadata({ params }: { params: Promise<{ link: str
             url: data.imageCoverLink,
             width: 1200,
             height: 630,
-            alt: `${data.title} course image`,
+            alt: data.imageAlt || `${data.title} course image`,
           },
         ],
       },
@@ -91,8 +92,9 @@ export default async function Page({ params }: { params: Promise<{ link: string 
     "@context": "https://schema.org",
     "@type": "Course",
     name: course.title,
+    ...(course.code && { courseCode: course.code }),
     url: absoluteUrl(`/courses/${course.link}`),
-    description: striptags(course.description),
+    description: striptags(course.heroIntro || course.description).trim(),
     inLanguage: siteConfig.language,
     image: [course.imageCoverLink, course.imageSquareLink],
     provider: organization,
@@ -167,8 +169,15 @@ export default async function Page({ params }: { params: Promise<{ link: string 
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
+      {course.faqs.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPageSchema(course.faqs)) }}
+        />
+      )}
       <QualificationHeroSection data={course} section={course.section} />
       <QualificationContent data={course} />
+      <FaqSection title={`${course.title}: FAQs`} faqs={course.faqs} />
       <RelatedCourses qualifications={section?.courses} industryLink={course.section.link} />
       <EligibilityForRPLSimple />
       <DocumentsNeed />

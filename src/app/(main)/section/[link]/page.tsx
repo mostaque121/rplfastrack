@@ -1,5 +1,7 @@
 import { BreadcrumbList, CollectionPage, WithContext } from "schema-dts";
 
+import { FaqSection, faqPageSchema } from "@/components/faq/faq-section";
+import { RichText } from "@/components/rich-text/rich-text";
 import { SITE_URL } from "@/config/site";
 import { listSections, getSectionByLink } from "@/features/courses/queries";
 import { redirectOrNotFound } from "@/features/courses/redirects";
@@ -23,7 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ link: str
     }
 
     return {
-      title: `${data.title}`,
+      title: data.metaTitle || data.title,
       description: `${data.metaDescription}`,
       alternates: {
         canonical: absoluteUrl(`/section/${link}`),
@@ -75,8 +77,7 @@ export default async function Page({ params }: { params: Promise<{ link: string 
     "@type": "CollectionPage",
     name: `${section.title} | RPL Fast Track`,
     url: absoluteUrl(`/section/${section.link}`),
-    description:
-      "Find Recognition of Prior Learning (RPL) courses related to Community Services industry.",
+    description: section.metaDescription,
     about: {
       "@type": "Thing",
       name: section.title,
@@ -118,8 +119,26 @@ export default async function Page({ params }: { params: Promise<{ link: string 
         dangerouslySetInnerHTML={{ __html: JSON.stringify(sectionBreadcrumb) }}
       />
 
+      {section.faqs.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPageSchema(section.faqs)) }}
+        />
+      )}
+
       <HeroSection data={section} />
       <CaregoryQualifications qualifications={section.courses} />
+      {section.intro && (
+        <section className="w-full bg-white py-12 md:py-16">
+          <div className="container mx-auto max-w-3xl px-4 md:px-8">
+            <h2 className="mb-4 text-2xl font-bold text-emerald-700 md:text-3xl">
+              RPL for {section.title}
+            </h2>
+            <RichText html={section.intro} />
+          </div>
+        </section>
+      )}
+      <FaqSection title={`${section.title}: FAQs`} faqs={section.faqs} />
       <RelatedIndustry industries={allSections} />
       <EligibilityForRPL />
       <RPLTimeline />

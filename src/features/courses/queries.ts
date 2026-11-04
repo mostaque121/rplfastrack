@@ -29,6 +29,7 @@ export const listSections = cache(
           index: true,
           imageSquareLink: true,
           imageCoverLink: true,
+          icon: true,
           updatedAt: true,
           courses: {
             select: {
@@ -64,7 +65,18 @@ const courseSelect = {
   packagingRule: true,
   coreUnits: true,
   electiveUnits: true,
-  section: { select: { title: true, link: true } },
+  code: true,
+  heroIntro: true,
+  whoIsItFor: true,
+  evidenceExamples: true,
+  licensingInfo: true,
+  duration: true,
+  deliveryMode: true,
+  imageAlt: true,
+  qualificationStatus: true,
+  replacedBy: { select: { title: true, link: true, status: true } },
+  faqs: { select: { id: true, question: true, answer: true }, orderBy: { index: "asc" } },
+  section: { select: { title: true, link: true, icon: true } },
 } as const;
 
 export const getCourseByLink = cache((link: string) =>
@@ -91,8 +103,13 @@ export const getSectionByLink = cache((link: string) =>
         select: {
           title: true,
           link: true,
+          metaTitle: true,
           metaDescription: true,
           imageCoverLink: true,
+          imageAlt: true,
+          icon: true,
+          intro: true,
+          faqs: { select: { id: true, question: true, answer: true }, orderBy: { index: "asc" } },
           courses: {
             select: { id: true, title: true, link: true, imageSquareLink: true },
             where: published,

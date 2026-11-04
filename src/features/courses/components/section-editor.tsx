@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Trash2 } from "lucide-react";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { FieldErrors, FormProvider, useForm, useWatch } from "react-hook-form";
@@ -9,7 +10,14 @@ import { toast } from "sonner";
 
 import { DeleteDialog } from "@/components/custom-ui/delete-dialog";
 import { Button } from "@/components/ui/button";
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -18,8 +26,14 @@ import { SectionEditorValues, sectionEditorSchema, slugify } from "../schema";
 import { FaqEditor, ImageFields, RichTextField, SeoFields, SlugField } from "./editor-fields";
 import { SaveBar } from "./save-bar";
 
+// Loads every Lucide icon, so only when the editor opens
+const IconPicker = dynamic(() => import("@/components/icon/icon-picker"), {
+  ssr: false,
+  loading: () => <div className="h-9 w-44 animate-pulse rounded-md border bg-muted/40" />,
+});
+
 const TAB_FIELDS: Record<string, string[]> = {
-  basics: ["title", "link", "index", "imageSquareLink", "imageCoverLink", "imageAlt"],
+  basics: ["title", "link", "index", "icon", "imageSquareLink", "imageCoverLink", "imageAlt"],
   intro: ["intro"],
   faqs: ["faqs"],
   seo: ["metaTitle", "metaDescription"],
@@ -150,6 +164,22 @@ export function SectionEditor({
                       {...field}
                       onChange={(e) => field.onChange(Number(e.target.value) || 1)}
                     />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="icon"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Icon</FormLabel>
+                  <FormDescription>
+                    Shown next to the section name on the section, course and courses pages.
+                  </FormDescription>
+                  <FormControl>
+                    <IconPicker value={field.value ?? ""} onChange={field.onChange} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

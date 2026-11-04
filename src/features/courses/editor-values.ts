@@ -60,6 +60,7 @@ export function toSectionEditorValues(
     imageCoverLink: section?.imageCoverLink ?? "",
     imageCoverPublicId: section?.imageCoverPublicId ?? "",
     imageAlt: section?.imageAlt ?? "",
+    icon: section?.icon ?? "",
     intro: section?.intro ?? "",
     metaTitle: section?.metaTitle ?? "",
     metaDescription: section?.metaDescription ?? "",

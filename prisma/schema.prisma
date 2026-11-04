@@ -103,6 +103,7 @@ model Section {
   metaTitle String? // SEO title; `title` stays the display title
   intro     String? // rich text, 200–400 words of section content
   imageAlt  String?
+  icon      String? // Lucide icon name, e.g. "HardHat"
   faqs      Faq[]
 }
 

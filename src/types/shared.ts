@@ -29,6 +29,7 @@ export type Section = {
   index: number;
   title: string;
   link: string;
+  icon?: string | null;
   courses?: Course[];
   updatedAt: Date;
 };

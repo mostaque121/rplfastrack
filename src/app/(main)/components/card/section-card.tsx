@@ -2,6 +2,7 @@ import { ArrowRight, GraduationCapIcon as Graduation } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
+import { LucideIcon } from "@/components/icon/lucide-icon";
 import { Button } from "@/components/ui/button";
 import { Section } from "@/types/shared";
 
@@ -18,7 +19,7 @@ export default function SectionCard({ section }: SectionCardProps) {
             <Image
               src={section.imageSquareLink}
               sizes="(min-width: 768px) 256px, 100vw"
-              alt="Section Image"
+              alt={section.title}
               width={720}
               height={720}
               className="h-full w-full object-cover transition-all duration-500 group-hover:scale-110"
@@ -28,7 +29,8 @@ export default function SectionCard({ section }: SectionCardProps) {
 
         <div className="flex flex-col justify-between px-6 py-4">
           <Link prefetch={false} href={`section/${section.link}`}>
-            <h3 className="text-2xl font-bold text-gray-800 transition-colors duration-300 hover:text-emerald-600">
+            <h3 className="flex items-center gap-2 text-2xl font-bold text-gray-800 transition-colors duration-300 hover:text-emerald-700">
+              <LucideIcon name={section.icon} className="size-6 shrink-0 text-emerald-700" />
               {section.title}
             </h3>
           </Link>

@@ -1,10 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { LucideIcon } from "@/components/icon/lucide-icon";
+
 type Industry = {
   link: string;
   title: string;
   imageSquareLink: string;
+  icon?: string | null;
 };
 
 export default function IndustryCard({ industry }: { industry: Industry }) {
@@ -26,7 +29,8 @@ export default function IndustryCard({ industry }: { industry: Industry }) {
 
       <div className="flex flex-1 flex-col p-4 pt-2">
         <Link prefetch={false} href={`/section/${industry.link}`} className="block flex-1">
-          <h3 className="tex-base font-bold text-gray-800 transition-colors group-hover:text-emerald-600">
+          <h3 className="flex items-center gap-2 text-base font-bold text-gray-800 transition-colors group-hover:text-emerald-700">
+            <LucideIcon name={industry.icon} className="size-5 shrink-0 text-emerald-700" />
             {industry.title}
           </h3>
         </Link>
