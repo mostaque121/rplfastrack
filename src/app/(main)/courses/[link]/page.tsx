@@ -1,11 +1,9 @@
-// Styles the Quill-authored course HTML (ql-editor, ql-align-*, ql-indent-*).
-import "react-quill-new/dist/quill.core.css";
-
 import { Course, WithContext } from "schema-dts";
 import striptags from "striptags";
 
+import { DraftPreviewBanner } from "@/components/admin/draft-preview-banner";
 import { SITE_URL, siteConfig } from "@/config/site";
-import { listSections, getCourseByLink, getSectionByLink } from "@/features/courses/queries";
+import { listSections, getCourseForPage, getSectionByLink } from "@/features/courses/queries";
 import { redirectOrNotFound } from "@/features/courses/redirects";
 import { organization, serviceSchema } from "@/lib/seo";
 import { absoluteUrl } from "@/lib/url";
@@ -25,7 +23,7 @@ export async function generateMetadata({ params }: { params: Promise<{ link: str
   const { link } = await params;
 
   try {
-    const data = await getCourseByLink(link);
+    const data = await getCourseForPage(link);
     if (!data) {
       return {};
     }
@@ -85,7 +83,7 @@ export async function generateStaticParams() {
 
 export default async function Page({ params }: { params: Promise<{ link: string }> }) {
   const { link } = await params;
-  const course = await getCourseByLink(link);
+  const course = await getCourseForPage(link);
   if (!course) {
     return redirectOrNotFound(`/courses/${link}`);
   }
@@ -156,6 +154,7 @@ export default async function Page({ params }: { params: Promise<{ link: string 
   const section = await getSectionByLink(course.section.link);
   return (
     <div>
+      <DraftPreviewBanner path={`/courses/${course.link}`} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}

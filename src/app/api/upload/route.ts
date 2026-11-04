@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 
 import { siteConfig } from "@/config/site";
 import { env } from "@/env";
+import { requireAdmin } from "@/server/admin";
 
 cloudinary.config({
   cloud_name: siteConfig.cloudinaryCloudName,
@@ -10,11 +11,25 @@ cloudinary.config({
   api_secret: env.CLOUDINARY_API_SECRET,
 });
 
+// The public review form uploads with these; every other preset is admin-only.
+const PUBLIC_PRESETS = new Set(["avatar", "review-image"]);
+
 export async function POST(req: Request) {
   const formData = await req.formData();
 
   const file = formData.get("file") as File | null;
   const uploadPreset = formData.get("upload_preset") as string | null;
+
+  if (!uploadPreset) {
+    return NextResponse.json({ error: "No upload preset" }, { status: 400 });
+  }
+  if (!PUBLIC_PRESETS.has(uploadPreset)) {
+    try {
+      await requireAdmin();
+    } catch {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+  }
 
   if (!file) {
     return NextResponse.json({ error: "No file provided" }, { status: 400 });

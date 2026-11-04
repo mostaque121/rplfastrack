@@ -1,6 +1,8 @@
 "use client";
 import { useState } from "react";
 
+import { RichText } from "@/components/rich-text/rich-text";
+
 import Units from "./units";
 
 const tabs = [
@@ -49,18 +51,12 @@ export default function QualificationContent({ data }: QualificationProps) {
                 <h2 className="mb-4 text-3xl font-bold text-emerald-600">
                   Qualification Description
                 </h2>
-                <div
-                  className="ql-editor qualification leading-relaxed text-gray-600"
-                  dangerouslySetInnerHTML={{ __html: data.description }}
-                />
+                <RichText html={data.description} />
               </div>
 
               <div>
                 <h2 className="mb-4 text-3xl font-bold text-emerald-600">Packaging Rules</h2>
-                <div
-                  className="ql-editor qualification leading-relaxed text-gray-600"
-                  dangerouslySetInnerHTML={{ __html: data.packagingRule }}
-                />
+                <RichText html={data.packagingRule} />
               </div>
 
               {/* Units Section */}
@@ -74,10 +70,7 @@ export default function QualificationContent({ data }: QualificationProps) {
             <div className="md:pt-8">
               <div>
                 <h2 className="mb-4 text-3xl font-bold text-emerald-600">Entry Requirements</h2>
-                <div
-                  className="ql-editor qualification leading-relaxed text-gray-600"
-                  dangerouslySetInnerHTML={{ __html: data.entryRequirement }}
-                />
+                <RichText html={data.entryRequirement} />
               </div>
             </div>
           )}
@@ -85,10 +78,7 @@ export default function QualificationContent({ data }: QualificationProps) {
             <div className="md:pt-8">
               <div>
                 <h2 className="mb-4 text-3xl font-bold text-emerald-600">Job Opportunities</h2>
-                <div
-                  className="ql-editor space-y-6 leading-relaxed text-gray-600"
-                  dangerouslySetInnerHTML={{ __html: data.jobOpportunity }}
-                />
+                <RichText html={data.jobOpportunity} />
               </div>
             </div>
           )}

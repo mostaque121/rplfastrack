@@ -82,7 +82,7 @@ export async function toggleUserReviewPublish(id: string, approved: boolean) {
       data: { approved: approved },
     });
 
-    revalidatePath("/admin/review");
+    revalidatePath("/admin/content/reviews");
     updateTag(CACHE_TAGS.reviewsAll);
     updateTag(CACHE_TAGS.reviewsCommon);
 
@@ -101,7 +101,7 @@ export async function deleteReview(id: string): Promise<{ success: boolean; erro
       where: { id },
     });
 
-    revalidatePath("/admin/review");
+    revalidatePath("/admin/content/reviews");
     updateTag(CACHE_TAGS.reviewsAll);
     updateTag(CACHE_TAGS.reviewsCommon);
 
@@ -131,7 +131,7 @@ export async function saveReview(input: ReviewFormData) {
         approved: true,
       },
     });
-    revalidatePath("/admin/review");
+    revalidatePath("/admin/content/reviews");
     updateTag(CACHE_TAGS.reviewsAll);
     updateTag(CACHE_TAGS.reviewsCommon);
     return { success: true, message: "Review created successfully." };
@@ -165,7 +165,7 @@ export async function updateReview(reviewId: string, input: ReviewFormData) {
         reviewDate: parsedData.reviewDate,
       },
     });
-    revalidatePath("/admin/review");
+    revalidatePath("/admin/content/reviews");
     updateTag(CACHE_TAGS.reviewsAll);
     updateTag(CACHE_TAGS.reviewsCommon);
     return { success: true, message: "Review updated successfully." };

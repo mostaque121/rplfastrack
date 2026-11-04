@@ -135,82 +135,6 @@
 .response-form-input:focus {
 }
 
-.ql-editor {
-  min-height: 100px;
-  max-height: 400px;
-  overflow-y: auto;
-}
-
-.ck-editor__editable {
-  max-height: 200px;
-  height: 200px;
-}
-
-.qualification li {
-  display: list-item;
-  text-align: -webkit-match-parent;
-  unicode-bidi: isolate;
-}
-
-.qualification ul {
-  display: block;
-  list-style-type: disc;
-  margin-block-start: 1em;
-  margin-block-end: 1em;
-  margin-inline-start: 0px;
-  margin-inline-end: 0px;
-  padding-inline-start: 40px;
-  unicode-bidi: isolate;
-}
-.qualification ol {
-  display: block;
-  list-style-type: decimal;
-  margin-block-start: 1em;
-  margin-block-end: 1em;
-  margin-inline-start: 0px;
-  margin-inline-end: 0px;
-  padding-inline-start: 40px;
-  unicode-bidi: isolate;
-}
-
-.qualification figure.table {
-  width: 100%; /* Ensure the figure takes full width */
-  display: block;
-  margin: 0;
-}
-
-.qualification table {
-  width: 100%; /* Make the table take up full width */
-  border-collapse: collapse; /* Ensure no gaps between cells */
-  table-layout: auto; /* Allow columns to adjust dynamically */
-}
-
-.qualification td,
-.qualification th {
-  border: 1px solid #ddd; /* Light border for cells */
-  padding: 12px 15px; /* Padding inside cells */
-  text-align: left;
-}
-
-.qualification td:first-child {
-  min-width: 150px;
-}
-
-.qualification td:nth-child(2) {
-  width: 10000px;
-}
-
-.qualification td[colspan] {
-  width: 100%; /* Ensure colspan <td> takes full width */
-}
-
-.qualification tr:nth-child(even) {
-  background-color: #f9f9f9; /* Alternate row color */
-}
-
-.qualification tr:hover {
-  background-color: #f1f1f1; /* Hover effect */
-}
 .hero {
   filter: brightness(0.3);
   position: absolute;
@@ -275,5 +199,87 @@
 @media (max-width: 1169px) {
   .vertical-timeline-element-date.custom-date {
     color: #ffffff;
+  }
+}
+
+/* Course and section rich text: one place for the look of all DB content.
+   Used by <RichText> on public pages and inside the admin editor.
+   Phase 2 swaps the raw colours for design tokens. */
+@layer components {
+  .prose-rpl {
+    @apply text-base leading-relaxed text-gray-700;
+  }
+  .prose-rpl > * + * {
+    @apply mt-4;
+  }
+  .prose-rpl h2 {
+    @apply mt-8 text-2xl font-bold text-gray-900 first:mt-0;
+  }
+  .prose-rpl h3 {
+    @apply mt-6 text-xl font-semibold text-gray-900 first:mt-0;
+  }
+  .prose-rpl strong {
+    @apply font-semibold text-gray-900;
+  }
+  .prose-rpl a {
+    @apply font-medium text-emerald-800 underline underline-offset-2 hover:text-emerald-950;
+  }
+  .prose-rpl ul {
+    @apply list-disc space-y-1.5 pl-6;
+  }
+  .prose-rpl ol {
+    @apply list-decimal space-y-1.5 pl-6;
+  }
+  .prose-rpl li > ul,
+  .prose-rpl li > ol {
+    @apply mt-1.5;
+  }
+  .prose-rpl li::marker {
+    @apply text-emerald-700;
+  }
+  /* Not yet migrated Quill HTML: bullets stored as <ol><li data-list="bullet"> */
+  .prose-rpl li[data-list="bullet"] {
+    list-style-type: disc;
+  }
+  .prose-rpl .ql-ui {
+    @apply hidden;
+  }
+  .prose-rpl table {
+    @apply w-full border-collapse overflow-hidden rounded-lg text-left text-sm;
+  }
+  .prose-rpl th {
+    @apply border border-gray-200 bg-gray-50 px-3 py-2 font-semibold text-gray-900;
+  }
+  .prose-rpl td {
+    @apply border border-gray-200 px-3 py-2 align-top;
+  }
+  .prose-rpl tr:nth-child(even) td {
+    @apply bg-gray-50/60;
+  }
+  .prose-rpl td > p,
+  .prose-rpl th > p {
+    @apply m-0;
+  }
+  .prose-rpl aside[data-callout] {
+    @apply rounded-lg border-l-4 px-4 py-3;
+  }
+  .prose-rpl aside[data-callout] > * + * {
+    @apply mt-2;
+  }
+  .prose-rpl aside[data-callout="info"] {
+    @apply border-sky-600 bg-sky-50 text-sky-950;
+  }
+  .prose-rpl aside[data-callout="tip"] {
+    @apply border-emerald-600 bg-emerald-50 text-emerald-950;
+  }
+  .prose-rpl aside[data-callout="warning"] {
+    @apply border-amber-500 bg-amber-50 text-amber-950;
+  }
+  /* Editor only: selected table cells */
+  .prose-rpl .selectedCell {
+    @apply bg-sky-100;
+  }
+  .prose-rpl.ProseMirror table {
+    @apply table-fixed;
   }
 }

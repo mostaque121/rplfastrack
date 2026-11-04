@@ -2,6 +2,8 @@
 import { useState } from "react";
 import { MdExpandMore } from "react-icons/md"; // Import the icons
 
+import { RichText } from "@/components/rich-text/rich-text";
+
 const Units = ({ coreUnits, electiveUnits }: { coreUnits: string; electiveUnits: string }) => {
   const [isCoreUnitsOpen, setCoreUnitsOpen] = useState(false);
   const [isElectiveUnitsOpen, setElectiveUnitsOpen] = useState(false);
@@ -29,10 +31,7 @@ const Units = ({ coreUnits, electiveUnits }: { coreUnits: string; electiveUnits:
             isCoreUnitsOpen ? "" : "max-h-0"
           }`}
         >
-          <div
-            className="ql-editor qualification py-2 text-sm text-gray-600"
-            dangerouslySetInnerHTML={{ __html: coreUnits }}
-          />
+          <RichText className="py-2 text-sm" html={coreUnits} />
         </div>
       </div>
 
@@ -57,10 +56,7 @@ const Units = ({ coreUnits, electiveUnits }: { coreUnits: string; electiveUnits:
             isElectiveUnitsOpen ? "h-auto" : "h-0"
           }`}
         >
-          <div
-            className="ql-editor qualification h-full py-2 text-sm text-gray-600"
-            dangerouslySetInnerHTML={{ __html: electiveUnits }}
-          />
+          <RichText className="h-full py-2 text-sm" html={electiveUnits} />
         </div>
       </div>
     </div>

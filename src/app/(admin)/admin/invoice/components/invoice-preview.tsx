@@ -63,7 +63,7 @@ import {
   serializeForApi,
 } from "../schema";
 
-const RichTextEditor = dynamic(() => import("@/components/custom-ui/rich-text-editor"), {
+const RichTextEditor = dynamic(() => import("@/components/rich-text/editor"), {
   ssr: false,
 });
 
@@ -823,8 +823,9 @@ export default function InvoicePreview({ defaultValues, invoiceId }: Props) {
                             </FormLabel>
                             <FormControl>
                               <RichTextEditor
-                                content={field.value}
-                                onContentChange={(content) => {
+                                value={field.value ?? ""}
+                                aria-label="Email message"
+                                onChange={(content) => {
                                   setEmailMessageTouched(true);
                                   field.onChange(content);
                                 }}

@@ -3,12 +3,14 @@
 import {
   ChartNoAxesCombined,
   FilePlus,
+  FolderTree,
   FileText,
   Globe,
   Inbox,
   LayoutDashboard,
   Star,
   Users,
+  Waypoints,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -24,8 +26,10 @@ const items = [
   { title: "Dashboard", icon: LayoutDashboard, href: "/admin" },
   { title: "Leads", icon: Inbox, href: "/admin/leads" },
   { title: "Analytics", icon: ChartNoAxesCombined, href: "/admin/web-analytics" },
-  { title: "Courses", icon: Globe, href: "/admin/section" },
-  { title: "Reviews", icon: Star, href: "/admin/review" },
+  { title: "Courses", icon: Globe, href: "/admin/content/courses" },
+  { title: "Sections", icon: FolderTree, href: "/admin/content/sections" },
+  { title: "Reviews", icon: Star, href: "/admin/content/reviews" },
+  { title: "Redirects", icon: Waypoints, href: "/admin/content/redirects" },
   { title: "Invoices", icon: FileText, href: "/admin/invoice" },
   { title: "Create Invoice", icon: FilePlus, href: "/admin/invoice/create" },
   { title: "Team", icon: Users, href: "/admin/users" },

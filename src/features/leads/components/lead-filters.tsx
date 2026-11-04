@@ -1,6 +1,7 @@
 import { Download, Search } from "lucide-react";
 import Link from "next/link";
 
+import { NativeSelect } from "@/app/(admin)/_components/native-select";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CrmSyncStatus, LeadForm } from "@/generated/prisma";
@@ -8,9 +9,6 @@ import { CrmSyncStatus, LeadForm } from "@/generated/prisma";
 import { CRM_STATUS_LABELS, LEAD_FORM_LABELS } from "../labels";
 
 import type { LeadFilters as Filters } from "../queries";
-
-export const selectClass =
-  "h-9 rounded-md border border-input bg-transparent px-3 text-sm shadow-xs focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none";
 
 /** A plain GET form: filters live in the URL, so links and the back button work. */
 export function LeadFilters({ filters, exportHref }: { filters: Filters; exportHref: string }) {
@@ -26,32 +24,22 @@ export function LeadFilters({ filters, exportHref }: { filters: Filters; exportH
           className="pl-8"
         />
       </div>
-      <select
-        name="form"
-        defaultValue={filters.form ?? ""}
-        aria-label="Form"
-        className={selectClass}
-      >
+      <NativeSelect name="form" defaultValue={filters.form ?? ""} aria-label="Form">
         <option value="">All forms</option>
         {Object.values(LeadForm).map((form) => (
           <option key={form} value={form}>
             {LEAD_FORM_LABELS[form]}
           </option>
         ))}
-      </select>
-      <select
-        name="status"
-        defaultValue={filters.status ?? ""}
-        aria-label="CRM status"
-        className={selectClass}
-      >
+      </NativeSelect>
+      <NativeSelect name="status" defaultValue={filters.status ?? ""} aria-label="CRM status">
         <option value="">Any CRM status</option>
         {Object.values(CrmSyncStatus).map((status) => (
           <option key={status} value={status}>
             {CRM_STATUS_LABELS[status]}
           </option>
         ))}
-      </select>
+      </NativeSelect>
       <label className="flex flex-col gap-1 text-xs text-muted-foreground">
         From
         <Input type="date" name="from" defaultValue={filters.from} className="w-40" />

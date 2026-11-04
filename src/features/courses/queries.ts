@@ -1,6 +1,7 @@
 import "server-only";
 
 import { unstable_cache } from "next/cache";
+import { draftMode } from "next/headers";
 import { cache } from "react";
 
 import { CACHE_TAGS } from "@/config/cache-tags";
@@ -50,31 +51,37 @@ export const listSections = cache(
   ),
 );
 
+const courseSelect = {
+  title: true,
+  link: true,
+  metaTitle: true,
+  metaDescription: true,
+  imageCoverLink: true,
+  imageSquareLink: true,
+  description: true,
+  jobOpportunity: true,
+  entryRequirement: true,
+  packagingRule: true,
+  coreUnits: true,
+  electiveUnits: true,
+  section: { select: { title: true, link: true } },
+} as const;
+
 export const getCourseByLink = cache((link: string) =>
   unstable_cache(
-    () =>
-      prisma.course.findUnique({
-        where: { link, ...published },
-        select: {
-          title: true,
-          link: true,
-          metaTitle: true,
-          metaDescription: true,
-          imageCoverLink: true,
-          imageSquareLink: true,
-          description: true,
-          jobOpportunity: true,
-          entryRequirement: true,
-          packagingRule: true,
-          coreUnits: true,
-          electiveUnits: true,
-          section: { select: { title: true, link: true } },
-        },
-      }),
+    () => prisma.course.findUnique({ where: { link, ...published }, select: courseSelect }),
     ["course-by-link", link],
     { tags: [CACHE_TAGS.courses, CACHE_TAGS.course(link)] },
   )(),
 );
+
+/** Course page data. In Draft Mode (admins only, see /api/admin/preview)
+ * it reads uncached and includes drafts; otherwise the cached public read. */
+export const getCourseForPage = cache(async (link: string) => {
+  const { isEnabled } = await draftMode();
+  if (!isEnabled) return getCourseByLink(link);
+  return prisma.course.findUnique({ where: { link }, select: courseSelect });
+});
 
 export const getSectionByLink = cache((link: string) =>
   unstable_cache(
