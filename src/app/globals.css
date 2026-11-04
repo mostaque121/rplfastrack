@@ -65,8 +65,8 @@
   --brand-bright: #34d399; /* brand text on ink or dark photos only */
   --ink: #0b1f3a; /* headings; dark bars and footer */
   --surface: #f5f7fa; /* light page sections */
-  --cta: #c2410c; /* primary call to action (white text) */
-  --cta-strong: #9a3412; /* CTA hover */
+  --cta: var(--brand); /* primary call to action (white text) */
+  --cta-strong: var(--brand-strong); /* CTA hover */
   --radius: 0.625rem;
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
