@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { MdStar } from "react-icons/md";
+import { Star } from "lucide-react";
 
 interface Course {
   id: string;
@@ -34,7 +34,7 @@ export default function ReviewCard({ review }: ReviewCardProps) {
   const { userImage, userName, reviewText, reviewImage, givenStar, purchasedCourse, reviewDate } =
     review;
   return (
-    <div className="mb-4 rounded-lg bg-white p-3 text-sm shadow-sm sm:p-6 sm:text-base">
+    <div className="mb-6 rounded-xl border border-gray-200 bg-white p-4 text-sm shadow-sm sm:p-6 sm:text-base">
       {/* User Info */}
       <div className="mb-4 flex items-center">
         <div className="relative mr-3 h-10 w-10 shrink-0 sm:h-12 sm:w-12">
@@ -44,11 +44,11 @@ export default function ReviewCard({ review }: ReviewCardProps) {
               alt={`${userName}'s profile`}
               fill
               className="rounded-full object-cover"
-              sizes="(max-width: 768px) 100vw, 300px"
+              sizes="48px"
             />
           ) : (
-            <div className="flex h-full w-full items-center justify-center rounded-full bg-gray-300">
-              <span className="text-sm font-bold text-indigo-500">{userName.charAt(0)}</span>
+            <div className="flex h-full w-full items-center justify-center rounded-full bg-brand-subtle">
+              <span className="text-sm font-bold text-brand-strong">{userName.charAt(0)}</span>
             </div>
           )}
         </div>
@@ -59,10 +59,12 @@ export default function ReviewCard({ review }: ReviewCardProps) {
           </div>
           {/* Stars */}
           <div className="flex">
+            <span className="sr-only">Rated {givenStar} out of 5</span>
             {[...Array(5)].map((_, index) => (
-              <MdStar
+              <Star
+                aria-hidden
                 key={index}
-                className={`h-4 w-4 ${index < givenStar ? "text-brand" : "text-gray-300"}`}
+                className={`h-4 w-4 ${index < givenStar ? "fill-brand text-brand" : "text-gray-300"}`}
               />
             ))}
           </div>
@@ -72,21 +74,21 @@ export default function ReviewCard({ review }: ReviewCardProps) {
       {/* Course Link */}
       {purchasedCourse && (
         <Link prefetch={false} href={`/courses/${purchasedCourse.link}`}>
-          <p className="mb-3 rounded bg-gray-100 px-2 py-1 text-xs font-medium text-brand transition duration-200 hover:bg-gray-200 sm:text-sm">
+          <p className="mb-3 rounded-lg bg-brand-soft px-3 py-1.5 text-xs font-medium text-brand-strong transition-colors hover:bg-brand-subtle sm:text-sm">
             {purchasedCourse.title}
           </p>
         </Link>
       )}
 
       {/* Review Text */}
-      <p className="text-ink">&quot;{reviewText}&quot;</p>
+      <p className="text-gray-700">&quot;{reviewText}&quot;</p>
 
       {/* Review Image */}
       {reviewImage && (
         <div className="relative mt-3 flex justify-center">
           <Image
             src={reviewImage}
-            alt="Review image"
+            alt={`Photo shared by ${userName}`}
             width={150}
             height={150}
             className="rounded-lg object-contain"

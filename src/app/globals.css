@@ -115,10 +115,10 @@
   }
 }
 .response-form-input {
-  padding: 8px;
   border-width: 1px;
   border-color: #d1d5db;
-  background-color: white;
+  border-radius: 0.5rem;
+  background-color: var(--color-surface);
 }
 .response-form-input:focus {
 }
@@ -131,50 +131,6 @@
   background-size: cover;
 }
 
-.qualification-hero {
-  background-image: url("/qualifications-bg.webp");
-  filter: brightness(0.3);
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background-size: cover;
-  background-position: left;
-}
-.contact-hero {
-  background-image: url("/contact-hero.webp");
-  filter: brightness(0.3);
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background-size: cover;
-  background-position: left;
-}
-.about-us-hero {
-  background-image: url("/about-us-hero.webp");
-  filter: brightness(0.3);
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background-size: cover;
-  background-position: center;
-}
-.about-rpl-hero {
-  background-image: url("/about-rpl-hero.webp");
-  filter: brightness(0.3);
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background-size: cover;
-  background-position: center;
-}
-.faq-hero {
-  background-image: url("/faq-hero.webp");
-  background-position: center;
-}
-.review-hero {
-  background-image: url("/review-hero.webp");
-  background-position: center;
-}
 .auth-bg {
   background-image: url("/home-hero.webp");
   background-position: center;
@@ -235,6 +191,33 @@
   .prose-rpl table {
     @apply w-full border-collapse overflow-hidden rounded-lg text-left text-sm;
   }
+  /* Every table is full width, whatever width the editor saved, so tables in a list line up.
+     The first column (unit code) shrinks to its content; the second takes the rest. */
+  .prose-rpl:not(.ProseMirror) table {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+  .prose-rpl:not(.ProseMirror) colgroup,
+  .prose-rpl:not(.ProseMirror) col {
+    width: auto !important;
+    min-width: 0 !important;
+  }
+  .prose-rpl:not(.ProseMirror) td:first-child:not(:last-child) {
+    width: 1%;
+    white-space: nowrap;
+  }
+  /* The editor wraps tables in <figure class="table">, and Tailwind's .table utility would make
+     that a shrink-wrapped display:table. Make it a normal full-width block. */
+  .prose-rpl figure {
+    display: block;
+    width: 100%;
+    margin: 0;
+    overflow-x: auto;
+  }
+  .prose-rpl .tableWrapper {
+    @apply w-full overflow-x-auto;
+  }
   .prose-rpl th {
     @apply border border-gray-200 bg-gray-50 px-3 py-2 font-semibold text-ink;
   }
@@ -262,6 +245,32 @@
   }
   .prose-rpl aside[data-callout="warning"] {
     @apply border-amber-500 bg-amber-50 text-amber-950;
+  }
+  /* Long-form guide articles: larger type and more air than course blocks */
+  .prose-guide {
+    @apply text-[1.0625rem] leading-[1.8] md:text-lg;
+  }
+  .prose-guide > * + * {
+    @apply mt-5;
+  }
+  .prose-guide h2 {
+    @apply mt-12 scroll-mt-24 border-t border-gray-200 pt-10 text-2xl leading-tight md:text-3xl;
+  }
+  .prose-guide h2:first-child {
+    @apply mt-0 border-t-0 pt-0;
+  }
+  .prose-guide h3 {
+    @apply mt-8 text-xl;
+  }
+  .prose-rpl.prose-guide:not(.ProseMirror) td:first-child:not(:last-child) {
+    width: auto;
+    white-space: normal;
+  }
+  .prose-guide table {
+    @apply text-base;
+  }
+  .prose-guide aside[data-callout] {
+    @apply rounded-xl px-5 py-4;
   }
   /* Editor only: selected table cells */
   .prose-rpl .selectedCell {

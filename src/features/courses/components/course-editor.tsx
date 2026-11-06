@@ -58,8 +58,7 @@ const TABS = {
     "qualificationStatus",
     "replacedById",
     "isPopular",
-    "imageSquareLink",
-    "imageCoverLink",
+    "imageUrl",
     "imageAlt",
   ],
   content: [
@@ -410,7 +409,7 @@ export function CourseEditor({
                   />
                 )}
               </div>
-              <ImageFields<CourseEditorValues> />
+              <ImageFields<CourseEditorValues> description="Optional. Without one, the page shows the section's image." />
             </TabsContent>
 
             <TabsContent

@@ -1,6 +1,7 @@
 import "server-only";
 
-import type { Lead } from "@/generated/prisma";
+import type { Lead } from "@/generated/prisma/client";
+import { formatAuPhone } from "@/lib/phone";
 import { CrmLead, CrmResult, sendLeadToCrm } from "@/server/crm";
 import { prisma } from "@/server/db";
 
@@ -8,6 +9,8 @@ type LeadDetails = {
   industry?: string;
   experience?: string; // label, e.g. "1-3 years"
   state?: string;
+  workStatus?: string;
+  existingQualification?: string;
 };
 
 export type CrmSource = Pick<
@@ -34,7 +37,7 @@ export function leadToCrm(lead: CrmSource): CrmLead {
   const base = {
     submissionId: lead.id,
     name: lead.name,
-    phone: lead.phone,
+    phone: formatAuPhone(lead.phone),
     email: lead.email,
     message: lead.message ?? undefined,
     industry: details.industry,
@@ -43,8 +46,18 @@ export function leadToCrm(lead: CrmSource): CrmLead {
 
   switch (lead.form) {
     case "ELIGIBILITY":
+      // The CRM has no fields for the extra answers yet, so they go in as readable lines.
       return {
         ...base,
+        message:
+          [
+            details.workStatus && `Current role: ${details.workStatus}`,
+            details.existingQualification &&
+              `Existing qualification: ${details.existingQualification}`,
+            lead.message && `Message: ${lead.message}`,
+          ]
+            .filter(Boolean)
+            .join("\n") || undefined,
         form: "eligibility",
         qualification: interest,
         experience: details.experience,

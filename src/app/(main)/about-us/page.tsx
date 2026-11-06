@@ -1,5 +1,6 @@
+import { JsonLd } from "@/components/seo/json-ld";
 import { listSections } from "@/features/courses/queries";
-import { aboutPageBreadcrumb, aboutWebPageSchema, serviceSchema } from "@/lib/seo";
+import { aboutWebPageSchema, breadcrumbSchema, serviceSchema } from "@/lib/seo";
 import { absoluteUrl } from "@/lib/url";
 
 import ContactSection from "../components/contact-common";
@@ -12,7 +13,7 @@ import OurStory from "./components/our-story";
 import WhyChooseUs from "./components/why-choose-us";
 
 export const metadata = {
-  title: "About Us",
+  title: "About Us: RPL Consultants Helping Australians Get Qualified",
   description:
     "RPL Fast Track is committed to helping skilled individuals gain recognition through RPL in Australia. Learn about our mission, team, and values.",
   alternates: {
@@ -37,7 +38,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "About Us - Meet RPL Fast Track",
     description:
-      "Learn about RPL Fast Track’s mission and how we help skilled individuals in Australia get recognized for their experience.",
+      "Learn about RPL Fast Track’s mission and how we help skilled individuals in Australia get recognised for their experience.",
     images: ["/about-us-hero.jpg"],
   },
 };
@@ -46,19 +47,13 @@ export default async function AboutUs() {
   const industries = await listSections();
   return (
     <div>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutWebPageSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(aboutPageBreadcrumb),
-        }}
+      <JsonLd data={serviceSchema} />
+      <JsonLd data={aboutWebPageSchema} />
+      <JsonLd
+        data={breadcrumbSchema([
+          ["Home", "/"],
+          ["About Us", "/about-us"],
+        ])}
       />
       <HeroAboutUs />
       <IntroductionAboutUs />

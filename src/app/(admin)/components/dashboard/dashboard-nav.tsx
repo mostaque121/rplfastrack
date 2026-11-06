@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  BookOpenText,
   ChartNoAxesCombined,
   FilePlus,
   FolderTree,
@@ -28,6 +29,7 @@ const items = [
   { title: "Analytics", icon: ChartNoAxesCombined, href: "/admin/web-analytics" },
   { title: "Courses", icon: Globe, href: "/admin/content/courses" },
   { title: "Sections", icon: FolderTree, href: "/admin/content/sections" },
+  { title: "Guides", icon: BookOpenText, href: "/admin/content/guides" },
   { title: "Reviews", icon: Star, href: "/admin/content/reviews" },
   { title: "Redirects", icon: Waypoints, href: "/admin/content/redirects" },
   { title: "Invoices", icon: FileText, href: "/admin/invoice" },

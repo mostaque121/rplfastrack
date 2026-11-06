@@ -1,15 +1,67 @@
-import { MoveRight } from "lucide-react";
 import { headers } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { auth } from "@/server/auth";
+
 const SIGN_IN_ERRORS: Record<string, string> = {
   signup_disabled: "This Google account isn't authorised.",
   NOT_AUTHORISED: "This Google account isn't authorised.",
   BANNED_USER: "This account has been suspended.",
 };
+
+const buttonBase =
+  "flex h-12 w-full cursor-pointer items-center justify-center gap-3 rounded-lg px-4 text-sm font-semibold transition-colors";
+
+function GoogleIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="size-5" aria-hidden="true">
+      <path
+        fill="#4285F4"
+        d="M23.5 12.27c0-.85-.08-1.67-.22-2.45H12v4.64h6.45a5.52 5.52 0 0 1-2.4 3.62v3h3.88c2.27-2.09 3.57-5.17 3.57-8.81z"
+      />
+      <path
+        fill="#34A853"
+        d="M12 24c3.24 0 5.96-1.07 7.95-2.91l-3.88-3c-1.08.72-2.45 1.15-4.07 1.15-3.13 0-5.78-2.11-6.73-4.95H1.27v3.1A12 12 0 0 0 12 24z"
+      />
+      <path
+        fill="#FBBC05"
+        d="M5.27 14.29A7.2 7.2 0 0 1 4.9 12c0-.8.14-1.57.37-2.29v-3.1H1.27A12 12 0 0 0 0 12c0 1.94.46 3.77 1.27 5.39l4-3.1z"
+      />
+      <path
+        fill="#EA4335"
+        d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.44-3.44C17.95 1.19 15.24 0 12 0A12 12 0 0 0 1.27 6.61l4 3.1C6.22 6.86 8.87 4.75 12 4.75z"
+      />
+    </svg>
+  );
+}
+
+function Shell({ children }: { children: React.ReactNode }) {
+  return (
+    <main className="flex min-h-screen flex-col items-center justify-center bg-surface px-4 py-10">
+      <Link href="/" className="mb-8 flex items-center gap-2">
+        <Image
+          src="/fav.png"
+          alt=""
+          width={512}
+          height={512}
+          sizes="32px"
+          className="h-8 w-auto object-contain"
+        />
+        <span className="font-display text-lg font-bold tracking-tight text-ink">
+          RPL Fast Track
+        </span>
+      </Link>
+      <div className="w-full max-w-sm rounded-2xl border border-brand-subtle bg-white p-8 shadow-sm">
+        {children}
+      </div>
+      <Link href="/" className="mt-6 text-sm text-ink/60 transition-colors hover:text-brand">
+        ← Back to website
+      </Link>
+    </main>
+  );
+}
 
 export default async function page({
   searchParams,
@@ -23,129 +75,85 @@ export default async function page({
   const session = await auth.api.getSession({
     headers: await headers(),
   });
-  if (session?.user)
+
+  if (session?.user) {
     return (
-      <section className="flex h-screen items-center justify-center bg-[#16152f]">
-        <div className="flex flex-col items-center gap-4">
+      <Shell>
+        <div className="flex flex-col items-center text-center">
           {session.user.image && (
-            <div className="mb-6 flex justify-center">
-              <Image
-                src={session.user.image}
-                alt="Admin Profile"
-                width={100}
-                height={100}
-                className="rounded-full border-4 border-indigo-500 shadow-lg"
-              />
-            </div>
+            <Image
+              src={session.user.image}
+              alt=""
+              width={72}
+              height={72}
+              className="mb-4 size-18 rounded-full border-2 border-brand-subtle"
+            />
           )}
+          <h1 className="font-display text-xl font-bold text-ink">Welcome, {session.user.name}</h1>
+          <p className="mt-1 text-sm text-ink/60 capitalize">{session.user.role}</p>
 
-          <h1 className="mb-2 text-3xl font-bold text-white">Welcome, {session.user.name}!</h1>
-          <h2 className="text-lg text-muted">User Role : {session.user.role}</h2>
-
-          {session.user.role !== "user" && (
-            <Link href={"/admin"}>
+          <div className="mt-6 flex w-full flex-col gap-3">
+            {session.user.role !== "user" && (
+              <Link href="/admin" className={`${buttonBase} bg-cta text-white hover:bg-cta-strong`}>
+                Go to dashboard
+              </Link>
+            )}
+            <form
+              action={async () => {
+                "use server";
+                await auth.api.signOut({ headers: await headers() });
+                redirect("/signin");
+              }}
+            >
               <button
                 type="submit"
-                className="clip-path-custom relative z-10 flex cursor-pointer justify-center gap-5 overflow-hidden rounded-full border-2 border-gray-400 p-4 font-bold text-white group-hover:shadow-lg group-hover:shadow-[#32306d] before:absolute before:top-0 before:right-0 before:bottom-0 before:left-0 before:-z-1 before:bg-linear-115 before:from-[#4f4cad] before:to-[#64E9FF] before:transition-all before:duration-500 before:content-['']"
-                title="Google"
+                className={`${buttonBase} border border-ink/15 text-ink hover:bg-surface`}
               >
-                <span>Dashboard</span>
+                Sign out
               </button>
-            </Link>
-          )}
-
-          <form
-            className="group beforeForm"
-            action={async () => {
-              "use server";
-              await auth.api.signOut({
-                headers: await headers(),
-              });
-            }}
-          >
-            <button
-              type="submit"
-              className="clip-path-custom relative z-10 flex cursor-pointer justify-center gap-5 overflow-hidden rounded-full border-2 border-gray-400 p-4 font-bold text-white group-hover:shadow-lg group-hover:shadow-[#32306d] before:absolute before:top-0 before:right-0 before:bottom-0 before:left-0 before:-z-1 before:bg-linear-115 before:from-[#4f4cad] before:to-[#64E9FF] before:transition-all before:duration-500 before:content-['']"
-              title="Google"
-            >
-              <span>Sign Out</span>
-            </button>
-          </form>
-        </div>
-      </section>
-    );
-
-  return (
-    <div className="flex h-screen w-full">
-      <div className="h-screen w-full px-5 pt-8 pb-10 md:w-96 md:px-8">
-        <div className="flex items-center">
-          <Link
-            href="/"
-            className="mr-8 flex items-center gap-1 text-base font-semibold md:text-lg"
-          >
-            <Image
-              src={"/fav.png"}
-              sizes="28px"
-              alt="logo"
-              width={512}
-              height={512}
-              className="h-6 w-auto object-contain md:h-7"
-            />
-            <span className="tracking-tight text-emerald-600">RPL FAST TRACK</span>
-          </Link>
-        </div>
-        <h1 className="mt-12 text-3xl md:mt-8">Sign in to your account</h1>
-
-        <div className="mt-6 w-full">
-          {errorMessage && (
-            <p
-              role="alert"
-              className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
-            >
-              {errorMessage}
-            </p>
-          )}
-          <form
-            action={async () => {
-              "use server";
-              const res = await auth.api.signInSocial({
-                body: { provider: "google", errorCallbackURL: "/signin" },
-              });
-              if (res.url) {
-                redirect(res.url);
-              }
-            }}
-          >
-            <button
-              className="flex h-14 w-full cursor-pointer items-center justify-center rounded-lg bg-emerald-100 shadow-md transition duration-300 hover:bg-emerald-200 active:bg-emerald-300 md:h-12"
-              type="submit"
-            >
-              Signin with Google
-            </button>
-          </form>
-        </div>
-      </div>
-      <div className="relative hidden flex-1 md:block">
-        <div className="auth-bg hero" />
-        <div className="relative z-10">
-          <div className="ml-20 flex h-screen max-w-96 flex-col items-start justify-center">
-            <h1 className="text-4xl font-bold text-white">
-              Recognize Your Skills and Experience Through RPL
-            </h1>
-            <p className="mt-7 text-lg text-gray-100">
-              Unlock new opportunities by showcasing your existing knowledge and competencies,
-              allowing you to gain recognition for what you’ve learned outside traditional
-              education.
-            </p>
-            <Link href={"/"}>
-              <div className="mt-12 flex cursor-pointer items-center gap-2 text-blue-300 transition-all duration-200 ease-in hover:text-blue-200">
-                <p className="text text-xl font-semibold underline">Home</p>
-                <MoveRight className="h-8 w-8" />
-              </div>
-            </Link>
+            </form>
           </div>
         </div>
-      </div>
-    </div>
+      </Shell>
+    );
+  }
+
+  return (
+    <Shell>
+      <h1 className="text-center font-display text-2xl font-bold text-ink">Admin sign in</h1>
+      <p className="mt-2 text-center text-sm text-ink/60">
+        Use your authorised Google account to continue.
+      </p>
+
+      {errorMessage && (
+        <p
+          role="alert"
+          className="mt-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+        >
+          {errorMessage}
+        </p>
+      )}
+
+      <form
+        className="mt-6"
+        action={async () => {
+          "use server";
+          const res = await auth.api.signInSocial({
+            body: { provider: "google", errorCallbackURL: "/signin" },
+          });
+          if (res.url) {
+            redirect(res.url);
+          }
+        }}
+      >
+        <button
+          type="submit"
+          className={`${buttonBase} border border-ink/15 bg-white text-ink hover:bg-surface`}
+        >
+          <GoogleIcon />
+          Continue with Google
+        </button>
+      </form>
+    </Shell>
   );
 }

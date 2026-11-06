@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
 
   const path = req.nextUrl.searchParams.get("path") ?? "/";
   // Same-site course/section paths only, so this can't be an open redirect
-  const target = /^\/(courses|section)\/[a-z0-9-]+$/.test(path) ? path : "/";
+  const target = /^\/(courses|section|guides)\/[a-z0-9-]+$/.test(path) ? path : "/";
 
   const draft = await draftMode();
   if (req.nextUrl.searchParams.has("exit")) draft.disable();

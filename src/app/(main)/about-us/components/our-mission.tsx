@@ -1,65 +1,76 @@
 import { BookOpen, Target, Users } from "lucide-react";
 
+import { Accent, SectionHeading } from "@/components/sections/section-heading";
+
+const PILLARS = [
+  {
+    icon: Target,
+    title: "Our Vision",
+    text: "A country where hands-on experience is valued as highly as classroom study, and every skilled person can have their skills formally recognised.",
+  },
+  {
+    icon: Users,
+    title: "Our Team",
+    text: "Our RPL consultants understand your industry and what assessors look for, so you are guided by people who know your work, from your first call to your certificate.",
+  },
+  {
+    icon: BookOpen,
+    title: "Our Approach",
+    text: "Every application is personalised. We work with you to identify and document your skills and experience so your evidence meets national standards.",
+  },
+];
+
 export default function OurMission() {
   return (
-    <section className="overflow-hidden bg-surface py-16 md:py-24">
-      <div className="container mx-auto px-4 md:px-8">
-        <div className="mb-12 flex flex-col items-center justify-center space-y-4 text-center">
-          <div className="space-y-2">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-              Our <span className="text-brand">Mission</span>
-            </h2>
-            <p className="max-w-[700px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-              To recognise real-world skills and experience, helping individuals gain formal
-              qualifications that unlock career and education opportunities.
-            </p>
-          </div>
-        </div>
+    <section className="relative overflow-hidden bg-surface py-14 md:py-24">
+      {/* Dot grid, fading out downwards, and a soft glow. */}
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-[radial-gradient(var(--brand-subtle)_1.5px,transparent_1.5px)] mask-[radial-gradient(ellipse_at_top_right,black_20%,transparent_70%)] bg-size-[24px_24px]"
+      />
+      <div
+        aria-hidden
+        className="absolute -right-24 -bottom-24 size-96 rounded-full bg-brand-subtle/60 blur-3xl"
+      />
 
-        <div className="mt-16">
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-            <div className="rounded-lg bg-white px-6 pt-6 pb-8 shadow-md">
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-md bg-brand text-white">
-                <Target className="h-6 w-6" />
-              </div>
-              <div className="mt-5 text-center">
-                <h3 className="text-lg font-medium text-ink">Our Vision</h3>
-                <p className="mt-2 text-base text-gray-500">
-                  To create a world where experience is valued equally with formal education, and
-                  where everyone has the opportunity to have their skills recognized.
-                </p>
-              </div>
-            </div>
+      <div className="relative container mx-auto px-4 md:px-8">
+        <SectionHeading
+          eyebrow="Our mission"
+          title={
+            <>
+              Making <Accent>Recognition of Prior Learning</Accent> simple
+            </>
+          }
+          description="So every skilled worker in Australia can get the qualification their experience has already earned."
+        />
 
-            <div className="rounded-lg bg-white px-6 pt-6 pb-8 shadow-md">
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-md bg-brand text-white">
-                <Users className="h-6 w-6" />
-              </div>
-              <div className="mt-5 text-center">
-                <h3 className="text-lg font-medium text-ink">Our Team</h3>
-                <p className="mt-2 text-base text-gray-500">
-                  Our assessors are industry experts with extensive experience in their fields,
-                  ensuring that your skills are evaluated by professionals who understand your
-                  industry.
-                </p>
-              </div>
-            </div>
+        <ul className="mt-12 grid gap-6 md:grid-cols-3">
+          {PILLARS.map(({ icon: Icon, title, text }, i) => (
+            <li
+              key={title}
+              className="group relative overflow-hidden rounded-2xl border border-gray-200 bg-white p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-brand-subtle hover:shadow-xl"
+            >
+              {/* Top accent bar that fills on hover. */}
+              <span
+                aria-hidden
+                className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-linear-to-r from-brand to-brand-bright transition-transform duration-500 group-hover:scale-x-100"
+              />
+              {/* Watermark number. */}
+              <span
+                aria-hidden
+                className="absolute top-3 right-5 text-7xl leading-none font-bold text-brand-soft transition-colors duration-300 select-none group-hover:text-brand-subtle"
+              >
+                0{i + 1}
+              </span>
 
-            <div className="rounded-lg bg-white px-6 pt-6 pb-8 shadow-md">
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-md bg-brand text-white">
-                <BookOpen className="h-6 w-6" />
-              </div>
-              <div className="mt-5 text-center">
-                <h3 className="text-lg font-medium text-ink">Our Approach</h3>
-                <p className="mt-2 text-base text-gray-500">
-                  We take a personalized approach to each assessment, working closely with you to
-                  identify and document your skills and knowledge in a way that meets national
-                  standards.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+              <span className="relative flex size-14 items-center justify-center rounded-2xl bg-linear-to-br from-brand to-brand-strong text-white shadow-lg shadow-brand/25">
+                <Icon aria-hidden className="size-6" />
+              </span>
+              <h3 className="relative mt-6 text-xl font-bold text-ink">{title}</h3>
+              <p className="relative mt-3 text-gray-600">{text}</p>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

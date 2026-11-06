@@ -1,6 +1,6 @@
 import "server-only";
 
-import { CrmSyncStatus, LeadForm, Prisma } from "@/generated/prisma";
+import { CrmSyncStatus, LeadForm, Prisma } from "@/generated/prisma/client";
 import { prisma } from "@/server/db";
 
 // Admin-only reads. Not cached: the admin is dynamic and must show new leads

@@ -67,8 +67,8 @@ export function DeviceCategories({ data, days }: DeviceCategoriesProps) {
                   ))}
                 </Pie>
                 <Tooltip
-                  formatter={(value: number, name: string) => [
-                    `${name}: ${value.toLocaleString()}`,
+                  formatter={(value, name) => [
+                    `${String(name)}: ${Number(value).toLocaleString()}`,
                     "Sessions",
                   ]}
                 />

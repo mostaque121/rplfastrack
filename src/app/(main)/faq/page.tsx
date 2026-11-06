@@ -1,330 +1,161 @@
-import Link from "next/link";
+import { ChevronDown } from "lucide-react";
 
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { faqPageSchema } from "@/components/faq/faq-section";
+import { ClosingCta } from "@/components/sections/closing-cta";
+import { JsonLd } from "@/components/seo/json-ld";
 import { absoluteUrl } from "@/lib/url";
 
 import FaqHero from "./faq-hero";
+import { RPL_FAQS } from "../components/faq-common";
 
 import type { Metadata } from "next";
-import type { FAQPage, WithContext } from "schema-dts";
 
 export const metadata: Metadata = {
-  title: "Frequently Asked Questions",
+  title: "RPL FAQs: Eligibility, Evidence, Cost and Timing",
   description:
-    "Find answers to common questions about our Recognition of Prior Learning (RPL) services, eligibility, process, costs, and more.",
+    "Answers to common questions about Recognition of Prior Learning (RPL) in Australia: who is eligible, what evidence you need, how long it takes, what it costs and who issues your qualification.",
   alternates: {
     canonical: absoluteUrl("/faq"),
   },
   openGraph: {
-    title: "FAQs - Recognition of Prior Learning | RPL Fast Track",
+    title: "RPL FAQs: Recognition of Prior Learning Questions Answered",
     description:
-      "Explore our Frequently Asked Questions to understand the RPL process, eligibility, documentation, timelines, and how we help you succeed.",
+      "Who is eligible for RPL, what evidence you need, how long it takes and who issues your qualification.",
     url: absoluteUrl("/faq"),
-    type: "article",
-    images: [
-      {
-        url: "/faq-hero.jpg",
-        width: 1200,
-        height: 630,
-        alt: "RPL Fast Track FAQs",
-      },
-    ],
+    type: "website",
+    images: [{ url: "/faq-hero.jpg", width: 1200, height: 630, alt: "RPL Fast Track FAQs" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "FAQs - RPL Fast Track Australia",
+    title: "RPL FAQs - RPL Fast Track",
     description:
-      "Get answers to common queries about Recognition of Prior Learning, eligibility, timelines, and the benefits of getting certified.",
+      "Who is eligible for RPL, what evidence you need, how long it takes and who issues your qualification.",
     images: ["/faq-hero.jpg"],
   },
 };
 
-const faqs = [
+type Faq = { question: string; answer: string };
+
+/** Shared answers from the home FAQ, so the same question never gets two different answers. */
+const common = (question: string): Faq => {
+  const faq = RPL_FAQS.find((f) => f.question === question);
+  if (!faq) throw new Error(`FAQ not found: ${question}`);
+  return faq;
+};
+
+// Plain-text answers: the same text is shown on the page and sent as FAQPage JSON-LD.
+// Broker model: no prices, no RTO names, and no promises on the RTO's behalf.
+const GROUPS: { id: string; title: string; faqs: Faq[] }[] = [
   {
-    value: "what-is-rpl",
-    question: "What is Recognition of Prior Learning (RPL)?",
-    answer: `Recognition of Prior Learning (RPL) is a process that assesses your existing skills and knowledge—
-      gained through work, life, or informal training—and matches them to formal qualifications.`,
+    id: "about-rpl",
+    title: "About RPL",
+    faqs: [
+      common("What is Recognition of Prior Learning (RPL)?"),
+      common("Is an RPL qualification the same as one earned by studying?"),
+      common("Can I get a qualification through RPL online?"),
+      {
+        question: "What qualifications can I get through RPL?",
+        answer:
+          "Certificates, diplomas and advanced diplomas across industries such as aged care and disability, community services, construction, automotive, business, hospitality and training. Browse the courses page to find the qualification that matches your work.",
+      },
+      {
+        question: "Who issues my qualification?",
+        answer:
+          "A registered training organisation (RTO) assesses your evidence and issues the qualification. RPL Fast Track is a referral partner: we match you with a suitable RTO and help you prepare your application and evidence.",
+      },
+    ],
   },
   {
-    value: "benefits",
-    question: "What are the benefits of RPL?",
-    answer: (
-      <ul className="list-disc space-y-2 pl-6">
-        <li>Save time and money</li>
-        <li>Get certified faster</li>
-        <li>Boost career and salary potential</li>
-        <li>Meet licensing or industry standards</li>
-      </ul>
-    ),
+    id: "eligibility",
+    title: "Eligibility and evidence",
+    faqs: [
+      common("Who is eligible for RPL?"),
+      common("What evidence do I need for RPL?"),
+      common("Can my overseas work experience count?"),
+      {
+        question: "What if my documents are in another language?",
+        answer:
+          "Documents in other languages usually need a certified English translation. Tell us what you have and we will let you know what needs translating.",
+      },
+      {
+        question: "What if I have skill gaps?",
+        answer:
+          "If your evidence does not cover every unit, the assessor may ask for more information or recommend some extra training for the missing units. You only cover the gap, not the whole course.",
+      },
+    ],
   },
   {
-    value: "eligibility",
-    question: "Who is eligible for RPL?",
-    answer: (
-      <>
-        You may be eligible if you have:
-        <ul className="mt-2 list-disc space-y-2 pl-6">
-          <li>Relevant work experience</li>
-          <li>Informal or formal learning/training</li>
-          <li>Volunteer or community experience</li>
-          <li>Skills from life experience</li>
-        </ul>
-      </>
-    ),
-  },
-  {
-    value: "process",
-    question: "What is the RPL process?",
-    answer: (
-      <ol className="list-decimal space-y-2 pl-6">
-        <li>Initial consultation</li>
-        <li>Submit application</li>
-        <li>Gather supporting evidence</li>
-        <li>Assessment by qualified assessors</li>
-        <li>Gap training if needed</li>
-        <li>Receive your qualification</li>
-      </ol>
-    ),
-  },
-  {
-    value: "evidence",
-    question: "What type of evidence do I need?",
-    answer: (
-      <ul className="list-disc space-y-2 pl-6">
-        <li>Resume or CV</li>
-        <li>References or letters</li>
-        <li>Work samples, videos, or projects</li>
-        <li>Certificates or transcripts</li>
-      </ul>
-    ),
-  },
-  {
-    value: "qualifications",
-    question: "What qualifications can I get through RPL?",
-    answer: (
-      <>
-        We offer qualifications in:
-        <ul className="mt-2 list-disc space-y-2 pl-6">
-          <li>Business & Management</li>
-          <li>IT & Digital</li>
-          <li>Healthcare & Aged Care</li>
-          <li>Community Services</li>
-          <li>Construction, Trades, and more</li>
-        </ul>
-      </>
-    ),
-  },
-  {
-    value: "cost",
-    question: "How much does RPL cost?",
-    answer: `Costs depend on the qualification and complexity, but RPL is often cheaper than traditional study. Flexible payment plans are available.`,
-  },
-  {
-    value: "duration",
-    question: "How long does RPL take?",
-    answer: `Usually 4–12 weeks, depending on your qualification and how quickly you provide evidence.`,
-  },
-  {
-    value: "gap-training",
-    question: "What if I have skill gaps?",
-    answer: `No problem! We'll offer targeted training for areas you're missing—no need to repeat what you already know.`,
-  },
-  {
-    value: "recognized",
-    question: "Are RPL qualifications recognized?",
-    answer: `Yes, they are nationally recognized under the Australian Qualifications Framework (AQF).`,
-  },
-  {
-    value: "overseas",
-    question: "Can I apply for RPL if I live overseas?",
-    answer: `Yes, RPL is available for international applicants as long as you can provide the required evidence.`,
-  },
-  {
-    value: "support",
-    question: "Do you provide support during the RPL process?",
-    answer: `Absolutely! Our team assists you at every step, from consultation to evidence collection and gap training.`,
-  },
-  {
-    value: "language",
-    question: "What if my documents are in another language?",
-    answer: `Documents in other languages must be officially translated into English. We can guide you on this.`,
-  },
-  {
-    value: "get-started",
-    question: "How do I get started?",
-    answer: (
-      <ol className="list-decimal space-y-2 pl-6">
-        <li>Contact us via website or phone</li>
-        <li>Book a free consultation</li>
-        <li>Talk with an RPL specialist</li>
-        <li>Begin your application journey</li>
-      </ol>
-    ),
+    id: "process",
+    title: "Process, time and cost",
+    faqs: [
+      {
+        question: "What is the RPL process?",
+        answer:
+          "There are four steps: a free eligibility check, gathering your evidence, an assessment by a registered training organisation, and receiving your qualification. We guide you from the first call to your certificate.",
+      },
+      common("How long does RPL take?"),
+      common("What does RPL cost?"),
+      {
+        question: "Do you help during the RPL process?",
+        answer:
+          "Yes. A consultant helps you choose the right qualification, explains which evidence to collect and keeps in touch with you until your assessment is finished.",
+      },
+      {
+        question: "How do I get started?",
+        answer:
+          "Complete the free eligibility check on this website, or call or WhatsApp us. A consultant will contact you to talk about your experience and the qualification it could lead to.",
+      },
+    ],
   },
 ];
 
-const faqSchema: WithContext<FAQPage> = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "What is Recognition of Prior Learning (RPL)?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Recognition of Prior Learning (RPL) is a process that assesses your existing skills and knowledge—gained through work, life, or informal training—and matches them to formal qualifications.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "What are the benefits of RPL?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Benefits of RPL include saving time and money, getting certified faster, boosting career and salary potential, and meeting licensing or industry standards.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Who is eligible for RPL?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "You may be eligible if you have relevant work experience, informal or formal learning/training, volunteer or community experience, or skills from life experience.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "What is the RPL process?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "The process includes an initial consultation, submitting your application, gathering evidence, assessment by qualified assessors, gap training if needed, and receiving your qualification.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "What type of evidence do I need?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "You may need to provide a resume or CV, references or letters, work samples, videos or projects, and certificates or transcripts.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "What qualifications can I get through RPL?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "We offer RPL for qualifications in Business & Management, IT & Digital, Healthcare & Aged Care, Community Services, Construction, Trades, and more.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "How much does RPL cost?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Costs depend on the qualification and complexity, but RPL is often cheaper than traditional study. Flexible payment plans are available.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "How long does RPL take?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Usually 4–12 weeks, depending on your qualification and how quickly you provide evidence.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "What if I have skill gaps?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "We offer targeted training for any skill gaps, so you don’t need to repeat what you already know.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Are RPL qualifications recognized?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes, RPL qualifications are nationally recognized under the Australian Qualifications Framework (AQF).",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Can I apply for RPL if I live overseas?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes, international applicants can apply for RPL as long as they can provide the required evidence.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Do you provide support during the RPL process?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Absolutely! Our team supports you at every step—from consultation to evidence collection and gap training.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "What if my documents are in another language?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Documents in other languages must be officially translated into English. We can help guide you through this.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "How do I get started?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Contact us via our website or phone, book a free consultation, talk with an RPL specialist, and begin your application journey.",
-      },
-    },
-  ],
-};
+const faqSchema = faqPageSchema(
+  GROUPS.flatMap((group) => group.faqs).map((faq, i) => ({ id: String(i), ...faq })),
+);
 
+/** Full FAQ page. Native <details>, so every answer is in the HTML (a Radix accordion unmounts closed answers). */
 export default function FAQPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
+      <JsonLd data={faqSchema} />
 
       <FaqHero />
-      <div className="container mx-auto max-w-4xl px-4 py-12 md:px-8 md:py-24">
-        <Accordion type="single" collapsible className="w-full">
-          {faqs.map(({ value, question, answer }) => (
-            <AccordionItem key={value} value={value}>
-              <AccordionTrigger className="text-left text-lg font-medium hover:text-brand">
-                {question}
-              </AccordionTrigger>
-              <AccordionContent>{answer}</AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
+      <section className="bg-white py-12 md:py-20">
+        <div className="container mx-auto max-w-4xl px-4 md:px-8">
+          <nav aria-label="FAQ topics" className="flex flex-wrap gap-2">
+            {GROUPS.map((group) => (
+              <a
+                key={group.id}
+                href={`#${group.id}`}
+                className="rounded-full border border-brand-subtle bg-brand-soft px-4 py-2 text-sm font-medium text-brand-strong transition-colors hover:bg-brand-subtle"
+              >
+                {group.title}
+              </a>
+            ))}
+          </nav>
 
-        <div className="mt-12 text-center">
-          <h2 className="mb-4 text-2xl font-bold">Still have questions?</h2>
-          <p className="mb-6">
-            Our RPL specialists are here to help you with any additional questions you may have.
-          </p>
-          <div className="flex justify-center gap-4">
-            <Link
-              prefetch={false}
-              href="/contact"
-              className="inline-flex h-10 items-center justify-center rounded-md bg-brand px-8 text-sm font-medium text-primary-foreground shadow hover:bg-brand-strong/90"
-            >
-              Contact Us
-            </Link>
-          </div>
+          {GROUPS.map((group) => (
+            <div key={group.id} id={group.id} className="mt-12 scroll-mt-24">
+              <h2 className="text-2xl font-bold text-ink md:text-3xl">{group.title}</h2>
+              <div className="mt-5 divide-y divide-gray-200 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg">
+                {group.faqs.map((faq) => (
+                  <details key={faq.question} className="group">
+                    <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 text-left text-base font-semibold text-ink hover:text-brand-strong md:px-6 md:text-lg [&::-webkit-details-marker]:hidden">
+                      <h3>{faq.question}</h3>
+                      <ChevronDown
+                        aria-hidden
+                        className="size-5 shrink-0 text-gray-500 transition-transform group-open:rotate-180"
+                      />
+                    </summary>
+                    <p className="px-5 pb-5 text-gray-700 md:px-6">{faq.answer}</p>
+                  </details>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
-      </div>
+      </section>
+      <ClosingCta />
     </>
   );
 }

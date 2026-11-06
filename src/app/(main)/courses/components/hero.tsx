@@ -1,18 +1,49 @@
-export default function HeroSection() {
+import { ArrowRight } from "lucide-react";
+
+import { EligibilityForm } from "@/app/(main)/components/form/eligibility-form";
+import { PageHero } from "@/components/sections/page-hero";
+import { Button } from "@/components/ui/button";
+import { listSections } from "@/features/courses/queries";
+
+/** Courses hub hero: short, dark, with live counts so the numbers never go stale. */
+export default async function HeroSection() {
+  const sections = await listSections();
+  const courseCount = sections.reduce(
+    (total, section) => total + (section.courses?.length ?? 0),
+    0,
+  );
+
   return (
-    <div>
-      <section className="relative flex h-[60vh] flex-col items-center justify-center text-center">
-        <div className="qualification-hero" />
-        <div className="relative z-10 container max-w-5xl px-4 md:px-6">
-          <h1 className="mb-4 text-4xl font-bold tracking-tighter text-brand-bright sm:text-5xl md:text-6xl">
-            Recognition of Prior Learning Services
-          </h1>
-          <p className="mx-auto mb-8 max-w-3xl text-xl text-white/90">
-            Turn your experience into nationally recognized qualifications through our streamlined
-            RPL process
-          </p>
-        </div>
-      </section>
-    </div>
+    <PageHero
+      title={
+        <>
+          RPL qualifications in Australia, <span className="text-brand-bright">by industry</span>
+        </>
+      }
+      breadcrumbs={[{ label: "Home", href: "/" }, { label: "Courses" }]}
+      intro={
+        <p>
+          Browse {courseCount} nationally recognised qualifications across {sections.length}{" "}
+          industries that you can get through Recognition of Prior Learning (RPL). Pick your
+          industry, find your qualification and check your eligibility for free.
+        </p>
+      }
+      chips={["Nationally recognised", "100% online assessment", "Free eligibility check"]}
+      actions={
+        <EligibilityForm
+          trigger={
+            <Button
+              size="lg"
+              className="group h-12 bg-cta px-6 text-base text-white hover:bg-cta-strong"
+            >
+              Check your eligibility
+              <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+            </Button>
+          }
+          title="RPL Eligibility Assessment"
+          description="Find out if you qualify for our RPL program in just a few minutes."
+        />
+      }
+    />
   );
 }

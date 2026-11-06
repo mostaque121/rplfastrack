@@ -1,4 +1,4 @@
-import type { Lead } from "@/generated/prisma";
+import type { Lead } from "@/generated/prisma/client";
 
 import { LEAD_TIME_ZONE } from "./queries";
 

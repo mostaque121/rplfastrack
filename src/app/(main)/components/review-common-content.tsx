@@ -1,9 +1,11 @@
 "use client";
-import { ArrowRight } from "lucide-react";
+
+import { ArrowRight, Star } from "lucide-react";
 import Link from "next/link";
-import { MdStar, MdStarHalf, MdStarOutline } from "react-icons/md";
+import type { ReactNode } from "react";
 
 import ReviewCard from "@/app/(main)/components/card/review-card";
+import { Stars } from "@/features/reviews/components/stars";
 import { Button } from "@/components/ui/button";
 
 interface Course {
@@ -31,41 +33,22 @@ interface ReviewStats {
 interface ReviewCommonProps {
   reviews: UserReview[];
   stats: ReviewStats;
+  /** Section heading, shown at the top of the left column. */
+  heading?: ReactNode;
 }
 
-export default function ReviewCommonContent({ reviews, stats }: ReviewCommonProps) {
+export default function ReviewCommonContent({ reviews, stats, heading }: ReviewCommonProps) {
   const totalReviews = stats.totalReviews;
   const avgStar = stats.averageRating;
-  // Calculate stars to display
-  const wholeStars = Math.floor(avgStar);
-  const decimalPart = avgStar - wholeStars;
-  const emptyStars = 5 - (wholeStars + (decimalPart >= 0.5 ? 1 : 0));
   return (
-    <div className="flex flex-col md:flex-row">
-      <div className="mb-6 w-full md:mb-0 md:w-96">
+    <div className="flex flex-col md:flex-row md:items-start">
+      <div className="mb-6 w-full md:mb-0 md:w-96 md:shrink-0">
+        {heading && <div className="mb-8">{heading}</div>}
         {/* Star Rating Summary Section */}
         <div className="mb-6 flex flex-col items-center">
-          <div className="bg-light-gray flex w-full max-w-md flex-col items-center rounded-lg px-4 py-4 text-center shadow-sm sm:px-6">
+          <div className="flex w-full max-w-md flex-col items-center rounded-xl border border-brand-subtle bg-white px-4 py-5 text-center shadow-sm sm:px-6">
             <div className="mb-2 flex items-center">
-              {/* Render whole stars */}
-              {[...Array(wholeStars)].map((_, index) => (
-                <MdStar key={index} className="h-5 w-5 text-brand sm:h-6 sm:w-6" />
-              ))}
-
-              {/* Render fractional star based on updated logic */}
-              {decimalPart >= 0.75 ? (
-                <MdStar className="h-5 w-5 text-brand sm:h-6 sm:w-6" />
-              ) : (
-                decimalPart >= 0.25 && <MdStarHalf className="h-5 w-5 text-brand sm:h-6 sm:w-6" />
-              )}
-
-              {/* Render remaining empty stars */}
-              {[...Array(emptyStars)].map((_, index) => (
-                <MdStarOutline
-                  key={index + wholeStars + 1}
-                  className="h-5 w-5 text-gray-300 sm:h-6 sm:w-6"
-                />
-              ))}
+              <Stars rating={avgStar} />
             </div>
             <div className="mt-2 flex items-center justify-center space-x-1 text-gray-700">
               <span className="text-xl font-bold text-brand sm:text-2xl">
@@ -86,24 +69,24 @@ export default function ReviewCommonContent({ reviews, stats }: ReviewCommonProp
 
             return (
               <div key={starValue} className="mb-2 flex items-center">
-                <span className="flex items-center gap-1 font-semibold">
-                  {starValue} <MdStar />
+                <span className="flex items-center gap-1 font-semibold text-ink">
+                  {starValue} <Star className="size-4 fill-current" />
                 </span>
-                <span className="ml-2 w-12">( {count} )</span>
-                <div className="bg-light-gray-hover mr-4 flex h-2 flex-1 items-center rounded">
+                <span className="ml-2 w-12 text-gray-700">( {count} )</span>
+                <div className="mr-4 flex h-2 flex-1 items-center rounded">
                   <div className="w-full rounded bg-gray-200">
                     <div className="h-2 rounded bg-brand" style={{ width: `${percentage}%` }} />
                   </div>
                 </div>
-                <span className="text-dark-gray w-14">{percentage}%</span>
+                <span className="w-14 text-sm text-gray-600">{percentage}%</span>
               </div>
             );
           })}
         </div>
         <Link prefetch={false} href={"/write-review"}>
-          <button className="mt-4 cursor-pointer rounded-full border-2 border-brand px-3 py-1 font-semibold transition-all duration-200 ease-in-out hover:border-brand hover:bg-brand-strong hover:text-white">
+          <span className="mt-4 inline-flex h-11 items-center justify-center rounded-lg border border-brand px-5 font-semibold text-brand transition-colors hover:bg-brand hover:text-white">
             Write a review
-          </button>
+          </span>
         </Link>
       </div>
 
@@ -117,9 +100,9 @@ export default function ReviewCommonContent({ reviews, stats }: ReviewCommonProp
             <Link prefetch={false} href={"/reviews"}>
               <Button
                 size="lg"
-                className="group bg-gradient-to-r from-brand to-brand-strong text-white"
+                className="group h-12 bg-brand px-6 text-base text-white hover:bg-brand-strong"
               >
-                See all review
+                See all reviews
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Button>
             </Link>

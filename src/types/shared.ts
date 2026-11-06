@@ -17,15 +17,14 @@ type Course = {
   title: string;
   link: string;
   index: number;
-  imageCoverLink: string;
-  imageSquareLink: string;
+  /** The course's own image, or its section's when it has none */
+  imageUrl: string;
   updatedAt: Date;
 };
 
 export type Section = {
   id: string;
-  imageCoverLink: string;
-  imageSquareLink: string;
+  imageUrl: string;
   index: number;
   title: string;
   link: string;

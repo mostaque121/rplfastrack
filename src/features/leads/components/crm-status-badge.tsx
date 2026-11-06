@@ -1,4 +1,4 @@
-import type { CrmSyncStatus } from "@/generated/prisma";
+import type { CrmSyncStatus } from "@/generated/prisma/client";
 import { cn } from "@/lib/utils";
 
 import { CRM_STATUS_LABELS } from "../labels";

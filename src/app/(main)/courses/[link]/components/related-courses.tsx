@@ -1,45 +1,70 @@
-import { MoveRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
-import RelatedQualificationCard from "@/app/(main)/components/card/qualification-card";
-type qualification = {
+import { QualificationCard } from "@/components/sections/qualification-card";
+import { Accent, SectionHeading } from "@/components/sections/section-heading";
+import { Button } from "@/components/ui/button";
+
+type Qualification = {
   id: string;
   link: string;
   title: string;
-  imageSquareLink: string;
+  imageUrl: string;
 };
 
+const SHOWN_COURSES = 3;
+
+/** Other qualifications in the same industry (never the current one), for internal linking. */
 export default function RelatedCourses({
   qualifications,
   industryLink,
+  industryTitle,
+  currentLink,
+  tone = "white",
 }: {
-  qualifications?: qualification[];
+  qualifications?: Qualification[];
   industryLink: string;
+  industryTitle: string;
+  currentLink: string;
+  tone?: "white" | "surface";
 }) {
-  return (
-    qualifications && (
-      <section className="overflow-hidden bg-ink py-16 md:py-24">
-        <div className="container mx-auto px-4 md:px-8">
-          <h2 className="mb-4 text-2xl font-bold text-white md:text-3xl">Related Qualification</h2>
+  const others = (qualifications ?? []).filter((q) => q.link !== currentLink);
+  if (others.length === 0) return null;
 
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-5 md:gap-6">
-            {qualifications.slice(0, 4).map((qualification) => (
-              <RelatedQualificationCard qualification={qualification} key={qualification.id} />
-            ))}
-            {qualifications.length > 4 && (
-              <div className="group col-span-2 mt-4 flex h-full flex-col items-center justify-center overflow-hidden rounded-xl border border-brand-subtle bg-white py-1 shadow-sm transition-all duration-300 hover:border-brand hover:shadow-md md:col-auto md:mt-0">
-                <Link
-                  prefetch={false}
-                  href={`/section/${industryLink}`}
-                  className="inline-flex items-center gap-2 text-lg font-semibold text-brand hover:text-brand-strong"
-                >
-                  See more courses <MoveRight className="h-5 w-5" />
-                </Link>
-              </div>
-            )}
-          </div>
+  return (
+    <section className={`${tone === "white" ? "bg-white" : "bg-surface"} py-14 md:py-24`}>
+      <div className="container mx-auto px-4 md:px-8">
+        <SectionHeading
+          eyebrow="Related qualifications"
+          title={
+            <>
+              More <Accent>{industryTitle}</Accent> qualifications
+            </>
+          }
+          description="Looking at a different level or specialisation? These are available through RPL too."
+        />
+
+        <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+          {others.slice(0, SHOWN_COURSES).map((qualification) => (
+            <li key={qualification.id}>
+              <QualificationCard qualification={qualification} />
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-10 flex justify-center">
+          <Button
+            asChild
+            size="lg"
+            className="group h-12 bg-cta px-6 text-base text-white hover:bg-cta-strong"
+          >
+            <Link prefetch={false} href={`/section/${industryLink}`}>
+              View all {industryTitle} qualifications
+              <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+            </Link>
+          </Button>
         </div>
-      </section>
-    )
+      </div>
+    </section>
   );
 }

@@ -1,24 +1,26 @@
-import { allCoursesSchema, coursesBreadcrumb, serviceSchema } from "@/lib/seo";
+import { ClosingCta } from "@/components/sections/closing-cta";
+import { RplDocuments } from "@/components/sections/rpl-documents";
+import { RplProcess } from "@/components/sections/rpl-process";
+import { JsonLd } from "@/components/seo/json-ld";
+import { listSections } from "@/features/courses/queries";
+import { breadcrumbSchema } from "@/lib/seo";
 import { absoluteUrl } from "@/lib/url";
 
-import ContactSection from "../components/contact-common";
-import DocumentsNeed from "../components/documents-need";
+import FaqCommon from "../components/faq-common";
 import CourseCategories from "./components/course-categories";
-import EligibilityForRPL from "./components/eligibility";
 import HeroSection from "./components/hero";
-import RPLTimeline from "./components/process-of-rpl";
 
 export const metadata = {
-  title: "Qualifications - Explore Recognized Certifications",
+  title: "RPL Qualifications Australia: Browse by Industry",
   description:
-    "Explore nationally recognized qualifications through Recognition of Prior Learning (RPL) in Australia. Fast-track your certification and career advancement today.",
+    "Browse nationally recognised qualifications you can get through RPL, by industry. 100% online assessment, no classes or exams. Check your eligibility free.",
   alternates: {
     canonical: absoluteUrl("/courses"),
   },
   openGraph: {
-    title: "Courses - Recognized Certifications via RPL",
+    title: "RPL Qualifications in Australia, by Industry",
     description:
-      "Discover how RPL helps you achieve Australian qualifications by assessing your existing skills and experience.",
+      "Find your qualification and see how Recognition of Prior Learning turns your experience into a nationally recognised certificate.",
     url: absoluteUrl("/courses"),
     type: "website",
     images: [
@@ -32,33 +34,48 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Qualifications - Recognized Certifications via RPL",
-    description: "Achieve Australian qualifications quickly by validating your skills with RPL.",
+    title: "RPL Qualifications in Australia, by Industry",
+    description: "Find your qualification and get recognised for the skills you already have.",
     images: ["/qualifications-bg.jpg"],
   },
 };
 
-export default function Page() {
+export default async function Page() {
+  const sections = await listSections();
+
+  // Collection page listing the industries, so search engines see the hub structure.
+  const collectionSchema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "RPL Qualifications in Australia",
+    url: absoluteUrl("/courses"),
+    description: "Nationally recognised qualifications available through RPL, by industry.",
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: sections.map((section, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: section.title,
+        url: absoluteUrl(`/section/${section.link}`),
+      })),
+    },
+  };
+
   return (
-    <div>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(allCoursesSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(coursesBreadcrumb) }}
+    <>
+      <JsonLd data={collectionSchema} />
+      <JsonLd
+        data={breadcrumbSchema([
+          ["Home", "/"],
+          ["Courses", "/courses"],
+        ])}
       />
       <HeroSection />
       <CourseCategories />
-      <EligibilityForRPL />
-      <RPLTimeline />
-      <DocumentsNeed />
-      <ContactSection />
-    </div>
+      <RplProcess />
+      <RplDocuments />
+      <FaqCommon />
+      <ClosingCta />
+    </>
   );
 }

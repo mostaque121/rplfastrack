@@ -1,4 +1,5 @@
 import { listSections } from "@/features/courses/queries";
+import { listGuides } from "@/features/guides/queries";
 import { absoluteUrl } from "@/lib/url";
 
 import type { MetadataRoute } from "next";
@@ -17,8 +18,14 @@ const STATIC_PAGES: { path: string; priority: number }[] = [
   { path: "/cookie-policy", priority: 0.3 },
 ];
 
+const latest = (items: { updatedAt: Date | string }[]) =>
+  items.reduce<Date | undefined>((max, item) => {
+    const date = new Date(item.updatedAt);
+    return !max || date > max ? date : max;
+  }, undefined);
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const sections = await listSections();
+  const [sections, guides] = await Promise.all([listSections(), listGuides()]);
   const courses = sections.flatMap((section) => section.courses ?? []);
 
   // The home page and /courses list every section and course, so they
@@ -42,6 +49,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...sections.map((section) => ({
       url: absoluteUrl(`/section/${section.link}`),
       lastModified: new Date(section.updatedAt),
+      priority: 0.7,
+    })),
+    ...(guides.length
+      ? [{ url: absoluteUrl("/guides"), lastModified: latest(guides), priority: 0.7 }]
+      : []),
+    ...guides.map((guide) => ({
+      url: absoluteUrl(`/guides/${guide.slug}`),
+      lastModified: new Date(guide.updatedAt),
       priority: 0.7,
     })),
     ...courses.map((course) => ({

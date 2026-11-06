@@ -220,7 +220,7 @@ export function SeoFields<T extends FieldValues>({
       />
       <div>
         <p className="mb-2 text-sm font-medium">Google preview</p>
-        <div className="max-w-[600px] rounded-lg border bg-white p-4 font-[arial,sans-serif]">
+        <div className="max-w-150 rounded-lg border bg-white p-4 font-[arial,sans-serif]">
           <p className="truncate text-sm text-[#202124]">
             {SITE_URL.replace("https://", "")}
             <span className="text-[#4d5156]">
@@ -322,60 +322,37 @@ export function FaqEditor<T extends FieldValues>({ minimum }: { minimum?: number
   );
 }
 
-/** Square + cover image uploaders (Cloudinary) and the shared alt text. */
-export function ImageFields<T extends FieldValues>() {
+/** The cover image uploader (Cloudinary) and its alt text. Wide (1500×720); cards crop it. */
+export function ImageFields<T extends FieldValues>({ description }: { description?: string }) {
   const { control, setValue, getValues } = useFormContext<T>();
   const set = (name: string, value: string) =>
     setValue(name as Field<T>, value as never, { shouldDirty: true, shouldValidate: true });
 
   return (
     <div className="space-y-6">
-      <div className="grid gap-6 md:grid-cols-[1fr_2fr]">
-        <FormField
-          control={control}
-          name={"imageSquareLink" as Field<T>}
-          render={() => (
-            <FormItem>
-              <FormLabel>Square image</FormLabel>
-              <FormControl>
-                <ImageUploaderServer
-                  uploadPreset="service-square"
-                  initialImage={getValues("imageSquareLink" as Field<T>)}
-                  initialPublicId={getValues("imageSquarePublicId" as Field<T>)}
-                  onImageUploaded={(link, publicId) => {
-                    set("imageSquareLink", link);
-                    set("imageSquarePublicId", publicId);
-                  }}
-                  aspectRatio={1}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={control}
-          name={"imageCoverLink" as Field<T>}
-          render={() => (
-            <FormItem>
-              <FormLabel>Cover image</FormLabel>
-              <FormControl>
-                <ImageUploaderServer
-                  uploadPreset="service-cover"
-                  initialImage={getValues("imageCoverLink" as Field<T>)}
-                  initialPublicId={getValues("imageCoverPublicId" as Field<T>)}
-                  onImageUploaded={(link, publicId) => {
-                    set("imageCoverLink", link);
-                    set("imageCoverPublicId", publicId);
-                  }}
-                  aspectRatio={1500 / 720}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </div>
+      <FormField
+        control={control}
+        name={"imageUrl" as Field<T>}
+        render={() => (
+          <FormItem>
+            <FormLabel>Cover image</FormLabel>
+            {description && <FormDescription>{description}</FormDescription>}
+            <FormControl>
+              <ImageUploaderServer
+                uploadPreset="service-cover"
+                initialImage={getValues("imageUrl" as Field<T>)}
+                initialPublicId={getValues("imagePublicId" as Field<T>)}
+                onImageUploaded={(link, publicId) => {
+                  set("imageUrl", link);
+                  set("imagePublicId", publicId);
+                }}
+                aspectRatio={1500 / 720}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
       <TextField<T>
         name={"imageAlt" as Field<T>}
         label="Image alt text"

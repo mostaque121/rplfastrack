@@ -50,7 +50,7 @@ export function Browsers({ data, days }: BrowsersProps) {
                   textAnchor="end"
                 />
                 <YAxis tickLine={false} axisLine={false} tickMargin={10} />
-                <Tooltip formatter={(value: number) => value.toLocaleString()} />
+                <Tooltip formatter={(value) => Number(value).toLocaleString()} />
                 <Bar dataKey="sessions" fill="#8884d8" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>

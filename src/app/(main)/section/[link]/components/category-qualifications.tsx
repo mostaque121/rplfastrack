@@ -1,36 +1,48 @@
-import CourseCard from "@/app/(main)/components/card/course-card";
+import { QualificationCard } from "@/components/sections/qualification-card";
+import { Accent, SectionHeading } from "@/components/sections/section-heading";
+
 interface Qualification {
   id: string;
   link: string;
   title: string;
-  imageSquareLink: string;
+  imageUrl: string;
 }
+
 interface QualificationsProps {
+  industry: string;
   qualifications: Qualification[];
 }
-export default function CaregoryQualifications({ qualifications }: QualificationsProps) {
+
+/** Grid of every qualification in the industry. Each card is one link to the course page. */
+export default function CategoryQualifications({ industry, qualifications }: QualificationsProps) {
+  if (qualifications.length === 0) return null;
+
   return (
-    qualifications.length > 0 && (
-      <section className="overflow-hidden bg-white py-16 md:py-24">
-        <div className="container mx-auto px-4 md:px-8">
-          <div className="mb-12 flex flex-col items-center justify-center space-y-4 text-center">
-            <div className="space-y-2">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                Explore Our <span className="text-brand">Qualifications</span>
-              </h2>
-              <p className="max-w-[700px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Browse our range of qualifications by industry. Click on a category to explore the
-                available qualifications and assessment options.
-              </p>
-            </div>
-          </div>
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {qualifications.map((qualification) => (
-              <CourseCard course={qualification} key={qualification.id} />
-            ))}
-          </div>
-        </div>
-      </section>
-    )
+    <section className="relative overflow-hidden bg-white py-14 md:py-24">
+      <div
+        aria-hidden
+        className="absolute -top-32 -right-32 size-96 rounded-full bg-brand-soft blur-3xl"
+      />
+
+      <div className="relative container mx-auto px-4 md:px-8">
+        <SectionHeading
+          eyebrow={`${qualifications.length} ${qualifications.length === 1 ? "qualification" : "qualifications"}`}
+          title={
+            <>
+              {industry} <Accent>RPL qualifications</Accent>
+            </>
+          }
+          description="Choose a qualification to see the units, the evidence you need and how to apply. All are nationally recognised and assessed 100% online."
+        />
+
+        <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+          {qualifications.map((qualification) => (
+            <li key={qualification.id}>
+              <QualificationCard qualification={qualification} />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
   );
 }

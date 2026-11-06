@@ -1,15 +1,16 @@
+import { PageHero } from "@/components/sections/page-hero";
+
 export default function FaqHero() {
   return (
-    <section className="relative flex h-[60vh] flex-col items-center justify-center text-center">
-      <div className="faq-hero hero" />
-      <div className="relative z-10 container max-w-5xl px-4 md:px-6">
-        <h1 className="mb-4 text-4xl font-bold tracking-tighter text-brand-bright sm:text-5xl md:text-6xl">
-          Frequently Asked Questions
-        </h1>
-        <p className="mx-auto mb-8 max-w-3xl text-xl text-white/90">
-          Everything you need to know about Recognition of Prior Learning (RPL).
+    <PageHero
+      title="RPL frequently asked questions"
+      breadcrumbs={[{ label: "Home", href: "/" }, { label: "FAQ" }]}
+      intro={
+        <p>
+          Straight answers about Recognition of Prior Learning (RPL): who is eligible, what evidence
+          you need, how long it takes and who issues your qualification.
         </p>
-      </div>
-    </section>
+      }
+    />
   );
 }

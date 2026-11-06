@@ -2,7 +2,7 @@
 
 Marketing site and admin for [rplfastrack.com](https://www.rplfastrack.com). Visitors browse qualifications and send an eligibility check or enquiry; the team manages courses, sections, reviews and leads in `/admin`.
 
-Next.js 16 (App Router) · React 19 · Tailwind CSS 4 · Prisma 6 (PostgreSQL via Prisma Accelerate) · better-auth (Google sign-in) · Upstash Redis · Brevo email · Cloudinary. Hosted on Vercel.
+Next.js 16 (App Router) · React 19 · Tailwind CSS 4 · Prisma 7 (PostgreSQL, driver adapter) · better-auth (Google sign-in) · Upstash Redis · Brevo email · Cloudinary. Hosted on Vercel.
 
 ## Setup
 
@@ -22,7 +22,7 @@ All variables are validated at startup in [`src/env.ts`](src/env.ts); the app fa
 
 | Variable                                                                            | Purpose                                              |
 | ----------------------------------------------------------------------------------- | ---------------------------------------------------- |
-| `DATABASE_URL`                                                                      | Prisma Accelerate / PostgreSQL connection string     |
+| `DATABASE_URL`                                                                      | Direct postgres:// connection string (Prisma 7) |
 | `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`                                             | Session signing and auth base URL                    |
 | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`                                          | Google OAuth for admin sign-in                       |
 | `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`                                | Sign-in rate limiting (better-auth)                  |

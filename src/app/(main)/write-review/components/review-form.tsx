@@ -67,127 +67,132 @@ const ReviewForm = () => {
   };
 
   return (
-    <div className="mx-auto max-w-3xl rounded-lg bg-white px-4 py-8 pb-10 sm:px-8">
-      <h2 className="mb-6 text-center text-2xl font-bold">Post a Review</h2>
+    <section className="bg-surface py-12 md:py-20">
+      <div className="mx-auto max-w-3xl rounded-3xl border border-gray-200 bg-white px-4 py-8 shadow-lg sm:px-8 md:py-10">
+        <h2 className="text-2xl font-bold text-ink md:text-3xl">Share your experience</h2>
+        <p className="mt-2 mb-8 text-gray-600">
+          Reviews are checked by our team before they appear on the site.
+        </p>
 
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          {/* Name Field */}
-          <FormField
-            control={form.control}
-            name="userName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="Your Name" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            {/* Star Rating */}
+            <FormField
+              control={form.control}
+              name="givenStar"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Your rating</FormLabel>
+                  <FormControl>
+                    <StarRating rating={field.value} setRating={field.onChange} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          {/* Profile Image Upload */}
-          <FormField
-            control={form.control}
-            name="userImage"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>User Profile</FormLabel>
-                <FormControl>
-                  <ProfileImageUpload
-                    profileImageUrl={field.value}
-                    setProfileImageUrl={field.onChange}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            {/* Name Field */}
+            <FormField
+              control={form.control}
+              name="userName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Your name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g. Sarah M." {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          {/* Course Selection */}
-          <FormField
-            control={form.control}
-            name="purchasedCourse"
-            render={({ field }) => (
-              <FormItem className="flex flex-col">
-                <FormLabel>Course Purchased</FormLabel>
-                <FormControl>
-                  <SelectCourse
-                    courses={allCourses}
-                    onChange={field.onChange}
-                    value={field.value}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            {/* Profile Image Upload */}
+            <FormField
+              control={form.control}
+              name="userImage"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Profile photo (optional)</FormLabel>
+                  <FormControl>
+                    <ProfileImageUpload
+                      profileImageUrl={field.value}
+                      setProfileImageUrl={field.onChange}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          {/* Review Text */}
-          <FormField
-            control={form.control}
-            name="reviewText"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Review</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder="Share your experience with this course..."
-                    className="min-h-[120px]"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            {/* Course Selection */}
+            <FormField
+              control={form.control}
+              name="purchasedCourse"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>Qualification you completed</FormLabel>
+                  <FormControl>
+                    <SelectCourse
+                      courses={allCourses}
+                      onChange={field.onChange}
+                      value={field.value}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          {/* Review Image Upload (Optional) */}
-          <FormField
-            control={form.control}
-            name="reviewImage"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Add Image (optional)</FormLabel>
-                <FormControl>
-                  <ReviewImageUpload
-                    reviewImageUrl={field.value}
-                    setReviewImageUrl={field.onChange}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            {/* Review Text */}
+            <FormField
+              control={form.control}
+              name="reviewText"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Your review</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="How did the RPL process go for you?"
+                      className="min-h-[120px]"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          {/* Star Rating */}
-          <FormField
-            control={form.control}
-            name="givenStar"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Rating</FormLabel>
-                <FormControl>
-                  <StarRating rating={field.value} setRating={field.onChange} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            {/* Review Image Upload (Optional) */}
+            <FormField
+              control={form.control}
+              name="reviewImage"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Add a photo (optional)</FormLabel>
+                  <FormControl>
+                    <ReviewImageUpload
+                      reviewImageUrl={field.value}
+                      setReviewImageUrl={field.onChange}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          {/* Submit Button */}
-          <LoadingButton
-            loading={form.formState.isSubmitting}
-            type="submit"
-            className="w-full bg-brand text-white hover:bg-brand-strong"
-            loadingText="Submitting"
-          >
-            Submit Review
-          </LoadingButton>
-        </form>
-      </Form>
-    </div>
+            {/* Submit Button */}
+            <LoadingButton
+              loading={form.formState.isSubmitting}
+              type="submit"
+              className="h-12 w-full bg-cta text-base text-white hover:bg-cta-strong"
+              loadingText="Submitting"
+            >
+              Submit review
+            </LoadingButton>
+          </form>
+        </Form>
+      </div>
+    </section>
   );
 };
 

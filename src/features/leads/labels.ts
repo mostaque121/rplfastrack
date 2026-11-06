@@ -1,4 +1,4 @@
-import type { CrmSyncStatus, LeadForm } from "@/generated/prisma";
+import type { CrmSyncStatus, LeadForm } from "@/generated/prisma/client";
 
 export const LEAD_FORM_LABELS: Record<LeadForm, string> = {
   HERO: "Hero form",

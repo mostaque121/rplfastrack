@@ -5,8 +5,9 @@ import { headers } from "next/headers";
 import { after } from "next/server";
 import { z } from "zod";
 
-import { Prisma } from "@/generated/prisma";
+import { Prisma } from "@/generated/prisma/client";
 import { Attribution, attributionSchema } from "@/lib/attribution";
+import { getExistingQualificationLabel, getWorkStatusLabel } from "@/lib/eligibility-options";
 import { getExperienceLabel } from "@/lib/experience-years";
 import { contactSchema, responseFormSchema } from "@/lib/zod";
 import { requireAdmin } from "@/server/admin";
@@ -171,6 +172,9 @@ type EligibilityFormData = {
   email: string;
   phoneNumber: string;
   message?: string;
+  /** Option ids from eligibility-options.ts */
+  workStatus?: string;
+  existingQualification?: string;
 };
 
 export async function saveEligibilityData(data: EligibilityFormData, attribution?: Attribution) {
@@ -182,6 +186,9 @@ export async function saveEligibilityData(data: EligibilityFormData, attribution
   if (!data.email || !data.email.includes("@")) return { error: "Valid email is required" };
   if (!data.phoneNumber || data.phoneNumber.length < 8)
     return { error: "Valid phone number is required" };
+
+  const workStatus = getWorkStatusLabel(data.workStatus);
+  const existingQualification = getExistingQualificationLabel(data.existingQualification);
 
   try {
     await saveLead(
@@ -197,6 +204,8 @@ export async function saveEligibilityData(data: EligibilityFormData, attribution
           yearsOfExperience: data.yearsOfExperience, // band id, e.g. "1-3"
           experience: getExperienceLabel(data.yearsOfExperience),
           state: data.stateLivedIn,
+          workStatus,
+          existingQualification,
         },
       },
       attribution,
@@ -210,6 +219,8 @@ export async function saveEligibilityData(data: EligibilityFormData, attribution
           qualification: data.qualification,
           yearsOfExperience: data.yearsOfExperience,
           state: data.stateLivedIn,
+          workStatus,
+          existingQualification,
         }),
     );
 

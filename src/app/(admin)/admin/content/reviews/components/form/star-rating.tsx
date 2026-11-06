@@ -1,5 +1,5 @@
 import React from "react";
-import { AiFillStar, AiOutlineStar } from "react-icons/ai";
+import { Star } from "lucide-react";
 
 type StarRatingProps = {
   error?: string;
@@ -24,9 +24,9 @@ const StarRating: React.FC<StarRatingProps> = ({ error, rating, setRating }) => 
             className="cursor-pointer transition-transform hover:scale-110"
           >
             {rating > index ? (
-              <AiFillStar size={36} className="text-yellow-300" />
+              <Star size={36} className="fill-yellow-300 text-yellow-300" />
             ) : (
-              <AiOutlineStar size={36} className="text-gray-300" />
+              <Star size={36} className="text-gray-300" />
             )}
           </div>
         ))}

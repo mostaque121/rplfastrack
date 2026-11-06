@@ -5,6 +5,7 @@ import { draftMode } from "next/headers";
 import { cache } from "react";
 
 import { CACHE_TAGS } from "@/config/cache-tags";
+import type { Prisma } from "@/generated/prisma/client";
 import { prisma } from "@/server/db";
 import { Section } from "@/types/shared";
 
@@ -16,19 +17,26 @@ import { Section } from "@/types/shared";
 
 const published = { status: "PUBLISHED" } as const;
 
-/** Every section with its course list. Sent to the client on every page
- * (navbar, search, forms), so it only has the fields in `Section`. */
+/** Course images are optional: a course without one shows its section's image. */
+function withSectionImage<C extends { imageUrl: string | null }>(
+  courses: C[],
+  sectionImage: string,
+) {
+  return courses.map((course) => ({ ...course, imageUrl: course.imageUrl || sectionImage }));
+}
+
+/** Every section that has a published course, with its course list. Sent to the
+ * client on every page (navbar, search, forms), so it only has the fields in `Section`. */
 export const listSections = cache(
   unstable_cache(
-    async (): Promise<Section[]> =>
-      prisma.section.findMany({
+    async (): Promise<Section[]> => {
+      const sections = await prisma.section.findMany({
         select: {
           id: true,
           title: true,
           link: true,
           index: true,
-          imageSquareLink: true,
-          imageCoverLink: true,
+          imageUrl: true,
           icon: true,
           updatedAt: true,
           courses: {
@@ -37,8 +45,7 @@ export const listSections = cache(
               title: true,
               link: true,
               index: true,
-              imageSquareLink: true,
-              imageCoverLink: true,
+              imageUrl: true,
               updatedAt: true,
             },
             where: published,
@@ -46,7 +53,12 @@ export const listSections = cache(
           },
         },
         orderBy: { index: "asc" },
-      }),
+      });
+      // A section with no published course yet (e.g. a new one) stays hidden
+      return sections
+        .filter((s) => s.courses.length > 0)
+        .map((s) => ({ ...s, courses: withSectionImage(s.courses, s.imageUrl) }));
+    },
     ["list-sections"],
     { tags: [CACHE_TAGS.sections] },
   ),
@@ -54,11 +66,11 @@ export const listSections = cache(
 
 const courseSelect = {
   title: true,
+  updatedAt: true,
   link: true,
   metaTitle: true,
   metaDescription: true,
-  imageCoverLink: true,
-  imageSquareLink: true,
+  imageUrl: true,
   description: true,
   jobOpportunity: true,
   entryRequirement: true,
@@ -76,12 +88,30 @@ const courseSelect = {
   qualificationStatus: true,
   replacedBy: { select: { title: true, link: true, status: true } },
   faqs: { select: { id: true, question: true, answer: true }, orderBy: { index: "asc" } },
-  section: { select: { title: true, link: true, icon: true } },
+  section: { select: { title: true, link: true, icon: true, imageUrl: true, imageAlt: true } },
+  guides: {
+    where: { guide: { status: "PUBLISHED" } },
+    select: { guide: { select: { title: true, slug: true } } },
+    // Later guides are the more specific ones (e.g. plumbing licence before "what is RPL")
+    orderBy: { guide: { index: "desc" } },
+    take: 3,
+  },
 } as const;
+
+type CourseRow = Prisma.CourseGetPayload<{ select: typeof courseSelect }>;
+/** A course without its own image shows its section's (with the section's alt text). */
+const withImage = (course: CourseRow | null) =>
+  course &&
+  (course.imageUrl
+    ? { ...course, imageUrl: course.imageUrl }
+    : { ...course, imageUrl: course.section.imageUrl, imageAlt: course.section.imageAlt });
 
 export const getCourseByLink = cache((link: string) =>
   unstable_cache(
-    () => prisma.course.findUnique({ where: { link, ...published }, select: courseSelect }),
+    async () =>
+      withImage(
+        await prisma.course.findUnique({ where: { link, ...published }, select: courseSelect }),
+      ),
     ["course-by-link", link],
     { tags: [CACHE_TAGS.courses, CACHE_TAGS.course(link)] },
   )(),
@@ -92,31 +122,36 @@ export const getCourseByLink = cache((link: string) =>
 export const getCourseForPage = cache(async (link: string) => {
   const { isEnabled } = await draftMode();
   if (!isEnabled) return getCourseByLink(link);
-  return prisma.course.findUnique({ where: { link }, select: courseSelect });
+  return withImage(await prisma.course.findUnique({ where: { link }, select: courseSelect }));
 });
 
 export const getSectionByLink = cache((link: string) =>
   unstable_cache(
-    () =>
-      prisma.section.findUnique({
+    async () => {
+      const section = await prisma.section.findUnique({
         where: { link },
         select: {
           title: true,
           link: true,
           metaTitle: true,
           metaDescription: true,
-          imageCoverLink: true,
+          imageUrl: true,
           imageAlt: true,
           icon: true,
+          heroIntro: true,
           intro: true,
           faqs: { select: { id: true, question: true, answer: true }, orderBy: { index: "asc" } },
           courses: {
-            select: { id: true, title: true, link: true, imageSquareLink: true },
+            select: { id: true, title: true, link: true, imageUrl: true },
             where: published,
             orderBy: { index: "asc" },
           },
         },
-      }),
+      });
+      return (
+        section && { ...section, courses: withSectionImage(section.courses, section.imageUrl) }
+      );
+    },
     ["section-by-link", link],
     { tags: [CACHE_TAGS.section(link)] },
   )(),

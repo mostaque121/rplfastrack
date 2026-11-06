@@ -43,8 +43,6 @@ export default async function getAllReview(
               title: true,
               id: true,
               link: true,
-              imageCoverLink: true,
-              imageSquareLink: true,
             },
           },
         },

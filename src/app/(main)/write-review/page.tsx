@@ -1,3 +1,4 @@
+import { PageHero } from "@/components/sections/page-hero";
 import { absoluteUrl } from "@/lib/url";
 
 import ReviewForm from "./components/review-form";
@@ -20,7 +21,7 @@ export const metadata = {
     type: "article",
     images: [
       {
-        url: "/review-hero.jpg", // Replace with your actual image path
+        url: "/review-hero.jpg",
         width: 1200,
         height: 630,
         alt: "Write a Review - RPL Fast Track",
@@ -32,15 +33,21 @@ export const metadata = {
     title: "Write a Review - RPL Fast Track",
     description:
       "Share your feedback about RPL Fast Track and help others benefit from Recognition of Prior Learning in Australia.",
-    images: ["/review-hero.jpg"], // Replace with your actual image path
-    site: "@rplfastrack", // Update if you have a Twitter handle
+    images: ["/review-hero.jpg"],
   },
 };
 
 export default async function Page() {
   return (
-    <div>
+    <>
+      <PageHero
+        title="Write a Review"
+        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Write a Review" }]}
+        intro={
+          <p>Tell us how RPL Fast Track helped you and inspire others on their RPL journey.</p>
+        }
+      />
       <ReviewForm />
-    </div>
+    </>
   );
 }

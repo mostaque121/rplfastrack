@@ -21,7 +21,7 @@ const ALIASES: Record<string, IconName[]> = {
   plumbing: ["Droplets", "Wrench", "ShowerHead", "Bath"],
   electrical: ["Zap", "Plug", "Cable", "Lightbulb"],
   carpentry: ["Hammer", "Axe", "Ruler"],
-  building: ["Building2", "HardHat", "Construction", "House"],
+  building: ["Building", "HardHat", "Construction", "House"],
   civil: ["Construction", "Pickaxe", "Shovel", "Landmark"],
   hospitality: ["UtensilsCrossed", "ChefHat", "Coffee", "Hotel", "Wine"],
   cooking: ["ChefHat", "CookingPot", "UtensilsCrossed"],

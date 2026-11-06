@@ -1,6 +1,6 @@
 import "server-only";
 
-import { Prisma, PublishStatus } from "@/generated/prisma";
+import { Prisma, PublishStatus } from "@/generated/prisma/client";
 import { prisma } from "@/server/db";
 
 import { courseCompleteness } from "./completeness";

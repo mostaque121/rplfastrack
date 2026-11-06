@@ -27,11 +27,10 @@ export const faqSchema = z.object({
   }),
 });
 
+// One wide cover image. Optional on courses (the page falls back to the section's image).
 const imageFields = {
-  imageSquareLink: z.string(),
-  imageSquarePublicId: z.string(),
-  imageCoverLink: z.string(),
-  imageCoverPublicId: z.string(),
+  imageUrl: z.string(),
+  imagePublicId: z.string(),
   imageAlt: z.string().trim().max(200),
 };
 
@@ -73,15 +72,12 @@ export const courseEditorSchema = z
   .superRefine((data, ctx) => {
     if (data.status !== "PUBLISHED") return;
     // A published page needs the pieces the template can't do without
-    const required: [keyof typeof data, string][] = [
-      ["imageCoverLink", "A cover image is required to publish"],
-      ["imageSquareLink", "A square image is required to publish"],
-      ["description", "A description is required to publish"],
-    ];
-    for (const [field, message] of required) {
-      if (!String(data[field] ?? "").trim())
-        ctx.addIssue({ code: "custom", path: [field], message });
-    }
+    if (!data.description.replace(/<[^>]*>/g, "").trim())
+      ctx.addIssue({
+        code: "custom",
+        path: ["description"],
+        message: "A description is required to publish",
+      });
   });
 
 export type CourseEditorValues = z.infer<typeof courseEditorSchema>;
@@ -91,7 +87,9 @@ export const sectionEditorSchema = z.object({
   link: slugSchema,
   index: z.number().int().min(1),
   ...imageFields,
+  imageUrl: z.string().min(1, "A section needs an image"),
   icon: z.string().trim().max(60),
+  heroIntro: richText,
   intro: richText,
   ...seoFields,
   faqs: z.array(faqSchema).max(30),
@@ -105,7 +103,10 @@ export const redirectSchema = z.object({
     .string()
     .trim()
     .toLowerCase()
-    .regex(/^\/(courses|section)\/[a-z0-9-]+$/, "An old /courses/… or /section/… path"),
+    .regex(
+      /^\/(courses|section|guides)\/[a-z0-9-]+$/,
+      "An old /courses/…, /section/… or /guides/… path",
+    ),
   toPath: z
     .string()
     .trim()

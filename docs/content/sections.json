@@ -1,0 +1,456 @@
+[
+  {
+    "link": "community-service",
+    "title": "Community Service",
+    "icon": "HeartHandshake",
+    "imageAlt": "Community services worker supporting an elderly client",
+    "metaTitle": "Community Services RPL: Aged Care, Childcare & More",
+    "metaDescription": "Work in aged care, disability, childcare, mental health or youth work? Turn your experience into a CHC qualification through RPL. Free eligibility check.",
+    "heroIntro": "<p>Aged care, disability support, early childhood, mental health, youth work and counselling: if you already do the job, RPL can turn your experience into the <strong>CHC qualification</strong> employers and regulators ask for.</p>",
+    "intro": "<p>Community services is one of the largest employers in Australia, and many people in the sector learned on the job. Support workers, educators and case workers often have years of experience but no formal certificate, or a qualification that has since been superseded. Recognition of Prior Learning (RPL) lets a registered training organisation (RTO) assess what you already do against the units of a current qualification.</p><h3>Who RPL suits</h3><ul><li>Personal care and support workers in aged care, home care or disability services</li><li>Educators and room leaders in long day care, family day care or outside school hours care</li><li>Education support staff and teacher aides in schools</li><li>Mental health, alcohol and other drugs, and youth workers</li><li>Team leaders and coordinators moving into management</li></ul><h3>Choosing the right level</h3><p>A Certificate III covers frontline support work. A Certificate IV adds specialist or lead roles, such as ageing support, disability or mental health. A Diploma suits case managers, centre directors and coordinators, and the Advanced Diploma is for sector managers.</p><h3>Things to know</h3><p>Several of these qualifications were updated in 2025, and some include mandatory work placement hours. Current work in the sector can often be used as evidence for those hours. Early childhood roles also need a Working with Children Check, and some roles have state registration or screening requirements. We help you work out which qualification fits your role before you apply.</p>",
+    "faqs": [
+      {
+        "q": "Can I get a community services qualification through RPL if I have no certificate?",
+        "a": "<p>Yes. RPL is based on what you can show from your work, not on previous study. If you have been working as a support worker, educator or case worker, an RTO assesses your evidence against the qualification's units.</p>"
+      },
+      {
+        "q": "Which qualification do I need for aged care or disability support work?",
+        "a": "<p>The CHC33021 Certificate III in Individual Support is the usual entry qualification for both. Experienced workers often move on to the CHC43015 Certificate IV in Ageing Support or the CHC43121 Certificate IV in Disability Support.</p>"
+      },
+      {
+        "q": "Do I still need to do work placement hours?",
+        "a": "<p>Some community services qualifications include mandatory placement hours. If you already work in a relevant role, that work can often be used as evidence instead. The RTO decides how your hours are counted.</p>"
+      },
+      {
+        "q": "My childcare qualification has been superseded. Can RPL help?",
+        "a": "<p>Yes. If you hold an older version or have worked under a working-towards arrangement, RPL can map your experience to the current CHC30125 Certificate III or CHC50125 Diploma of Early Childhood Education and Care.</p>"
+      }
+    ]
+  },
+  {
+    "link": "automotive-services",
+    "title": "Automotive Services",
+    "icon": "Car",
+    "imageAlt": "Mechanic working on a car engine in a workshop",
+    "metaTitle": "Automotive RPL: Mechanic Trade Certificates (AUR)",
+    "metaDescription": "Light vehicle, heavy vehicle, diesel, auto electrical or panel beating: get your AUR trade certificate through RPL without an apprenticeship. Free check.",
+    "heroIntro": "<p>Years in the workshop but no trade papers? RPL turns your experience as a <strong>mechanic, auto electrician, diesel fitter or panel beater</strong> into a nationally recognised AUR qualification.</p>",
+    "intro": "<p>Plenty of skilled mechanics in Australia learned the trade on the tools rather than through a formal apprenticeship, or trained overseas. Without the certificate, it can be hard to move into a lead role, open your own workshop or meet an employer's requirements. Recognition of Prior Learning (RPL) lets a registered training organisation (RTO) assess your workshop experience against a current AUR qualification.</p><h3>Who RPL suits</h3><ul><li>Light vehicle mechanics servicing and repairing cars and 4WDs</li><li>Heavy vehicle and diesel mechanics working on trucks, buses and plant</li><li>Auto electricians installing and diagnosing electrical systems</li><li>Panel beaters and body repair technicians</li><li>Workshop foremen and service managers</li></ul><h3>Choosing the right level</h3><p>The Certificate III qualifications are the trade certificates for each specialisation. The Certificate IV qualifications cover advanced diagnosis, overhauling and workshop management, and the Diploma of Automotive Technology suits senior technical roles.</p><h3>What the assessment looks like</h3><p>Expect to provide job cards, photos or videos of your work, a reference from an employer and, in most cases, a practical assessment in a workshop. The AUR20220 Certificate II in Automotive Air Conditioning Technology supports an application for a refrigerant handling licence, which is issued separately by the Australian Refrigeration Council with its own requirements.</p>",
+    "faqs": [
+      {
+        "q": "Can I get a mechanic trade certificate through RPL without an apprenticeship?",
+        "a": "<p>Yes, if you have enough hands-on experience. An RTO assesses your evidence, usually including a practical assessment, against the units of the Certificate III for your specialisation.</p>"
+      },
+      {
+        "q": "How much experience do I need for automotive RPL?",
+        "a": "<p>It depends on the qualification and your evidence, but trade-level RPL usually needs several years of regular work across most of the tasks in the qualification. Tell us about your work history and we will tell you which qualification is realistic.</p>"
+      },
+      {
+        "q": "What evidence do I need for automotive RPL?",
+        "a": "<p>Common evidence includes job cards or work orders, photos and videos of your work, payslips or a statement of service, and a reference from a supervisor. Most RTOs also run a practical assessment.</p>"
+      },
+      {
+        "q": "Does the automotive air conditioning qualification give me a licence?",
+        "a": "<p>No. The AUR20220 qualification supports an application for a refrigerant handling licence, but the licence itself is issued by the Australian Refrigeration Council, which has its own requirements.</p>"
+      }
+    ]
+  },
+  {
+    "link": "business-and-training",
+    "title": "Business and Training",
+    "icon": "Briefcase",
+    "imageAlt": "Team leader running a business meeting",
+    "metaTitle": "Business, Management & TAE RPL Qualifications",
+    "metaDescription": "Turn your experience in management, project management, WHS, bookkeeping or training into a BSB, FNS or TAE qualification through RPL. Free check.",
+    "heroIntro": "<p>Managers, project leads, bookkeepers, WHS officers and workplace trainers: RPL turns your experience into a <strong>BSB, FNS or TAE qualification</strong> that matches the job you already do.</p>",
+    "intro": "<p>Many people in business roles were promoted for their results, not their qualifications. A team leader becomes a manager, an office administrator takes over the books, a senior tradesperson starts training apprentices. Recognition of Prior Learning (RPL) lets a registered training organisation (RTO) assess that experience against a current qualification, so your skills are on paper when you apply for your next role.</p><h3>Who RPL suits</h3><ul><li>Team leaders, supervisors and managers</li><li>Project coordinators and project managers</li><li>Bookkeepers and accounts staff</li><li>WHS officers, safety representatives and site supervisors</li><li>Workplace trainers and assessors</li></ul><h3>Choosing the right qualification</h3><p>The Certificate IV in Business suits general office and coordination roles. The Diplomas of Leadership and Management and of Project Management suit people who lead teams or deliver projects. The Certificate IV in Work Health and Safety is for safety roles. The Certificate IV and Diploma in accounting cover bookkeeping and accounting work.</p><h3>Things to know</h3><p>The TAE40122 Certificate IV in Training and Assessment is the qualification trainers and assessors need to work in vocational training, and the assessment includes observed delivery and assessment practice. The Certificate IV in Accounting and Bookkeeping can support registration as a BAS agent with the Tax Practitioners Board, which sets its own experience requirements.</p>",
+    "faqs": [
+      {
+        "q": "Can I get a Diploma of Leadership and Management through RPL?",
+        "a": "<p>Yes, if you have led a team or managed people, budgets or operations. Evidence such as reports, plans, performance reviews you have run and a reference from your employer is assessed against the units.</p>"
+      },
+      {
+        "q": "Can I get the TAE40122 Certificate IV in Training and Assessment through RPL?",
+        "a": "<p>Yes, if you already train or assess people at work. You will need evidence of training sessions you have delivered and assessments you have carried out, and the RTO may observe you training.</p>"
+      },
+      {
+        "q": "Will a Certificate IV in Accounting and Bookkeeping let me register as a BAS agent?",
+        "a": "<p>It is one of the requirements. The Tax Practitioners Board also asks for relevant work experience and other criteria, so check their current rules before you apply.</p>"
+      },
+      {
+        "q": "Is a business qualification gained through RPL the same as one gained by study?",
+        "a": "<p>Yes. The qualification is issued by the RTO under the same national framework, and the certificate does not say how it was achieved.</p>"
+      }
+    ]
+  },
+  {
+    "link": "commercial-cookery-hospitality",
+    "title": "Commercial Cookery & Hospitality",
+    "icon": "ChefHat",
+    "imageAlt": "Chef plating food in a commercial kitchen",
+    "metaTitle": "Commercial Cookery & Hospitality RPL (Chef, SIT)",
+    "metaDescription": "Working as a cook, chef or hospitality manager? Get your SIT Certificate III in Commercial Cookery, Kitchen Management or Diploma through RPL.",
+    "heroIntro": "<p>Cooking in a commercial kitchen without your papers, or running the floor as a manager? RPL turns your experience into a <strong>SIT qualification in commercial cookery or hospitality</strong>.</p>",
+    "intro": "<p>Hospitality is a sector where skills are learned on the job. Many cooks work their way up to chef de partie or head chef without finishing an apprenticeship, and many managers start behind the bar. Recognition of Prior Learning (RPL) lets a registered training organisation (RTO) assess the work you already do against a current SIT qualification.</p><h3>Who RPL suits</h3><ul><li>Cooks and chefs working in restaurants, hotels, clubs, cafes or catering</li><li>Sous chefs and head chefs who run a kitchen</li><li>Restaurant, bar, venue and hotel managers</li><li>Cooks who trained overseas and want an Australian qualification</li></ul><h3>Choosing the right level</h3><p>The SIT30821 Certificate III in Commercial Cookery is the trade qualification for cooks. The SIT40521 Certificate IV in Kitchen Management adds menu planning, costing, rostering and leading a kitchen team. The SIT50422 Diploma of Hospitality Management suits people who manage a venue or several departments.</p><h3>What the assessment looks like</h3><p>Cookery RPL is practical. Expect to show evidence such as menus you have produced, photos of your dishes, rosters and a reference from your employer, and to cook in a practical assessment observed by an assessor. Food safety units are part of the qualification, so experience working under a food safety program helps.</p>",
+    "faqs": [
+      {
+        "q": "Can I become a qualified chef through RPL?",
+        "a": "<p>Yes. If you have worked as a cook across the main areas of a commercial kitchen, an RTO can assess you for the SIT30821 Certificate III in Commercial Cookery, usually including a practical cooking assessment.</p>"
+      },
+      {
+        "q": "What is the difference between Commercial Cookery and Kitchen Management?",
+        "a": "<p>The Certificate III covers cooking skills. The Certificate IV in Kitchen Management includes those skills and adds leadership tasks such as menu costing, stock control, rostering and managing kitchen staff.</p>"
+      },
+      {
+        "q": "Can my overseas cooking experience count?",
+        "a": "<p>Yes. Experience gained overseas can be used as evidence, as long as it can be verified, for example through references, payslips or employment letters.</p>"
+      },
+      {
+        "q": "Do I need to cook in front of an assessor?",
+        "a": "<p>In most cases, yes. Cookery qualifications need practical evidence, so the RTO will usually observe you preparing dishes in a commercial kitchen or review recorded evidence.</p>"
+      }
+    ]
+  },
+  {
+    "link": "construction-and-plumbing",
+    "title": "Construction and Plumbing",
+    "icon": "HardHat",
+    "imageAlt": "Carpenter working on a timber frame on a building site",
+    "metaTitle": "Construction & Plumbing RPL: Trade Certificates (CPC)",
+    "metaDescription": "Carpenter, plumber, tiler, painter, bricklayer or builder? Turn your site experience into a CPC trade certificate or diploma through RPL. Free check.",
+    "heroIntro": "<p>Carpenters, plumbers, tilers, painters, concreters, bricklayers and builders: RPL turns your years on site into a <strong>CPC trade certificate</strong>, or a Certificate IV or Diploma for builder licensing.</p>",
+    "intro": "<p>Construction has many experienced tradespeople who never finished an apprenticeship, or who trained overseas. A trade certificate is often needed to get a contractor licence, win commercial work or move into supervision. Recognition of Prior Learning (RPL) lets a registered training organisation (RTO) assess your site experience against a current CPC qualification.</p><h3>Who RPL suits</h3><ul><li>Carpenters, bricklayers, concreters and wall and floor tilers</li><li>Plumbers and roof plumbers</li><li>Painters and decorators and waterproofers</li><li>Site supervisors, foremen and project managers working towards a builder licence</li></ul><h3>Choosing the right level</h3><p>The Certificate III qualifications are the trade certificates for each trade. The CPC40920 Certificate IV in Plumbing and Services suits plumbers moving to a contractor or licensed role. The CPC40120 Certificate IV and CPC50220 Diploma of Building and Construction (Building) are commonly used for builder licence applications.</p><h3>Licensing</h3><p>Trade and builder licences are issued by each state or territory's licensing body, not by the RTO, and each one sets its own rules on qualifications, experience and extra assessments. A qualification is usually one requirement among several. We check your state's rules with you before you apply, so you choose a qualification that supports the licence you want.</p>",
+    "faqs": [
+      {
+        "q": "Can I get a trade certificate in construction through RPL?",
+        "a": "<p>Yes, if you have worked across most of the tasks in the trade. An RTO assesses evidence such as photos of your work, project lists, references and a practical assessment against the qualification's units.</p>"
+      },
+      {
+        "q": "Will an RPL qualification get me a builder or plumbing licence?",
+        "a": "<p>The qualification is usually one part of a licence application. The licensing body in your state or territory also looks at experience and may require extra assessments, so check its requirements first. We can help you work out which qualification it asks for.</p>"
+      },
+      {
+        "q": "What evidence do I need for construction RPL?",
+        "a": "<p>Typical evidence includes dated photos and videos of jobs you have done, plans or job sheets, payslips or invoices, and a reference from a builder or supervisor who has seen your work.</p>"
+      },
+      {
+        "q": "Can my overseas trade experience be recognised?",
+        "a": "<p>Yes. Overseas experience can be used as evidence, though the RTO will check it against Australian standards and codes, and may ask you to show that in a practical assessment.</p>"
+      }
+    ]
+  },
+  {
+    "link": "health-care",
+    "title": "Health Care",
+    "icon": "Stethoscope",
+    "imageAlt": "Allied health assistant helping a patient with exercises",
+    "metaTitle": "Health Care RPL: Allied Health, Massage & First Aid",
+    "metaDescription": "Allied health assistant, health administrator or massage therapist? Turn your experience into a nationally recognised HLT qualification through RPL.",
+    "heroIntro": "<p>Allied health assistants, health administration staff and massage therapists: RPL turns your experience into a <strong>nationally recognised HLT qualification</strong>, from Certificate III to Diploma.</p>",
+    "intro": "<p>Health services rely on support staff who learn much of their work on the job, in hospitals, clinics, aged care and private practice. Recognition of Prior Learning (RPL) lets a registered training organisation (RTO) assess the skills you already use against a current qualification, so your experience counts when you apply for a role or a promotion.</p><h3>Who RPL suits</h3><ul><li>Allied health assistants working with physiotherapists, occupational therapists or speech pathologists</li><li>Medical receptionists, ward clerks and health administration staff</li><li>Massage therapists and remedial massage therapists in clinics, spas or sports settings</li></ul><h3>Choosing the right qualification</h3><p>The HLT37315 Certificate III in Health Administration covers front desk and records work. The HLT43021 Certificate IV in Allied Health Assistance suits assistants who deliver therapy programs under a health professional's supervision. The HLT42021 Certificate IV in Massage Therapy covers relaxation massage, and the HLT52021 Diploma of Remedial Massage covers assessment and treatment of clients.</p><h3>First aid and CPR</h3><p>The HLTAID011 Provide First Aid and HLTAID009 Provide CPR units are short units rather than full qualifications. They include a hands-on assessment and are usually refreshed, with CPR commonly every 12 months and first aid every three years. Health fund provider status for massage therapists is managed by professional associations and health funds, which set their own requirements.</p>",
+    "faqs": [
+      {
+        "q": "Can I get a Diploma of Remedial Massage through RPL?",
+        "a": "<p>Yes, if you have experience assessing and treating clients with remedial techniques. Evidence such as client records with identifying details removed, treatment plans and a practical assessment is checked against the units.</p>"
+      },
+      {
+        "q": "Will an RPL massage qualification let me claim health fund rebates?",
+        "a": "<p>Health fund provider numbers are issued through professional associations and the funds themselves, and they set their own rules on qualifications, insurance and ongoing training. Check those requirements before you apply.</p>"
+      },
+      {
+        "q": "Can I get first aid or CPR through RPL?",
+        "a": "<p>First aid and CPR units need a hands-on demonstration of skills such as CPR on a manikin, so a practical assessment is always part of it. They are also usually refreshed regularly rather than recognised once.</p>"
+      },
+      {
+        "q": "Do I need to work in a hospital to get a health qualification through RPL?",
+        "a": "<p>No. Experience in clinics, private practice, aged care, community health or disability settings can all count, as long as it matches the tasks in the qualification.</p>"
+      }
+    ]
+  },
+  {
+    "link": "engineering",
+    "title": "Engineering",
+    "icon": "Cog",
+    "imageAlt": "Boilermaker welding steel in a fabrication workshop",
+    "metaTitle": "Engineering RPL: Fabrication & Mechanical Trade (MEM)",
+    "metaDescription": "Boilermaker, welder or fitter and turner? Get your MEM Certificate III in Engineering, Fabrication or Mechanical Trade through RPL. Free check.",
+    "heroIntro": "<p>Boilermakers, welders, metal fabricators and fitters: RPL turns your workshop and site experience into the <strong>MEM Certificate III engineering trade qualification</strong>.</p>",
+    "intro": "<p>Engineering trades are in steady demand across manufacturing, mining, construction and maintenance. Many fabricators and fitters have years of experience without the trade certificate, often because they learned on the job or trained overseas. Recognition of Prior Learning (RPL) lets a registered training organisation (RTO) assess your experience against a current MEM qualification.</p><h3>Who RPL suits</h3><ul><li>Boilermakers, welders and metal fabricators</li><li>Steel fabricators working from drawings in a workshop or on site</li><li>Fitters, fitters and turners, and maintenance fitters</li><li>Machinists and mechanical tradespeople</li></ul><h3>Choosing the right qualification</h3><p>The MEM31925 Certificate III in Engineering - Fabrication Trade is the trade qualification for boilermakers and fabricators. It covers welding, cutting, forming and fabricating from drawings. The MEM30219 Certificate III in Engineering - Mechanical Trade is the trade qualification for fitters, covering fitting, machining, assembly and maintenance of mechanical equipment.</p><h3>What the assessment looks like</h3><p>Expect to provide photos and videos of jobs you have fabricated or repaired, the drawings you worked from, a reference from a supervisor and, in most cases, a practical assessment. Some employers and sites also need separate welding certification to a specific standard, which is tested on its own and is not part of the qualification.</p>",
+    "faqs": [
+      {
+        "q": "Can I get a boilermaker trade certificate through RPL?",
+        "a": "<p>Yes, if you have broad fabrication and welding experience. An RTO assesses your evidence against the MEM31925 Certificate III in Engineering - Fabrication Trade, usually including a practical assessment.</p>"
+      },
+      {
+        "q": "What is the difference between the fabrication and mechanical trade qualifications?",
+        "a": "<p>Fabrication is for boilermakers and welders who cut, form and join metal. Mechanical is for fitters and machinists who build, install and maintain machinery. Choose the one that matches most of your work.</p>"
+      },
+      {
+        "q": "Is a welding ticket the same as the trade qualification?",
+        "a": "<p>No. A welding certification tests a specific weld procedure to a standard. The Certificate III is a full trade qualification covering a much wider range of skills.</p>"
+      },
+      {
+        "q": "Can overseas engineering trade experience count?",
+        "a": "<p>Yes. Verified overseas experience can be used as evidence. The RTO checks it against the Australian units and may ask you to show your skills in a practical assessment.</p>"
+      }
+    ]
+  },
+  {
+    "link": "security-property-services",
+    "title": "Security & Property Services",
+    "icon": "ShieldCheck",
+    "imageAlt": "Security officer monitoring a building entrance",
+    "metaTitle": "Security & Real Estate RPL Qualifications (CPP)",
+    "metaDescription": "Security officer, security manager or real estate agent? Find the CPP qualification for your role and check if RPL is available in your state.",
+    "heroIntro": "<p>Security officers, security managers, risk consultants and real estate agents: find the <strong>CPP qualification</strong> for your role and see if RPL is an option in your state.</p>",
+    "intro": "<p>Security and property services are licensed industries, so the qualification you hold often decides the work you can do. Recognition of Prior Learning (RPL) lets a registered training organisation (RTO) assess your experience against a current CPP qualification, but the rules on RPL differ between states and licence types, so it is worth checking before you start.</p><h3>Security</h3><p>The CPP20218 Certificate II and CPP31318 Certificate III in Security Operations are the qualifications for frontline security officers and crowd controllers. The Certificate IV in Security Management and the Certificate IV in Security Risk Analysis suit supervisors and consultants, and the CPP50619 Diploma of Security Risk Management suits senior managers. Security licences are issued by each state and territory's regulator, and some regulators limit or do not accept RPL for licence qualifications. We check your state's rules with you before you apply.</p><h3>Real estate</h3><p>The CPP41419 Certificate IV in Real Estate Practice is the qualification for real estate sales and property management roles. The CPP51122 Diploma of Property (Agency Management) is the qualification for running an agency. Real estate registration and licensing is managed by each state or territory's fair trading or consumer affairs office, each with its own requirements.</p><h3>Who RPL suits</h3><ul><li>Experienced security officers moving into supervision or management</li><li>Security and risk consultants</li><li>Property managers and sales agents moving to a full licence</li></ul>",
+    "faqs": [
+      {
+        "q": "Can I get a security licence qualification through RPL?",
+        "a": "<p>It depends on your state and the licence. Some regulators limit or do not accept RPL for security licence qualifications, while management and risk qualifications are often available through RPL. Ask us and we will check the rules for your state.</p>"
+      },
+      {
+        "q": "Which real estate qualification do I need?",
+        "a": "<p>The CPP41419 Certificate IV in Real Estate Practice covers sales and property management. Running an agency usually needs the CPP51122 Diploma of Property (Agency Management). Exact requirements are set by your state or territory.</p>"
+      },
+      {
+        "q": "Who issues security and real estate licences?",
+        "a": "<p>Licences are issued by each state or territory's regulator, not by the RTO. The qualification is one part of the application, alongside checks such as identity, criminal history and experience.</p>"
+      },
+      {
+        "q": "What evidence do I need for security management RPL?",
+        "a": "<p>Typical evidence includes rosters and site plans you have prepared, incident reports, risk assessments, staff supervision records and a reference from your employer.</p>"
+      }
+    ]
+  },
+  {
+    "link": "hairdressing-and-beauty",
+    "title": "Hairdressing and Beauty",
+    "icon": "Scissors",
+    "imageAlt": "Beauty therapist performing a facial treatment in a salon",
+    "metaTitle": "Hair & Beauty RPL: Hairdressing, Beauty & Nails",
+    "metaDescription": "Turn salon experience into a nationally recognised hairdressing, beauty therapy, nail or salon management qualification through RPL. Free eligibility check.",
+    "heroIntro": "<p>Working in a salon, spa or clinic? RPL turns your experience as a <strong>hairdresser, beauty therapist or nail technician</strong> into a nationally recognised SHB qualification, from Certificate III up to the Diploma of Salon Management.</p>",
+    "intro": "<p>Many people in hair and beauty learn on the job. They build years of client work, short courses and product training, but never finish a formal qualification. Recognition of Prior Learning (RPL) lets a registered training organisation (RTO) assess the services you already deliver against a current SHB qualification, so your experience counts when you apply for senior roles, train juniors or open your own salon.</p><h3>Qualifications in this industry</h3><ul><li><strong>Hairdressing:</strong> the SHB30416 Certificate III in Hairdressing, the trade qualification for hairdressers</li><li><strong>Nails:</strong> the SHB30321 Certificate III in Nail Technology, for manicures, pedicures, acrylics and nail art</li><li><strong>Beauty therapy:</strong> the SHB40121 Certificate IV in Beauty Therapy and the SHB50121 Diploma of Beauty Therapy, from waxing, lashes and facials through to advanced skin and body treatments</li><li><strong>Salon management:</strong> the SHB50216 Diploma of Salon Management, for owners and managers who run the team and the business</li></ul><h3>Who RPL suits</h3><ul><li>Hairdressers, beauty therapists and nail technicians with steady salon experience</li><li>Senior stylists and therapists who want the qualification behind their skills</li><li>Salon owners and managers</li><li>People who trained overseas and now work in Australia</li></ul><h3>What the assessment looks like</h3><p>Expect to show evidence such as photos of your work, client or treatment records with personal details removed, references from salon owners or managers, and certificates from product or short courses. Practical services are usually observed by an assessor, either in your salon or on recorded video. Some treatments, such as skin penetration and cosmetic tattooing, also fall under local council or state health rules, so check those if they are part of your work.</p>",
+    "faqs": [
+      {
+        "q": "Can I get a hairdressing or beauty qualification through RPL?",
+        "a": "<p>Yes, if you have regular, recent experience delivering the services the qualification covers. An RTO assesses your evidence against the SHB units, usually including observed practical services.</p>"
+      },
+      {
+        "q": "Which hair and beauty qualification should I choose?",
+        "a": "<p>Choose by the work you do now. Hairdressers usually start with the Certificate III in Hairdressing, nail technicians with the Certificate III in Nail Technology and beauty therapists with the Certificate IV or Diploma of Beauty Therapy. If you manage a salon, the Diploma of Salon Management fits. We can check your experience against each one.</p>"
+      },
+      {
+        "q": "Do my short beauty or product courses count?",
+        "a": "<p>They help. Certificates from short courses and product training are useful evidence, especially alongside proof that you use those skills with clients.</p>"
+      },
+      {
+        "q": "What evidence do I need for hair and beauty RPL?",
+        "a": "<p>Common evidence includes photos or videos of your work, client or treatment records with personal details removed, a reference from a salon owner or manager, and any certificates you hold.</p>"
+      }
+    ]
+  },
+  {
+    "link": "electrotechnology-air-conditioning",
+    "title": "Electrotechnology & Air Conditioning",
+    "icon": "Zap",
+    "imageAlt": "Electrician testing wiring at a switchboard",
+    "metaTitle": "Electrician & Refrigeration RPL Qualifications (UEE)",
+    "metaDescription": "Electrician or air conditioning and refrigeration mechanic? See how RPL works for the UEE Certificate III qualifications and state licensing.",
+    "heroIntro": "<p>Electrical workers and air conditioning and refrigeration mechanics: see how RPL works for the <strong>UEE Certificate III qualifications</strong> and what else you need for a licence.</p>",
+    "intro": "<p>Electrical and refrigeration work is licensed in Australia, so the qualification is the first step towards working unsupervised. Recognition of Prior Learning (RPL) lets a registered training organisation (RTO) assess your experience against a current UEE qualification. It mostly suits people with substantial hands-on experience, including tradespeople who trained overseas.</p><h3>Who RPL suits</h3><ul><li>Electrical workers with years of installation and maintenance experience</li><li>Overseas-trained electricians who want an Australian qualification</li><li>Air conditioning and refrigeration mechanics</li><li>Installers of split systems, ducted systems and commercial refrigeration</li></ul><h3>The qualifications</h3><p>The UEE30820 Certificate III in Electrotechnology Electrician is the qualification for electricians. The UEE32225 Certificate III in Air Conditioning and Refrigeration is the qualification for refrigeration and air conditioning mechanics.</p><h3>Licensing</h3><p>An electrical licence is issued by the electrical safety regulator in your state or territory, not by the RTO. Most regulators require a final licensing assessment, often called the Capstone, as part of the qualification, plus supervised experience. Air conditioning and refrigeration work also needs a refrigerant handling licence from the Australian Refrigeration Council. Practical assessment is always part of these qualifications, and we check your state's rules with you before you apply.</p>",
+    "faqs": [
+      {
+        "q": "Can I become a licensed electrician through RPL?",
+        "a": "<p>RPL can count your experience towards the UEE30820 Certificate III, but the licence is issued by your state or territory's electrical regulator. Most require a final Capstone assessment and evidence of supervised work, so check their requirements first.</p>"
+      },
+      {
+        "q": "I am an overseas electrician. Can RPL help me work in Australia?",
+        "a": "<p>RPL is one pathway. An RTO assesses your experience against the Australian units, and gaps against Australian wiring rules may need extra training. Your state's regulator then decides on the licence.</p>"
+      },
+      {
+        "q": "Do I need a separate licence for air conditioning work?",
+        "a": "<p>Yes. Handling refrigerants needs a licence from the Australian Refrigeration Council, and electrical work on air conditioning systems may also need an electrical licence, depending on your state.</p>"
+      },
+      {
+        "q": "Is there a practical assessment?",
+        "a": "<p>Yes. Electrical and refrigeration qualifications always include practical assessment of your skills, alongside your work evidence.</p>"
+      }
+    ]
+  },
+  {
+    "link": "finance-and-accounting",
+    "title": "Finance and Accounting",
+    "icon": "Calculator",
+    "image": "/images/sections/finance-and-accounting.webp",
+    "imageAlt": "Laptop showing financial charts and figures on an office desk",
+    "metaTitle": "Finance & Accounting RPL: Bookkeeping to Broking",
+    "metaDescription": "Get a recognised accounting, bookkeeping or mortgage broking qualification through RPL, using your work experience. 100% online. Free eligibility check.",
+    "heroIntro": "<p>Working in bookkeeping, accounts or lending? RPL turns your experience into a nationally recognised <strong>accounting or finance and mortgage broking qualification</strong>, assessed 100% online.</p>",
+    "intro": "<p>Finance and accounting skills are often learned on the job: processing payroll and BAS, reconciling accounts, preparing reports, or writing loan applications for clients. Recognition of Prior Learning (RPL) lets a registered training organisation (RTO) assess that work against a current FNS qualification, so your experience is backed by a credential employers and regulators recognise.</p><h3>Qualifications in this industry</h3><ul><li><strong>Bookkeeping and accounting:</strong> the FNS40222 Certificate IV in Accounting and Bookkeeping, the FNS50222 Diploma of Accounting and the FNS60222 Advanced Diploma of Accounting</li><li><strong>Mortgage broking:</strong> the FNS40821 Certificate IV in Finance and Mortgage Broking and the FNS50322 Diploma of Finance and Mortgage Broking Management</li></ul><h3>Who RPL suits</h3><ul><li>Bookkeepers, accounts officers and payroll officers</li><li>Accountants and senior finance staff without an Australian qualification</li><li>Mortgage brokers, loan writers and broker support staff</li><li>Lending and credit staff from banks who are moving into broking</li></ul><h3>Qualifications and professional requirements</h3><p>Some finance roles have rules set outside the training system. Mortgage brokers must meet ASIC's minimum training standards for credit advice, and industry associations set their own membership requirements. BAS agents and tax agents register with the Tax Practitioners Board, which sets its own education and experience rules. RPL gives you the qualification; registration and membership are separate steps, and we explain how they fit when you apply.</p><h3>What the assessment looks like</h3><p>Evidence is mostly documents you already produce: reconciliations, BAS or payroll reports, management reports, loan files with client details removed, and a reference from your employer or principal. Everything is submitted online, followed by a conversation with an assessor.</p>",
+    "faqs": [
+      {
+        "q": "Can I get an accounting qualification through RPL?",
+        "a": "<p>Yes, if you have been doing bookkeeping or accounting work. Your reports, reconciliations and an employer reference are assessed against the units of the Certificate IV, Diploma or Advanced Diploma.</p>"
+      },
+      {
+        "q": "Can I become a mortgage broker through RPL?",
+        "a": "<p>If you already work in lending or broking, RPL can recognise that experience towards the Certificate IV in Finance and Mortgage Broking, the minimum qualification for mortgage brokers. If you are new to lending, you will usually need training rather than RPL.</p>"
+      },
+      {
+        "q": "Is finance and accounting RPL done online?",
+        "a": "<p>Yes. Evidence is uploaded online and the assessor interview is by video, from anywhere in Australia.</p>"
+      },
+      {
+        "q": "Does an accounting qualification make me a registered BAS or tax agent?",
+        "a": "<p>Not on its own. The Tax Practitioners Board registers BAS and tax agents and also asks for relevant experience and specific units. The right qualification is an important part of that application.</p>"
+      }
+    ]
+  },
+  {
+    "link": "horticulture-and-landscaping",
+    "title": "Horticulture and Landscaping",
+    "icon": "Sprout",
+    "image": "/images/sections/horticulture-and-landscaping.webp",
+    "imageAlt": "Seedlings in a nursery tray next to a garden trowel",
+    "metaTitle": "Horticulture & Landscaping RPL Qualifications",
+    "metaDescription": "Gardener or landscaper? Turn your experience into a nationally recognised horticulture or landscape construction qualification through RPL. Free check.",
+    "heroIntro": "<p>Working as a gardener, nursery hand or landscaper? RPL turns your experience into a nationally recognised <strong>horticulture or landscape construction qualification</strong>, without starting from scratch.</p>",
+    "intro": "<p>Plenty of skilled gardeners and landscapers learned the trade on the job, working for councils, parks, nurseries, golf courses or landscaping businesses. Recognition of Prior Learning (RPL) lets a registered training organisation (RTO) assess the work you already do against a current AHC qualification, so your skills are recognised when you apply for leading hand or supervisor roles, tender for council work or start your own business.</p><h3>Qualifications in this industry</h3><ul><li><strong>Horticulture:</strong> the AHC30722 Certificate III in Horticulture for gardeners and nursery workers, and the AHC40422 Certificate IV in Horticulture for supervisors and specialists</li><li><strong>Landscaping:</strong> the AHC30921 Certificate III in Landscape Construction, the trade qualification for landscapers who build paving, retaining walls, drainage and garden structures</li></ul><h3>Who RPL suits</h3><ul><li>Gardeners and grounds staff in councils, schools, resorts and estates</li><li>Nursery and production horticulture workers</li><li>Landscapers and landscape labourers with broad construction experience</li><li>Leading hands and supervisors who want the qualification behind their role</li></ul><h3>Licences and tickets</h3><p>In some states, structural landscaping work above a set value needs a contractor licence, for example from the QBCC in Queensland or NSW Fair Trading. The Certificate III in Landscape Construction is the usual trade qualification for that licence. Applying chemicals commercially may also need a chemical user licence or accreditation in your state.</p><h3>What the assessment looks like</h3><p>Evidence usually includes photos of jobs you have completed, plant lists and maintenance schedules, chemical application records, and a reference from an employer or client. Practical skills are confirmed through observation on site or recorded video.</p>",
+    "faqs": [
+      {
+        "q": "Can I get a horticulture qualification through RPL?",
+        "a": "<p>Yes, if you have regular, hands-on experience in gardening, parks, turf or nursery work. Your evidence is assessed against the units of the Certificate III or IV in Horticulture.</p>"
+      },
+      {
+        "q": "Do I need a licence to work as a landscaper?",
+        "a": "<p>It depends on the state and the work. Structural landscaping above a set value needs a contractor licence in some states, such as Queensland and NSW. The Certificate III in Landscape Construction is the usual qualification for that licence. Check your state's rules before quoting larger jobs.</p>"
+      },
+      {
+        "q": "What evidence do I need for landscaping or horticulture RPL?",
+        "a": "<p>Photos and videos of your work, job sheets or quotes, plant and maintenance records, chemical records and a reference from your employer or clients are the most useful evidence.</p>"
+      },
+      {
+        "q": "Can my overseas gardening experience count?",
+        "a": "<p>Yes. Overseas experience can be assessed, as long as you can show the work you did and how it matches the units. Recent Australian experience makes the evidence stronger.</p>"
+      }
+    ]
+  },
+  {
+    "link": "information-technology",
+    "title": "Information Technology",
+    "icon": "Laptop",
+    "image": "/images/sections/information-technology.webp",
+    "imageAlt": "Two developers reviewing code on a laptop",
+    "metaTitle": "IT RPL: Cert IV, Diploma & Advanced Diploma of IT",
+    "metaDescription": "In IT? Turn your experience in support, networking, development or cyber security into a nationally recognised IT qualification through RPL. 100% online.",
+    "heroIntro": "<p>Working in IT support, networking, development or cyber security? RPL turns your experience into a nationally recognised <strong>Certificate IV, Diploma or Advanced Diploma of Information Technology</strong>, assessed 100% online.</p>",
+    "intro": "<p>A lot of IT professionals are self-taught or industry-certified, with years of experience and vendor certificates but no formal Australian qualification. Recognition of Prior Learning (RPL) lets a registered training organisation (RTO) assess your work against a current ICT qualification, which helps with promotions, contract roles and job applications that ask for a recognised qualification.</p><h3>Qualifications in this industry</h3><ul><li><strong>ICT40120 Certificate IV in Information Technology:</strong> for IT support, junior developers, web and systems roles</li><li><strong>ICT50220 Diploma of Information Technology:</strong> for experienced technicians, network and systems administrators, developers and team leads</li><li><strong>ICT60220 Advanced Diploma of Information Technology:</strong> for senior specialists, IT managers, architects and analysts</li></ul><p>Each qualification has specialisations, such as cyber security, networking, programming, systems administration, web development and business analysis. The RTO selects electives that match the work you actually do.</p><h3>Who RPL suits</h3><ul><li>Help desk, service desk and desktop support staff</li><li>Network and systems administrators</li><li>Software and web developers</li><li>Cyber security analysts and IT team leaders</li><li>IT professionals who trained overseas</li></ul><h3>What the assessment looks like</h3><p>Evidence is usually work you already produce: tickets and incident records, network diagrams, scripts and code samples, project documentation, and a reference from your manager. Vendor certifications such as Microsoft, Cisco, AWS or CompTIA are useful supporting evidence. Everything is submitted online, with a video interview with an assessor.</p>",
+    "faqs": [
+      {
+        "q": "Can I get an IT qualification through RPL?",
+        "a": "<p>Yes, if you work in an IT role and can show the work you do. Your evidence is assessed against the units of the Certificate IV, Diploma or Advanced Diploma, with electives chosen to match your specialisation.</p>"
+      },
+      {
+        "q": "Do my Microsoft, Cisco or AWS certifications count?",
+        "a": "<p>They are useful supporting evidence, but they don't replace it. Assessors also need to see how you apply those skills at work, through documents, code, diagrams and an employer reference.</p>"
+      },
+      {
+        "q": "Which IT qualification is right for me?",
+        "a": "<p>It depends on your role and experience. Support and junior roles usually fit the Certificate IV, experienced technicians and developers the Diploma, and senior or management roles the Advanced Diploma. We check your experience and recommend the right level.</p>"
+      },
+      {
+        "q": "Is IT RPL fully online?",
+        "a": "<p>Yes. You upload your evidence online and talk to an assessor by video, from anywhere in Australia.</p>"
+      }
+    ]
+  },
+  {
+    "link": "creative-arts-and-design",
+    "title": "Creative Arts and Design",
+    "icon": "Palette",
+    "image": "/images/sections/creative-arts-and-design.webp",
+    "imageAlt": "Designer editing an image on a large computer screen",
+    "metaTitle": "Design & Visual Arts RPL Qualifications (CUA)",
+    "metaDescription": "Designer or artist? Turn your portfolio and experience into a nationally recognised design or visual arts qualification through RPL. Free eligibility check.",
+    "heroIntro": "<p>Working as a designer or practising artist? RPL turns your portfolio and experience into a nationally recognised <strong>design or visual arts qualification</strong>, from Certificate III to Certificate IV.</p>",
+    "intro": "<p>Designers and artists often build their skills through freelance work, studio practice and self-directed learning, so their portfolio is strong but they don't hold a formal qualification. Recognition of Prior Learning (RPL) lets a registered training organisation (RTO) assess your portfolio and work history against a current CUA qualification. That helps when you apply for design roles, teach workshops, seek grants or move into further study.</p><h3>Qualifications in this industry</h3><ul><li><strong>Design:</strong> the CUA30720 Certificate III in Design Fundamentals and the CUA40725 Certificate IV in Design, for graphic, digital and product design work</li><li><strong>Visual arts:</strong> the CUA31125 Certificate III in Visual Arts and the CUA41320 Certificate IV in Visual Arts, for artists working in painting, drawing, printmaking, sculpture, ceramics, photography and other media</li></ul><h3>Who RPL suits</h3><ul><li>Graphic and digital designers, including freelancers</li><li>Junior designers in studios and in-house marketing teams</li><li>Practising artists who exhibit or sell their work</li><li>Arts workers and workshop facilitators</li></ul><h3>What the assessment looks like</h3><p>Your portfolio is the core evidence: finished pieces, sketches and development work, design briefs and how you responded to them, and client feedback. Assessors also look at how you work: your design process, use of colour and materials, and how you research and present ideas. A reference from a client, employer or gallery helps confirm the work is yours. Most of the assessment is online, with a conversation with an assessor about your practice.</p>",
+    "faqs": [
+      {
+        "q": "Can I get a design qualification through RPL?",
+        "a": "<p>Yes, if you have a body of design work and can show your process. Your portfolio, briefs and client feedback are assessed against the units of the Certificate III in Design Fundamentals or Certificate IV in Design.</p>"
+      },
+      {
+        "q": "I'm a self-taught artist. Can my work count?",
+        "a": "<p>Yes. RPL assesses what you can do, not where you learned it. A portfolio of finished work, development sketches and evidence of exhibiting or selling your art is strong evidence for a visual arts qualification.</p>"
+      },
+      {
+        "q": "What should my portfolio include?",
+        "a": "<p>Include finished pieces plus the development behind them: sketches, drafts, mood boards, briefs and notes on the choices you made. Assessors want to see your process, not only the final result.</p>"
+      },
+      {
+        "q": "Is creative arts RPL done online?",
+        "a": "<p>Mostly. You upload your portfolio and documents online and discuss your work with an assessor by video. Some RTOs may ask to see a practical task recorded on video.</p>"
+      }
+    ]
+  },
+  {
+    "link": "retail-travel-and-tourism",
+    "title": "Retail, Travel and Tourism",
+    "icon": "Plane",
+    "image": "/images/sections/retail-travel-and-tourism.webp",
+    "imageAlt": "Clothing hanging on a rack in a retail store",
+    "metaTitle": "Retail, Travel & Tourism RPL Qualifications",
+    "metaDescription": "In retail, travel or tourism? Turn your experience into a nationally recognised retail, travel or tourism qualification through RPL. Free eligibility check.",
+    "heroIntro": "<p>Working on the shop floor, in a travel agency or in tourism? RPL turns your experience into a nationally recognised <strong>retail, travel or tourism qualification</strong>, from Certificate II up to Diploma level.</p>",
+    "intro": "<p>Retail, travel and tourism are customer-facing industries where most people learn on the job. You may have years of experience selling, serving customers, booking travel or running tours, but no formal qualification to show for it. Recognition of Prior Learning (RPL) lets a registered training organisation (RTO) assess that experience against a current SIR or SIT qualification, which helps with promotions to supervisor, store manager or senior consultant roles.</p><h3>Qualifications in this industry</h3><ul><li><strong>Retail:</strong> the SIR30216 Certificate III in Retail for experienced retail staff, and the SIR40316 Certificate IV in Retail Management for team leaders, assistant managers and store managers</li><li><strong>Travel:</strong> the SIT30222 Certificate III in Travel for travel consultants</li><li><strong>Tourism:</strong> the SIT20125 Certificate II in Tourism, the SIT40125 Certificate IV in Travel and Tourism and the SIT50122 Diploma of Travel and Tourism Management, from front-line roles through to management</li></ul><h3>Who RPL suits</h3><ul><li>Retail assistants, senior sales staff and visual merchandisers</li><li>Store supervisors, assistant managers and store managers</li><li>Travel consultants and reservations staff</li><li>Tour guides, visitor centre staff and tourism operators</li><li>Tourism supervisors and managers</li></ul><h3>What the assessment looks like</h3><p>Evidence usually includes rosters and sales reports, customer feedback, training records, booking or itinerary examples with customer details removed, and a reference from your manager. Most of the assessment is online, with a conversation with an assessor and, where needed, workplace observation or a supervisor's confirmation of your skills.</p>",
+    "faqs": [
+      {
+        "q": "Can I get a retail qualification through RPL?",
+        "a": "<p>Yes. If you have worked in retail, your sales results, customer service and team responsibilities can be assessed against the Certificate III in Retail or, for supervisors and managers, the Certificate IV in Retail Management.</p>"
+      },
+      {
+        "q": "Do I need a qualification to work as a travel agent?",
+        "a": "<p>There is no state licence for travel agents in Australia, but many employers and industry accreditation schemes look for a recognised qualification. The Certificate III in Travel is the standard one for travel consultants.</p>"
+      },
+      {
+        "q": "What evidence do I need for retail, travel or tourism RPL?",
+        "a": "<p>Rosters, sales or booking reports, customer feedback, training you have given or received, and a reference from your manager are the most common evidence. Remove customer details before you submit anything.</p>"
+      },
+      {
+        "q": "Is it done online?",
+        "a": "<p>Yes. You upload your evidence online and speak with an assessor by video. Some skills may be confirmed by your supervisor or observed in the workplace.</p>"
+      }
+    ]
+  },
+  {
+    "link": "logistics-and-supply-chain",
+    "title": "Logistics and Supply Chain",
+    "icon": "Truck",
+    "image": "/images/sections/logistics-and-supply-chain.webp",
+    "imageAlt": "Forklift operator moving stacked boxes in a warehouse",
+    "metaTitle": "Logistics & Supply Chain RPL Qualifications (TLI)",
+    "metaDescription": "Work in a warehouse, transport or logistics? Turn your experience into a nationally recognised supply chain qualification through RPL. Free eligibility check.",
+    "heroIntro": "<p>Working in a warehouse, distribution centre or transport yard? RPL turns your experience into a nationally recognised <strong>supply chain operations qualification</strong>, from Certificate III to Certificate IV.</p>",
+    "intro": "<p>Warehousing, distribution and transport depend on people who learn on the floor: picking and packing, receiving and dispatching, running stock control, coordinating drivers or supervising a shift. Recognition of Prior Learning (RPL) lets a registered training organisation (RTO) assess that work against a current TLI qualification, so your experience is recognised when you go for leading hand, supervisor or coordinator roles.</p><h3>Qualifications in this industry</h3><ul><li><strong>TLI30325 Certificate III in Supply Chain Operations:</strong> for experienced warehouse, storage, dispatch and transport workers</li><li><strong>TLI40324 Certificate IV in Supply Chain Operations:</strong> for supervisors, team leaders, coordinators and logistics officers. It replaces the older Certificate IV in Logistics.</li></ul><p>Both qualifications can be packaged around your work, such as warehousing, freight handling, transport and distribution, or supply chain coordination.</p><h3>Who RPL suits</h3><ul><li>Warehouse and storeperson roles, pick-packers and dispatch staff</li><li>Forklift operators and inventory controllers</li><li>Transport and freight coordinators and allocators</li><li>Warehouse supervisors, shift leaders and logistics officers</li></ul><h3>Licences and tickets</h3><p>A qualification doesn't replace a licence. Forklift and some other equipment need a high risk work licence from your state WHS regulator, and driving heavy vehicles needs the right licence class. Your existing licences and tickets are good supporting evidence for RPL.</p><h3>What the assessment looks like</h3><p>Evidence usually includes your licences and tickets, rosters, stock or dispatch reports, safety checklists, incident reports and a reference from your supervisor. Most of it is submitted online, with a conversation with an assessor and, where needed, a supervisor's confirmation of your practical skills.</p>",
+    "faqs": [
+      {
+        "q": "Can I get a logistics qualification through RPL?",
+        "a": "<p>Yes, if you have experience in warehousing, distribution or transport. Your licences, reports and a supervisor reference are assessed against the units of the Certificate III or IV in Supply Chain Operations.</p>"
+      },
+      {
+        "q": "Does a supply chain qualification include a forklift licence?",
+        "a": "<p>No. A forklift licence is a high risk work licence issued by your state WHS regulator after a separate assessment. If you already hold one, it is useful evidence for RPL.</p>"
+      },
+      {
+        "q": "What replaced the Certificate IV in Logistics?",
+        "a": "<p>The TLI40319 Certificate IV in Logistics was replaced by the Certificate IV in Supply Chain Operations, now TLI40324. It covers the same kind of supervisory and coordination work.</p>"
+      },
+      {
+        "q": "Is logistics RPL done online?",
+        "a": "<p>Mostly. You upload your evidence online and talk to an assessor by video. Practical skills are usually confirmed by your supervisor or through recorded video.</p>"
+      }
+    ]
+  }
+]

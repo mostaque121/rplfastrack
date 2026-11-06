@@ -1,19 +1,22 @@
-import { aboutRplBreadcrumb, aboutRplPageSchema, rplConceptSchema } from "@/lib/seo";
+import { ClosingCta } from "@/components/sections/closing-cta";
+import { RplDocuments } from "@/components/sections/rpl-documents";
+import { RplProcess } from "@/components/sections/rpl-process";
+import { WhoIsEligible } from "@/components/sections/who-is-eligible";
+import { JsonLd } from "@/components/seo/json-ld";
+import { GuidesBand } from "@/features/guides/components/guides-band";
+import { aboutRplPageSchema, breadcrumbSchema, rplConceptSchema } from "@/lib/seo";
 import { absoluteUrl } from "@/lib/url";
 
-import DocumentsNeed from "../components/documents-need";
 import FaqCommon from "../components/faq-common";
 import BenefitsOfRPL from "./components/benefits-of-rpl";
-import Cta from "./components/cta";
 import AboutRplHero from "./components/hero";
-import RplProcessTimeline from "./components/rpl-process-timeline";
+import RplVsStudy from "./components/rpl-vs-study";
 import WhatIsRPL from "./components/what-is-rpl";
-import EligibilityForRPL from "../courses/components/eligibility";
 
 export const metadata = {
-  title: "About RPL - Learn Recognition of Prior Learning",
+  title: "What is RPL? Recognition of Prior Learning Explained",
   description:
-    "Learn how Recognition of Prior Learning (RPL) helps you convert skills and experience into nationally recognized qualifications in Australia.",
+    "What is RPL? Learn how Recognition of Prior Learning turns your work experience into a nationally recognised Australian qualification, who is eligible and what you need.",
   alternates: {
     canonical: absoluteUrl("/about-rpl"),
   },
@@ -44,32 +47,24 @@ export const metadata = {
 export default function AboutRPLPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(aboutRplPageSchema),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(rplConceptSchema),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(aboutRplBreadcrumb),
-        }}
+      <JsonLd data={aboutRplPageSchema} />
+      <JsonLd data={rplConceptSchema} />
+      <JsonLd
+        data={breadcrumbSchema([
+          ["Home", "/"],
+          ["About RPL", "/about-rpl"],
+        ])}
       />
       <AboutRplHero />
       <WhatIsRPL />
       <BenefitsOfRPL />
-      <EligibilityForRPL />
-      <RplProcessTimeline />
-      <DocumentsNeed />
+      <RplVsStudy />
+      <WhoIsEligible />
+      <RplProcess />
+      <RplDocuments />
       <FaqCommon />
-      <Cta />
+      <GuidesBand slugs={["how-to-get-rpl-in-australia", "rpl-evidence", "rpl-cost"]} />
+      <ClosingCta tone="white" />
     </>
   );
 }

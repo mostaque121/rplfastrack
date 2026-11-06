@@ -104,6 +104,8 @@ export async function sendEligibilityNotificationEmail(data: {
   industry: string;
   qualification: string;
   yearsOfExperience: string;
+  workStatus?: string;
+  existingQualification?: string;
 }) {
   const mailOptions = {
     from: env.SENDER_EMAIL,
@@ -118,6 +120,8 @@ Phone: ${data.phone}
 Industry: ${data.industry}
 Qualification: ${data.qualification}
 Experience: ${data.yearsOfExperience}
+Current role: ${data.workStatus || "Not given"}
+Existing qualification: ${data.existingQualification || "Not given"}
 State: ${data.state}
 
 Message:

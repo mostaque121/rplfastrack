@@ -12,7 +12,9 @@ export default function WhatsAppButton1({ position = "fixed" }: { position?: "fi
     window.open(contactInfo.whatsappHref, "_blank", "noopener,noreferrer");
   };
 
-  const positionClasses = position === "fixed" ? "fixed bottom-6 right-6" : "relative";
+  // On phones the sticky CTA bar has its own WhatsApp button, so the floating one is desktop only.
+  const positionClasses =
+    position === "fixed" ? "fixed bottom-6 right-6 max-md:hidden" : "relative";
 
   return (
     <div className={`${positionClasses} z-50 flex flex-row-reverse items-center gap-3`}>

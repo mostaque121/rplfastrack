@@ -4,7 +4,7 @@ import Link from "next/link";
 import { NativeSelect } from "@/app/(admin)/_components/native-select";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { CrmSyncStatus, LeadForm } from "@/generated/prisma";
+import { CrmSyncStatus, LeadForm } from "@/generated/prisma/enums";
 
 import { CRM_STATUS_LABELS, LEAD_FORM_LABELS } from "../labels";
 

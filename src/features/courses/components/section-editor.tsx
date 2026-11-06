@@ -33,8 +33,8 @@ const IconPicker = dynamic(() => import("@/components/icon/icon-picker"), {
 });
 
 const TAB_FIELDS: Record<string, string[]> = {
-  basics: ["title", "link", "index", "icon", "imageSquareLink", "imageCoverLink", "imageAlt"],
-  intro: ["intro"],
+  basics: ["title", "link", "index", "icon", "imageUrl", "imageAlt"],
+  intro: ["heroIntro", "intro"],
   faqs: ["faqs"],
   seo: ["metaTitle", "metaDescription"],
 };
@@ -188,7 +188,17 @@ export function SectionEditor({
             <ImageFields<SectionEditorValues> />
           </TabsContent>
 
-          <TabsContent value="intro" forceMount className="pt-4 data-[state=inactive]:hidden">
+          <TabsContent
+            value="intro"
+            forceMount
+            className="space-y-6 pt-4 data-[state=inactive]:hidden"
+          >
+            <RichTextField<SectionEditorValues>
+              name="heroIntro"
+              label="Hero intro"
+              description="1–2 sentences unique to this industry, shown under the page title."
+              minHeight="6rem"
+            />
             <RichTextField<SectionEditorValues>
               name="intro"
               label="Intro"

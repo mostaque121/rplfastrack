@@ -1,74 +1,55 @@
 import { ArrowRight } from "lucide-react";
 
 import { EligibilityForm } from "@/app/(main)/components/form/eligibility-form";
+import { Accent, SectionHeading } from "@/components/sections/section-heading";
+import { RPL_STEPS } from "@/components/sections/rpl-steps";
 import { Button } from "@/components/ui/button";
 
+/** Home "how it works": the shared four steps (same copy as the timeline on other pages) as cards. */
 export default function RplProcess() {
-  const steps = [
-    {
-      number: "01",
-      title: "Free Skills Assesment",
-      description:
-        "   Connect with RPL Fast Track to discuss your career goals, and let us assist you in identifying the qualifications that will enable you to achieve them.",
-    },
-    {
-      number: "02",
-      title: "Evidence Collection",
-      description:
-        "Gather and prepare evidence of your prior learning, work experience, and relevant skills. This includes documents such as qualifications, work samples, employment records, and references.",
-    },
-    {
-      number: "03",
-      title: "Review of Evidence",
-      description:
-        "After you submit your portfolio, one of our affiliated registered training organizations (RTOs) will evaluate it. If the assigned assessor requires more information, they will contact you. If any skill gaps are identified, the RTO may provide a trainer to help you enhance your skills at no cost.",
-    },
-    {
-      number: "04",
-      title: "Certification!",
-      description:
-        "                        RPL Fast Track works with Registered Training Organizations to provide nationally recognized qualifications in Australia. These qualifications are equivalent to those obtained through full-time studies and can also be used for licensing applications.",
-    },
-  ];
+  const steps = RPL_STEPS.map((step, i) => ({
+    number: String(i + 1).padStart(2, "0"),
+    title: step.title,
+    description: step.long,
+  }));
 
   return (
-    <section className="overflow-hidden bg-surface py-16 md:py-24">
+    <section className="overflow-hidden bg-surface py-14 md:py-24">
       <div className="container mx-auto px-4 md:px-8">
-        <div className="mb-10 flex flex-col items-center justify-center space-y-4 text-center">
-          <div className="space-y-2">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-              RPL <span className="text-brand">Process</span>
-            </h2>
-            <p className="max-w-[700px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-              Get recognition for your skills and experience with our simple four-step process
-            </p>
-          </div>
-        </div>
+        <SectionHeading
+          eyebrow="How RPL works"
+          title={
+            <>
+              Get qualified in <Accent>4 simple steps</Accent>
+            </>
+          }
+          description="No classes and no exams. You show what you already know, and we guide you from the first call to your certificate."
+        />
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {steps.map((step, index) => (
+        <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
+          {steps.map((step) => (
             <div
-              key={index}
+              key={step.number}
               className="group relative overflow-hidden rounded-lg border border-brand-subtle bg-white p-6 shadow-md transition-all hover:-translate-y-1 hover:shadow-xl"
             >
               <div className="absolute -top-4 -right-4 h-24 w-24 rounded-full bg-brand-soft transition-colors group-hover:bg-brand-subtle" />
               <div className="relative space-y-4">
-                <span className="block text-4xl font-bold text-brand-bright">{step.number}</span>
-                <h3 className="text-xl font-bold text-slate-700">{step.title}</h3>
-                <p className="text-slate-600">{step.description}</p>
+                <span className="block text-4xl font-bold text-brand">{step.number}</span>
+                <h3 className="text-xl font-bold text-ink">{step.title}</h3>
+                <p className="text-gray-600">{step.description}</p>
               </div>
               <div className="absolute bottom-0 left-0 h-1 w-full bg-gradient-to-r from-brand-bright to-brand" />
             </div>
           ))}
         </div>
-        <div className="mt-10 flex justify-center">
+        <div className="mt-10 flex flex-col sm:flex-row sm:justify-center">
           <EligibilityForm
             trigger={
               <Button
                 size="lg"
-                className="group bg-gradient-to-r from-brand to-brand-strong text-white"
+                className="group h-12 w-full bg-cta px-6 text-base text-white hover:bg-cta-strong sm:w-auto"
               >
-                Check Your Eligibility
+                Check your eligibility
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Button>
             }

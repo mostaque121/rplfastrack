@@ -1,105 +1,57 @@
-import { MdStar, MdStarHalf, MdStarOutline } from "react-icons/md";
+import { Star } from "lucide-react";
 
-import { Card } from "@/components/ui/card";
+import { Stars } from "@/features/reviews/components/stars";
 
-interface Course {
-  id: string;
-  title: string;
-  link: string;
-}
-type UserReview = {
-  id: string;
-  purchasedCourseId: string;
-  purchasedCourse: Course;
-  userName: string;
-  userImage: string | null;
-  reviewImage: string | null;
-  reviewText: string;
-  givenStar: number;
-  reviewDate: Date;
-};
-interface ReviewStatsProps {
-  reviews: UserReview[];
-}
+type UserReview = { givenStar: number };
 
-export default function ReviewStats({ reviews }: ReviewStatsProps) {
-  const totalReviews = reviews.length;
-  const starCounts = [0, 0, 0, 0, 0];
-  let totalStars = 0;
+/** Average rating and the spread of 5 to 1 stars. */
+export default function ReviewStats({ reviews }: { reviews: UserReview[] }) {
+  const rated = reviews.filter((r) => r.givenStar >= 1 && r.givenStar <= 5);
+  const total = rated.length;
+  if (total === 0) return null;
 
-  reviews.forEach((review) => {
-    if (review.givenStar >= 1 && review.givenStar <= 5) {
-      starCounts[5 - review.givenStar] += 1;
-      totalStars += review.givenStar;
-    }
+  const average = rated.reduce((sum, r) => sum + r.givenStar, 0) / total;
+  const rows = [5, 4, 3, 2, 1].map((star) => {
+    const count = rated.filter((r) => r.givenStar === star).length;
+    return { star, count, percent: Math.round((count / total) * 100) };
   });
 
-  const avgStar = totalReviews > 0 ? Number((totalStars / totalReviews).toFixed(1)) : 0;
-
-  const wholeStars = Math.floor(avgStar);
-  const decimalPart = avgStar - wholeStars;
-  const emptyStars = 5 - (wholeStars + (decimalPart >= 0.5 ? 1 : 0));
-
   return (
-    <div className="container mx-auto px-4 py-12 md:px-8">
-      <Card className="mb-8 p-6">
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          <div className="flex flex-col items-center justify-center">
-            <div className="text-5xl font-bold text-primary">{avgStar}</div>
-            <div className="mt-2 flex">
-              {/* Render whole stars */}
-              {[...Array(wholeStars)].map((_, index) => (
-                <MdStar key={index} className="h-5 w-5 text-brand sm:h-6 sm:w-6" />
-              ))}
-
-              {/* Render fractional star based on updated logic */}
-              {decimalPart >= 0.75 ? (
-                <MdStar className="h-5 w-5 text-brand sm:h-6 sm:w-6" />
-              ) : (
-                decimalPart >= 0.25 && <MdStarHalf className="h-5 w-5 text-brand sm:h-6 sm:w-6" />
-              )}
-
-              {/* Render remaining empty stars */}
-              {[...Array(emptyStars)].map((_, index) => (
-                <MdStarOutline
-                  key={index + wholeStars + 1}
-                  className="h-5 w-5 text-gray-300 sm:h-6 sm:w-6"
-                />
-              ))}
+    <section className="bg-surface py-12 md:py-16">
+      <div className="container mx-auto px-4 md:px-8">
+        <div className="grid gap-8 rounded-3xl border border-gray-200 bg-white p-6 shadow-lg md:grid-cols-[14rem_minmax(0,1fr)] md:p-8">
+          <div className="flex flex-col items-center justify-center text-center md:border-r md:border-gray-200 md:pr-8">
+            <p className="font-display text-5xl font-bold text-ink">{average.toFixed(1)}</p>
+            <div className="mt-2">
+              <Stars rating={average} />
             </div>
-            <div className="mt-2 text-muted-foreground">Based on {totalReviews} reviews</div>
+            <p className="mt-2 text-sm text-gray-600">
+              <span className="sr-only">Average rating {average.toFixed(1)} out of 5, </span>
+              based on {total} {total === 1 ? "review" : "reviews"}
+            </p>
           </div>
 
-          <div className="col-span-2">
-            <div className="space-y-2">
-              {starCounts.map((count, index) => {
-                const starValue = 5 - index;
-                const percentage = totalReviews > 0 ? ((count / totalReviews) * 100).toFixed(1) : 0;
-
-                return (
-                  <div key={index} className="flex items-center gap-4">
-                    <div className="flex w-20 items-center">
-                      <span className="mr-2">{starValue}</span>
-                      <MdStar className="h-4 w-4 fill-brand text-primary" />
-                    </div>
-                    <div className="h-2.5 w-full rounded-full bg-muted">
-                      <div
-                        className="h-2.5 rounded-full bg-brand"
-                        style={{
-                          width: `${percentage}%`,
-                        }}
-                      ></div>
-                    </div>
-                    <div className="w-24 text-right text-sm text-muted-foreground">
-                      {count} reviews
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+          <ul className="space-y-3 self-center" aria-label="Ratings breakdown">
+            {rows.map(({ star, count, percent }) => (
+              <li key={star} className="flex items-center gap-3 text-sm">
+                <span className="flex w-10 shrink-0 items-center gap-1 font-medium text-ink">
+                  {star}
+                  <Star aria-hidden className="size-4 fill-brand text-brand" />
+                </span>
+                <span className="h-2.5 w-full overflow-hidden rounded-full bg-gray-100">
+                  <span
+                    className="block h-full rounded-full bg-brand"
+                    style={{ width: `${percent}%` }}
+                  />
+                </span>
+                <span className="w-20 shrink-0 text-right text-gray-600">
+                  {count} {count === 1 ? "review" : "reviews"}
+                </span>
+              </li>
+            ))}
+          </ul>
         </div>
-      </Card>
-    </div>
+      </div>
+    </section>
   );
 }

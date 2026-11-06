@@ -5,7 +5,7 @@ export const SUGGESTED_ICONS = [
   "Hammer",
   "Wrench",
   "Construction",
-  "Building2",
+  "Building",
   "House",
   "Drill",
   "Ruler",

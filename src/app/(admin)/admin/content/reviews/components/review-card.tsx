@@ -1,10 +1,9 @@
 "use client";
 
 import { format } from "date-fns";
-import { Edit2, Trash2 } from "lucide-react";
+import { Edit2, Star, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
-import { MdStar } from "react-icons/md";
 import { toast } from "sonner";
 
 import { deleteReview, toggleUserReviewPublish } from "@/app/(admin)/action/review";
@@ -116,7 +115,7 @@ export function ReviewCard({ review }: { review: UserReview }) {
         {/* Star rating */}
         <div className="flex items-center gap-1">
           {Array.from({ length: 5 }).map((_, i) => (
-            <MdStar
+            <Star
               className={`h-4 w-4 ${
                 i < review.givenStar ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
               }`}

@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import type { LeadForm } from "@/generated/prisma";
+import type { LeadForm } from "@/generated/prisma/client";
 
 import { formatLeadDate } from "../format";
 import { LEAD_FORM_LABELS } from "../labels";

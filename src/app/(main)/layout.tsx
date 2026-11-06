@@ -3,15 +3,17 @@ import { Metadata } from "next/types";
 
 import { AttributionCapture } from "@/components/attribution-capture";
 import WhatsAppButton1 from "@/components/custom-ui/whatsapp-button";
+import { JsonLd } from "@/components/seo/json-ld";
 import { Toaster } from "@/components/ui/sonner";
 import { SITE_URL, siteConfig } from "@/config/site";
 import { RPLProvider } from "@/contexts/rpl-context";
 import { env } from "@/env";
 import { listSections } from "@/features/courses/queries";
-import { organization } from "@/lib/seo";
+import { siteGraph } from "@/lib/seo";
 
 import Footer from "./components/footer/footer";
 import Navbar from "./components/navbar/navbar";
+import { StickyMobileCta } from "./components/sticky-mobile-cta";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -20,7 +22,7 @@ export const metadata: Metadata = {
     template: "%s | RPL Fast Track",
   },
   description:
-    "Get nationally recognized qualifications in Australia through our RPL Fast Track process. Convert your skills, experience, and prior learning into formal certification quickly and affordably.",
+    "Get nationally recognised qualifications in Australia through our RPL Fast Track process. Convert your skills, experience, and prior learning into formal certification quickly and affordably.",
   authors: [{ name: "RPL Fast Track Australia", url: SITE_URL }],
   creator: "RPL Fast Track Australia",
   publisher: "RPL Fast Track Australia",
@@ -42,7 +44,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "RPL Fast Track Australia",
     description:
-      "Get nationally recognized qualifications in Australia through our RPL Fast Track process. Convert your experience into certification quickly and affordably.",
+      "Get nationally recognised qualifications in Australia through our RPL Fast Track process. Convert your experience into certification quickly and affordably.",
     url: SITE_URL,
     locale: siteConfig.locale,
     siteName: "RPL Fast Track",
@@ -58,8 +60,6 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    creator: "@rplfastrack",
-    site: "@rplfastrack",
     title: "RPL Fast Track Australia",
     description:
       "Gain recognition for your prior learning and fast track your career in Australia.",
@@ -76,14 +76,12 @@ export default async function MainLayout({
 
   return (
     <RPLProvider initialQualifications={sections}>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organization) }}
-      />
+      <JsonLd data={siteGraph()} />
       <main>
         <Navbar />
         {children}
         <WhatsAppButton1 />
+        <StickyMobileCta />
         <Footer />
         <Toaster />
         <AttributionCapture />

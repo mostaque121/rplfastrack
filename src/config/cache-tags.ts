@@ -8,4 +8,6 @@ export const CACHE_TAGS = {
   reviewsAll: "user-review:all",
   reviewsCommon: "user-review:common",
   redirects: "redirect:all",
+  guides: "guide:all",
+  guide: (slug: string) => `guide:${slug}`,
 } as const;

@@ -3,7 +3,7 @@
 import { updateTag } from "next/cache";
 
 import { CACHE_TAGS } from "@/config/cache-tags";
-import { Prisma } from "@/generated/prisma";
+import { Prisma } from "@/generated/prisma/client";
 import { sanitizeRichText } from "@/lib/sanitize-rich-text";
 import { requireAdmin } from "@/server/admin";
 import { prisma } from "@/server/db";
@@ -113,6 +113,8 @@ export async function saveCourse(
   const data = {
     ...values,
     code: values.code || null,
+    imageUrl: values.imageUrl || null,
+    imagePublicId: values.imagePublicId || null,
     imageAlt: values.imageAlt || null,
     duration: values.duration || null,
     deliveryMode: values.deliveryMode || null,
@@ -121,7 +123,10 @@ export async function saveCourse(
     ...Object.fromEntries(
       RICH_COURSE_FIELDS.map((field) => [field, sanitizeRichText(values[field])]),
     ),
-  } as Omit<CourseEditorValues, "faqs" | "index">;
+  } as Omit<CourseEditorValues, "faqs" | "index" | "imageUrl" | "imagePublicId"> & {
+    imageUrl: string | null;
+    imagePublicId: string | null;
+  };
   // Optional rich fields are stored as NULL when empty
   for (const field of ["heroIntro", "whoIsItFor", "evidenceExamples", "licensingInfo"] as const) {
     (data as Record<string, unknown>)[field] = data[field] || null;
@@ -258,8 +263,6 @@ export async function bulkUpdateCourses(
       id: true,
       link: true,
       sectionId: true,
-      imageCoverLink: true,
-      imageSquareLink: true,
       description: true,
       section: { select: { link: true } },
     },
@@ -271,13 +274,11 @@ export async function bulkUpdateCourses(
   try {
     if ("status" in change) {
       if (change.status === "PUBLISHED") {
-        const incomplete = courses.filter(
-          (c) => !c.imageCoverLink || !c.imageSquareLink || !c.description.trim(),
-        );
+        const incomplete = courses.filter((c) => !c.description.replace(/<[^>]*>/g, "").trim());
         if (incomplete.length) {
           return {
             success: false,
-            message: `${incomplete.length} selected course(s) need images and a description before publishing`,
+            message: `${incomplete.length} selected course(s) need a description before publishing`,
           };
         }
       }
@@ -325,8 +326,13 @@ export async function refreshPublicContent(): Promise<ActionResult> {
   updateTag(CACHE_TAGS.redirects);
   updateTag(CACHE_TAGS.reviewsAll);
   updateTag(CACHE_TAGS.reviewsCommon);
-  const sections = await prisma.section.findMany({ select: { link: true } });
+  updateTag(CACHE_TAGS.guides);
+  const [sections, guides] = await Promise.all([
+    prisma.section.findMany({ select: { link: true } }),
+    prisma.guide.findMany({ select: { slug: true } }),
+  ]);
   for (const section of sections) updateTag(CACHE_TAGS.section(section.link));
+  for (const guide of guides) updateTag(CACHE_TAGS.guide(guide.slug));
   return { success: true };
 }
 
@@ -343,7 +349,9 @@ export async function saveSection(
   const { faqs, index, ...values } = parsed.data;
   const data = {
     ...values,
+    heroIntro: sanitizeRichText(values.heroIntro) || null,
     intro: sanitizeRichText(values.intro) || null,
+    imagePublicId: values.imagePublicId || null,
     imageAlt: values.imageAlt || null,
     icon: values.icon || null,
   };

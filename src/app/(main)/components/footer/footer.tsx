@@ -2,197 +2,195 @@ import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
+import { FacebookIcon } from "@/components/icon/facebook-icon";
 import { contactInfo } from "@/config/contact";
+import { socialLinks } from "@/config/social";
+import { listSections } from "@/features/courses/queries";
 
-export default function Footer() {
-  const currentYear = new Date().getFullYear();
+const COMPANY_LINKS = [
+  { label: "How RPL works", href: "/about-rpl" },
+  { label: "RPL guides", href: "/guides" },
+  { label: "About us", href: "/about-us" },
+  { label: "All qualifications", href: "/courses" },
+  { label: "Reviews", href: "/reviews" },
+  { label: "FAQs", href: "/faq" },
+  { label: "Contact", href: "/contact" },
+];
 
+const LEGAL_LINKS = [
+  { label: "Terms of Service", href: "/terms-of-service" },
+  { label: "Privacy Policy", href: "/privacy-policy" },
+  { label: "Refund Policy", href: "/refund-policy" },
+  { label: "Cookie Policy", href: "/cookie-policy" },
+];
+
+const linkClass = "block py-1.5 text-sm text-slate-300 transition-colors hover:text-white";
+
+function FooterHeading({ children }: { children: string }) {
   return (
-    <footer className="text bg-ink pb-10 text-white">
-      {/* Main footer content */}
-      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
-          {/* About Section */}
+    <h3 className="mb-3 text-sm font-semibold tracking-wider text-brand-bright uppercase">
+      {children}
+    </h3>
+  );
+}
+
+/**
+ * Site footer: brand + contact, industries, popular qualifications, company links.
+ * Industry and qualification links give every page a crawlable path to the money pages.
+ * Server component; the section list is the same cached read used by the navbar.
+ */
+export default async function Footer() {
+  const sections = await listSections();
+  const popular = sections.flatMap((section) => section.courses?.slice(0, 1) ?? []).slice(0, 6);
+  const year = new Date().getFullYear();
+
+  // max-md:pb-20 keeps the sticky mobile CTA bar from covering the bottom row
+  return (
+    <footer className="bg-ink text-slate-300 max-md:pb-20">
+      <div className="container mx-auto px-4 pt-14 pb-8 md:px-8 md:pt-16">
+        <div className="grid gap-10 lg:grid-cols-[1.3fr_1fr_1.3fr_1fr] lg:gap-12">
+          {/* Brand + contact */}
           <div>
-            <h3 className="mb-2 border-b border-slate-700 pb-1 text-base font-semibold text-white">
-              About Us
-            </h3>
-            <Image
-              src="/fav.png"
-              sizes="40px"
-              alt="RPL Fast Track Logo"
-              width={100}
-              height={100}
-              className="h-10 w-auto"
-            />
-            <p className="mb-2 text-sm text-slate-300">
-              We help professionals get recognized for their skills through the RPL process,
-              empowering career advancement.
-            </p>
-            <Link
-              prefetch={false}
-              href="/about-us"
-              className="inline-flex items-center text-sm text-brand-bright transition-colors hover:text-white"
-            >
-              Learn More <span className="ml-1">→</span>
+            <Link prefetch={false} href="/" className="inline-flex items-center gap-2.5">
+              <Image
+                src="/fav.png"
+                sizes="40px"
+                alt=""
+                width={512}
+                height={512}
+                className="h-10 w-auto object-contain"
+              />
+              <span className="font-display text-xl font-bold tracking-tight text-white">
+                RPL FAST TRACK
+              </span>
             </Link>
-          </div>
+            <p className="mt-4 max-w-sm text-sm">
+              We help Australians turn their work experience into a nationally recognised
+              qualification through Recognition of Prior Learning (RPL), 100% online.
+            </p>
 
-          {/* Quick Links */}
-          <div>
-            <h3 className="mb-2 border-b border-slate-700 pb-1 text-base font-semibold text-white">
-              Quick Links
-            </h3>
-            <ul className="space-y-1 text-sm text-slate-300">
+            <ul className="mt-5 space-y-1 text-sm">
               <li>
-                <Link
-                  prefetch={false}
-                  href="/"
-                  className="transition-colors hover:text-brand-bright"
-                >
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link
-                  prefetch={false}
-                  href="/courses"
-                  className="transition-colors hover:text-brand-bright"
-                >
-                  Courses
-                </Link>
-              </li>
-              <li>
-                <Link
-                  prefetch={false}
-                  href="/about-us"
-                  className="transition-colors hover:text-brand-bright"
-                >
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link
-                  prefetch={false}
-                  href="/faq"
-                  className="transition-colors hover:text-brand-bright"
-                >
-                  FAQs
-                </Link>
-              </li>
-              <li>
-                <Link
-                  prefetch={false}
-                  href="/contact"
-                  className="transition-colors hover:text-brand-bright"
-                >
-                  Contact Us
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Legal Links */}
-          <div>
-            <h3 className="mb-2 border-b border-slate-700 pb-1 text-base font-semibold text-white">
-              Legal
-            </h3>
-            <ul className="space-y-1 text-sm text-slate-300">
-              <li>
-                <Link
-                  prefetch={false}
-                  href="/terms-of-service"
-                  className="transition-colors hover:text-brand-bright"
-                >
-                  Terms of Service
-                </Link>
-              </li>
-              <li>
-                <Link
-                  prefetch={false}
-                  href="/privacy-policy"
-                  className="transition-colors hover:text-brand-bright"
-                >
-                  Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link
-                  prefetch={false}
-                  href="/refund-policy"
-                  className="transition-colors hover:text-brand-bright"
-                >
-                  Refund Policy
-                </Link>
-              </li>
-              <li>
-                <Link
-                  prefetch={false}
-                  href="/cookie-policy"
-                  className="transition-colors hover:text-brand-bright"
-                >
-                  Cookie Policy
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Contact Section */}
-          <div>
-            <h3 className="mb-2 border-b border-slate-700 pb-1 text-base font-semibold text-white">
-              Contact Us
-            </h3>
-            <ul className="space-y-1 text-sm text-slate-300">
-              <li className="flex items-center">
-                <Phone className="mt-0.5 mr-1 h-3 w-3 flex-shrink-0 text-brand-bright" />
-                <Link
-                  prefetch={false}
+                <a
                   href={contactInfo.phoneHref}
-                  className="transition-colors hover:text-brand-bright"
+                  className="flex min-h-10 items-center gap-3 hover:text-white"
                 >
+                  <Phone aria-hidden className="size-4 shrink-0 text-brand-bright" />
                   {contactInfo.phone}
-                </Link>
+                </a>
               </li>
-              <li className="flex items-center">
-                <Mail className="mt-0.5 mr-1 h-3 w-3 flex-shrink-0 text-brand-bright" />
-                <Link
-                  prefetch={false}
+              <li>
+                <a
                   href={contactInfo.emailHref}
-                  className="transition-colors hover:text-brand-bright"
+                  className="flex min-h-10 items-center gap-3 hover:text-white"
                 >
+                  <Mail aria-hidden className="size-4 shrink-0 text-brand-bright" />
                   {contactInfo.email}
-                </Link>
+                </a>
               </li>
-              <li className="flex items-center">
-                <MapPin className="mt-0.5 mr-1 h-3 w-3 flex-shrink-0 text-brand-bright" />
-                <span>{contactInfo.address}</span>
+              <li className="flex items-start gap-3 py-2">
+                <Clock aria-hidden className="mt-0.5 size-4 shrink-0 text-brand-bright" />
+                Mon–Fri 9am–5pm, Sat 10am–2pm
               </li>
-              <li className="flex items-center">
-                <Clock className="mt-0.5 mr-1 h-3 w-3 flex-shrink-0 text-brand-bright" />
-                <span>Mon-Fri: 9AM-5PM</span>
+              <li className="flex items-start gap-3 py-2">
+                <MapPin aria-hidden className="mt-0.5 size-4 shrink-0 text-brand-bright" />
+                {contactInfo.address}
               </li>
             </ul>
+
+            <a
+              href={socialLinks.facebook}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="RPL Fast Track on Facebook"
+              className="mt-4 inline-flex size-11 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-brand"
+            >
+              <FacebookIcon className="size-5" />
+            </a>
           </div>
+
+          {/* Industries + Company side by side on mobile */}
+          <div className="grid grid-cols-2 gap-8 lg:contents">
+            <nav aria-label="Industries">
+              <FooterHeading>Industries</FooterHeading>
+              <ul>
+                {sections.map((section) => (
+                  <li key={section.id}>
+                    <Link prefetch={false} href={`/section/${section.link}`} className={linkClass}>
+                      {section.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+
+            {/* Placed after Company on mobile via order, third column on desktop */}
+            <nav aria-label="Company" className="lg:order-last">
+              <FooterHeading>Company</FooterHeading>
+              <ul>
+                {COMPANY_LINKS.map((link) => (
+                  <li key={link.href}>
+                    <Link prefetch={false} href={link.href} className={linkClass}>
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+
+          <nav aria-label="Popular qualifications" className="lg:order-3">
+            <FooterHeading>Popular qualifications</FooterHeading>
+            <ul>
+              {popular.map((course) => (
+                <li key={course.id}>
+                  <Link prefetch={false} href={`/courses/${course.link}`} className={linkClass}>
+                    {course.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
 
-        {/* Bottom Section */}
-
-        <div className="mt-8 text-center text-xs text-slate-400 sm:text-center">
-          <p>&copy; {currentYear} RPL Fast Track. All Rights Reserved.</p>
+        {/* Bottom */}
+        <div className="mt-12 border-t border-white/10 pt-6">
+          <p className="max-w-4xl text-xs text-slate-400">
+            RPL Fast Track is an independent referral partner. Qualifications are assessed and
+            issued by registered training organisations (RTOs).
+          </p>
+          <div className="mt-5 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <ul className="flex flex-wrap gap-x-5 gap-y-1 text-sm">
+              {LEGAL_LINKS.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    prefetch={false}
+                    href={link.href}
+                    className="inline-block py-1.5 text-slate-300 hover:text-white"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <div className="text-xs text-slate-400 md:text-right">
+              <p>&copy; {year} RPL Fast Track. All rights reserved.</p>
+              <p className="mt-1">
+                Designed by{" "}
+                <Link
+                  prefetch={false}
+                  href="https://www.webngraphic.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold text-brand-bright hover:text-white"
+                >
+                  WebNGraphic
+                </Link>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
-      <p className="text-center text-sm">
-        Designed by:{" "}
-        <Link
-          prefetch={false}
-          href="https://www.webngraphic.com"
-          className="font-semibold text-brand-bright transition-colors hover:text-white"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          WebNGraphic
-        </Link>
-      </p>
     </footer>
   );
 }

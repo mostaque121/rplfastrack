@@ -8,7 +8,7 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
       // Optimised image URLs (e.g. ?w=3840) were being indexed as pages.
-      disallow: ["/_next/image"],
+      disallow: ["/_next/image", "/admin", "/signin", "/unauthorized", "/api/"],
     },
     sitemap: absoluteUrl("/sitemap.xml"),
   };

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { ChangeEvent, useState } from "react";
-import { FaTimes, FaUpload } from "react-icons/fa";
+import { Upload, X } from "lucide-react";
 
 import { siteConfig } from "@/config/site";
 
@@ -68,7 +68,7 @@ const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
             htmlFor="profileImage"
             className="flex transform cursor-pointer items-center justify-center rounded-lg bg-white px-8 py-4 text-ink shadow-lg transition duration-300 hover:scale-105 hover:bg-gray-100"
           >
-            <FaUpload className="mr-2 text-purple-600" />
+            <Upload size={18} className="mr-2 text-purple-600" />
             <span className="font-semibold">Upload Profile Image</span>
           </label>
 
@@ -88,7 +88,7 @@ const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
             className="absolute top-0 right-0 rounded-full bg-red-600 p-1 text-white transition duration-300 hover:bg-red-700"
             title="Remove Image"
           >
-            <FaTimes />
+            <X size={14} />
           </button>
         </div>
       )}

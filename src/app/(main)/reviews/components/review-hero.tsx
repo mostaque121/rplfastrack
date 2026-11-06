@@ -1,16 +1,33 @@
+import { PenLine } from "lucide-react";
+import Link from "next/link";
+
+import { PageHero } from "@/components/sections/page-hero";
+import { Button } from "@/components/ui/button";
+
 export default function ReviewHero() {
   return (
-    <section className="relative flex h-[60vh] flex-col items-center justify-center text-center">
-      <div className="review-hero hero" />
-      <div className="relative z-10 container max-w-5xl px-4 md:px-6">
-        <h1 className="mb-4 text-4xl font-bold tracking-tighter text-brand-bright sm:text-5xl md:text-6xl">
-          What Our Clients Say
-        </h1>
-        <p className="mx-auto mb-8 max-w-3xl text-xl text-white/90">
-          Real experiences from clients who advanced their careers through our RPL Fast Track
-          program. Discover their stories of growth, success, and transformation.
+    <PageHero
+      title="What our clients say"
+      breadcrumbs={[{ label: "Home", href: "/" }, { label: "Reviews" }]}
+      intro={
+        <p>
+          Reviews from people who turned their work experience into a nationally recognised
+          qualification with RPL Fast Track.
         </p>
-      </div>
-    </section>
+      }
+      actions={
+        <Button
+          asChild
+          size="lg"
+          variant="outline"
+          className="h-12 border-white/30 bg-transparent px-6 text-base text-white hover:bg-white/10 hover:text-white"
+        >
+          <Link prefetch={false} href="/write-review">
+            <PenLine aria-hidden className="mr-2 size-4" />
+            Write a review
+          </Link>
+        </Button>
+      }
+    />
   );
 }

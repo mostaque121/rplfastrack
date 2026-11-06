@@ -6,7 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import type { Lead } from "@/generated/prisma";
+import type { Lead } from "@/generated/prisma/client";
 
 import { formatLeadDate, leadDetailRows, leadSource } from "../format";
 import { LEAD_FORM_LABELS } from "../labels";

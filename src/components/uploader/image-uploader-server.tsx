@@ -127,7 +127,7 @@ export function ImageUploaderServer({
       {!image && !showCropper && (
         <div
           {...getRootProps()}
-          className={`h-[250px] cursor-pointer rounded-lg border-2 border-dashed p-8 text-center transition-colors ${
+          className={`h-62.5 cursor-pointer rounded-lg border-2 border-dashed p-8 text-center transition-colors ${
             isDragActive ? "border-primary bg-primary/5" : "border-gray-300 hover:border-primary"
           }`}
         >
@@ -148,7 +148,7 @@ export function ImageUploaderServer({
           <h3 className="mb-2 font-medium">Crop Image</h3>
           <Cropper
             src={cropperImage}
-            className="h-[250px] rounded border"
+            className="h-62.5 rounded border"
             stencilProps={aspectRatio ? { aspectRatio } : {}}
             ref={cropperRef}
           />
@@ -171,7 +171,7 @@ export function ImageUploaderServer({
       )}
 
       {uploading && (
-        <div className="flex h-[250px] w-full flex-col items-center justify-center border-2 border-dashed">
+        <div className="flex h-62.5 w-full flex-col items-center justify-center border-2 border-dashed">
           <p className="mb-2 flex items-center gap-2 text-sm">
             <Loader2 className="h-7 w-7 animate-spin text-brand" />
             Uploading image...
@@ -192,10 +192,10 @@ export function ImageUploaderServer({
           >
             <X className="h-4 w-4" />
           </Button>
-          <div className="relative h-[250px]">
+          <div className="relative h-62.5">
             <Image
               fill
-              src={image && image.startsWith("http") ? image : "/placeholder.svg"}
+              src={/^(https?:)?\//.test(image) ? image : "/placeholder.svg"}
               alt="Uploaded image"
               className="rounded object-contain"
               sizes="(max-width: 768px) 100vw, 300px"

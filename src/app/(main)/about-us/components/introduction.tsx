@@ -2,6 +2,7 @@ import { ArrowRight, CheckCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
+import { Accent, SectionHeading } from "@/components/sections/section-heading";
 import { Button } from "@/components/ui/button";
 
 export default function IntroductionAboutUs() {
@@ -12,16 +13,16 @@ export default function IntroductionAboutUs() {
           <div className="relative">
             <div className="relative z-10">
               <Image
-                src="/introduction-bg.webp"
+                src="/about-us-intro.webp"
                 sizes="(min-width: 640px) 600px, 100vw"
-                alt="Company office"
-                width={600}
-                height={500}
+                alt="RPL Fast Track consultant reviewing a client's work experience for an RPL application"
+                width={1200}
+                height={800}
                 className="rounded-lg object-cover shadow-lg"
               />
             </div>
-            <div className="absolute -right-8 -bottom-8 z-0 hidden h-[300px] w-[300px] md:block">
-              <div className="absolute h-full w-full rounded-lg bg-gradient-to-r from-brand-strong to-brand opacity-30"></div>
+            <div className="absolute -right-8 -bottom-8 z-0 hidden h-75 w-75 md:block">
+              <div className="absolute h-full w-full rounded-lg bg-linear-to-r from-brand-strong to-brand opacity-30"></div>
             </div>
             <div className="absolute top-1/2 left-1/2 z-11 hidden -translate-x-1/2 -translate-y-1/2 transform rounded-full bg-white p-6 shadow-xl lg:block">
               <div className="text-center">
@@ -32,56 +33,57 @@ export default function IntroductionAboutUs() {
           </div>
 
           <div className="lg:pl-8">
-            <div className="mb-4">
-              <span className="text-sm font-semibold tracking-wider text-brand uppercase">
-                About RPL Fast Track
-              </span>
-            </div>
-            <h2 className="mb-6 text-3xl leading-tight font-bold md:text-4xl">
-              We Are The Leader In The{" "}
-              <span className="text-brand">Recognition of Prior Learning (RPL)</span>
-            </h2>
-            <p className="mb-8 text-gray-600">
-              At RPL Fast Track, we help individuals gain formal qualifications by recognising their
-              existing skills, experience, and knowledge—no classroom required. Whether you&apos;re
-              advancing your career or migrating to Australia, we simplify the process of turning
-              your experience into nationally recognised certifications
+            <SectionHeading
+              eyebrow="Who we are"
+              title={
+                <>
+                  Australia&apos;s <Accent>Recognition of Prior Learning (RPL)</Accent> specialists
+                </>
+              }
+            />
+            <p className="mt-6 mb-8 text-gray-600">
+              RPL Fast Track helps experienced workers get the certificate their skills already
+              deserve. Through Recognition of Prior Learning, your work experience is assessed
+              against national standards and turned into a nationally recognised qualification, from
+              Certificate III and IV to Diploma level, with no classroom study. Whether you want to
+              advance your career, meet a licensing or employer requirement, or you are a migrant
+              with overseas experience, we guide you through every step.
             </p>
 
             <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2">
               <div className="flex items-start">
-                <CheckCircle className="mt-1 mr-2 h-5 w-5 flex-shrink-0 text-brand" />
+                <CheckCircle className="mt-1 mr-2 h-5 w-5 shrink-0 text-brand" />
                 <div>
-                  <h4 className="mb-1 font-semibold">Experienced Assessors</h4>
+                  <h4 className="mb-1 font-semibold">Free Eligibility Check</h4>
                   <p className="text-sm text-gray-600">
-                    Our certified professionals ensure your skills meet industry standards
+                    Find out in minutes which qualification your experience can lead to
                   </p>
                 </div>
               </div>
               <div className="flex items-start">
-                <CheckCircle className="mt-1 mr-2 h-5 w-5 flex-shrink-0 text-brand" />
+                <CheckCircle className="mt-1 mr-2 h-5 w-5 shrink-0 text-brand" />
                 <div>
-                  <h4 className="mb-1 font-semibold">Personalised RPL Plans</h4>
+                  <h4 className="mb-1 font-semibold">Personalised RPL Pathway</h4>
                   <p className="text-sm text-gray-600">
-                    We create a custom plan based on your experience and career goals
+                    A clear plan matched to your industry, experience and career goals
                   </p>
                 </div>
               </div>
               <div className="flex items-start">
-                <CheckCircle className="mt-1 mr-2 h-5 w-5 flex-shrink-0 text-brand" />
+                <CheckCircle className="mt-1 mr-2 h-5 w-5 shrink-0 text-brand" />
                 <div>
-                  <h4 className="mb-1 font-semibold">Fast & Reliable</h4>
+                  <h4 className="mb-1 font-semibold">Help With Your Evidence</h4>
                   <p className="text-sm text-gray-600">
-                    Quick processing with no shortcuts on quality or compliance
+                    We show you what to gather, so your application is complete the first time
                   </p>
                 </div>
               </div>
               <div className="flex items-start">
-                <CheckCircle className="mt-1 mr-2 h-5 w-5 flex-shrink-0 text-brand" />
+                <CheckCircle className="mt-1 mr-2 h-5 w-5 shrink-0 text-brand" />
                 <div>
-                  <h4 className="mb-1 font-semibold">Always Up-to-Date</h4>
+                  <h4 className="mb-1 font-semibold">Nationally Recognised Results</h4>
                   <p className="text-sm text-gray-600">
-                    We follow the latest rules and training updates in your field
+                    Assessed and issued by a registered training organisation under the AQF
                   </p>
                 </div>
               </div>
@@ -89,8 +91,8 @@ export default function IntroductionAboutUs() {
 
             <div className="flex flex-col items-center gap-4 sm:flex-row">
               <Link prefetch={false} href="/contact">
-                <Button size="lg" className="group bg-gradient-to-r from-brand to-brand-strong">
-                  Contact Us
+                <Button size="lg" className="group bg-linear-to-r from-brand to-brand-strong">
+                  Talk to an RPL Consultant
                   <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </Button>
               </Link>

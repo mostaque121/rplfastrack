@@ -10,7 +10,7 @@ export const LEGACY_REDIRECTS: { from: string; to: string }[] = [
   },
   {
     from: "/courses/chc40221-certificate-iv-in-education-support",
-    to: "/courses/chc40221-certificate-iv-in-school-based-education",
+    to: "/courses/chc40225-certificate-iv-in-school-based-education-support",
   },
   {
     from: "/courses/chc40321-cert-iv-in-child-youth-and-family",
@@ -22,7 +22,7 @@ export const LEGACY_REDIRECTS: { from: string; to: string }[] = [
   },
   {
     from: "/courses/chc30121-certificate-iii-in-early-childhood-education-and-care",
-    to: "/courses/chc30121-certificate-iii-in-early-childhood-education",
+    to: "/courses/chc30125-certificate-iii-in-early-childhood-education-and-care",
   },
   {
     from: "/courses/chc33021-certificate-iii-individual-support",
