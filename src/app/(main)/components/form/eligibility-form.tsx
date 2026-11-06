@@ -179,6 +179,7 @@ export function EligibilityForm({
   const [formData, setFormData] = useState(emptyForm);
   const [search, setSearch] = useState("");
   const bodyRef = useRef<HTMLDivElement>(null);
+  const pushedEntry = useRef(false);
 
   const step = STEPS[stepIndex];
   const section = sections.find((s) => s.title === formData.industry);
@@ -213,6 +214,29 @@ export function EligibilityForm({
     setError("");
     setIsSubmitted(false);
   };
+
+  // Opening the quiz adds a history entry (same URL, no navigation or refetch),
+  // so the phone's Back button closes the quiz instead of leaving the page.
+  useEffect(() => {
+    if (!open) return;
+    window.history.pushState({ eligibilityOpen: true }, "");
+    pushedEntry.current = true;
+
+    const onPopState = () => {
+      pushedEntry.current = false;
+      setOpen(false);
+      resetForm();
+    };
+    window.addEventListener("popstate", onPopState);
+    return () => {
+      window.removeEventListener("popstate", onPopState);
+      // Closed from the UI (X, overlay, Done): drop the entry we added.
+      if (pushedEntry.current) {
+        pushedEntry.current = false;
+        window.history.back();
+      }
+    };
+  }, [open]);
 
   const canContinue =
     step === "industry"
