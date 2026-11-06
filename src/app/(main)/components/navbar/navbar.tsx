@@ -4,7 +4,7 @@ import { ArrowRight, ChevronDown, ChevronRight, Phone, Search } from "lucide-rea
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import { EligibilityForm } from "@/app/(main)/components/form/eligibility-form";
 import { Button } from "@/components/ui/button";
@@ -33,6 +33,22 @@ export default function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  // Course flyout: opens level with the hovered category row (so the pointer moves straight across
+  // to it), nudged up only as far as needed to stay inside the panel.
+  const coursesPanelRef = useRef<HTMLDivElement>(null);
+  const flyoutRef = useRef<HTMLDivElement>(null);
+  const [flyoutTop, setFlyoutTop] = useState(0);
+  const activeSection = sections?.find(
+    (s) => s.title === activeSubMenu && s.courses && s.courses.length > 0,
+  );
+
+  useLayoutEffect(() => {
+    const card = flyoutRef.current;
+    const area = card?.parentElement;
+    if (!card || !area) return;
+    const maxTop = area.clientHeight - card.offsetHeight;
+    card.style.top = `${Math.max(0, Math.min(flyoutTop, maxTop))}px`;
+  }, [flyoutTop, activeSection]);
 
   // Every public page starts with a dark hero (PageHero, or the home hero) with top padding for
   // the bar: it is transparent on top of the hero, then frosted navy once scrolled.
@@ -112,7 +128,10 @@ export default function Navbar() {
               <div
                 className="group relative"
                 onMouseEnter={() => setActiveMenu("qualifications")}
-                onMouseLeave={() => setActiveMenu(null)}
+                onMouseLeave={() => {
+                  setActiveMenu(null);
+                  setActiveSubMenu(null);
+                }}
               >
                 <Link prefetch={false} href={"/courses"}>
                   <button
@@ -129,18 +148,34 @@ export default function Navbar() {
 
                 {/* First level dropdown */}
                 <div
+                  ref={coursesPanelRef}
                   className={cn(
                     "absolute top-full left-0 z-50 pt-4 transition-all duration-200",
                     dropdownShown(activeMenu === "qualifications"),
                   )}
                 >
-                  <div className={cn(dropdownCard, "w-72")}>
+                  {/* Capped to the viewport and scrollable, so every category is reachable on
+                      short screens. */}
+                  <div
+                    className={cn(
+                      dropdownCard,
+                      "scrollbar-slim max-h-[calc(100dvh-6.5rem)] w-72 overflow-y-auto overscroll-contain",
+                    )}
+                  >
                     {sections?.map((subItem) => (
                       <div
                         key={subItem.title}
-                        className="relative"
-                        onMouseEnter={() => setActiveSubMenu(subItem.title)}
-                        onMouseLeave={() => setActiveSubMenu(null)}
+                        onMouseEnter={(e) => {
+                          setActiveSubMenu(subItem.title);
+                          const panel = coursesPanelRef.current;
+                          if (!panel) return;
+                          // Row top relative to the flyout area (panel minus its pt-4), less the
+                          // card's p-2 + border so the first course lines up with the row.
+                          const rowTop =
+                            e.currentTarget.getBoundingClientRect().top -
+                            panel.getBoundingClientRect().top;
+                          setFlyoutTop(rowTop - 16 - 9);
+                        }}
                       >
                         <Link
                           prefetch={false}
@@ -158,38 +193,41 @@ export default function Navbar() {
                             <ChevronRight className="size-4 shrink-0 text-brand" />
                           )}
                         </Link>
-
-                        {/* Second level dropdown */}
-                        {subItem.courses && subItem.courses.length > 0 && (
-                          <div
-                            className={cn(
-                              "absolute -top-2 left-full z-50 pl-3 transition-all duration-200",
-                              dropdownShown(activeSubMenu === subItem.title),
-                            )}
-                          >
-                            <div className={cn(dropdownCard, "max-h-[70vh] w-80 overflow-y-auto")}>
-                              {subItem.courses.map((subSubItem) => (
-                                <Link
-                                  prefetch={false}
-                                  key={subSubItem.title}
-                                  href={`/courses/${subSubItem.link}`}
-                                  className={cn(
-                                    dropdownItem,
-                                    "text-[13px]",
-                                    pathname === `/courses/${subSubItem.link}` &&
-                                      "bg-brand-soft text-brand",
-                                  )}
-                                  onClick={handleMenuItemClick}
-                                >
-                                  {subSubItem.title}
-                                </Link>
-                              ))}
-                            </div>
-                          </div>
-                        )}
                       </div>
                     ))}
                   </div>
+
+                  {/* Second level dropdown: outside the scrolling list (which would clip it). The
+                      transparent area spans the panel height, bridging the gap for the pointer. */}
+                  {activeSection && (
+                    <div className="absolute top-4 bottom-0 left-full z-50 w-83">
+                      <div
+                        key={activeSection.title}
+                        ref={flyoutRef}
+                        className={cn(
+                          dropdownCard,
+                          "absolute left-3 scrollbar-slim max-h-full w-80 overflow-y-auto overscroll-contain",
+                        )}
+                      >
+                        {activeSection.courses!.map((subSubItem) => (
+                          <Link
+                            prefetch={false}
+                            key={subSubItem.title}
+                            href={`/courses/${subSubItem.link}`}
+                            className={cn(
+                              dropdownItem,
+                              "text-[13px]",
+                              pathname === `/courses/${subSubItem.link}` &&
+                                "bg-brand-soft text-brand",
+                            )}
+                            onClick={handleMenuItemClick}
+                          >
+                            {subSubItem.title}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
 
