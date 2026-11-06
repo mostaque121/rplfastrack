@@ -23,7 +23,7 @@ const API = "https://training.gov.au/api";
 const link = (c: string) => `<a href="https://training.gov.au/training/details/${c}">${c}</a>`;
 const fixRefs = (html: string) => html.replace(/<ntr-tcref[^>]*data-nrt-code="([^"]+)"[^>]*>[^<]*<\/ntr-tcref>/g, (_, c) => link(c));
 const text = (n: any) => DomUtils.textContent(n).replace(/\u00a0/g, " ").replace(/\s+/g, " ").trim();
-const HEAD = /^(?:(?:core units?|electives? units?|specialist elective units?|general elective units?)\b.{0,40}|group [a-z]\b.{0,80})$/i;
+const HEAD = /^(?:(?:imported (?:and common )?)?(?:core units?|electives? units?|specialist elective units?|general elective units?)\b.{0,40}|group [a-z]\b.{0,80})$/i;
 const CODE = /^[A-Z]{3,}[0-9]{3,}[A-Z]?$/;
 const titleCase = (s: string) => (s === s.toUpperCase() ? s.charAt(0) + s.slice(1).toLowerCase() : s);
 function convert(j: any) {
