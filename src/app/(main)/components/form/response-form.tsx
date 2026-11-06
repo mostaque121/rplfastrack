@@ -95,7 +95,7 @@ export function ResponseForm({
             <span className="size-1.5 animate-pulse rounded-full bg-brand-bright" />
             Talk to an RPL expert
           </p>
-          <h3 className="text-2xl leading-tight font-bold">Get your free consultation</h3>
+          <h2 className="text-2xl leading-tight font-bold">Get your free consultation</h2>
           <p className="mt-1.5 text-sm text-white/85">
             Leave your details and we&apos;ll get back to you to talk through your {interest}{" "}
             options.

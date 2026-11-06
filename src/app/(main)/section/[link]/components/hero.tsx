@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/cloudinary-image";
 
 import { ResponseForm } from "@/app/(main)/components/form/response-form";
 import { LucideIcon } from "@/components/icon/lucide-icon";

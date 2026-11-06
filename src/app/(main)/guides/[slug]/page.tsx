@@ -1,5 +1,5 @@
 import { CalendarDays, Clock } from "lucide-react";
-import Image from "next/image";
+import Image from "@/components/cloudinary-image";
 import striptags from "striptags";
 
 import { JsonLd } from "@/components/seo/json-ld";

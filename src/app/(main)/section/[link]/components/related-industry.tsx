@@ -1,5 +1,5 @@
 import { ArrowRight } from "lucide-react";
-import Image from "next/image";
+import Image from "@/components/cloudinary-image";
 import Link from "next/link";
 
 import { LucideIcon } from "@/components/icon/lucide-icon";

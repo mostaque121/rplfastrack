@@ -1,5 +1,5 @@
 import { BadgeCheck, Clock, Laptop } from "lucide-react";
-import Image from "next/image";
+import Image from "@/components/cloudinary-image";
 
 import { ResponseForm } from "@/app/(main)/components/form/response-form";
 import { RichText } from "@/components/rich-text/rich-text";
@@ -42,7 +42,7 @@ export default function QualificationHeroSection({ data, section }: HeroSectionP
       media={
         <Image
           src={data.imageUrl}
-          sizes="(min-width: 1024px) 50vw, 100vw"
+          sizes="(min-width: 1024px) 50vw, (min-width: 768px) calc(100vw - 4rem), calc(100vw - 2rem)"
           alt={data.imageAlt || data.title}
           width={1500}
           height={720}

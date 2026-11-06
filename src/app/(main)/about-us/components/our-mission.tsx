@@ -58,10 +58,9 @@ export default function OurMission() {
               {/* Watermark number. */}
               <span
                 aria-hidden
-                className="absolute top-3 right-5 text-7xl leading-none font-bold text-brand-soft transition-colors duration-300 select-none group-hover:text-brand-subtle"
-              >
-                0{i + 1}
-              </span>
+                data-n={`0${i + 1}`}
+                className="absolute top-3 right-5 text-7xl leading-none font-bold text-brand-soft transition-colors duration-300 select-none group-hover:text-brand-subtle before:content-[attr(data-n)]"
+              />
 
               <span className="relative flex size-14 items-center justify-center rounded-2xl bg-linear-to-br from-brand to-brand-strong text-white shadow-lg shadow-brand/25">
                 <Icon aria-hidden className="size-6" />

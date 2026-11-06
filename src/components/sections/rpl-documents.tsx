@@ -59,7 +59,7 @@ export function RplDocuments({ tone = "surface" }: { tone?: "white" | "surface" 
                 <span className="flex size-12 items-center justify-center rounded-xl bg-brand-subtle text-brand">
                   <Icon aria-hidden className="size-6" />
                 </span>
-                <span aria-hidden className="text-3xl font-bold text-brand-subtle">
+                <span aria-hidden className="text-3xl font-bold text-brand/75">
                   0{i + 1}
                 </span>
               </div>

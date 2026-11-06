@@ -10,9 +10,12 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
+// Only the admin uses the mono font. No preload, so public pages never download it (the browser
+// fetches a font only when text uses it) and it doesn't compete with the hero image.
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  preload: false,
 });
 
 // Display font for h1–h3 (globals.css)

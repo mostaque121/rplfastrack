@@ -1,5 +1,5 @@
 import { ArrowRight, BookOpenText, Clock } from "lucide-react";
-import Image from "next/image";
+import Image from "@/components/cloudinary-image";
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";

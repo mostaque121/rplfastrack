@@ -151,14 +151,19 @@ export default function QualificationContent({ data }: QualificationProps) {
           </h2>
           <dl className="grid gap-5 sm:grid-cols-2 lg:grid-cols-[repeat(auto-fit,minmax(12rem,1fr))]">
             {facts.map((fact) => (
-              <div key={fact.label} className="flex items-start gap-3">
-                <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-brand text-white shadow-sm [&_svg]:size-5">
-                  {fact.icon}
-                </span>
-                <div>
-                  <dt className="text-sm text-gray-600">{fact.label}</dt>
-                  <dd className="font-semibold text-ink">{fact.value}</dd>
-                </div>
+              // A <div> inside <dl> may hold only <dt>/<dd>, so the icon lives in the <dt> and is
+              // positioned beside both lines.
+              <div key={fact.label} className="relative min-h-10 pl-13">
+                <dt className="text-sm text-gray-600">
+                  <span
+                    aria-hidden
+                    className="absolute top-0 left-0 flex size-10 items-center justify-center rounded-xl bg-brand text-white shadow-sm [&_svg]:size-5"
+                  >
+                    {fact.icon}
+                  </span>
+                  {fact.label}
+                </dt>
+                <dd className="font-semibold text-ink">{fact.value}</dd>
               </div>
             ))}
           </dl>

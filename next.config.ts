@@ -3,6 +3,10 @@ import { LEGACY_REDIRECTS } from "./src/config/redirects";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  experimental: {
+    // Tailwind CSS is small: inline it in the HTML so there's no render-blocking stylesheet request
+    inlineCss: true,
+  },
   images: {
     remotePatterns: [
       {

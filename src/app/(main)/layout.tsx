@@ -1,4 +1,4 @@
-import { GoogleAnalytics } from "@next/third-parties/google";
+import { GoogleAnalytics } from "@/components/google-analytics";
 import { Metadata } from "next/types";
 
 import { AttributionCapture } from "@/components/attribution-capture";
