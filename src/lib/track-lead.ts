@@ -20,3 +20,10 @@ export function trackLead(form: LeadForm, qualification?: string) {
     page_path: window.location.pathname,
   });
 }
+
+/** Generic GA4 event (quiz steps, call / WhatsApp / email clicks). */
+export function track(name: string, params: Record<string, string | number> = {}) {
+  if (typeof window !== "undefined" && typeof window.gtag === "function") {
+    window.gtag("event", name, params);
+  }
+}

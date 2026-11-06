@@ -32,6 +32,7 @@ export function StickyMobileCta() {
         "fixed inset-x-0 bottom-0 z-50 border-t border-gray-200 bg-white/95 px-3 pt-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom))] shadow-[0_-8px_24px_rgba(0,0,0,0.08)] backdrop-blur transition-transform duration-300 md:hidden",
         visible ? "translate-y-0" : "pointer-events-none translate-y-full",
       )}
+      data-track-location="sticky_bar"
       aria-hidden={!visible}
       inert={!visible}
     >

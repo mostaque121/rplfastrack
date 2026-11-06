@@ -28,7 +28,7 @@ import {
   workStatuses,
 } from "@/lib/eligibility-options";
 import { experienceYears } from "@/lib/experience-years";
-import { trackLead } from "@/lib/track-lead";
+import { track, trackLead } from "@/lib/track-lead";
 import { cn } from "@/lib/utils";
 
 /* ---------------- small building blocks ---------------- */
@@ -237,6 +237,14 @@ export function EligibilityForm({
       }
     };
   }, [open]);
+
+  useEffect(() => {
+    if (open) track("quiz_start");
+  }, [open]);
+
+  useEffect(() => {
+    if (open && !isSubmitted) track("quiz_step", { step });
+  }, [open, step, isSubmitted]);
 
   const canContinue =
     step === "industry"

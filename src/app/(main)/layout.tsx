@@ -1,3 +1,4 @@
+import { ContactClickTracker } from "@/components/contact-click-tracker";
 import { GoogleAnalytics } from "@/components/google-analytics";
 import { Metadata } from "next/types";
 
@@ -85,6 +86,7 @@ export default async function MainLayout({
         <Footer />
         <Toaster />
         <AttributionCapture />
+        <ContactClickTracker />
         {env.VERCEL_ENV === "production" && <GoogleAnalytics gaId={siteConfig.gaMeasurementId} />}
       </main>
     </RPLProvider>

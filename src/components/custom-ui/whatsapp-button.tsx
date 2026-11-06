@@ -4,11 +4,13 @@ import Image from "next/image";
 import { useState } from "react";
 
 import { contactInfo } from "@/config/contact";
+import { track } from "@/lib/track-lead";
 
 export default function WhatsAppButton1({ position = "fixed" }: { position?: "fixed" | "static" }) {
   const [active, setActive] = useState(false);
 
   const handleClick = () => {
+    track("click_whatsapp", { location: "floating" });
     window.open(contactInfo.whatsappHref, "_blank", "noopener,noreferrer");
   };
 
