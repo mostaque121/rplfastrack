@@ -421,7 +421,7 @@ export function CourseEditor({
                 <TextField<CourseEditorValues>
                   name="duration"
                   label="Duration"
-                  placeholder="4–8 weeks"
+                  placeholder="4 to 6 weeks"
                   description="Typical time from application to certificate."
                 />
                 <TextField<CourseEditorValues>

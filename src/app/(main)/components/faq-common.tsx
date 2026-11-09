@@ -27,7 +27,7 @@ export const RPL_FAQS = [
   {
     question: "How long does RPL take?",
     answer:
-      "It depends on the qualification and how quickly you can gather your evidence. Most people finish in about 4 to 12 weeks. If you have your documents ready, it can be faster.",
+      "It depends on the qualification and how quickly you can gather your evidence. Most people finish in about 4 to 6 weeks. If you have your documents ready, it can be faster.",
   },
   {
     question: "What does RPL cost?",
