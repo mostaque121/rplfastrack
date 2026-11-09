@@ -73,7 +73,7 @@ export default function QualificationContent({ data }: QualificationProps) {
     {
       icon: <Laptop />,
       label: "Delivery",
-      value: data.deliveryMode || "Online assessment, Australia-wide",
+      value: data.deliveryMode || "Recognition of Prior Learning (RPL) Assessment",
     },
     {
       icon: <BadgeCheck />,
